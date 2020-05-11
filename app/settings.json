@@ -1,0 +1,220 @@
+{
+  "content": {
+    "entities":
+    [
+      {
+        "type": "project",
+        "single": "Voorbeeld",
+        "plural": "Voorbeelden",
+        "image": "photo",
+        "path": {
+          "label": "Categorie",
+          "multilevel": false,
+          "multiple": true
+        },
+        "defaultview": "tile",
+        "data": [
+          {
+            "key": "status",
+            "type": "enum",
+            "options": ["Ambitie","Uitdaging","Idee","Pilot","Project"],
+            "label": "Status",
+            "descriptionInput": "De status van dit voorbeeld",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "contact",
+            "type": "text",
+            "label": "Contactpersoon",
+            "descriptionInput": "Geef de naam van een contactpersoon van dit project",
+            "required": false,
+            "facet": false
+          },
+          {
+            "key": "url",
+            "type": "url",
+            "label": "Meer info",
+            "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
+            "required": false,
+            "facet": false
+          }
+        ],
+        "relations": [
+          {
+            "key": "initiator",
+            "type": "organisatie",
+            "min": 0,
+            "max": 1,
+            "explicit": true,
+            "label": "Initiator",
+            "description": "Partijen die dit project hebben geinitieerd",
+            "descriptionInput": "Selecteer een organisatie die dit project heeft geinitieerd.",
+            "facet": true
+          },
+          {
+            "key": "betrokken",
+            "type": "organisatie",
+            "min": 0,
+            "max": 100,
+            "explicit": true,
+            "label": "Betrokken partijen",
+            "facet": true
+          },
+          {
+            "key": "dataset",
+            "type": "dataset",
+            "min": 0,
+            "max": 100,
+            "explicit": true,
+            "label": "Relevante datasets",
+            "facet": false
+          }
+
+        ]
+      },
+      {
+        "type": "organisatie",
+        "single": "Organisatie",
+        "plural": "Organisaties",
+        "image": "logo",
+        "path": {
+          "label": "Categorie",
+          "multilevel": false,
+          "multiple": false
+        },
+        "defaultview": "list",
+        "data": [
+          {
+            "key": "contact",
+            "type": "text",
+            "label": "Contactpersoon",
+            "descriptionInput": "Geef de naam van een contactpersoon van dit project",
+            "required": false
+          },
+          {
+            "key": "url",
+            "type": "url",
+            "label": "Website",
+            "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
+            "required": false
+          }
+        ],
+        "relations": [
+        ]
+      },
+      {
+        "type": "onderwerp",
+        "single": "Onderwerp",
+        "plural": "Onderwerpen",
+        "image": false,
+        "path": {
+          "label": "Categorie",
+          "multilevel": true,
+          "multiple": true
+        },
+        "defaultview": "tree",
+        "data": [
+          {
+            "key": "mogelijke_bron",
+            "type": "text",
+            "label": "Mogelijke bron",
+            "descriptionInput": "Naam van mogelijke bron of bronhouder",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "bronhouder",
+            "type": "text",
+            "label": "Bronhouder(s)",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "publiekprivaat",
+            "type": "enum",
+            "options": ["Overheid","Privaat","Overheid/Privaat"],
+            "label": "Overheid of private partij(en)",
+            "descriptionInput": "Is de bronhouder overheid of private partijen?",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "datatop15",
+            "type": "bool",
+            "label": "In Data Top 15",
+            "descriptionInput": "Is deze data onderdeel van de Data Top 15?",
+            "required": false,
+            "facet": true
+          }
+        ],
+        "relations": [
+          {
+            "key": "dataset",
+            "type": "dataset",
+            "min": 0,
+            "max": 255,
+            "explicit": true,
+            "label": "Beschikbare dataset",
+            "description": "Beschikbare datasets",
+            "descriptionInput": "Selecteer een beschikbare dataset",
+            "facet": false,
+            "view": "app/components/custom/dataset.relations.view.html"
+          }
+
+        ]
+      },
+      {
+        "type": "dataset",
+        "single": "Dataset",
+        "plural": "Datasets",
+        "image": false,
+        "path": false,
+        "defaultview": "facet",
+        "data": [
+          {
+            "key": "details",
+            "type": "custom",
+            "label": "Details",
+            "templates": {
+              "input": "app/components/custom/dataset.details.edit.html",
+              "view": "app/components/custom/dataset.details.view.html"
+            },
+            "required": true,
+            "facet": false
+          }
+        ],
+        "relations": [
+        ],
+        "dependencies": [
+          {
+            "key": "dataset",
+            "type": "onderwerp",
+            "label": "Onderwerpen",
+            "description": "Deze dataset bevat de volgende onderwerpen:",
+            "add": true,
+            "max": 255
+          }
+        ]
+      }
+    ]
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "url": "#/"
+    },
+    {
+      "label": "Projecten",
+      "url": "#/nodes/project"
+    },
+    {
+      "label": "Onderwerpen",
+      "url": "#/nodes/onderwerp"
+    },
+    {
+      "label": "Zoeken",
+      "url": "#/nodes/zoeken"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="p-a m-b-0 _300">{{entity.plural}} importeren</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Werkwijze</h4>
+                </div>
+                <div class="box-body">
+                    <ul>
+                        <li>Kopieer in Excel (of een andere tabel, bijv. in Word o.i.d.) de {{entity.plural}} die je wilt importeren</li>
+                        <li>Neem hierbij ook het tabelhoofd mee (eerste rij met kolomnamen)</li>
+                        <li>Plak in het veld hieronder en selecteer welke kolommen waar ge&iuml;mporteerd moeten worden.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t" ng-hide="import.data && import.header.length > 1 && import.data.length > 1">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Plakken + knippen</h4>
+                    <small>Knip en plak uit Excel of andere tabel</small>
+                </div>
+                <div class="box-body">
+                    <textarea ng-model="import.text" ng-change="onPasteData()" style="width:100%; height: 30vh"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t" ng-show="import.data && import.header.length > 1 && import.data.length > 1">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Mapping maken</h4>
+                    <small>Geef per veld aan uit welke kolom uit Excel/tabel deze geïmporteerd moet worden</small>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped b-t">
+                        <thead>
+                        <th>Doel</th>
+                        <th>Overnemen uit:</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{entity.path.label}}</td>
+                            <td>
+                                <select ng-model="import.mapping['path']">
+                                    <option value="">Leeg laten</option>
+                                    <option ng-repeat="(key, value) in import.header" ng-value="key">{{value}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Titel</td>
+                            <td>
+                                <select ng-model="import.mapping['title']">
+                                    <option value="">Leeg laten</option>
+                                    <option ng-repeat="(key, value) in import.header" ng-value="key">{{value}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Toelichting</td>
+                            <td>
+                                <select ng-model="import.mapping['text']">
+                                    <option value="">Leeg laten</option>
+                                    <option ng-repeat="(key, value) in import.header" ng-value="key">{{value}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Afbeelding</td>
+                            <td>
+                                <select ng-model="import.mapping['imgUrl']">
+                                    <option value="">Leeg laten</option>
+                                    <option ng-repeat="(key, value) in import.header" ng-value="key">{{value}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="row in entity.data">
+                            <td>{{row.label}}</td>
+                            <td>
+                                <select ng-model="import.mapping[row.key]">
+                                    <option value="">Leeg laten</option>
+                                    <option ng-repeat="(key, value) in import.header" ng-value="key">{{value}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button ng-click="doImport()" class="btn primary">Importeren</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t" ng-show="import.data && import.header.length > 1 && import.data.length > 1">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Geïmporteerde data</h4>
+                    <small>Preview van de data zoals ingelezen uit Excel/tabel</small>
+                </div>
+                <div class="box-body">
+                    <i class="pull-right text-danger fa fa-times" ng-click="resetData()"></i>
+                    <table class="table table-striped b-t">
+                        <thead>
+                        <tr>
+                            <th ng-repeat="h in import.header track by $index">{{h}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in import.data track by $index">
+                            <td ng-repeat="cell in row track by $index">{{cell}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

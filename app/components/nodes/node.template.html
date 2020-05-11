@@ -1,0 +1,255 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="p-a m-b-0 _300 pointer" ui-sref="nodes({'type': node.type})">{{entity.plural}}</h4>
+            </div>
+            <div class="col-sm-6">
+                <div class="navbar-form form-inline navbar-item m-l v-m pull-right" ">
+                    <ul class="nav navbar-nav pull-right m-r">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" ui-sref="nodes({'type': node.type})">&lt;&lt; Terug</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-t">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="b-b nav-active-bg">
+                        <ul class="nav nav-tabs pull-right" style="margin-top: 20px">
+                            <li class="nav-item">
+                                <a class="nav-link" ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'version'})" data-toggle="tab" data-target="#tab3" ng-class="{'active': view.tab == 'version'}">Versiebeheer</a>
+                            </li>
+                        </ul>
+                        <h1 style="margin-right: 300px">{{node.title}}</h1>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="tab-content p-a m-b-md">
+                        <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-7">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
+                                            <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
+                                            <p class="m-t">{{node.text}}</p>
+                                            <dl>
+                                                <dt ng-repeat-start="row in entity.data" ng-hide="row.type =='custom'">{{row.label}}</dt>
+                                                <dd ng-repeat-end ng-hide="row.type =='custom'">{{node.data[row.key]}}</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
+                                </div>
+
+                                <div class="col-xs-12 col-md-5">
+                                    <div class='box' ng-repeat="dependency in entity.dependencies">
+                                        <!--Dit zijn relaties waar deze node de targetId is, maar relevant zijn om te tonen-->
+                                        <div class="box-header">
+                                            <h3>{{dependency.label}}</h3>
+                                            <small ng-show="dependency.description" class="text-muted"><i>{{dependency.description}}</i></small>
+                                        </div>
+                                        <div class="box-body">
+                                            <ul>
+                                                <li ng-repeat="dependent in node.dependencies[dependency.key]"><a ui-sref="node({nodeId: dependent.nodeId})">{{dependent.title}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class='box' ng-repeat="relatie in entity.relations">
+                                        <div class="box-header" ng-if="!relatie.view">
+                                            <h3>{{relatie.label}}</h3>
+                                            <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
+                                        </div>
+                                        <div class="box-body" ng-if="!relatie.view">
+                                            <ul>
+                                                <li ng-repeat="related in node.relations[relatie.key]"><a ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12" ng-repeat="relatie in entity.relations" ng-if="relatie.view">
+                                    <div ui-include="'{{relatie.view}}'"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane animated fadeIn text-muted" id="tab2"  ng-class="{'active': view.tab == 'edit'}">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="box">
+                                        <div class="box-header">
+                                            <h2>Details</h2>
+                                        </div>
+                                        <div class="box-divider m-a-0"></div>
+                                        <div class="box-body">
+                                            <form role="form" ng-submit="save(this);">
+                                                <div class="form-group">
+                                                    <label>{{entity.single}}</label>
+                                                    <input type="text" class="form-control" ng-model="node.title" autocomplete="off">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tekst/toelichting</label>
+                                                    <textarea ng-model="node.text" class="form-control" rows="4"></textarea>
+                                                </div>
+                                                <div class="form-group" ng-if="entity.path">
+                                                    <label>{{entity.path.label}}</label>
+                                                    <ul style="margin: 10px 0px; padding: 0px">
+                                                        <li ng-show="path" ng-repeat="path in node.path.split(';');" class="pull-left label label-md info p-a-sm m-r-sm">{{path}} <i class="pointer fa fa-times" ng-click="deletePath(path)"></i></li>
+                                                        <div style="clear: both"></div>
+                                                    </ul>
+                                                    <input type="text" class="form-control" ng-model="searchPath" ng-focus='searchPathFocus = true' placeholder="Voeg {{entity.path.label|lowercase}} toe">
+                                                    <div class="autosuggest m-t" ng-show="(searchPath || searchPathFocus) && results.length > 0">
+                                                        <strong>Selecteer bestaande {{entity.path.label|lowercase}}:</strong>
+                                                        <ul>
+                                                            <li ng-repeat="option in paths | filter: searchPath | limitTo: 10 as results track by $index" ng-click="addPath(option);" class="pointer">{{option}}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div ng-show="searchPath && (!results || results.length < 1 || results[0].toLowerCase() != searchPath.toLowerCase())" class="m-t">
+                                                        <strong>Voeg nieuwe {{entity.path.label|lowercase}} toe:</strong><br/>
+                                                        <a ng-click="addPath(searchPath)"><i class="fa fa-plus"></i> {{searchPath}}</a>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" ng-if="entity.image">
+                                                    <label>Afbeelding</label>
+                                                    <img ng-src="{{node.imgUrl}}" style='width: 100%' ng-hide="!node.imgUrl || node.imgUrl.src" class="m-b">
+                                                    <div img-upload node="node" key="imgUrl" msg="Klik hier om een afbeelding toe te voegen, of sleep een afbeelding hier naar toe"></div>
+                                                    <!--
+                                                    <label for="file">Afbeelding</label>
+                                                    <input type="file" id="file" class="form-control">
+                                                    <input type="button" ng-click="doUpload()" class="btn primary" value="Toevoegen">
+                                                    -->
+                                                </div>
+                                                <div ng-repeat="row in entity.data" class="form-group">
+
+                                                    <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="node.data[row.key]"> {{row.label}}
+                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                    </label><br/>
+                                                    <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="node.data[row.key]">
+                                                    <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="node.data[row.key]"></textarea>
+                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="node.data[row.key]">
+                                                    <select ng-if="row.type == 'enum'"  ng-model="node.data[row.key]" class="form-control" >
+                                                        <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                    </select>
+                                                    <div ng-if="row.type == 'custom'" ui-include="'{{row.templates.input}}'"></div>
+                                                </div>
+
+                                                <button type="submit" class="btn primary m-b">Opslaan</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6" ng-if="node.nodeId">
+                                    <div class="box" ng-repeat="relatie in entity.relations">
+                                        <div class="box-header">
+                                            <h2>{{relatie.label}}</h2>
+                                            <small>{{relatie.descriptionInput}}</small>
+                                        </div>
+                                        <div class="box-divider m-a-0"></div>
+                                        <div class="box-body">
+                                            <form role="form" ng-submit="addRelatie(relatie, this);">
+                                                <div class="form-group relatie">
+                                                    <ul>
+                                                        <li ng-repeat="related in node.relations[relatie.key]">{{related.title}} <i class="text-danger fa fa-times pointer" ng-click="deleteRelatie(related)"></i></li>
+                                                    </ul>
+                                                    <div ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}">
+                                                        <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Voeg {{relatie.label|lowercase}} toe">
+                                                        <div class="autosuggest" ng-show="searchText[relatie.key] && results.length > 0">
+                                                            <strong>Selecteer een bestaande {{relatie.type}}:</strong>
+                                                            <ul>
+                                                                <li ng-repeat="option in relations[relatie.type] | filter: searchText[relatie.key] | limitTo: 10 as results track by option.nodeId" ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div ng-show="searchText[relatie.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[relatie.key].toLowerCase())">
+                                                            <strong>Voeg een nieuwe {{relatie.type}} toe:</strong>
+                                                            {{searchText[relatie.key]}}
+                                                            <br/><button type="submit" class="btn primary">Toevoegen</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="box" ng-repeat="dependency in entity.dependencies">
+                                        <div class="box-header">
+                                            <h2>{{dependency.label}}</h2>
+                                            <small>{{dependency.description}}</small>
+                                        </div>
+                                        <div class="box-divider m-a-0"></div>
+                                        <div class="box-body">
+                                            <form role="form" ng-submit="addDependency(dependency, this);">
+                                                <div class="form-group relatie">
+                                                    <ul>
+                                                        <li ng-repeat="dependent in node.dependencies[dependency.key]">{{dependent.title}} <i class="text-danger fa fa-times pointer" ng-click="deleteDependency(dependent)"></i></li>
+                                                    </ul>
+                                                    <div ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}">
+                                                        <input type="text" class="form-control" ng-model="searchText[dependency.key]" placeholder="Voeg {{dependency.label|lowercase}} toe">
+                                                        <div class="autosuggest" ng-show="searchText[dependency.key] && results.length > 0">
+                                                            <strong>Selecteer een bestaande {{dependency.type}}:</strong>
+                                                            <ul>
+                                                                <li ng-repeat="option in relations[dependency.type] | filter: searchText[dependency.key] | limitTo: 10 as results track by option.nodeId" ng-click="addDependency(dependency,option.nodeId);" class="pointer">{{option.title}}</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class='m-t' ng-show="searchText[dependency.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[dependency.key].toLowerCase())">
+                                                            <strong>Geen {{dependency.type}} gevonden</strong><br/>
+                                                            Je kan alleen een bestaande {{dependency.type}} toevoegen
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6" ng-if="node.nodeId">
+                                    <div class="box">
+                                        <div class="box-header">
+                                            <h2>Verwijderen</h2>
+                                        </div>
+                                        <div class="box-divider m-a-0"></div>
+                                        <div class="box-body">
+                                            <input type="checkbox" ng-model="confirmDelete"> {{entity.single}} '{{node.title}}' verwijderen
+                                            <div ng-show="confirmDelete">
+                                                <br/>
+                                                Weet u zeker dat u '{{node.title}}' wilt verwijderen?
+                                                <p>
+                                                    <br/>
+                                                    <button class="btn btn-danger" ng-click="deleteNode()">Ja</button>
+                                                    <button class="btn" ng-click="confirmDelete = false">Nee</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6" ng-if="!node.nodeId">
+                                    <div class="box">
+                                        <div class="box-header">
+                                            <small>Om relaties toe te kunnen voegen, moet je eerst op 'Opslaan' klikken</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane animated fadeIn text-muted" id="tab3"  ng-class="{'active': view.tab == 'version'}">
+                            <h2>Versiebeheer</h2>
+                            <small>Dit wordt later toegevoegd.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='dummyuiview' ui-view></div>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="datasets">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.min.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-route.min.js">
+   </script>
+    <script src="app/routing.js"></script>
+    <script src="datasets/datasets.js"></script>
+    <script src="gemeentes/gemeentes.js"></script>
+    <script src="matrix/matrix.js"></script>
+  </head>
+  <body>
+    <div id='topmessage'><strong>Let op!</strong> Dit is een testversie, nog niet geschikt voor publicatie. De getoonde informatie is fictief en niet correct. Voor meer info: <a href='mailto:j.soetendal@braxwell.com'>Jasper Soetendal</a></div>
+    <div id='header' class='donker'> 
+        <ul>
+            <li><a href='#!/'>Datasets</a></li>
+            <li><a href='#!/gemeente/list'>Gemeentes</a></li>
+            <!--<li><a href='#!/datasets'>[...]</a></li>-->
+        </ul>   
+    </div>
+    <div id='container'>
+        <div ng-view style='clear: both'></div>
+        </div>
+    <div id='footer' class='middel'></div>
+  </body>
+</html>

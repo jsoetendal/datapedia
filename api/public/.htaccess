@@ -1,0 +1,24 @@
+# Local path would be /home/<user>/proloco/proloco-api/uploads/media
+# Remote path would be /var/www/vhosts/copaan.nl/media.copaan.nl/uploads
+SetEnv CONFIG_UPLOAD_PATH 'C:/www/datapedia/uploads/'
+
+# Local url would be http://localhost/proloco/proloco-api/uploads/media/
+# Remote url would be https://media.copaan.nl/uploads/
+SetEnv CONFIG_UPLOAD_URL 'http://localhost/datapedia/uploads/'
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+# RewriteBase /
+
+RewriteEngine On
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+# RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

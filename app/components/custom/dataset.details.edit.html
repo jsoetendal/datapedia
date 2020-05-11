@@ -1,0 +1,182 @@
+<div class="form-group">
+    <strong>Beschikbaarheid</strong>
+</div>
+<div class="form-group">
+    <label>Is deze data beschikbaar?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].beschikbaar" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].beschikbaar" value="true">Ja<br/>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data online beschikbaar?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].online.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].online.waarde" value="true">Ja<br/>
+</div>
+<div class="form-group" ng-show='node.data[row.key].online.waarde == "true"'>
+    <label>Geef de URL waarop de data online beschikbaar is:</label><br/>
+    <input type="url" ng-model="node.data[row.key].online.url" class="form-control">
+</div>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Over welk gebied gaat deze data?</label><br/>
+            <select ng-model="node.data[row.key].geoscope.optie" class="form-control">
+                <option>Heel Nederland, volledig</option>
+                <option>Heel Nederland, deels</option>
+                <option>Eén provincie</option>
+                <option>Meerdere provincies</option>
+                <option>Eén regio</option>
+                <option>Meerdere regio's</option>
+                <option>Eén gemeente</option>
+                <option>Meerdere gemeentes</option>
+                <option>Heel Europa</option>
+                <option>Wereldwijd</option>
+                <option>Internationaal</option>
+            </select>
+        </div>
+        <div class="col-xs-6">
+            <label>Toelichting bijv. 'gem. Den Haag' of 'regio Amsterdam'</label><br/>
+            <input type="text" ng-model="node.data[row.key].geoscope.toelichting" class="form-control">
+        </div>
+    </div>
+</div>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data machineleesbaar?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].machineleesbaar.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].machineleesbaar.waarde" value="true">Ja<br/>
+    <br/>Bestandsformaat:
+    <select ng-model="node.data[row.key].machineleesbaar.formaat">
+        <option>API</option>
+        <option>Atom Service Feed</option>
+        <option>CSV</option>
+        <option>Excel</option>
+        <option>GeoJSON</option>
+        <option>GML</option>
+        <option>JSON</option>
+        <option>KML</option>
+        <option>PDF</option>
+        <option>RDF</option>
+        <option>Shapefiles</option>
+        <option>Web Coverage Service</option>
+        <option>Website</option>
+        <option>WFS</option>
+        <option>WMTS</option>
+        <option>WMS</option>
+        <option>Word</option>
+        <option>XML</option>
+        <option>ZIP</option>
+        <option>Anders</option>
+    </select>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data beschikbaar onder een open licentie?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].licentie.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].licentie.waarde" value="true">Ja<br/>
+    <br/>Licentie:
+        <select ng-model="node.data[row.key].licentie.type">
+            <option>Publiek domein</option>
+            <option>Creative Commons Naamsvermelding (CC BY)</option>
+            <option>Creative Commons Naamsvermelding-GelijkDelen (CC BY-SA)</option>
+            <option>Creative Commons GeenAfgeleideWerken (CC BY-ND)</option>
+            <option>Creative Commons Naamsvermelding-NietCommercieel (CC BY-NC)</option>
+            <option>Creative Commons Naamsvermelding-NietCommercieel-GelijkDelen (CC BY-NC-SA)</option>
+            <option>Creative Commons Naamsvermelding-NietCommercieel-Geen AfgeleideWerken (CC BY-NC-ND)</option>
+            <option>Anders (Open) Anders (Naamsvermelding)</option>
+            <option>Anders (Niet-commercieel)</option>
+            <option>Anders (Niet open)</option>
+            <option>Licentie niet gespecificeerd</option>
+        </select>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data gratis beschikbaar?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].gratis.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].gratis.waarde" value="true">Ja<br/>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data in bulk beschikbaar, is de hele dataset in &eacute;&eacute;n keer te downloaden?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].bulk.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].bulk.waarde" value="true">Ja<br/>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data compleet en actueel?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].actueel.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].actueel.waarde" value="true">Ja<br/>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Is de data voor iedereen toegankelijk, zonder registratie?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].publiek.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].publiek.waarde" value="true">Ja<br/>
+</div>
+<div class="form-group" ng-show='node.data[row.key].beschikbaar=="false"'>
+    <label>Bestaat de data?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].bestaat.waarde" value="false">Nee<br/>
+    <input type="radio" ng-model="node.data[row.key].bestaat.waarde" value="true">Ja<br/>
+</div>
+<div class="form-group"  ng-show='node.data[row.key].beschikbaar=="true"'>
+    <strong>Verbeteringen</strong>
+</div>
+<div class="form-group"  ng-show='node.data[row.key].beschikbaar=="true"'>
+    <label>Zijn er verbeteringen nodig t.a.v. de op dit moment beschikbare data?</label><br/>
+    <input type="radio" ng-model="node.data[row.key].verbeteringnodig.waarde" value="nodig">Ja, verbetering is nodig<br/>
+    <input type="radio" ng-model="node.data[row.key].verbeteringnodig.waarde" value="gewenst">Ja, verbetering is gewenst<br/>
+    <input type="radio" ng-model="node.data[row.key].verbeteringnodig.waarde" value="geen">Nee<br/>
+    <div ng-show='node.data[row.key].verbeteringnodig.waarde=="nodig" || node.data[row.key].verbeteringnodig.waarde=="gewenst"'>
+        <br/>Korte toelichting <span ng-show='node.data[row.key].verbeteringnodig.waarde=="nodig"'>benodigde</span><span ng-show='node.data[row.key].verbeteringnodig.waarde=="gewenst"'>gewenste</span> verbeteringen<br/>
+        <textarea class='toelichting'  ng-model="node.data[row.key].verbeteringnodig.toelichting"></textarea>
+    </div>
+</div>
+<div class="form-group"  ng-show='node.data[row.key].beschikbaar=="false" || node.data[row.key].verbeteringnodig.waarde =="nodig" || node.data[row.key].verbeteringnodig.waarde=="gewenst"'>
+    <strong>Status</strong>
+    <p>Wat is de status van onderstaande aspecten bij het <span ng-hide='node.data[row.key].beschikbaar=="false"'>verbeteren</span><span ng-show='node.data[row.key].beschikbaar=="false"'>beschikbaar krijgen</span> van deze data?</p>
+    <div class="form-group">
+        <label>Politiek</label><br/>
+        <small>Wat is de status t.a.v. politieke aspecten van de data?</small><br/>
+        <div class='stoplicht rood'></div><input type="radio" ng-model="node.data[row.key].blokkades.politiek.waarde" value="rood">Blokkade<br/>
+        <div class='stoplicht oranje'></div><input type="radio" ng-model="node.data[row.key].blokkades.politiek.waarde" value="oranje">Work in progress<br/>
+        <div class='stoplicht groen'></div><input type="radio" ng-model="node.data[row.key].blokkades.politiek.waarde" value="groen">Geen probleem<br/>
+        <br/>Korte toelichting politieke aspecten:<br/>
+        <textarea class='toelichting'  ng-model="node.data[row.key].blokkades.politiek.toelichting" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Privacy</label><br/>
+        <small>Wat is de status t.a.v. privacy-gerelateerde aspecten van de data?</small><br/>
+        <div class='stoplicht rood'></div><input type="radio" ng-model="node.data[row.key].blokkades.privacy.waarde" value="rood">Blokkade<br/>
+        <div class='stoplicht oranje'></div><input type="radio" ng-model="node.data[row.key].blokkades.privacy.waarde" value="oranje">Work in progress<br/>
+        <div class='stoplicht groen'></div><input type="radio" ng-model="node.data[row.key].blokkades.privacy.waarde" value="groen">Geen probleem<br/>
+        <br/>Korte toelichting privacy-gerelateerde aspecten:<br/>
+        <textarea class='toelichting'  ng-model="node.data[row.key].blokkades.privacy.toelichting" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Techniek</label><br/>
+        <small>Wat is de status t.a.v. technische aspecten van de data?</small><br/>
+        <div class='stoplicht rood'></div><input type="radio" ng-model="node.data[row.key].blokkades.techniek.waarde" value="rood">Blokkade<br/>
+        <div class='stoplicht oranje'></div><input type="radio" ng-model="node.data[row.key].blokkades.techniek.waarde" value="oranje">Work in progress<br/>
+        <div class='stoplicht groen'></div><input type="radio" ng-model="node.data[row.key].blokkades.techniek.waarde" value="groen">Geen probleem<br/>
+        <br/>Korte toelichting technische aspecten:<br/>
+        <textarea class='toelichting'  ng-model="node.data[row.key].blokkades.techniek.toelichting" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Organisatie</label><br/>
+        <small>Wat is de status t.a.v. organisatorische aspecten van de data?</small><br/>
+        <div class='stoplicht rood'></div><input type="radio" ng-model="node.data[row.key].blokkades.organisatie.waarde" value="rood">Blokkade<br/>
+        <div class='stoplicht oranje'></div><input type="radio" ng-model="node.data[row.key].blokkades.organisatie.waarde" value="oranje">Work in progress<br/>
+        <div class='stoplicht groen'></div><input type="radio" ng-model="node.data[row.key].blokkades.organisatie.waarde" value="groen">Geen probleem<br/>
+        <br/>Korte toelichting organisatorische aspecten:<br/>
+        <textarea class='toelichting'  ng-model="node.data[row.key].blokkades.organisatie.toelichting" class="form-control"></textarea>
+
+    </div>
+
+    <div class="form-group">
+        <label>Kwaliteit</label><br/>
+        <small>Wat is de status t.a.v. kwalitatieve aspecten van de data?</small><br/>
+        <div class='stoplicht rood'></div><input type="radio" ng-model="node.data[row.key].blokkades.kwaliteit.waarde" value="rood">Blokkade<br/>
+        <div class='stoplicht oranje'></div><input type="radio" ng-model="node.data[row.key].blokkades.kwaliteit.waarde" value="oranje">Work in progress<br/>
+        <div class='stoplicht groen'></div><input type="radio" ng-model="node.data[row.key].blokkades.kwaliteit.waarde" value="groen">Geen probleem<br/>
+        <br/>Korte toelichting kwalitatieve aspecten:<br/>
+        <textarea class='toelichting'  ng-model="node.data[row.key].blokkades.kwaliteit.toelichting" class="form-control"></textarea>
+    </div>
+</div>

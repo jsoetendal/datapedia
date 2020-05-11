@@ -1,0 +1,103 @@
+<div class="box">
+    <div class="box-header">
+        <h4>Beschikbaarheid</h4>
+    </div>
+    <div class="box-divider m-a-0"></div>
+    <div class="box-body">
+    <div class='tekstl' ng-show='node.data[row.key].beschikbaar=="true"'><i class='fa fa-check groentekst'></i> Data beschikbaar</div>
+        <div class='tekstl' ng-show='node.data[row.key].beschikbaar=="false" && node.data[row.key].bestaat.waarde=="true"'><i class='fa fa-times roodtekst'></i> Data niet beschikbaar</div>
+        <div class='tekstl' ng-hide='node.data[row.key].beschikbaar=="true" || node.data[row.key].beschikbaar=="false"'><i class='fa fa-question grijstekst'></i> Beschikbaarheid onbekend</div>
+        <div class='tekstl' ng-if="node.data[row.key].beschikbaar=='false' && node.data[row.key].bestaat.waarde=='false'"><i class='fa fa-times roodtekst'></i> Data bestaat niet</div>
+        <div ng-if="node.data[row.key].online.url"><i class='tekstl fa fa-link'></i> <a href='{{node.data[row.key].online.url}}'>{{node.data[row.key].online.url}}</a></div>
+        <!--<div class='tekstl' ng-hide='node.data[row.key].kleur == "blauw"'><i class='fa fa-star'></i> {{node.data[row.key].score}}%</div>-->
+        <div ng-id="node.data[row.key].geoscope.optie" class="m-t">Geografische scope: {{node.data[row.key].geoscope.optie}}<span ng-if="node.data[row.key].geoscope.toelichting"> ({{node.data[row.key].geoscope.toelichting}})</span></div>
+    </div>
+</div>
+
+<div class="box" ng-if="node.data[row.key].beschikbaar=='true'">
+    <div class="box-header">
+        <h4>Details beschikbaarheid</h4>
+    </div>
+    <div class="box-divider m-a-0"></div>
+    <div class="box-body opendatascore">
+
+        <div ng-show="node.data[row.key].beschikbaar=='true'"><i class="blok fa fa-check groen"></i> De data is beschikbaar<br/></div>
+        <div ng-hide="node.data[row.key].beschikbaar=='true'"><i class="blok fa fa-check rood"></i> De data is niet beschikbaar<br/></div>
+
+        <div ng-show="node.data[row.key].online.waarde == 'true'"><i class="blok fa fa-download groen"></i> De data is online beschikbaar: <a href='{{node.data[row.key].online.url}}'>{{node.data[row.key].online.url|maxlength:60}}</a></div>
+        <div ng-hide="node.data[row.key].online.waarde == 'true'"><i class="blok fa fa-download rood"></i> De data is niet online beschikbaar</div>
+
+        <div ng-show="node.data[row.key].machineleesbaar.waarde == 'true'"><i class="blok fa fa-keyboard-o groen"></i> De data is machineleesbaar<span ng-if='node.data[row.key].machineleesbaar.formaat'> ({{node.data[row.key].machineleesbaar.formaat}})</span></div>
+        <div ng-hide="node.data[row.key].machineleesbaar.waarde == 'true'"><i class="blok fa fa-keyboard-o rood"></i> De data is niet machineleesbaar<span ng-if='node.data[row.key].machineleesbaar.formaat'> ({{node.data[row.key].machineleesbaar.formaat}})</span></div>
+
+
+        <div ng-show="node.data[row.key].licentie.waarde == 'true'"><i class="blok fa fa-unlock-alt groen"></i> De data is beschikbaar onder een open licentie<span ng-if='node.data[row.key].machineleesbaar.formaat'> ({{node.data[row.key].licentie.type}})</span></div>
+        <div ng-hide="node.data[row.key].licentie.waarde == 'true'"><i class="blok fa fa-unlock-alt rood"></i> De data is niet beschikbaar onder een open licentie<span ng-if='node.data[row.key].machineleesbaar.formaat'> ({{node.data[row.key].licentie.type}})</span></div>
+
+        <div ng-show="node.data[row.key].gratis.waarde == 'true'"><i class="blok fa fa-dollar groen"></i> De data is gratis verkrijgbaar</div>
+        <div ng-hide="node.data[row.key].gratis.waarde == 'true'"><i class="blok fa fa-dollar rood"></i> De data is niet gratis verkrijgbaar</div>
+
+
+        <div ng-show="node.data[row.key].bulk.waarde == 'true'"><i class="blok fa fa-copy groen"></i> De data is in bulk te downloaden</div>
+        <div ng-hide="node.data[row.key].bulk.waarde == 'true'"><i class="blok fa fa-copy rood"></i> De data is niet in bulk te downloaden</div>
+
+        <div ng-show="node.data[row.key].actueel.waarde == 'true'"><i class="blok fa fa-clock-o groen"></i> De data is compleet en actueel</div>
+        <div ng-hide="node.data[row.key].actueel.waarde == 'true'"><i class="blok fa fa-clock-o rood"></i> De data is niet compleet en/of niet actueel</div>
+
+        <div ng-show="node.data[row.key].publiek.waarde == 'true'"><i class="blok fa fa-eye groen"></i> De data is voor iedereen toegankelijk, zonder registratie</div>
+        <div ng-hide="node.data[row.key].publiek.waarde == 'true'"><i class="blok fa fa-eye rood"></i> De data is niet voor iedereen toegankelijk zonder registratie</div>
+    </div>
+</div>
+
+<div class="box" ng-if="node.data[row.key].beschikbaar=='true'">
+    <div class="box-header">
+        <h4>Verbeteringen</h4>
+    </div>
+    <div class="box-divider m-a-0"></div>
+    <div class="box-body opendataverbeteringen">
+        <div ng-show='node.data[row.key].verbeteringnodig.waarde == "nodig"'>
+            <div class='stoplicht rood'></div>
+            <div class='statuslabel'>Verbeteringen zijn nodig</div>
+        </div>
+            <div ng-show='node.data[row.key].verbeteringnodig.waarde == "gewenst"'>
+                <div class='stoplicht oranje'></div>
+                <div class='statuslabel'>Verbeteringen zijn gewenst</div>
+            </div>
+            <div ng-show='node.data[row.key].verbeteringnodig.waarde == "geen"'>
+                <div class='stoplicht groen'></div>
+                <div class='statuslabel'>Geen verbeteringen nodig</div>
+            </div>
+            <div>
+                <div class="statustext">{{node.data[row.key].verbeteringnodig.toelichting}}</div>
+            </div>
+    </div>
+</div>
+
+<div class="box" ng-if="node.data[row.key].beschikbaar=='true'" ng-if="node.data[row.key].verbeteringnodig.waarde == 'nodig' || node.data[row.key].verbeteringnodig.waarde == 'gewenst'">
+    <div class="box-header">
+        <h4>Status</h4>
+    </div>
+    <div class="box-divider m-a-0"></div>
+    <div class="box-body opendatastatus">
+        <div class='stoplicht {{node.data[row.key].blokkades.politiek.waarde}}'></div>
+        <div class='statuslabel'>Politiek: {{node.data[row.key].blokkades.politiek.waarde | status}}</div>
+        <div class='statustext'>{{node.data[row.key].blokkades.politiek.toelichting}}</div>
+
+
+        <div class='stoplicht {{node.data[row.key].blokkades.privacy.waarde}}'></div>
+        <div class='statuslabel'>Privacy: {{node.data[row.key].blokkades.privacy.waarde | status}}</div>
+        <div class='statustext'>{{node.data[row.key].blokkades.privacy.toelichting}}</div>
+
+        <div class='stoplicht {{node.data[row.key].blokkades.techniek.waarde}}'></div>
+        <div class='statuslabel'>Techniek: {{node.data[row.key].blokkades.techniek.waarde | status}}</div>
+        <div class='statustext'>{{node.data[row.key].blokkades.techniek.toelichting}}</div>
+
+        <div class='stoplicht {{node.data[row.key].blokkades.organisatie.waarde}}'></div>
+        <div class='statuslabel'>Organisatie: {{node.data[row.key].blokkades.organisatie.waarde | status}}</div>
+        <div class='statustext'>{{node.data[row.key].blokkades.organisatie.toelichting}}</div>
+
+        <div class='stoplicht {{node.data[row.key].blokkades.kwaliteit.waarde}}'></div>
+        <div class='statuslabel'>Kwaliteit: {{node.data[row.key].blokkades.kwaliteit.waarde | status}}</div>
+        <div class='statustext'>{{node.data[row.key].blokkades.kwaliteit.toelichting}}</div>
+    </div>
+</div>

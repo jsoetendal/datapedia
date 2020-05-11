@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/api/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/api/vendor/slim/php-view" />
+      <path value="$PROJECT_DIR$/api/vendor/slim/slim" />
+      <path value="$PROJECT_DIR$/api/vendor/pimple/pimple" />
+      <path value="$PROJECT_DIR$/api/vendor/container-interop/container-interop" />
+      <path value="$PROJECT_DIR$/api/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/api/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/api/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/api/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/api/vendor/composer" />
+      <path value="$PROJECT_DIR$/api/vendor/firebase/php-jwt" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="1WVwaAqqapHNQYqPnun5PB9Lhbu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/import" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\smartmobilitydata\app" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\app\components\import" />
+      <recent name="C:\www\smartmobilitydata\app\components\nodes" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="" />
+      <created>1579248130806</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579248130806</updated>
+      <workItem from="1579248132070" duration="2871000" />
+      <workItem from="1579529825706" duration="11342000" />
+      <workItem from="1579790156893" duration="7492000" />
+      <workItem from="1579807253900" duration="177000" />
+      <workItem from="1579807468536" duration="43000" />
+      <workItem from="1579807592876" duration="16000" />
+      <workItem from="1580141961787" duration="2027000" />
+      <workItem from="1580198352882" duration="10763000" />
+      <workItem from="1580220681708" duration="6279000" />
+      <workItem from="1580227019151" duration="8000" />
+      <workItem from="1580237136256" duration="175000" />
+      <workItem from="1580238038708" duration="44000" />
+      <workItem from="1580370606935" duration="458000" />
+      <workItem from="1580371136121" duration="966000" />
+      <workItem from="1580802907024" duration="2243000" />
+      <workItem from="1581326076393" duration="5479000" />
+      <workItem from="1581432419757" duration="6444000" />
+      <workItem from="1581590789589" duration="15000" />
+      <workItem from="1582209321228" duration="7837000" />
+      <workItem from="1582386394148" duration="60000" />
+      <workItem from="1582616923008" duration="53000" />
+      <workItem from="1582642201247" duration="10905000" />
+      <workItem from="1582792543842" duration="9000" />
+      <workItem from="1582813906459" duration="7334000" />
+      <workItem from="1582990974865" duration="571000" />
+      <workItem from="1584524514172" duration="9855000" />
+      <workItem from="1584633368831" duration="2696000" />
+      <workItem from="1584636103761" duration="7172000" />
+      <workItem from="1584689226773" duration="1844000" />
+      <workItem from="1584697198942" duration="11000" />
+      <workItem from="1584720062662" duration="3563000" />
+      <workItem from="1584956344332" duration="402000" />
+      <workItem from="1584972124143" duration="775000" />
+      <workItem from="1585055968354" duration="633000" />
+      <workItem from="1585580893754" duration="1883000" />
+      <workItem from="1585659053487" duration="627000" />
+      <workItem from="1585685030568" duration="164000" />
+      <workItem from="1586099057306" duration="1732000" />
+      <workItem from="1586109307306" duration="2284000" />
+      <workItem from="1586356859569" duration="6017000" />
+      <workItem from="1586501504982" duration="3406000" />
+      <workItem from="1586514339678" duration="608000" />
+      <workItem from="1586524418012" duration="882000" />
+      <workItem from="1586527887593" duration="5364000" />
+      <workItem from="1586787810568" duration="8000" />
+      <workItem from="1587130105269" duration="6638000" />
+      <workItem from="1587538400319" duration="11482000" />
+      <workItem from="1588599456136" duration="7992000" />
+      <workItem from="1588747049603" duration="16604000" />
+      <workItem from="1588921459173" duration="10000" />
+      <workItem from="1588947703647" duration="1970000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1060" y="451" key="FileChooserDialogImpl" timestamp="1581326381586">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="1060" y="451" key="FileChooserDialogImpl/0.0.2560.1410@0.0.2560.1410" timestamp="1581326381586" />
+    <state x="988" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1588921462316">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="741" y="395" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1585659734203" />
+    <state x="988" y="531" key="com.intellij.ide.util.TipDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1588921462316" />
+    <state x="774" y="505" width="586" height="488" key="find.popup" timestamp="1586358477406">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="581" y="376" width="721" height="488" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1586118225477" />
+    <state x="774" y="505" width="586" height="488" key="find.popup/0.0.2560.1410@0.0.2560.1410" timestamp="1586358477406" />
+    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1588750840161">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1584653862528" />
+    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410@0.0.2560.1410" timestamp="1588750840161" />
+  </component>
+</project>

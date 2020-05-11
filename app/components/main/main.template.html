@@ -1,0 +1,107 @@
+<div class="p-a">
+    <div class="white lt box-shadow box m-t pointer" ng-click="meerinfo=!meerinfo">
+        <div class="box-header">
+            <div class="pull-right btn btn-primary" ng-hide="meerinfo">Meer info</div>
+            <div class="pull-right btn btn-primary" ng-show="meerinfo">Minder info</div>
+            <h2>Datapedia Smart Mobility</h2>
+            <small ng-show="meerinfo">van het MRA Platform Smart Mobility</small>
+            <small ng-hide="meerinfo">Klik hier voor meer informatie over de Datapedia</small>
+        </div>
+    </div>
+    <div class="row" ng-show="meerinfo">
+        <div class="col-sm-12 col-lg-4">
+            <div class="white lt box-shadow">
+                <div class="box-header">
+                    <h2>Over deze Datapedia</h2>
+                    <small>Datapedia Smart Mobility</small>
+                </div>
+                <div class="box-body">
+                    <div style="text-align:center; height: 250px; width: 100%"><a href="https://smartmobilitymra.nl"><img src="themes/assets/images/logoSmartMob.png" style="max-height: 250px; max-width: 100%"></a></div>
+                    <p class="p-t">Met deze Datapedia wil het MRA Platform Smart Mobility inzicht geven in welke data beschikbaar is voor smart mobility en in welke projecten het al wordt gebruikt. [tekst aanpassen]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 hidden-md-down">
+            <div class="white lt box-shadow">
+                <div class="box-header">
+                    <h2>Wat is data?</h2>
+                    <small>En waarom is het zo belangrijk?</small></h4>
+                </div>
+                <div class="box-body">
+                    <iframe style="width: 100%; height: 250px" src="https://www.youtube.com/embed/lCHP2Qr-UGA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <p class="p-t">In deze video/webinar van 12 minuten neemt Jasper Soetendal, data-expert van het MRA Platform Smart Mobility, je mee in een verhaal over wat data is en waarom het zo belangrijk is. Zeer geschikt voor iedereen die data 'ongrijpbaar' vindt.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 hidden-md-down">
+            <div class="white lt box-shadow">
+                <div class="box-header">
+                    <h2>Datakookboek Smart Mobility</h2>
+                    <small>Tips & tricks, inspiratie en praktische voorbeelden</small>
+                </div>
+                <div class="box-body">
+                    <div style="text-align:center; height: 250px; width: 100%"><a href="https://smartmobilitymra.nl/wp-content/uploads/2020/04/Datakookboek-Smart-Mobility-versie-0.2-2019-04-07.pdf"><img src="themes/assets/images/kookboek.png" style="max-height: 250px; max-width: 100%"></a></div>
+                    <p class="p-t">In dit datakookboek nemen we de basisbegrippen -principes en -ingrediënten van data in de smart mobility door. En geven we tips tricks en concrete stappen om zelf aan de slag te gaan. Ter inspiratie kun je bladeren door de voorbeelden van andere succesvolle projecten.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="white lt box-shadow box m-t pointer" ui-sref="nodes({'type': 'project'})">
+        <div class="box-header">
+            <h2>Voorbeelden</h2>
+            <small>3 uitgelichte voorbeelden van Smart mobility oplossingen. Bekijk <span class="text-info">alle voorbeelden</span></small>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-repeat="node in voorbeelden">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 node">
+                <div class="box pointer" ui-sref="node({nodeId: node.nodeId})">
+                    <div class="item dark" style='min-height: 100px; max-height: 250px; overflow: hidden'>
+                        <div class="item-overlay active p-a">
+                            <a href="" class="pull-left text-u-c label label-md info p-a-sm m-r-sm" ng-repeat="tag in node.path.split(';')">{{tag}}</a>
+                        </div>
+                        <img src="{{node.imgUrl}}" class="w-full">
+                        <a class="item-overlay active w-full">
+                            <span class="bottom text-md main-title" style='padding: 10px; font-weight: bold'>{{node.title}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="($index + 1) % 2 == 0" class="clearfix visible-lg visible-md" style="clear: both"></div>
+            <div ng-if="($index + 1) % 3 == 0" class="clearfix visible-xl visible-xxl" style="clear: both"></div>
+        </div>
+    </div>
+
+    <div class="white lt box-shadow">
+                <div class="box">
+                    <div class="box-header">
+                        <h2>Zoeken</h2>
+                        <small>Zoek in alle beschikbare gegevens (data, voorbeelden, organisaties, etc.)</small>
+                        <div class="navbar" style="padding: 0.5em 0px 0px 0px">
+                            <form class="navbar-form form-inline navbar-item v-m" role="search" ng-submit="naarZoeken(zoeken.q)">
+                                <div class="form-group l-h m-a-0">
+                                    <div class="input-group input-group-md">
+                                        <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="zoeken.q" placeholder="Zoeken in alles..." style="">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn white b-a no-shadow"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+    <div class="white lt box-shadow box m-t pointer">
+        <div class="box-header">
+            <h2>Onderwerpen</h2>
+            <small>Onderstaan overzicht toont de diverse onderwerpen waarover smart mobility data beschikbaar is, of beschikbaar zou moeten zijn.</small>
+        </div>
+    </div>
+
+    <div ui-include="'app/components/nodes/nodes.views.template.html'"></div>
+
+</div>

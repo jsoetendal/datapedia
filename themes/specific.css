@@ -1,0 +1,52 @@
+body {
+    --primary: #e04952;
+    --primary-lighter:#e04952;
+    --primary-darker: #e04952;
+}
+
+.primary {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: var(--primary); }
+.primary .lt {
+    background-color: var(--primary-lighter); }
+.primary .dk {
+    background-color: var(--primary-darker); }
+.primary .bg {
+    background-color: #var(--primary); }
+.modal .fullright{ border-top-color: var(--primary); }
+.btn.b-primary:hover,
+.btn.b-primary:focus,
+.btn.primary:hover,
+.btn.primary:focus {
+    color: rgba(255, 255, 255, 0.87) !important;
+    background-color: var(--primary-darker);
+}
+
+.modal .fullright{ border-top-color: var(--primary); }
+
+.b-primary {  border-color: var(--primary); }
+.b-t-primary {  border-top-color: var(--primary); }
+.b-b-primary {  border-bottom-color: var(--primary); }
+.b-l-primary {  border-left-color: var(--primary); }
+a.primary:hover {  background-color: var(--primary-darker); }
+a.text-primary:hover {  color: var(--primary-darker); }
+.text-primary,.text-primary-hover a:hover {  color: var(--primary) !important; }
+.nav-active-primary .nav-link.active,
+.nav-active-primary .nav > li.active > a {
+    color: rgba(255, 255, 255, 0.87) !important;
+    background-color: var(--primary) !important; }
+.buurt .box .fa:hover, .huis .box .fa:hover{ color: var(--primary); }
+.md-input:focus, .md-input.focus { border-color: var(--primary);}
+.md-input:focus ~ label, .md-input.focus ~ label { color: var(--primary);}
+.animation.loading{
+    border-top-color: var(--primary);
+    border-left-color: var(--primary);
+}
+.navbar-brand-top{
+    background: var(--primary);
+    padding: 10px;
+    text-align: center;
+}
+.agentview .navbar-brand-top img{
+    width: 70px;
+}
