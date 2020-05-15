@@ -35,10 +35,10 @@
             <div class='floatblok'  ng-hide="related.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye rood" title="De data is niet voor iedereen toegankelijk zonder registratie"></i></div>
         </div>
         <div class="col-md-3">
-            {{related.data.details.geoscope.optie}} ({{related.data.details.geoscope.toelichting}})
+            {{related.data.details.geoscope.optie}} <span ng-show="related.data.details.geoscope.toelichting">({{related.data.details.geoscope.toelichting}})</span>
         </div>
         <div class="col-md-3">
-            <div ng-if="related.data.details.online.url"><i class='tekstl fa fa-link'></i> <a href='{{related.data.details.online.url}}'>{{related.data.details.online.url}}</a></div>
+            <div ng-if="related.data.details.resources && related.data.details.resources[0]"><i class='tekstl fa fa-link'></i> <a href='{{related.data.details.resources[0].url}}'>{{related.data.details.resources[0].url}}</a></div>
         </div>
     </div>
 </div>

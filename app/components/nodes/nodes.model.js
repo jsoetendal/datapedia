@@ -310,12 +310,14 @@ angular.
           this.createTree = function(func){
            this.tree = {"title": "", "subs": [], "nodes": [], "level": 0};
               for(var i in this.nodes){
-                  var paths = this.nodes[i].path.split(";");
-                  for(var j in paths){
-                      if(paths[j].trim() == "" && paths.length > 1 && j == 0){
-                          //Niet toevoegen, eerste 'lege'
-                      } else {
-                          this.addToTree(paths[j], this.nodes[i]);
+                  if(typeof this.nodes[i].path == 'string') {
+                      var paths = this.nodes[i].path.split(";");
+                      for (var j in paths) {
+                          if (typeof paths[j] != 'string' || (paths[j].trim() == "" && paths.length > 1 && j == 0)) {
+                              //Niet toevoegen, eerste 'lege'
+                          } else {
+                              this.addToTree(paths[j], this.nodes[i]);
+                          }
                       }
                   }
               }
@@ -328,7 +330,9 @@ angular.
               var currentPointInTree = this.tree;
               var levels = path.split("\\");
               for(var i in levels){
-                  if(levels[i].trim() == ''){
+                  if(typeof levels[i] != 'string'){
+                      //do niets
+                  } else if(levels[i].trim() == ''){
                       currentPointInTree.nodes.push(node);
                   } else {
                       var found = false;

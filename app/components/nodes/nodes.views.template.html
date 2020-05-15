@@ -46,10 +46,10 @@
     <script type="text/ng-template" id="nodeTree">
         <div style='padding-left: 20px'>
             <h6>{{sub.title}}</h6>
-            <div ng-repeat="sub in sub.subs | orderBy: orderProp | filter: zoeken.searchText" ng-include="'nodeTree'">
+            <div ng-repeat="sub in sub.subs | orderBy: orderProp | filter: zoeken.searchText track by $index" ng-include="'nodeTree'">
             </div>
             <ul class="treeview" style="padding-left: 0px">
-                <li ng-repeat="node in sub.nodes | filter: zoeken.searchText" ng-include="'nodeLeaf'">
+                <li ng-repeat="node in sub.nodes | filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'">
                 </li>
             </ul>
         </div>
@@ -60,16 +60,16 @@
     </script>
 
     <div class="col-xs-12 columns3">
-        <div ng-repeat="sub in tree.subs | orderBy: orderProp| filter: zoeken.searchText">
+        <div ng-repeat="sub in tree.subs | orderBy: orderProp| filter: zoeken.searchText track by $index">
             <div class="box" style="break-inside: avoid-column">
                 <div class="box-header primary">
                     <h3>{{sub.title}}</h3>
                 </div>
                 <div class="box-body">
-                    <div ng-repeat="sub in sub.subs | orderBy: orderProp| filter: zoeken.searchText" ng-include="'nodeTree'">
+                    <div ng-repeat="sub in sub.subs | orderBy: orderProp| filter: zoeken.searchText track by $index" ng-include="'nodeTree'">
                     </div>
                     <ul class='treeview' style="padding-left: 0px">
-                        <li ng-repeat="node in sub.nodes | orderBy: orderProp| filter: zoeken.searchText" ng-include="'nodeLeaf'">
+                        <li ng-repeat="node in sub.nodes | orderBy: orderProp| filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'">
                         </li>
                     </ul>
                 </div>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="box-body">
                     <ul class="treeview">
-                        <li ng-repeat="node in tree.nodes | orderBy: orderProp| filter: zoeken.searchText" ng-include="'nodeLeaf'"></li>
+                        <li ng-repeat="node in tree.nodes | orderBy: orderProp| filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'"></li>
                     </ul>
                 </div>
             </div>

@@ -12,8 +12,35 @@
     <input type="radio" ng-model="node.data[row.key].online.waarde" value="true">Ja<br/>
 </div>
 <div class="form-group" ng-show='node.data[row.key].online.waarde == "true"'>
+    <div ng-if="!node.data[row.key].resources" ng-init='node.data[row.key].resources = [{"url": "","description": ""}]'></div>
     <label>Geef de URL waarop de data online beschikbaar is:</label><br/>
-    <input type="url" ng-model="node.data[row.key].online.url" class="form-control">
+    <table>
+        <thead>
+        <tr>
+            <th width="65%">URL</th>
+            <th>Toelichting (optioneel)</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="res in node.data[row.key].resources">
+                <td>
+                    <input type="url" ng-model="res.url" class="form-control">
+                </td>
+                <td>
+                    <input type="description" ng-model="res.description" class="form-control">
+                </td>
+                <td>
+                    <i ng-click="node.data[row.key].resources.splice($index,1)" class="fa fa-times"></i>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <small class="text-muted pointer" ng-click="node.data[row.key].resources.push({'url':'','description':''})"><i class="fa fa-plus"></i> Nog een andere link toevoegen</small>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </div>
 <div class="form-group" ng-show='node.data[row.key].beschikbaar=="true"'>
@@ -73,7 +100,7 @@
     <label>Is de data beschikbaar onder een open licentie?</label><br/>
     <input type="radio" ng-model="node.data[row.key].licentie.waarde" value="false">Nee<br/>
     <input type="radio" ng-model="node.data[row.key].licentie.waarde" value="true">Ja<br/>
-    <br/>Licentie:
+    <br/>Licentie ({{node.data[row.key].licentie.type}}):
         <select ng-model="node.data[row.key].licentie.type">
             <option>Publiek domein</option>
             <option>Creative Commons Naamsvermelding (CC BY)</option>
@@ -179,4 +206,11 @@
         <br/>Korte toelichting kwalitatieve aspecten:<br/>
         <textarea class='toelichting'  ng-model="node.data[row.key].blokkades.kwaliteit.toelichting" class="form-control"></textarea>
     </div>
+</div>
+<div class="form-group"  ng-show='node.data[row.key].bron'>
+    Bron: {{node.data[row.key].bron.url}}<br/>
+    <input type="radio" ng-model="node.data[row.key].bron.update" value="true">Automatisch updaten<br/>
+    <input type="radio" ng-model="node.data[row.key].bron.update" value="false">Aangepast. Niet meer automatisch updaten<br/>
+
+
 </div>

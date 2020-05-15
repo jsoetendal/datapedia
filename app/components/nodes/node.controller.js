@@ -3,8 +3,8 @@ angular.
   module('app').
   component('node', {
     templateUrl: 'app/components/nodes/node.template.html',
-    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location',
-      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location) {
+    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$sanitize',
+      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $sanitize) {
         var self = this;
 
         this.loadNode = function(nodeId){
@@ -39,6 +39,12 @@ angular.
                     "relation": relation
                 }
             }
+            if($rootScope.newNode){
+                for(var i in $rootScope.newNode){
+                    $scope.node[i] = $rootScope.newNode[i];
+                }
+                $rootScope.newNode = null
+            }
         }
 
         $scope.startEdit = function() {
@@ -49,7 +55,6 @@ angular.
                     if (!$scope.relations[$scope.entity.relations[i].type]) {
                         Nodes.loadNodes($scope.entity.relations[i].type, function (type) {
                             $scope.relations[type] = Nodes.getNodes();
-                            console.log($scope.relations);
                         });
                     }
                 }
@@ -59,7 +64,6 @@ angular.
                     if (!$scope.relations[$scope.entity.dependencies[i].type]) {
                         Nodes.loadNodes($scope.entity.dependencies[i].type, function (type) {
                             $scope.relations[type] = Nodes.getNodes();
-                            console.log($scope.relations);
                         });
                     }
                 }

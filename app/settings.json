@@ -213,8 +213,16 @@
       "url": "#/nodes/onderwerp"
     },
     {
+      "label": "Datasets",
+      "url": "#/nodes/dataset"
+    },
+    {
       "label": "Zoeken",
       "url": "#/nodes/zoeken"
+    },
+    {
+      "label": "[data.overheid.nl]",
+      "url": "#/dataoverheid"
     }
   ]
 }

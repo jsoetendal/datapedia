@@ -16,7 +16,7 @@ class Database
     * @return Database
     * 
     */
-    function Database($host, $database, $username, $password){
+    function __construct($host, $database, $username, $password){
         global $db_settings;
         $this->host = $host;
         $this->database = $database;

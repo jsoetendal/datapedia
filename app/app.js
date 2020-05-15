@@ -11,6 +11,7 @@
     angular
       .module('app', [
           'ngRoute',
+          'ngSanitize',
           'ui.router',
           'core']);
 

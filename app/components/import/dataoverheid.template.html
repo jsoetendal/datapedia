@@ -1,0 +1,79 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="p-a m-b-0 _300">Zoeken op data.overheid.nl</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Zoeken op data.overheid.nl</h4>
+                </div>
+                <div class="box-body">
+                    <form ng-submit="searchOverheid(search.text)">
+                        <input ng-model="search.text">
+                        <div class="btn btn-primary" ng-click="searchOverheid(search.text)">Zoeken</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t" ng-if="data.length > 0 && !set">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Resultaten ({{data.length}})</h4>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Publisher</th>
+                            <th>Bron en URL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="dataset in data">
+                            <td>
+                                <strong ng-click="copySet(dataset)" class="pointer">{{dataset.title}} <i class="fa fa-copy"></i></strong><br/>
+                                {{dataset.authority.split("/").last()}}
+                            </td>
+                            <td>{{dataset.notes}}</td>
+                            <td>
+                                <UL>
+                                    <LI><a target="_blank" href="{{dataset.identifier}}">{{dataset.identifier}}</a></LI>
+                                    <LI><a target="_blank" href="{{dataset.url}}">{{dataset.url}}</a></LI>
+                                    <LI ng-repeat="resource in dataset.resources"><a target="_blank" href="{{resource.url}}">{{resource.name}}</a></LI>
+                                </UL>
+                            </td>
+                            <td> / </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-t" ng-if="set">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Resultaat</h4>
+                    <a ng-click="clearSet()">Sluiten</a>
+                </div>
+                <div class="box-body">
+                    <PRE>
+                        {{set}}
+                    </PRE>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

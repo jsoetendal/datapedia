@@ -5,7 +5,7 @@
                 <h4 class="p-a m-b-0 _300 pointer" ui-sref="nodes({'type': node.type})">{{entity.plural}}</h4>
             </div>
             <div class="col-sm-6">
-                <div class="navbar-form form-inline navbar-item m-l v-m pull-right" ">
+                <div class="navbar-form form-inline navbar-item m-l v-m pull-right">
                     <ul class="nav navbar-nav pull-right m-r">
                         <li class="nav-item dropdown">
                             <a class="nav-link" ui-sref="nodes({'type': node.type})">&lt;&lt; Terug</a>
@@ -45,7 +45,7 @@
                                         <div class="box-body">
                                             <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
                                             <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
-                                            <p class="m-t">{{node.text}}</p>
+                                            <p class="m-t linebreaks" ng-bind-html="node.text"></p>
                                             <dl>
                                                 <dt ng-repeat-start="row in entity.data" ng-hide="row.type =='custom'">{{row.label}}</dt>
                                                 <dd ng-repeat-end ng-hide="row.type =='custom'">{{node.data[row.key]}}</dd>

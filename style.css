@@ -669,3 +669,7 @@ ul.treeview li{
 input[type="checkbox"],input[type="radio"]{
     margin-right: 10px;
 }
+
+.linebreaks{
+    white-space: pre-wrap;
+}

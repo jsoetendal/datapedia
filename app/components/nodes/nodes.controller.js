@@ -101,20 +101,23 @@ angular.
             var facet = {'key': 'path', 'label': $scope.entity.path.label, 'options': [], 'show': 5};
             for(var i in $scope.nodes){
                 if($scope.nodes[i].visible) {
-                    var paths = $scope.nodes[i].path.split(";");
-                    for (var j in paths) {
-                        if(paths[j].trim() == '' && paths.length > 1) continue; // Een leeg path, terwijl er ook nog andere paths zijn. skippen!
-                        var found = false;
-                        for (var k in facet.options) {
-                            if (facet.options[k].value == paths[j]) {
-                                found = true;
-                                facet.options[k].count += 1;
+                    if(typeof $scope.nodes[i].path == 'string') {
+                        var paths = $scope.nodes[i].path.split(";");
+                        for (var j in paths) {
+                            if (typeof paths[j] !== 'string') continue;
+                            if (paths[j].trim() == '' && paths.length > 1) continue; // Een leeg path, terwijl er ook nog andere paths zijn. skippen!
+                            var found = false;
+                            for (var k in facet.options) {
+                                if (facet.options[k].value == paths[j]) {
+                                    found = true;
+                                    facet.options[k].count += 1;
+                                }
                             }
-                        }
-                        if (!found) {
-                            var label = paths[j];
-                            if (label.trim() == '') label = '[geen]';
-                            facet.options.push({'label': label, 'value': paths[j], 'count': 1});
+                            if (!found) {
+                                var label = paths[j];
+                                if (label.trim() == '') label = '[geen]';
+                                facet.options.push({'label': label, 'value': paths[j], 'count': 1});
+                            }
                         }
                     }
 

@@ -133,5 +133,20 @@ $app->get('/paths/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->get('/data/overheid/{q}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $dataMapper = new DataMapper($this->db);
+    $q = escape_string($request->getAttribute('q'));
+
+    $result = $dataMapper->getDataOverheidSearch($q);
+    return $response->withStatus(200)->withJSON($result);
+});
+$app->get('/data/overheidset/{id}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $dataMapper = new DataMapper($this->db);
+    $id = escape_string($request->getAttribute('id'));
+
+    $result = $dataMapper->getDataOverheidSet($id);
+    return $response->withStatus(200)->withJSON($result);
+});
+
 // Run app
 $app->run();

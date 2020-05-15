@@ -8,9 +8,20 @@
         <div class='tekstl' ng-show='node.data[row.key].beschikbaar=="false" && node.data[row.key].bestaat.waarde=="true"'><i class='fa fa-times roodtekst'></i> Data niet beschikbaar</div>
         <div class='tekstl' ng-hide='node.data[row.key].beschikbaar=="true" || node.data[row.key].beschikbaar=="false"'><i class='fa fa-question grijstekst'></i> Beschikbaarheid onbekend</div>
         <div class='tekstl' ng-if="node.data[row.key].beschikbaar=='false' && node.data[row.key].bestaat.waarde=='false'"><i class='fa fa-times roodtekst'></i> Data bestaat niet</div>
-        <div ng-if="node.data[row.key].online.url"><i class='tekstl fa fa-link'></i> <a href='{{node.data[row.key].online.url}}'>{{node.data[row.key].online.url}}</a></div>
+        <div ng-if="node.data[row.key].geoscope.optie" class="m-t">Geografische scope: {{node.data[row.key].geoscope.optie}}<span ng-if="node.data[row.key].geoscope.toelichting"> ({{node.data[row.key].geoscope.toelichting}})</span></div>
         <!--<div class='tekstl' ng-hide='node.data[row.key].kleur == "blauw"'><i class='fa fa-star'></i> {{node.data[row.key].score}}%</div>-->
-        <div ng-id="node.data[row.key].geoscope.optie" class="m-t">Geografische scope: {{node.data[row.key].geoscope.optie}}<span ng-if="node.data[row.key].geoscope.toelichting"> ({{node.data[row.key].geoscope.toelichting}})</span></div>
+    </div>
+</div>
+
+<div class="box" ng-if="node.data[row.key].resources">
+    <div class="box-header">
+        <h4>Links</h4>
+    </div>
+    <div class="box-divider m-a-0"></div>
+    <div class="box-body">
+        <div ng-repeat="res in node.data[row.key].resources" class="m-t-sm">
+            <i class='tekstl fa fa-link'></i> <strong ng-show="res.description && res.description !=''">{{res.description}}: <br/></strong><a href='{{res.url}}'>{{res.url}}</a>
+        </div>
     </div>
 </div>
 
@@ -73,7 +84,7 @@
     </div>
 </div>
 
-<div class="box" ng-if="node.data[row.key].beschikbaar=='true'" ng-if="node.data[row.key].verbeteringnodig.waarde == 'nodig' || node.data[row.key].verbeteringnodig.waarde == 'gewenst'">
+<div class="box" ng-if="node.data[row.key].verbeteringnodig.waarde == 'nodig' || node.data[row.key].verbeteringnodig.waarde == 'gewenst'">
     <div class="box-header">
         <h4>Status</h4>
     </div>

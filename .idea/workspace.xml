@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="" />
+    <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/classes/DataMapper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/import/dataoverheid.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/import/dataoverheid.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/public/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/classes/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/classes/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.module.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.details.edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.details.edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.details.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.details.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/node.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/node.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/standard.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/standard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +37,30 @@
       <executable />
     </execution>
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="nodes@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="nodes@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="nodes: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -20,6 +68,9 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -36,25 +87,28 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1WVwaAqqapHNQYqPnun5PB9Lhbu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/import" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\www\smartmobilitydata\app" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\www\datapedia\app\components\import" />
       <recent name="C:\www\smartmobilitydata\app\components\nodes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\smartmobilitydata\app" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -118,6 +172,10 @@
       <workItem from="1588747049603" duration="16604000" />
       <workItem from="1588921459173" duration="10000" />
       <workItem from="1588947703647" duration="1970000" />
+      <workItem from="1589209626492" duration="1813000" />
+      <workItem from="1589265471046" duration="5063000" />
+      <workItem from="1589352872729" duration="12867000" />
+      <workItem from="1589537354137" duration="10000" />
     </task>
     <servers />
   </component>
@@ -125,15 +183,27 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1547" y="370" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589353040024">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="1547" y="370" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1589353040024" />
     <state x="1060" y="451" key="FileChooserDialogImpl" timestamp="1581326381586">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1060" y="451" key="FileChooserDialogImpl/0.0.2560.1410@0.0.2560.1410" timestamp="1581326381586" />
-    <state x="988" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1588921462316">
+    <state width="196" height="457" key="HiddenNamespacesPopup" timestamp="1589353043946">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state width="196" height="457" key="HiddenNamespacesPopup/0.0.2560.1410@0.0.2560.1410" timestamp="1589353043946" />
+    <state x="1098" y="539" key="NewPhpClassDialog" timestamp="1589265958300">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="1098" y="539" key="NewPhpClassDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1589265958300" />
+    <state x="988" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1589537355366">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="741" y="395" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1585659734203" />
-    <state x="988" y="531" key="com.intellij.ide.util.TipDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1588921462316" />
+    <state x="988" y="531" key="com.intellij.ide.util.TipDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1589537355366" />
     <state x="774" y="505" width="586" height="488" key="find.popup" timestamp="1586358477406">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>

@@ -65,6 +65,12 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+          .state('dataoverheid', {
+              url: "/dataoverheid",
+              template: "<dataoverheid class='controllermodule'></dataoverheid>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
           .state('nodes.query', {
               url: "/{q}",
               template: "",
