@@ -13,6 +13,8 @@
           'ngRoute',
           'ngSanitize',
           'ui.router',
+          'ui.tinymce',
+          'ui.bootstrap',
           'core']);
 
 })();

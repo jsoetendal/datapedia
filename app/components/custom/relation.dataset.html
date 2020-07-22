@@ -1,0 +1,106 @@
+<div ng-if="nodesLoaded" class="row m-t">
+    <script type="text/ng-template" id="nodeTree">
+        <div style='padding-left: 20px' ng-hide="resultingNodes.length == 0">
+            <h6>{{sub.title}}</h6>
+            <div ng-repeat="sub in sub.subs | orderBy: orderProp | filter: zoeken.searchText track by $index" ng-include="'nodeTree'" ng-hide="">
+            </div>
+            <ul class="treeview" style="padding-left: 0px">
+                <li ng-repeat="node in sub.nodes | filter: {'visible': true} | filter: zoeken.searchText  as resultingNodes track by $index" ng-include="'nodeLeaf'">
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="nodeLeaf">
+        <a ui-sref="node({nodeId: node.nodeId})" class="pointer" ng-class="{ 'text-muted': !node.dataset || node.dataset.length == 0}"><strong>{{node.title}}</strong></a>
+        <div>
+            <div class='row m-l m-t' ng-repeat="dataset in node.dataset" ng-include="'nodeDataset'"></div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="nodeDataset">
+        <div class="col-md-3">
+            <i class="fa fa-angle-right"></i>
+            <a  ui-sref="node({nodeId: dataset.nodeId})">{{dataset.title}}</a>
+        </div>
+        <div class="col-md-3" ng-if="dataset.data.details.beschikbaar=='true'">
+            <div class='floatblok' ng-show="dataset.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>
+            <div class='floatblok' ng-hide="dataset.data.details.beschikbaar=='true'"><i class="blok fa fa-times rood" title="De data is niet beschikbaar"></i></div>
+
+            <div class='floatblok' ng-show="dataset.data.details.online.waarde == 'true'"><i class="blok fa fa-download groen" title="De data is online beschikbaar"></i></div>
+            <div class='floatblok' ng-hide="dataset.data.details.online.waarde == 'true'"><i class="blok fa fa-download rood" title="De data is niet online beschikbaar"></i></div>
+
+            <div class='floatblok'  ng-show="dataset.data.details.machineleesbaar.waarde == 'true'"><i class="blok fa fa-keyboard-o groen" title="De data is machineleesbaar"></i></div>
+            <div class='floatblok'  ng-hide="dataset.data.details.machineleesbaar.waarde == 'true'"><i class="blok fa fa-keyboard-o rood" title="De data is niet machineleesbaar"></i></div>
+
+
+            <div class='floatblok'  ng-show="dataset.data.details.licentie.waarde == 'true'"><i class="blok fa fa-unlock-alt groen" title="De data is beschikbaar onder een open licentie"></i></div>
+            <div class='floatblok'  ng-hide="dataset.data.details.licentie.waarde == 'true'"><i class="blok fa fa-unlock-alt rood" title="De data is niet beschikbaar onder een open licentie"></i></div>
+
+            <div class='floatblok'  ng-show="dataset.data.details.gratis.waarde == 'true'"><i class="blok fa fa-dollar groen" title="De data is gratis verkrijgbaar"></i></div>
+            <div class='floatblok'  ng-hide="dataset.data.details.gratis.waarde == 'true'"><i class="blok fa fa-dollar rood" title="De data is niet gratis verkrijgbaar"></i></div>
+
+
+            <div class='floatblok'  ng-show="dataset.data.details.bulk.waarde == 'true'"><i class="blok fa fa-copy groen" title="De data is in bulk te downloaden"></i></div>
+            <div class='floatblok'  ng-hide="dataset.data.details.bulk.waarde == 'true'"><i class="blok fa fa-copy rood" title="De data is niet in bulk te downloaden"></i></div>
+
+            <div class='floatblok'  ng-show="dataset.data.details.actueel.waarde == 'true'"><i class="blok fa fa-clock-o groen" title="De data is compleet en actueel"></i></div>
+            <div class='floatblok'  ng-hide="dataset.data.details.actueel.waarde == 'true'"><i class="blok fa fa-clock-o rood" title="De data is niet compleet en/of niet actueel"></i> </div>
+
+            <div class='floatblok'  ng-show="dataset.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye groen" title="De data is voor iedereen toegankelijk, zonder registratie"></i></div>
+            <div class='floatblok'  ng-hide="dataset.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye rood" title="De data is niet voor iedereen toegankelijk zonder registratie"></i></div>
+        </div>
+        <div class="col-md-3" ng-if="dataset.data.details.beschikbaar=='true'">
+            {{dataset.data.details.geoscope.optie}} <span ng-show="dataset.data.details.geoscope.toelichting">({{dataset.data.details.geoscope.toelichting}})</span>
+        </div>
+        <div class="col-md-3" ng-if="dataset.data.details.beschikbaar=='true'">
+            <div ng-if="dataset.data.details.resources && dataset.data.details.resources[0]"><a href='{{dataset.data.details.resources[0].url}}'>{{dataset.data.details.resources[0].url}}</a></div>
+        </div>
+        <div class="col-md-3" ng-if="dataset.data.details.beschikbaar=='false'">
+            <div class='floatblok'><i class="blok fa fa-times rood" title="De data is niet beschikbaar"></i> De data is niet beschikbaar</div>
+        </div>
+        <div class="col-md-6" ng-if="dataset.data.details.beschikbaar=='false'">
+            <div class="opendatastatus">
+                <div class='stoplicht {{dataset.data.details.blokkades.politiek.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Politiek"><i class="fa fa-gavel"></i></div>
+                <div class='stoplicht {{dataset.data.details.blokkades.privacy.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Privacy"><i class="fa fa-eye"></i></div>
+                <div class='stoplicht {{dataset.data.details.blokkades.techniek.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Techniek"><i class="fa fa-gears"></i></div>
+                <div class='stoplicht {{dataset.data.details.blokkades.organisatie.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Organisatie"><i class="fa fa-users"></i></div>
+                <div class='stoplicht {{dataset.data.details.blokkades.kwaliteit.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Kwaliteit"><i class="fa fa-star"></i></div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </script>
+    
+    
+    <div class="col-xs-12">
+        <div ng-repeat="sub in tree.subs | orderBy: orderProp| filter: zoeken.searchText track by $index">
+            <div class="box" style="break-inside: avoid-column">
+                <div class="box-header primary">
+                    <h3>{{sub.title}}</h3>
+                </div>
+                <div class="box-body">
+                    <div ng-repeat="sub in sub.subs | orderBy: orderProp| filter: zoeken.searchText track by $index" ng-include="'nodeTree'">
+                    </div>
+                    <ul class='treeview' style="padding-left: 0px">
+                        <li ng-repeat="node in sub.nodes | orderBy: orderProp| filter: {'visible': true} | filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-if="tree.nodes.length > 0">
+            <div class="box">
+                <div class="box-header">
+                    <h6>Zonder {{entity.path.label}}</h6>
+                </div>
+                <div class="box-body">
+                    <ul class="treeview">
+                        <li ng-repeat="node in tree.nodes | orderBy: orderProp| filter: {'visible': true}| filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

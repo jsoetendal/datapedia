@@ -42,7 +42,7 @@
                         <tr ng-repeat="dataset in data">
                             <td>
                                 <strong ng-click="copySet(dataset)" class="pointer">{{dataset.title}} <i class="fa fa-copy"></i></strong><br/>
-                                {{dataset.authority.split("/").last()}}
+                                {{dataset.authority.split("/") | last}}
                             </td>
                             <td>{{dataset.notes}}</td>
                             <td>

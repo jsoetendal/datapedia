@@ -8,6 +8,8 @@ angular.
         var self = this;
 
         this.start = function() {
+          $rootScope.backgroundImgUrl = "app/images/fietsfile.jpg";
+
           if (window.localStorage.getItem("visited")) {
             $scope.meerinfo = false;
           } else {
@@ -22,7 +24,7 @@ angular.
           //
           Nodes.loadNodes("project", function () {
             var nodes = Nodes.getNodes();
-            $scope.voorbeelden = nodes.slice(2, 5);
+            $scope.voorbeelden = nodes.slice(0, 3);
           });
         }
 

@@ -6,46 +6,96 @@ angular.
       var self = this;
       var nodes = [];
       var node = null;
-      
-       this.loadNodes = function(type, func){
-            var self = this;
 
-            var url = $rootScope.APIBase + "nodes/" + type +"/";
-            $http({
-                    method: 'GET',
-                    url: url
-                }).then(function(response) {
-                    log(response);
-                    if(response.status == 200){
-                        self.nodes = [];
-                        if(response.data){
-                            var data = response.data;
-                            for(var i in data){
-                                var h = data[i];
-                                self.nodes.push(new Node(h));
-                            }
-                        }
-                        if(func) func(type);
-                    } else {
-                        log(response);
-                    }
-                }).catch(function(fallback) {
-                    log(fallback);
-                    if(fallback.status == 401){
-                        //Refresh needed
-                    } else {
-                        alert("Mislukt om nodes op te halen");
-                    }
-                });
-       }
+          this.loadNodes = function(type, func){
+              var self = this;
 
-      this.searchNodes = function(text, func){
+              var url = $rootScope.APIBase + "nodes/" + type +"/";
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      self.nodes = [];
+                      if(response.data){
+                          var data = response.data;
+                          for(var i in data){
+                              var h = data[i];
+                              self.nodes.push(new Node(h));
+                          }
+                      }
+                      if(func) func(type);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                  } else {
+                      alert("Mislukt om nodes op te halen");
+                  }
+              });
+          }
+
+          /**
+           * Loads al nodes that are sourceId of a specific relation (defined by 'key') including a '<key>'-field including all target nodes of this relation for the specific node.
+           * @param key
+           * @param func
+           */
+          this.loadRelation = function(key, func){
+              var self = this;
+
+              var url = $rootScope.APIBase + "nodes/relation/" + key +"/";
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      self.nodes = [];
+                      if(response.data){
+                          var data = response.data;
+                          for(var i in data){
+                              var h = data[i];
+                              for(var j in data[i][key]){
+                                  //make Nodes from target nodes
+                                  data[i][key][j] = new Node(data[i][key][j]);
+                              }
+                              self.nodes.push(new Node(h));
+                          }
+                      }
+                      if(func) func(key);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                  } else {
+                      alert("Mislukt om nodes uit relatie op te halen");
+                  }
+              });
+          }
+
+          this.searchNodes = function(text, func){
           var self = this;
 
           var url = $rootScope.APIBase + "search/" + text +"/";
           $http({
               method: 'GET',
-              url: url
+              url: url,
+              headers: {
+                  'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+              }
           }).then(function(response) {
               log(response);
               if(response.status == 200){
@@ -71,6 +121,10 @@ angular.
           });
       }
 
+      this.getType = function(){
+              if(this.nodes[0]) return this.nodes[0].type;
+      }
+
        this.getNodes = function(){
            return this.nodes;
        }
@@ -81,7 +135,10 @@ angular.
               var url = $rootScope.APIBase + "node/get/" + nodeId;
               $http({
                   method: 'GET',
-                  url: url
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
               }).then(function(response) {
                   log(response);
                   if(response.status == 200){
@@ -113,7 +170,8 @@ angular.
                   url: url,
                   headers: {
                       'Content-Type': 'application/json',
-                      'Accept': 'application/json'
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
                   data: data
               }).then(function(response) {
@@ -143,7 +201,8 @@ angular.
                   url: url,
                   headers: {
                       'Content-Type': 'application/json',
-                      'Accept': 'application/json'
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
                   data: data
               }).then(function(response) {
@@ -166,7 +225,10 @@ angular.
               var url = $rootScope.APIBase + "node/delete/" + nodeId;
               $http({
                   method: 'GET',
-                  url: url
+                  url: url,
+                  headers: {
+                    'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
               }).then(function(response) {
                   if(response.status == 200){
                       if(func) func();
@@ -190,7 +252,8 @@ angular.
                   url: url,
                   headers: {
                       'Content-Type': 'application/json',
-                      'Accept': 'application/json'
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
                   data: {
                       "sourceId": sourceId,
@@ -223,7 +286,8 @@ angular.
                   url: url,
                   headers: {
                       'Content-Type': 'application/json',
-                      'Accept': 'application/json'
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
                   data: {
                       "sourceId": relatie.sourceId,
@@ -256,7 +320,10 @@ angular.
               var url = $rootScope.APIBase + "paths/" + type +"/";
               $http({
                   method: 'GET',
-                  url: url
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
               }).then(function(response) {
                   log(response);
                   if(response.status == 200){
@@ -284,7 +351,8 @@ angular.
                   url: url,
                   headers: {
                       'Content-Type': 'application/json',
-                      'Accept': 'application/json'
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
                   data: data
               }).then(function(response) {

@@ -1,10 +1,19 @@
 'use strict';
 
 // Define the `core` module
-angular.module('core', ['core.nodes']);
+angular.module('core', ['core.nodes','core.users','core.user','core.setup']);
 
 angular.
   module('core').
+  filter('plain', function() {
+        return function(text, num_chars) {
+            var str = text ? String(text).replace(/<[^>]+>/gm, '') : '';
+            if (str.length <= num_chars) { return str; }
+            const subString = str.substr(0, num_chars-1); // the original check
+            return subString.substr(0, subString.lastIndexOf(" ")) + "&hellip;";
+        };
+    }
+  ).
   filter('EUR', function() {
     return function(input) {
       return "EUR " + format_number(input);
@@ -101,7 +110,7 @@ angular.
         if(input) return input.charAt(0).toUpperCase() + input.slice(1).replace(/,/g,", ");
     };
   }).
-  filter('UCArray', function() {
+filter('UCArray', function() {
     return function(input) {
         if(input){
             if(typeof input === 'string'){
@@ -112,8 +121,51 @@ angular.
             return result.charAt(0).toUpperCase() + result.slice(1).replace(/,/g,", ");
         }
     };
-  }).
-  filter('correctTime', function() {
+}).
+filter('array', function() {
+    return function(input) {
+        if(input){
+            if(typeof input === 'string'){
+                return input;
+            }else if(typeof input === 'object' || typeof input === 'array' ){
+                return input.join(", ");
+            }
+        }
+    };
+}).
+filter('first', function(){
+    return function(input){
+        if(!Array.isArray(input)){
+            return input;
+        }else {
+            return input[0];
+        }
+    }
+}).
+filter('last', function(){
+    return function(input){
+        if(!Array.isArray(input)){
+            return input;
+        }else {
+            return input[input.length - 1];
+        }
+    }
+})
+    .filter('lastpath', function(){
+        return function(input){
+            if(!input) return null
+            if(!input.split) return null
+            var paths = input.split(";");
+            return paths[paths.length - 1];
+        }
+    })
+    .filter('path', function(){
+        return function(input){
+            if(!input) return null
+            return input.replace(";","").replace("\\"," > ").trim();
+        }
+    })
+  .filter('correctTime', function() {
     return function(input) {
         if(!input) return input;
         if(input.toUpperCase() == 'ZOJUIST') return input;

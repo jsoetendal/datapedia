@@ -1,0 +1,30 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="p-a m-b-0 _300 pointer">Uitloggen</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-body" id="view">
+        <div ng-hide="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
+            <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+                <div class="m-b text-sm">
+                    Je bent uitgelogd!
+                </div>
+                <script>
+                    setTimeout(function () {
+                        window.location.href = "#/login";
+                    }, 3000)
+                </script>
+            </div>
+        </div>
+
+        <div ng-show="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
+            <div class="p-v-lg text-center">
+                <div>Je wordt uitgelogd...</div>
+            </div>
+        </div>
+    </div>
+</div>

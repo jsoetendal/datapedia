@@ -38,11 +38,13 @@ function pad(n, width, z) {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
+/*
 if (!Array.prototype.last){
     Array.prototype.last = function(){
         return this[this.length - 1];
     };
 };
+*/
 
 function RD2WGS(x, y) {
   // Coordinates of origin (Amersfoort)

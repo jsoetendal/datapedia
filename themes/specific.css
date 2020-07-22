@@ -2,6 +2,72 @@ body {
     --primary: #e04952;
     --primary-lighter:#e04952;
     --primary-darker: #e04952;
+    background-color: white;
+    font-family:Roboto, Helvetica, Arial, Lucida, sans-serif;
+}
+
+.licht{
+    background: #e2eeee !important;
+    color: black;
+}
+
+.donker{
+    background-color:  var(--primary);
+    color: white;
+}
+
+.extradonker{
+    background-color: #1B9B93;
+    color: white;
+}
+
+.box-header.ypadding, .box-body.ypadding{
+    padding: 1rem 0px;
+}
+
+.box-header.nopadding, .box-body.nopadding{
+    padding: 0px;
+}
+
+.box-header.extragroot h2{
+    font-size: 28px;
+}
+
+header{
+}
+
+header .navbar{
+    max-width: 1440px;
+    margin: 0px auto;
+}
+
+.navbar li.nav-item a.nav-link, .navbar-brand{
+    padding: 10px 0px;
+}
+
+.navbar li.nav-item a.nav-link{
+    margin-right: 10px;
+    font-size:16px;
+    font-weight:600;
+}
+
+#app {
+}
+
+
+#content{
+    max-width: 1440px;
+    margin: 0px auto;
+}
+
+.background{
+    background-image: url("app/images/fietsfile.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 250px;
+    margin-top: 50px;
+    margin-bottom: -50px;
 }
 
 .primary {
@@ -49,4 +115,46 @@ a.text-primary:hover {  color: var(--primary-darker); }
 }
 .agentview .navbar-brand-top img{
     width: 70px;
+}
+
+.text-normal{
+    color: black;
+}
+
+h4.datapedia{
+    font-weight: 500;
+
+}
+
+.node-tile-text{
+    padding-top: 0.5rem;
+    min-height: 9rem;
+}
+
+.mralabel{
+    border-radius: 1rem;
+    border: 1px solid #e04952;
+    color: #e04952;
+    padding: 0.5rem 1.5rem !important;
+    margin-right: 0.5rem !important;
+    font-size: 90%;
+    font-weight: 500;
+}
+
+.mralabel.reverse{
+    border: 1px solid white;
+    color: white;
+}
+
+.box.frontpage{
+    min-height: 200px;
+    padding: 1em 1em 0em 1em;
+}
+
+.box.frontpage h1{
+    font-size: 32px;
+}
+
+.label {
+    vertical-align: text-top;
 }

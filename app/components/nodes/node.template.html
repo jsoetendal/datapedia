@@ -1,8 +1,8 @@
 <div class="p-a">
-    <div class="white lt box-shadow">
+    <div class="box licht lt">
         <div class="row">
             <div class="col-sm-6">
-                <h4 class="p-a m-b-0 _300 pointer" ui-sref="nodes({'type': node.type})">{{entity.plural}}</h4>
+                <h4 class="p-a m-b-0 datapedia" ui-sref="nodes({'type': node.type})">{{entity.plural}}</h4>
             </div>
             <div class="col-sm-6">
                 <div class="navbar-form form-inline navbar-item m-l v-m pull-right">
@@ -17,10 +17,18 @@
     </div>
 
     <div class="row m-t">
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-md-3 col-xl-2" ng-show="showChapter &&  view.tab == 'details'">
             <div class="box">
-                <div class="box-header">
+                <div class="box-body">
+                    <div ui-include="'app/components/custom/nodes.simpletree.accordion.template.html'"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-class="{'col-md-9': showChapter &&  view.tab == 'details', 'col-xl-10': showChapter &&  view.tab == 'details'}">
+            <div class="box ypadding">
+                <div class="box-header ypadding">
                     <div class="b-b nav-active-bg">
+                        <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
                         <ul class="nav nav-tabs pull-right" style="margin-top: 20px">
                             <li class="nav-item">
                                 <a class="nav-link" ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
@@ -36,39 +44,57 @@
                         <div style="clear: both"></div>
                     </div>
                 </div>
-                <div class="box-body">
-                    <div class="tab-content p-a m-b-md">
+                <div class="box-body ypadding">
+                    <div class="tab-content p-y m-b-md">
                         <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}">
                             <div class="row">
-                                <div class="col-xs-12 col-md-7">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
-                                            <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
-                                            <p class="m-t linebreaks" ng-bind-html="node.text"></p>
-                                            <dl>
-                                                <dt ng-repeat-start="row in entity.data" ng-hide="row.type =='custom'">{{row.label}}</dt>
-                                                <dd ng-repeat-end ng-hide="row.type =='custom'">{{node.data[row.key]}}</dd>
-                                            </dl>
+                                <div class="col-xs-12" ng-class="{'col-md-7 col-lg-8': entity.dependencies.length > 0 || entity.relations.length > 0,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 }">
+                                        <div class="row">
+                                            <div class="col-md-4" ng-if="entity.image == 'left'">
+                                                <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
+                                                <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
+                                            </div>
+                                            <div class="col-xs-12" ng-class="{'col-md-8': entity.image == 'right' || entity.image=='left'}">
+                                                <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl}}" style="width: 100%">
+                                                <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl.src}}" style="width: 100%">
+                                                <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 4rem; float: left; margin: 0px 2rem 2rem 0px">
+                                                <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl.src}}" style="height: 4rem; float: left; margin: 0px 2rem 2rem 0px">
+                                                <div ng-if="node.status == 'suggested'" class="m-t">
+                                                    <div class="label info">Suggestie</div> <span class="text-muted"><i>Let op, dit is een suggestie, nog niet voor iedereen zichtbaar.</i></span>
+                                                </div>
+                                                <p ng-class='{"m-t": entity.image == "photo"}' ng-bind-html="trustAsHtml(node.text)"></p>
+                                                <dl>
+                                                    <dt ng-repeat-start="row in entity.data" ng-if="node.data[row.key]" ng-hide="row.type =='custom'">{{row.label}}</dt>
+                                                    <dd ng-if="row.type=='url'"><a href="{{node.data[row.key]}}">{{node.data[row.key]}}</a></dd>
+                                                    <dd ng-repeat-end ng-hide="row.type =='custom' || row.type=='url'" ng-if="node.data[row.key]">{{node.data[row.key]}}</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="col-md-4" ng-if="entity.image=='right'">
+                                                <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
+                                                <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
+                                            </div>
                                         </div>
+                                    <div class="m-t" ng-if="showChapter">
+                                        <div ng-if="siblings.next" ui-sref="node({nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
+                                        <div ng-if="siblings.previous" ui-sref="node({nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
+                                        <div class="clearfix"></div>
                                     </div>
                                     <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
                                 </div>
-
-                                <div class="col-xs-12 col-md-5">
-                                    <div class='box' ng-repeat="dependency in entity.dependencies">
+                                <div class="col-xs-12 col-md-5 col-lg-4">
+                                    <div class='box donker' ng-repeat="dependency in entity.dependencies" ng-hide="dependency.view || !node.dependencies[dependency.key] || node.dependencies[dependency.key].length == 0">
                                         <!--Dit zijn relaties waar deze node de targetId is, maar relevant zijn om te tonen-->
-                                        <div class="box-header">
+                                        <div class="box-header" ng-if="!dependency.view">
                                             <h3>{{dependency.label}}</h3>
                                             <small ng-show="dependency.description" class="text-muted"><i>{{dependency.description}}</i></small>
                                         </div>
-                                        <div class="box-body">
+                                        <div class="box-body" ng-if="!dependency.view">
                                             <ul>
                                                 <li ng-repeat="dependent in node.dependencies[dependency.key]"><a ui-sref="node({nodeId: dependent.nodeId})">{{dependent.title}}</a></li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class='box' ng-repeat="relatie in entity.relations">
+                                    <div class='box donker' ng-repeat="relatie in entity.relations" ng-hide="!node.relations[relatie.key] || node.relations[relatie.key].length == 0">
                                         <div class="box-header" ng-if="!relatie.view">
                                             <h3>{{relatie.label}}</h3>
                                             <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
@@ -81,12 +107,27 @@
                                     </div>
                                 </div>
 
+
+                                <div class="col-xs-12" ng-repeat="dependency in entity.dependencies" ng-if="dependency.view">
+                                    <div ui-include="'{{dependency.view}}'"></div>
+                                </div>
                                 <div class="col-xs-12" ng-repeat="relatie in entity.relations" ng-if="relatie.view">
                                     <div ui-include="'{{relatie.view}}'"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane animated fadeIn text-muted" id="tab2"  ng-class="{'active': view.tab == 'edit'}">
+                            <div class="row">
+                                <div ng-if="!user.auth || !user.auth.authenticated" class="m-b p-a info lt">
+                                    <strong>Je bent niet ingelogd</strong><br/>Dat betekent dat je wel <span ng-hide="node.nodeId > 0">nieuwe items kan invoeren</span><span ng-show="node.nodeId > 0">wijzigingen kunt opgeven</span>, maar dat deze niet automatisch verwerkt zullen worden, maar als suggestie worden aangeboden.<br/>Wil je wel direct kunnen invoeren en wijzigen? <a ui-sref="login">Log dan in</a> of <a ui-sref="signup">maak een account aan</a>.
+                                    <!--TODO: Link opnemen naar inloggen en nieuw account -->
+                                </div>
+                                <div ng-if="user.isEditorOrUp && node.status == 'suggested'" class="m-b p-a info lt box-shadow">
+                                    <strong>Dit is een suggestie</strong><br/>Je kan dit item aanpassen (indien gewenst/nodig) en vervolgens op 'Goedkeuren & Opslaan' klikken om de suggestie te accepteren.
+                                </div>
+
+                            </div>
+
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="box">
@@ -101,8 +142,15 @@
                                                     <input type="text" class="form-control" ng-model="node.title" autocomplete="off">
                                                 </div>
                                                 <div class="form-group">
+                                                    <br/><small class="text-muted pull-right pointer" ng-hide="wysiwyg" ng-click="wysiwyg = true">Toon teksteditor</small>
+                                                    <small class="text-muted pull-right pointer" ng-show="wysiwyg" ng-click="wysiwyg = false">Toon platte tekst</small>
                                                     <label>Tekst/toelichting</label>
-                                                    <textarea ng-model="node.text" class="form-control" rows="4"></textarea>
+                                                    <!--<div ng-if="wysiwyg">-->
+                                                        <textarea ui-tinymce="tinymceOptions" ng-model="node.text"></textarea>
+                                                    <!--
+                                                    </div>
+                                                    <textarea ng-if='!wysiwyg' ng-model="node.text" class="form-control" rows="4"></textarea>
+                                                    -->
                                                 </div>
                                                 <div class="form-group" ng-if="entity.path">
                                                     <label>{{entity.path.label}}</label>
@@ -110,7 +158,7 @@
                                                         <li ng-show="path" ng-repeat="path in node.path.split(';');" class="pull-left label label-md info p-a-sm m-r-sm">{{path}} <i class="pointer fa fa-times" ng-click="deletePath(path)"></i></li>
                                                         <div style="clear: both"></div>
                                                     </ul>
-                                                    <input type="text" class="form-control" ng-model="searchPath" ng-focus='searchPathFocus = true' placeholder="Voeg {{entity.path.label|lowercase}} toe">
+                                                    <input type="text" class="form-control" ng-model="searchPath" ng-focus='searchPathFocus = true'  placeholder="Voeg {{entity.path.label|lowercase}} toe">
                                                     <div class="autosuggest m-t" ng-show="(searchPath || searchPathFocus) && results.length > 0">
                                                         <strong>Selecteer bestaande {{entity.path.label|lowercase}}:</strong>
                                                         <ul>
@@ -146,7 +194,8 @@
                                                     <div ng-if="row.type == 'custom'" ui-include="'{{row.templates.input}}'"></div>
                                                 </div>
 
-                                                <button type="submit" class="btn primary m-b">Opslaan</button>
+                                                <button type="submit" class="btn primary m-b"><span ng-if="user.isEditorOrUp && node.status == 'suggested'">Goedkeuren & </span>Opslaan</button>
+                                                <a ng-if="user.isEditorOrUp && node.status == 'suggested'" ng-click="deleteSuggestedNode()">TODO: Deze suggestie verwijderen</a>
                                             </form>
                                         </div>
                                     </div>

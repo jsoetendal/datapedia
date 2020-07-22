@@ -15,6 +15,8 @@ class NodesMapper extends Mapper
 
     function getNodesExtendedWithLabels($type){
         $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'");
+
+        //Relaties toevoegen
         $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.title FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
         $currentId = null;
         $currentKey = null;
@@ -46,7 +48,64 @@ class NodesMapper extends Mapper
             $rows[$currentPos]->$currentKey = $arr;
         }
 
+        //Idem, dependencies toevoegen
+        $dependencies = $this->db->getArray("SELECT relations.targetId, relations.key, source.nodeId, source.title FROM relations JOIN nodes as target ON (relations.targetId = target.nodeId AND target.type = '". $type ."') JOIN nodes as source ON (relations.sourceId = source.nodeId) ORDER BY targetId, `key`, title");
+        $currentId = null;
+        $currentKey = null;
+        $currentPos = null;
+        $arr = null;
+        foreach($dependencies as $relation){
+            if($relation->key != $currentKey || $relation->targetId != $currentId){
+                if($arr && $currentPos !== null && $currentKey){
+                    $rows[$currentPos]->$currentKey = $arr;
+                }
+                $arr = [];
+                $currentKey = $relation->key;
+            }
+            if($relation->targetId != $currentId){
+                $currentPos = null;
+                foreach($rows as $key => $value){
+                    if($value->nodeId == $relation->targetId){
+                        $currentPos = $key;
+                        break;
+                    }
+                }
+                $currentId = $relation->targetId;
+            }
+            $arr[] = $relation->title;
+        }
+
+        //Laatste nog toevoegen:
+        if($arr && $currentPos !== null && $currentKey){
+            $rows[$currentPos]->$currentKey = $arr;
+        }
+
+
         return $rows;
+    }
+
+    /**
+     * Returns for a specific relation (defined by $key), all Nodes that are 'source' for this relation, including a '<$key>' field including al target Nodes for this relation.
+     * N.b: It only returns nodes if they have one or more '<$key>' target Nodes
+     * @param $key
+     */
+    function getRelationNodes($key){
+        $nodes = $this->db->getArray("SELECT DISTINCT nodes.* FROM nodes JOIN relations ON (relations.sourceId = nodes.nodeId) WHERE relations.key = '". $key ."'");
+        foreach($nodes as $nodeKey => $node){
+            $nodes[$nodeKey]->$key = [];
+        }
+
+        $subs = $this->db->getArray("SELECT nodes.*, relations.sourceId FROM nodes JOIN relations ON (relations.targetId = nodes.nodeId) WHERE relations.key = '". $key ."'");
+        foreach($subs as $sub){
+            foreach($nodes as $nodeKey => $node){
+                if($node->nodeId == $sub->sourceId){
+                    unset($sub->sourceId);
+                    array_push($nodes[$nodeKey]->$key, $sub);
+                }
+            }
+        }
+
+        return $nodes;
     }
 
     function searchNodes($text){
@@ -61,6 +120,10 @@ class NodesMapper extends Mapper
      */
     function getNode($nodeId){
         $node = $this->db->returnFirst("SELECT * FROM nodes WHERE nodeId = '". $nodeId ."'");
+        if($node && trim($node->type == "")){
+            //Dit is een suggested node die hier niet gevuld is. Data uit node_versions halen
+            $node = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeId = '". $nodeId ."' ORDER BY nodeVersionId DESC");
+        }
         $node->relations = new stdClass();
         $relatedNodes = $this->db->getArray("SELECT * FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '". $nodeId ."'");
         foreach($relatedNodes as $relatedNode){
@@ -87,18 +150,23 @@ class NodesMapper extends Mapper
      */
     function getNodeSimple($nodeId){
         $node = $this->db->returnFirst("SELECT * FROM nodes WHERE nodeId = '". $nodeId ."'");
+        if($node && trim($node->type == "")){
+            //Dit is een suggested node die hier niet gevuld is. Data uit node_versions halen
+            $node = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeId = '". $nodeId ."' ORDER BY nodeVersionId DESC");
+        }
         return $node;
     }
 
-    function addNode($data){
+    function addNode($data, $token){
         $jsonData = new stdClass();
         $record = [];
         $imgAvailable = false;
         $addRelation = false;
         foreach($data as $key => $val){
-            if(in_array($key, ['type','path','title','text','datetime'])) {
+            if(in_array($key, ['type','path','title','text','created','updated'])) {
                 // in node zelf toevoegen
-                $record[$key] = escape_string($val);
+                //$record[$key] = escape_string($val);
+                $record[$key] = $this->db->escape($val);
             }elseif($key == "data"){
                 $jsonData = $data[$key];
             }elseif($key == "imgUrl") {
@@ -112,25 +180,51 @@ class NodesMapper extends Mapper
             }elseif($key == "addRelation"){
                 //Relatie toevoegen na aanmaken nieuwe node
                 $addRelation = ["sourceId" => $val["sourceId"], "key" => $val["relation"]];
-            }elseif(in_array($key, ['relations','dependencies'])){
+            }elseif(in_array($key, ['relations','dependencies','nodeVersionId'])){
                 //Ignore
             } else {
                 //in JSON van data zetten
                 $jsonData->$key = escape_string($val);
             }
         }
-        $record["datetime"] = date("Y-m-d H:i:s");
+        $record["created"] = date("Y-m-d H:i:s");
+        $record["creatorId"] = max(0, $token->getUserId()); //Wordt 0 als er geen userId is.
         $record["data"] = json_encode($jsonData);
-        $newId = $this->db->doInsert("nodes", $record);
-        if($imgAvailable){
-            $imgUrl = $this->uploadImgData($newId, (array)$data["imgUrl"]);
-            $this->db->doUpdate("nodes", ["imgUrl" => $imgUrl], ["nodeId" => $newId]);
+
+        if($token->isLoggedIn()) {
+            // Ingelogde user: meteen opnemen in nodes
+            $newId = $this->db->doInsert("nodes", $record);
+            $record["status"] = "current";
+            $record["nodeId"] = $newId;
+            $this->db->doInsert("nodes_versions", $record);
+            if ($imgAvailable) {
+                $imgUrl = $this->uploadImgData($newId, (array)$data["imgUrl"]);
+                $this->db->doUpdate("nodes", ["imgUrl" => $imgUrl], ["nodeId" => $newId]);
+                $this->db->doUpdate("nodes_versions", ["imgUrl" => $imgUrl], ["nodeId" => $newId]);
+            }
+            if ($addRelation) {
+                $addRelation["targetId"] = $newId;
+                $this->addRelation($addRelation, $token);
+            }
+            return ["nodeId" => $newId];
+        } else {
+            // Geen ingelogde user: alleen als suggestie opnemen in nodes_versions
+            //Een lege node maken om de plaats vast te reserveren in de database:
+            $newId = $this->db->doInsert("nodes", []);
+            $record["nodeId"] = $newId;
+            $record["status"] = "suggested";
+            $record["userData"] = json_encode($this->getUserData());
+            $this->db->doInsert("nodes_versions", $record);
+            if ($imgAvailable) {
+                $imgUrl = $this->uploadImgData($newId, (array)$data["imgUrl"]);
+                $this->db->doUpdate("nodes_versions", ["imgUrl" => $imgUrl], ["nodeId" => $newId]);
+            }
+            if ($addRelation) {
+                $addRelation["targetId"] = $newId;
+                $this->addRelation($addRelation, $token);
+            }
+            return ["nodeId" => $newId];
         }
-        if($addRelation){
-            $addRelation["targetId"] = $newId;
-            $this->addRelation($addRelation);
-        }
-        return ["nodeId" => $newId];
     }
 
     function addNodes($data){
@@ -141,7 +235,7 @@ class NodesMapper extends Mapper
         return $results;
     }
 
-    function saveNode($data){
+    function saveNode($data, $token){
         $data["data"] = json_encode($data["data"]);
         $arr = (array) $data;
 
@@ -153,11 +247,26 @@ class NodesMapper extends Mapper
         }
 
         //Ignore elements that do not need to be saved:
+        unset($arr["nodeVersionId"]);
         unset($arr["relations"]);
         unset($arr["dependencies"]);
         unset($arr["visible"]);
 
-        $this->db->doUpdate("nodes", $arr, ["nodeId" => $data["nodeId"]]);
+        $arr["updated"] = date("Y-m-d H:i:s");
+        $arr["updaterId"] = max(0, $token->getUserId());
+
+        if($token->isLoggedIn() && ($arr["status"] != "suggested" || $token->isEditorOrUp())) {
+            $status = $arr["status"];
+            unset($arr["status"]);
+            $this->db->doUpdate("nodes", $arr, ["nodeId" => $data["nodeId"]]);
+            $this->db->doSQL("UPDATE nodes_versions SET status='previous' WHERE nodeId = '". $data["nodeId"]. "' AND (status = 'current' OR status = '". $status."')"); //Laatste indien huidige status suggested is
+            $arr["status"] = "current";
+            $this->db->doUpdate("nodes_versions", $arr, ["nodeId" => $data["nodeId"]]);
+        } else {
+            $arr["status"] = "suggested";
+            $record["userData"] = json_encode($this->getUserData());
+            $this->db->doInsert("nodes_versions", $arr, ["nodeId" => $data["nodeId"]]);
+        }
     }
 
     /**
@@ -223,6 +332,28 @@ class NodesMapper extends Mapper
     function deleteNode($nodeId){
         $this->db->doSQL("DELETE FROM nodes WHERE nodeId = ". $nodeId);
         $this->db->doSQL("DELETE FROM relations WHERE sourceId = ". $nodeId ." OR targetId = ". $nodeId);
+    }
+
+    function getUserData(){
+        $result = new StdClass();
+
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+            if (array_key_exists($key, $_SERVER) === true){
+                foreach (explode(',', $_SERVER[$key]) as $ip){
+                    $ip = trim($ip); // just to be safe
+
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                        $result->ip = $ip;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(isset($_SERVER['HTTP_USER_AGENT'])) {
+            $result->useragent = $_SERVER['HTTP_USER_AGENT'];
+        }
+        return $result;
     }
 }
 ?>

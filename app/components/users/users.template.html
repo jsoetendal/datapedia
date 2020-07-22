@@ -1,0 +1,139 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="p-a m-b-0 _300 pointer" ui-sref="nodes({'type': node.type})">Gebruikers</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-t">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3>Users</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Naam</th>
+                                <th>Emailadres</th>
+                                <th>Rol/permissie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in users" class="pointer" ng-click="selectUser(user)" ng-class="{'strong': user.id == currentUser.id}">
+                                <td>{{user.id}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.role}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-t">
+        <div class="col-xs-12 col-md-6">
+            <div class="box" ng-if="currentUser">
+                <div class="box-header">
+                    <a ng-click="selectUser(null)" class="pull-right"><i class="fa fa-times text-danger"></i></a>
+                    <h3>Gebruiker aanpassen</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row m-b">
+                        <form name="form" ng-submit="editUser(currentUser, password1, password2)" autocomplete="off">
+                            <div class="col-xs-12">
+                                <div class="m-b text-sm">
+                                    Wijzig de bestaande gebruiker:
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <input type="text" class="form-control md-input" ng-model="currentUser.name" required>
+                                    <label>Naam</label>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <input type="email" class="form-control md-input" ng-model="currentUser.email" required>
+                                    <label>Emailadres</label>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <select class="form-control md-input" ng-model="currentUser.role" required>
+                                        <option value="contributor">Contributor</option>
+                                        <option value="editor">Editor</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                    <label>Rol/permissies</label>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="password1" class="col-sm-2 form-control-label">Wachtwoord</label>
+                                    <div class="col-sm-10">
+                                        <input name="disable-pwd-mgr-1" type="password" id="disable-pwd-mgr-1" style="display: none;" value="disable-pwd-mgr-1" />
+                                        <input name="disable-pwd-mgr-2" type="password" id="disable-pwd-mgr-2" style="display: none;" value="disable-pwd-mgr-2" />
+                                        <input name="disable-pwd-mgr-3" type="password" id="disable-pwd-mgr-3" style="display: none;" value="disable-pwd-mgr-3" />
+                                        <input type="password" class="form-control" id="password1" ng-model="password1" placeholder="Laat leeg om wachtwoord niet te wijzigen" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="password2" class="col-sm-2 form-control-label">Wachtwoord (ter bevestiging)</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="password2" ng-model="password2" placeholder="Laat leeg om wachtwoord niet te wijzigen" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <span class="label label-lg red">{{errormsg}}</span>
+                                    <span class="label label-lg blue">{{infomsg}}</span>
+                                </div>
+                                <button type="submit" class="btn primary pull-right">Wijzigen</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="box" ng-if="!currentUser">
+                <div class="box-header">
+                    <h3>Nieuwe user aanmaken</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row m-b">
+                        <form name="form" ng-submit="createUser()" autocomplete="off">
+                            <div class="col-xs-12">
+                                <div class="m-b text-sm">
+                                    Maak een nieuwe gebruiker aan:
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <input type="text" class="form-control md-input" ng-model="new_user_name" required>
+                                    <label>Naam</label>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <input type="email" class="form-control md-input" ng-model="new_user_email" required>
+                                    <label>Emailadres</label>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <select class="form-control md-input" ng-model="new_user_role" required>
+                                        <option value="contributor">Contributor</option>
+                                        <option value="editor">Editor</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                    <label>Rol/permissies</label>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    Je hoeft geen wachtwoord in te voeren.<br/>De nieuwe gebruiker ontvangt een link waarmee hij/zij zelf een wachtwoord kan bepalen.
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <span class="label label-lg red">{{errormsg}}</span>
+                                    <span class="label label-lg blue">{{infomsg}}</span>
+                                </div>
+                                <button type="submit" class="btn primary pull-right">Aanmaken</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div ng-if="nodesLoaded" class="row m-t">
+    <script type="text/ng-template" id="nodeTree">
+        <div style='padding-left: 20px' ng-hide="resultingNodes.length == 0 && resultingSubs.length == 0">
+            <h6>{{sub.title}}</h6>
+            <div ng-repeat="sub in sub.subs | orderBy: orderProp | filter: zoeken.searchText as resultingSubs track by $index" ng-include="'nodeTree'" ng-hide="">
+            </div>
+            <ul class="treeview" style="padding-left: 0px">
+                <li ng-repeat="node in sub.nodes | filter: {'visible': true} | filter: zoeken.searchText  as resultingNodes track by $index" ng-include="'nodeLeaf'">
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="nodeLeaf">
+        <a ui-sref="node({nodeId: node.nodeId})" class="pointer" ng-class="{ 'text-muted': !node.dataset || node.dataset.length == 0}">{{node.title}}</a>
+        <span ng-if="node.dataset.length > 0" class="label rounded extradonker">{{node.dataset.length}}</span>
+    </script>
+
+    <div class="col-xs-12 columns3">
+        <div ng-repeat="sub in tree.subs | orderBy: orderProp| filter: zoeken.searchText track by $index">
+            <div class="box" style="break-inside: avoid-column">
+                <div class="box-header primary">
+                    <h3>{{sub.title}}</h3>
+                </div>
+                <div class="box-body">
+                    <div ng-repeat="sub in sub.subs | orderBy: orderProp| filter: zoeken.searchText track by $index" ng-include="'nodeTree'">
+                    </div>
+                    <ul class='treeview' style="padding-left: 0px">
+                        <li ng-repeat="node in sub.nodes | orderBy: orderProp| filter: {'visible': true} | filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-xl-4" ng-if="tree.nodes.length > 0">
+            <div class="box">
+                <div class="box-header">
+                    <h6>Zonder {{entity.path.label}}</h6>
+                </div>
+                <div class="box-body">
+                    <ul class="treeview">
+                        <li ng-repeat="node in tree.nodes | orderBy: orderProp| filter: {'visible': true}| filter: zoeken.searchText track by $index" ng-include="'nodeLeaf'"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

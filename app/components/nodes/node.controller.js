@@ -3,9 +3,10 @@ angular.
   module('app').
   component('node', {
     templateUrl: 'app/components/nodes/node.template.html',
-    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$sanitize',
-      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $sanitize) {
+    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$sanitize', '$sce',
+      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $sanitize, $sce) {
         var self = this;
+        $scope.user = $rootScope.setup.user;
 
         this.loadNode = function(nodeId){
             $scope.node = null;
@@ -23,6 +24,13 @@ angular.
                 $scope.loaded = true;
                 console.log($scope.entity);
                 if($scope.view.tab == "edit") $scope.startEdit();
+
+                if($scope.entity.views[0] == 'chapters'){
+                    self.loadTree();
+                    $scope.showChapter = true;
+                } else {
+                    $scope.showChapter = false;
+                }
             });
         }
 
@@ -47,7 +55,52 @@ angular.
             }
         }
 
+        this.loadTree = function() {
+            //Als de view 'chapters' is, dan ook de 'inhoudsopgave' downloaden
+
+            Nodes.loadNodes($scope.entity.type, function (type) {
+                $scope.nodes = Nodes.getNodes();
+
+                //Vind volgende en vorige
+                $scope.siblings = {'previous': null, 'next': null, 'nodes': []}
+                for (var i in $scope.nodes) {
+                    if ($scope.nodes[i].path == $scope.node.path && $scope.nodes[i].nodeId != $scope.nodeId) {
+                        $scope.siblings.nodes.push($scope.nodes[i]);
+                        if ((!$scope.siblings.previous || $scope.nodes[i].created > $scope.siblings.previous.created) && $scope.nodes[i].created < $scope.node.created) {
+                            $scope.siblings.previous = $scope.nodes[i];
+                        }
+                        if ((!$scope.siblings.next || $scope.nodes[i].created < $scope.siblings.next.created) && $scope.nodes[i].created > $scope.node.created) {
+                            $scope.siblings.next = $scope.nodes[i];
+                        }
+                    }
+                }
+                //load Tree
+                Nodes.createTree(function (tree) {
+                    $scope.tree = tree;
+                    for(var i in tree.subs){
+                        if($scope.node.path.split(";").indexOf(tree.subs[i].title) >= 0){
+                            tree.subs[i].open = true;
+                            if(!$scope.siblings.next && tree.subs[parseInt(i) + 1] && tree.subs[parseInt(i) + 1].nodes.length > 0){
+                                //Als next net niet gevonden, dan het eerste artikel van het volgende hoofdstuk alsnog next maken
+                                $scope.siblings.next = tree.subs[parseInt(i)+1].nodes[0];
+                            }
+                            if(!$scope.siblings.previous && tree.subs[parseInt(i) - 1] && tree.subs[parseInt(i) - 1].nodes.length > 0){
+                                //Als next net niet gevonden, dan het eerste artikel van het volgende hoofdstuk alsnog next maken
+                                $scope.siblings.previous = tree.subs[parseInt(i)-1].nodes[tree.subs[parseInt(i)-1].nodes.length - 1];
+                            }
+                        }
+                    }
+
+                    console.log($scope.siblings);
+                });
+
+            });
+        }
+
         $scope.startEdit = function() {
+            //Set options for text-editor
+            $scope.wysiwyg = false;
+
             //Load all possible relations
             if (!$scope.relations || $scope.relations.length == 0) {
                 $scope.relations = {};
@@ -219,7 +272,27 @@ angular.
             $scope.setTab("details");
         }
 
-        if(this.nodeId && $state.current.name != "node.newrelated") {
+          $scope.trustAsHtml = function(string) {
+              return $sce.trustAsHtml(string);
+          };
+
+          //https://www.tiny.cloud/docs/advanced/editor-control-identifiers/#toolbarcontrols
+          $scope.tinymceOptions = {
+              paste_as_text: true,
+              height: 720,
+              indent: false,
+              inline: false,
+              menubar: false,
+              plugins : 'advlist autolink link image lists charmap print preview paste media code textcolor',
+              toolbar: [
+                  'pastetext | undo redo | styleselect | bold italic forecolor | link image media | bullist numlist | alignleft aligncenter alignright | code'
+              ],
+              skin: 'lightgray',
+              theme : 'modern'
+          };
+
+
+          if(this.nodeId && $state.current.name != "node.newrelated") {
             this.loadNode(this.nodeId);
         } else {
             this.emptyNode($stateParams.type, $stateParams.relation);

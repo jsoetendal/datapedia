@@ -84,6 +84,10 @@ body{
     font-family: Arial, sans-serif;
 }
 
+iframe{
+    border: none;
+}
+
 #topmessage{
     position: fixed;
     top: 0px;
@@ -371,7 +375,7 @@ div.score div{
 }
 div.score div.rood{ background: red; color: white;}
 div.score div.oranje{ background: orange; color: white;}
-div.score div.groen{ background: green; color: white;}
+div.score div.groen{ background: #44FF44; color: white;}
 div.score div.blauw{ background: #9ecae1; color: white;}
 
 form table{
@@ -454,7 +458,7 @@ div.stoplicht{
 
 div.stoplicht.rood{ background: red}
 div.stoplicht.oranje{ background: orange}
-div.stoplicht.groen{ background: green}
+div.stoplicht.groen{ background: #44FF44}
 
 textarea.toelichting{
     width: 100%;
@@ -672,4 +676,13 @@ input[type="checkbox"],input[type="radio"]{
 
 .linebreaks{
     white-space: pre-wrap;
+}
+
+.strong{
+    font-weight: bold;
+}
+
+ul.tree.accordion{
+    padding: 0px;
+    margin: 0px 0px 0px 10px;
 }

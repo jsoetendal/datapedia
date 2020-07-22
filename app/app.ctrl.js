@@ -14,20 +14,24 @@
       .controller('AppCtrl', AppCtrl);
 
 
-      AppCtrl.$inject  = ['$scope', '$location', '$rootScope', '$timeout', '$window', '$http'];
+      AppCtrl.$inject  = ['$scope', '$location', '$rootScope', '$timeout', '$window', '$http', '$state', 'Setup'];
 
-      function AppCtrl($scope, $location, $rootScope, $timeout, $window, $http) {
+      function AppCtrl($scope, $location, $rootScope, $timeout, $window, $http, $state, Setup) {
 
         $rootScope.APIBase = "http://localhost/datapedia/api/public/";
+        $rootScope.wwwBase = "http://localhost/datapedia/";
         $rootScope.topHeader = "Smart Mobility";
 
-        var fname = "app/settings.json";
-        $http.get(fname).then(function(response) {
-          if(response.data){
-            $rootScope.settings = response.data;
-            console.log($rootScope.settings)
-          }
-        });
+        $rootScope.backgroundImgUrl = "https://smartmobilitymra.nl/wp-content/uploads/2019/07/Fietsfiles_Amsterdam_Centrum_3758.jpg";
+        $rootScope.setup = Setup;
+        $rootScope.setup.initialize();
+
+        $scope.user = $rootScope.setup.user;
+
+        $scope.doLogin = function(){
+          $rootScope.setup.doLogin($scope);
+        }
+
 
         $scope.goBack = function () {
           $window.history.back();
@@ -40,14 +44,13 @@
           return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
-        $rootScope.$on('$stateChangeSuccess', hideOpenMenu);
+        $rootScope.$on('$stateChangeSuccess', function(event, state, params){
+          $rootScope.state = {
+            "name": state.name,
+            "params": params
+          }
+        });
 
-        function hideOpenMenu() {
-          // hide open menu
-          //$('#aside').modal('hide');
-          //$('body').removeClass('modal-open').find('.modal-backdrop').remove();
-          //$('.navbar-toggleable-sm').collapse('hide');
-        };
 
         //JS: hide modal-backdrop on click
         $(document).on('click', '#aside', function (e) {
@@ -65,6 +68,10 @@
           $active = $li.siblings( ".active" );
           $li.toggleClass('active');
           $active.removeClass('active');
+        });
+
+        angular.element($window).bind("scroll", function() {
+          $scope.$apply($scope.scrolledDown = this.pageYOffset > 10 ? true : false);
         });
       }
 })();

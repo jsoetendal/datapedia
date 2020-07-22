@@ -1,29 +1,28 @@
 <div class="p-a">
-    <div class="white lt box-shadow" ng-if="type == 'zoeken'">
-        <div class="row">
-            <div class="col-sm-12">
-                        <h4 class="p-a m-b-0 _300">Zoeken</h4>
-                        <div class="navbar">
-                            <form class="navbar-form form-inline navbar-item v-m" role="search" ng-submit="onSearch()">
-                                <div class="form-group l-h m-a-0">
-                                    <div class="input-group input-group-md">
-                                        <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="zoeken.q" placeholder="Zoeken in alles..." style="">
-                                        <span class="input-group-btn">
-                                            <button type="submit" class="btn white b-a no-shadow"><i class="fa fa-search"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </form>
-                            <div style="clear:both"></div>
+    <div class="box" ng-if="type == 'zoeken'">
+        <div class="box-header extragroot extradonker">
+            <div class="navbar pull-right text-normal">
+                <form class="navbar-form form-inline navbar-item v-m" role="search" ng-submit="onSearch()">
+                    <div class="form-group l-h m-a-0">
+                        <div class="input-group input-group-md">
+                            <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="zoeken.q" placeholder="Zoeken in alles..." style="min-width: 360px; height: 3rem">
+                            <span class="input-group-btn">
+                            <button type="submit" class="btn white b-a no-shadow" style="height: 3rem"><i class="fa fa-search"></i></button>
+                        </span>
                         </div>
+                    </div>
+                </form>
+                <div style="clear:both"></div>
             </div>
+            <h2>Zoeken</h2>
+            <small>Zoek in alle beschikbare gegevens (data, voorbeelden, organisaties, etc.)</small>
         </div>
     </div>
 
-    <div class="white lt box-shadow" ng-if="type != 'zoeken'">
+    <div class="licht lt" ng-if="type != 'zoeken'">
         <div class="row">
             <div class="col-sm-6">
-                <h4 class="p-a m-b-0 _300">{{entity.plural}}</h4>
+                <h4 class="p-a m-b-0 datapedia">{{entity.plural}}</h4>
             </div>
             <div class="col-sm-6">
                 <form class="navbar-form form-inline navbar-item m-l v-m pull-right" role="search">
@@ -40,15 +39,21 @@
                     </div>
                 </form>
                 <ul class="nav navbar-nav pull-right m-r">
+                    <li class="nav-item dropdown" ng-show="entity.facet.optional">
+                        <a class="nav-link" ng-click="toggleFacet()">
+                            <span>Filteren</span>
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle clear" href="" data-toggle="dropdown" aria-expanded="false">
                             <span>Weergave</span>
                         </a>
                         <ul class="dropdown-menu pull-right ng-scope p-a" style="white-space: nowrap">
-                            <li><a ng-click="setView('tile')"><i class="fa fa-th text-md m-r"></i> Tegels</a></li>
-                            <li><a ng-click="setView('list')"><i class="fa fa-bars text-md m-r"></i> Lijst</a></li>
-                            <li><a ng-click="setView('tree')"><i class="fa fa-list text-md m-r"></i> Kolommen</a></li>
-                            <li><a ng-click="setView('facet')"><i class="fa fa-columns text-md m-r"></i> Filter</a></li>
+                            <li ng-hide="entity.views.indexOf('custom') == -1"><a ng-click="setView('custom')"><i class="fa fa-info text-md m-r"></i> {{entity.plural}}</a></li>
+                            <li ng-hide="entity.views.indexOf('tile') == -1"><a ng-click="setView('tile')"><i class="fa fa-th text-md m-r"></i> Tegels</a></li>
+                            <li ng-hide="entity.views.indexOf('list') == -1"><a ng-click="setView('list')"><i class="fa fa-bars text-md m-r"></i> Lijst</a></li>
+                            <li ng-hide="entity.views.indexOf('tree') == -1"><a ng-click="setView('tree')"><i class="fa fa-list text-md m-r"></i> Kolommen</a></li>
+                            <li ng-hide="entity.views.indexOf('chapters') == -1"><a ng-click="setView('chapters')"><i class="fa fa-book text-md m-r"></i> Artikelen</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -56,8 +61,9 @@
                             <span>Toevoegen</span>
                         </a>
                         <ul class="dropdown-menu pull-right ng-scope p-a" style="white-space: nowrap">
-                            <li><a ng-click="addNode()"><i class="fa fa-plus m-r"></i> Een item</a></li>
-                            <li><a ui-sref="import({type: entity.type})"><i class="fa fa-upload m-r"></i> Lijst importeren</a></li>
+                            <li><a ng-click="addNode()"><i class="fa fa-plus m-r"></i> {{entity.single}}</a></li>
+                            <li><a ui-sref="import({type: entity.type})" ng-if="user.isContributorOrUp"><i class="fa fa-upload m-r"></i>
+                                {{entity.plural}} importeren</a></li>
                         </ul>
                     </li>
                 </ul>

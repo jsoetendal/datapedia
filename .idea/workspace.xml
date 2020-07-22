@@ -2,29 +2,48 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/classes/DataMapper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/import/dataoverheid.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/import/dataoverheid.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/classes/Auth.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/dataset.dependencies.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/dataset.list.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/datatop15.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/datatop15.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/nodes.simpletree.accordion.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/onderwerp.kolommen.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/relation.dataset.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/main/login.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/main/login.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/main/logoff.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/main/logoff.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/users/user.model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/users/users.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/users/users.model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/users/users.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/settings/jwt-decode.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/settings/setup.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/settings/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/public/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/classes/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/classes/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/classes/NodesMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/classes/NodesMapper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.ctrl.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.ctrl.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.module.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.details.edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.details.edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.details.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.details.view.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/import/dataoverheid.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/import/dataoverheid.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/main.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/main.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/node.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/node.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/core.module.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/standard.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/standard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/themes/specific.css" beforeDir="false" afterPath="$PROJECT_DIR$/themes/specific.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,9 +52,7 @@
   </component>
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/api/composer.json</pharConfigPath>
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -65,6 +82,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="JavaScript File" />
         <option value="HTML File" />
       </list>
     </option>
@@ -90,7 +108,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -99,15 +116,18 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/import" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JQL" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/custom" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\app\components\custom" />
       <recent name="C:\www\datapedia\app\components\import" />
       <recent name="C:\www\smartmobilitydata\app\components\nodes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\app\settings" />
       <recent name="C:\www\smartmobilitydata\app" />
     </key>
   </component>
@@ -176,21 +196,48 @@
       <workItem from="1589265471046" duration="5063000" />
       <workItem from="1589352872729" duration="12867000" />
       <workItem from="1589537354137" duration="10000" />
+      <workItem from="1589800684215" duration="3106000" />
+      <workItem from="1589804433437" duration="10636000" />
+      <workItem from="1589871665846" duration="1233000" />
+      <workItem from="1589962537721" duration="15866000" />
+      <workItem from="1590134868036" duration="2524000" />
+      <workItem from="1590159392171" duration="25000" />
+      <workItem from="1590352114959" duration="336000" />
+      <workItem from="1590395349891" duration="8135000" />
+      <workItem from="1590433038167" duration="143000" />
+      <workItem from="1590589877509" duration="8229000" />
+      <workItem from="1590652989960" duration="6171000" />
+      <workItem from="1591611105510" duration="7835000" />
+      <workItem from="1591789786150" duration="2325000" />
+      <workItem from="1591906570312" duration="10000" />
+      <workItem from="1591944091141" duration="3646000" />
+      <workItem from="1592231380154" duration="4449000" />
+      <workItem from="1592904967740" duration="8874000" />
+      <workItem from="1592924528803" duration="7855000" />
+      <workItem from="1592981758460" duration="8096000" />
+      <workItem from="1592991439706" duration="14714000" />
+      <workItem from="1593067149677" duration="601000" />
+      <workItem from="1593088067061" duration="11229000" />
+      <workItem from="1594043010368" duration="6355000" />
+      <workItem from="1594191221449" duration="18439000" />
+      <workItem from="1594799293556" duration="3327000" />
+      <workItem from="1594842513032" duration="660000" />
+      <workItem from="1595333861765" duration="5498000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1547" y="370" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589353040024">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1547" y="370" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1589353040024" />
-    <state x="1060" y="451" key="FileChooserDialogImpl" timestamp="1581326381586">
+    <state x="1060" y="450" key="FileChooserDialogImpl" timestamp="1593000235267">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
-    <state x="1060" y="451" key="FileChooserDialogImpl/0.0.2560.1410@0.0.2560.1410" timestamp="1581326381586" />
+    <state x="1060" y="450" key="FileChooserDialogImpl/0.0.2560.1410@0.0.2560.1410" timestamp="1593000235267" />
     <state width="196" height="457" key="HiddenNamespacesPopup" timestamp="1589353043946">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
@@ -199,20 +246,23 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1098" y="539" key="NewPhpClassDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1589265958300" />
-    <state x="988" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1589537355366">
+    <state x="1114" y="636" key="NewPhpFileDialog" timestamp="1590593019542">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
-    <state x="741" y="395" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1585659734203" />
-    <state x="988" y="531" key="com.intellij.ide.util.TipDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1589537355366" />
-    <state x="774" y="505" width="586" height="488" key="find.popup" timestamp="1586358477406">
+    <state x="1114" y="636" key="NewPhpFileDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1590593019542" />
+    <state x="988" y="532" key="com.intellij.ide.util.TipDialog" timestamp="1593067151948">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="741" y="395" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1590670641121" />
+    <state x="988" y="532" key="com.intellij.ide.util.TipDialog/0.0.2560.1410@0.0.2560.1410" timestamp="1593067151948" />
+    <state x="1822" y="612" width="586" height="534" key="find.popup" timestamp="1594200546695">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="581" y="376" width="721" height="488" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1586118225477" />
-    <state x="774" y="505" width="586" height="488" key="find.popup/0.0.2560.1410@0.0.2560.1410" timestamp="1586358477406" />
-    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1588750840161">
+    <state x="1822" y="612" width="586" height="534" key="find.popup/0.0.2560.1410@0.0.2560.1410" timestamp="1594200546695" />
+    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1594216826861">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
-    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1584653862528" />
-    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410@0.0.2560.1410" timestamp="1588750840161" />
+    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410@0.0.2560.1410" timestamp="1594216826861" />
   </component>
 </project>

@@ -24,6 +24,18 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+          .state('login', {
+              url: "/login",
+              template: "<login class='controllermodule'></login>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('logoff', {
+              url: "/logoff",
+              template: "<logoff class='controllermodule'></logoff>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
           .state('nodes', {
               url: "/nodes/{type}",
               template: "<nodes class='controllermodule'></nodes>",
@@ -59,6 +71,12 @@ angular.
               controller: ['$scope','$stateParams', function($scope, $stateParams){
               }]
           })
+          .state('relation', {
+              url: "/relation/{key}",
+              template: "<nodes class='controllermodule'></nodes>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
           .state('import', {
               url: "/import/{type}",
               template: "<import class='controllermodule'></import>",
@@ -71,13 +89,25 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+          .state('datatop15', {
+              url: "/datatop15",
+              template: "<datatop15 class='controllermodule'></datatop15>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
           .state('nodes.query', {
               url: "/{q}",
               template: "",
               controller: ['$scope', function($scope) {
               }]
           })
-  }]);
+          .state('users', {
+              url: "/users",
+              template: "<users class='controllermodule'></users>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+}]);
   //Zoeken naar: ui-router! Docs: https://github.com/angular-ui/ui-router/wiki
   
 angular.
@@ -95,4 +125,3 @@ angular.
         }
     }]
   );
-

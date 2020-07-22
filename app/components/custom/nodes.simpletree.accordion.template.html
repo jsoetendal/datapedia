@@ -1,0 +1,12 @@
+<div class="box m-b-xs panel-default" ng-repeat="chapter in tree.subs">
+    <div class="box-header pointer primary" ng-click="chapter.open = !chapter.open">
+        <h4 class="panel-title">
+            {{chapter.title}}
+        </h4>
+    </div>
+    <div class="box-body" ng-show="chapter.open">
+        <ul class="tree accordion">
+            <li ng-repeat='article in chapter.nodes'><a ui-sref="node({'nodeId': article.nodeId})" ng-class="{'strong': article.nodeId == node.nodeId}">{{article.title}}</a></li>
+        </ul>
+    </div>
+</div>

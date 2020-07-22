@@ -4,12 +4,16 @@
 </div>
 <div class="box-body">
     <div class="row" ng-repeat="related in node.relations[relatie.key]">
+        <div class="col-xs-12" ng-if="$index == 0 || list[$index -1].data.details.beschikbaar != related.data.details.beschikbaar" ng-class="{'m-t-2': $index > 0}">
+            <strong ng-show="related.data.details.beschikbaar=='true'">Beschikbare datasets</strong>
+            <strong ng-hide="related.data.details.beschikbaar=='true'">Nog niet beschikbare datasets</strong>
+        </div>
         <div class="col-md-3">
             <a  ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" ng-if="related.data.details.beschikbaar=='true'">
             <div class='floatblok' ng-show="related.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>
-            <div class='floatblok' ng-hide="related.data.details.beschikbaar=='true'"><i class="blok fa fa-check rood" title="De data is niet beschikbaar"></i></div>
+            <div class='floatblok' ng-hide="related.data.details.beschikbaar=='true'"><i class="blok fa fa-times rood" title="De data is niet beschikbaar"></i></div>
 
             <div class='floatblok' ng-show="related.data.details.online.waarde == 'true'"><i class="blok fa fa-download groen" title="De data is online beschikbaar"></i></div>
             <div class='floatblok' ng-hide="related.data.details.online.waarde == 'true'"><i class="blok fa fa-download rood" title="De data is niet online beschikbaar"></i></div>
@@ -34,11 +38,24 @@
             <div class='floatblok'  ng-show="related.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye groen" title="De data is voor iedereen toegankelijk, zonder registratie"></i></div>
             <div class='floatblok'  ng-hide="related.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye rood" title="De data is niet voor iedereen toegankelijk zonder registratie"></i></div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" ng-if="related.data.details.beschikbaar=='true'">
             {{related.data.details.geoscope.optie}} <span ng-show="related.data.details.geoscope.toelichting">({{related.data.details.geoscope.toelichting}})</span>
         </div>
-        <div class="col-md-3">
-            <div ng-if="related.data.details.resources && related.data.details.resources[0]"><i class='tekstl fa fa-link'></i> <a href='{{related.data.details.resources[0].url}}'>{{related.data.details.resources[0].url}}</a></div>
+        <div class="col-md-3" ng-if="related.data.details.beschikbaar=='true'">
+            <div ng-if="related.data.details.resources && related.data.details.resources[0]"><a href='{{related.data.details.resources[0].url}}'>{{related.data.details.resources[0].url}}</a></div>
+        </div>
+        <div class="col-md-3" ng-if="related.data.details.beschikbaar=='false'">
+            <div class='floatblok'><i class="blok fa fa-times rood" title="De data is niet beschikbaar"></i> De data is niet beschikbaar</div>
+        </div>
+        <div class="col-md-6" ng-if="related.data.details.beschikbaar=='false'">
+            <div class="opendatastatus">
+                <div class='stoplicht {{related.data.details.blokkades.politiek.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Politiek"><i class="fa fa-gavel"></i></div>
+                <div class='stoplicht {{related.data.details.blokkades.privacy.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Privacy"><i class="fa fa-eye"></i></div>
+                <div class='stoplicht {{related.data.details.blokkades.techniek.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Techniek"><i class="fa fa-gears"></i></div>
+                <div class='stoplicht {{related.data.details.blokkades.organisatie.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Organisatie"><i class="fa fa-users"></i></div>
+                <div class='stoplicht {{related.data.details.blokkades.kwaliteit.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Kwaliteit"><i class="fa fa-star"></i></div>
+                <div style="clear: both"></div>
+            </div>
         </div>
     </div>
 </div>
