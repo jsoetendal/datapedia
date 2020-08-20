@@ -140,13 +140,11 @@ class Auth{
 
         $tokenStr = $accessToken->encode();
 
-        $url = "https://localhost/datapedia/#/passwordreset/1/" . $tokenStr;
+        $url = "https://test.datapedia.nl/#/passwordreset/1/" . $tokenStr;
         $link = "<a href='". $url ."'>Inloggen en wachtwoord bedenken</a>";
 
-        if(trim($mail) <> ""){
-            $mail = str_replace(["{{voornaam}}","{{achternaam}}","{{emailadres}}","https://". $regio->slug .".copaan.nl/","{{link}}"],[$firstname, $lastname, $email,"<a href='https://". $regio->slug .".copaan.nl'>". $regio->slug .".copaan.nl</a>",$link],$mail);
-
-            $mail = "Er is een account aangemaakt voor Datapedia voor dit e-mailadres. \n\n Je kunt nu een wachtwoord instellen op deze link: ". $link;
+        if(trim($email) <> ""){
+            $mail = "Hallo ". $name .",\n\nWelkom bij de Datapedia Smart Mobility!\n\nEr is een account aangemaakt voor Datapedia voor dit e-mailadres. \n\n Je kunt nu een wachtwoord instellen op deze link: ". $link;
             $mail .= "\n\nBovenstaande link is beperkt geldig.\nHeb je geen verzoek gedaan? Je kan deze mail dan negeren, of bij herhaaldelijke mails contact opnemen met info@datapedia.nl";
 
 
@@ -161,7 +159,7 @@ class Auth{
 
             $m = new Mail([
                     "email" => $email,
-                    "subject" => "Inloggegevens Datapedia",
+                    "subject" => "Inloggegevens Datapedia Smart Mobility",
                     "text" => $mail,
                     "html" => $html,
                     "reply_to" => "info@datapedia.nl"

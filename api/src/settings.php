@@ -13,12 +13,12 @@ return [
             'name' => 'slim-app',
             'path' => __DIR__ . '/../logs/app.log',
         ],
-        
+
         'db' => [
-            'host' => "localhost",
-            'user' => "nodes",
-            'pass' => "nodes",
-            'dbname' => "nodes"
+            'host' => getenv('DB_HOST'),
+            'user' => getenv('DB_USER'),
+            'pass' => getenv('DB_PASS'),
+            'dbname' => getenv('DB_DATABASE')
         ],
 
         'media' => [

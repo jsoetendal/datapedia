@@ -147,8 +147,19 @@ h4.datapedia{
 }
 
 .box.frontpage{
-    min-height: 200px;
+    min-height: 230px;
     padding: 1em 1em 0em 1em;
+}
+
+@media (max-width: 1240px){
+    .box.frontpage{
+        min-height: 270px;
+    }
+}
+@media (max-width: 991px){
+    .box.frontpage{
+        min-height: 310px;
+    }
 }
 
 .box.frontpage h1{

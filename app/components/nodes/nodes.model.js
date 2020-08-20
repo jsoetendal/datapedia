@@ -36,6 +36,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadNodes(type,func);
+                      });
                   } else {
                       alert("Mislukt om nodes op te halen");
                   }
@@ -80,6 +83,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadRelation(key, func);
+                      });
                   } else {
                       alert("Mislukt om nodes uit relatie op te halen");
                   }
@@ -115,6 +121,9 @@ angular.
               log(fallback);
               if(fallback.status == 401){
                   //Refresh needed
+                  $rootScope.setup.user.refreshUser(function(){
+                      self.searchNodes(text, func);
+                  });
               } else {
                   alert("Mislukt om te zoeken in nodes");
               }
@@ -153,6 +162,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadNode(nodeId, func);
+                      });
                   } else {
                       alert("Mislukt om node "+ nodeId +" op te halen");
                   }
@@ -188,6 +200,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.addNode(data, func);
+                      });
                   } else {
                       alert("Mislukt om node toe te voegen");
                   }
@@ -215,6 +230,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.saveNode(data, func);
+                      });
                   } else {
                       alert("Mislukt om node op te slaan");
                   }
@@ -239,6 +257,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.deleteNode(nodeId, func);
+                      });
                   } else {
                       alert("Mislukt om node te verwijderen");
                   }
@@ -273,6 +294,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.addRelation(sourceId, key, targetId, func);
+                      });
                   } else {
                       alert("Mislukt om node toe te voegen");
                   }
@@ -304,6 +328,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.deleteRelation(relatie, func);
+                      });
                   } else {
                       alert("Mislukt om relatie te verwijderen");
                   }
@@ -338,6 +365,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadPaths(type, func);
+                      });
                   } else {
                       alert("Mislukt om nodes op te halen");
                   }
@@ -369,6 +399,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.addNodes(text, func);
+                      });
                   } else {
                       alert("Mislukt om node toe te voegen");
                   }

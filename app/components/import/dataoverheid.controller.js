@@ -27,6 +27,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadDatasets(text, func);
+                      });
                   } else {
                       alert("Mislukt om data op te halen bij data.overheid.nl");
                   }
@@ -53,6 +56,9 @@ angular.
                   log(fallback);
                   if(fallback.status == 401){
                       //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadDataset(id, func);
+                      });
                   } else {
                       alert("Mislukt om data op te halen bij data.overheid.nl");
                   }

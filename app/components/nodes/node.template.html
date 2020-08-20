@@ -1,10 +1,10 @@
 <div class="p-a">
     <div class="box licht lt">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-xs-6">
                 <h4 class="p-a m-b-0 datapedia" ui-sref="nodes({'type': node.type})">{{entity.plural}}</h4>
             </div>
-            <div class="col-sm-6">
+            <div class="col-xs-6">
                 <div class="navbar-form form-inline navbar-item m-l v-m pull-right">
                     <ul class="nav navbar-nav pull-right m-r">
                         <li class="nav-item dropdown">
@@ -27,21 +27,25 @@
         <div class="col-xs-12" ng-class="{'col-md-9': showChapter &&  view.tab == 'details', 'col-xl-10': showChapter &&  view.tab == 'details'}">
             <div class="box ypadding">
                 <div class="box-header ypadding">
-                    <div class="b-b nav-active-bg">
-                        <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
-                        <ul class="nav nav-tabs pull-right" style="margin-top: 20px">
-                            <li class="nav-item">
-                                <a class="nav-link" ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'version'})" data-toggle="tab" data-target="#tab3" ng-class="{'active': view.tab == 'version'}">Versiebeheer</a>
-                            </li>
-                        </ul>
-                        <h1 style="margin-right: 300px">{{node.title}}</h1>
-                        <div style="clear: both"></div>
+                    <div class="b-b nav-active-bg row">
+                        <div class="col-md-7 col-lg-8">
+                            <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
+                            <h1>{{node.title}}</h1>
+                        </div>
+                        <div class="col-md-5 col-lg-4 v-b">
+                            <ul class="nav nav-tabs pull-right" style="margin-top: 2.5rem">
+                                <li class="nav-item">
+                                    <a class="nav-link" ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'version'})" data-toggle="tab" data-target="#tab3" ng-class="{'active': view.tab == 'version'}">Versiebeheer</a>
+                                </li>
+                            </ul>
+                            <div style="clear: both"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="box-body ypadding">

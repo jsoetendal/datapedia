@@ -3,11 +3,11 @@
     <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
 </div>
 <div class="box-body">
-    <div class="row" ng-repeat="related in node.relations[relatie.key]">
-        <div class="col-xs-12" ng-if="$index == 0 || list[$index -1].data.details.beschikbaar != related.data.details.beschikbaar" ng-class="{'m-t-2': $index > 0}">
+    <div class="row m-b" ng-repeat="related in node.relations[relatie.key]">
+        <!--<div class="col-xs-12" ng-if="$index == 0 || list[$index -1].data.details.beschikbaar != related.data.details.beschikbaar" ng-class="{'m-t-2': $index > 0}">
             <strong ng-show="related.data.details.beschikbaar=='true'">Beschikbare datasets</strong>
             <strong ng-hide="related.data.details.beschikbaar=='true'">Nog niet beschikbare datasets</strong>
-        </div>
+        </div>-->
         <div class="col-md-3">
             <a  ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a>
         </div>

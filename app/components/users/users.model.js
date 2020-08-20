@@ -37,6 +37,9 @@ service('Users',  ['$http', '$rootScope',
                 log(fallback);
                 if(fallback.status == 401){
                     //Refresh needed
+                    $rootScope.setup.user.refreshUser(function(){
+                        self.loadUsers(func);
+                    });
                 } else {
                     alert("Mislukt om users op te halen");
                 }
@@ -110,6 +113,9 @@ service('Users',  ['$http', '$rootScope',
                 log(fallback);
                 if(fallback.status == 401){
                     //Refresh needed
+                    $rootScope.setup.user.refreshUser(function(){
+                        self.addUser(data,func);
+                    });
                 } else {
                     alert("Mislukt om user toe te voegen");
                 }
@@ -137,6 +143,9 @@ service('Users',  ['$http', '$rootScope',
                 log(fallback);
                 if(fallback.status == 401){
                     //Refresh needed
+                    $rootScope.setup.user.refreshUser(function(){
+                        self.editUser(data,func);
+                    });
                 } else {
                     alert("Mislukt om user te wijzigen");
                 }
@@ -161,6 +170,9 @@ service('Users',  ['$http', '$rootScope',
                 log(fallback);
                 if(fallback.status == 401){
                     //Refresh needed
+                    $rootScope.setup.user.refreshUser(function(){
+                        self.deleteUser(userId, func);
+                    });
                 } else {
                     alert("Mislukt om user te verwijderen");
                 }

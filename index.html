@@ -32,10 +32,11 @@
     <link rel="stylesheet" href="themes/specific.css"/>
   </head>
   <body>
-    <div class="app" id="app">
+  <div id="warningMsg" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; color: white; background-color: #e04952; z-index: 9999"><strong><i class="fa fa-exclamation-triangle"></i> Let op!</strong> Dit is een testversie van de Datapedia Smart Mobility met testdata. Deze testdata is incorrect en onvolledig.</div>
+
+  <div class="app" id="app">
 
   <!-- ############ LAYOUT START-->
-
       <!-- Header -->
       <header class="app-header white box-shadow">
           <div class="navbar">
@@ -267,6 +268,7 @@
     <script type="text/javascript" src="libs/ui-tinymce-master/dist/tinymce.min.js"></script>
 
     <!-- nodes -->
+    <script src="env.js"></script>
     <script src="app/app.js"></script>
     <script src="app/app.module.js"></script>
     <script src="app/app.ctrl.js"></script>
@@ -284,6 +286,7 @@
     <script src="app/components/users/users.controller.js"></script>
     <script src="app/components/import/import.controller.js"></script>
     <script src="app/components/import/dataoverheid.controller.js"></script>
+    <script src="app/settings/diverse.controllers.js"></script>
     <script src="app/components/custom/datatop15.controller.js"></script>
     <script src="app/settings/user.js"></script>
     <script src="app/settings/setup.js"></script>

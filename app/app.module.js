@@ -36,6 +36,18 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+          .state('passwordforgot', {
+              url: "/passwordforgot",
+              template: "<passwordforgot class='controllermodule'></passwordforgot>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('passwordreset', {
+              url: "/passwordreset/{newPassword}/{tokenStr}",
+              template: "<passwordreset class='controllermodule'></passwordreset>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
           .state('nodes', {
               url: "/nodes/{type}",
               template: "<nodes class='controllermodule'></nodes>",

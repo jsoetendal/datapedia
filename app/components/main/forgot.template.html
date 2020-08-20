@@ -1,0 +1,29 @@
+  <div ng-hide="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
+    <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+      <div class="m-b text-sm">
+        <strong>Wachtwoord vergeten</strong><br/>
+        Indien je je wachtwoord bent vergeten, kun je hieronder je e-mailadres opgeven. Je ontvangt dan automatisch een e-mail waarmee je het wachtwoord opnieuw kunt instellen.
+      </div>
+      <form name="form" ng-submit="doForgotPassword(this)">
+        <div class="md-form-group float-label">
+          <input type="email" class="md-input" ng-model="email" required>
+          <label>Emailadres</label>
+        </div>
+        <button type="submit" class="btn primary btn-block p-x-md m-y-md">Wachtwoord vergeten</button>
+        <p>{{forgot_msg.text}}</p>
+      </form>
+    </div>
+
+    <div class="p-v-lg text-center">
+      <div class="m-b"><a ui-sref="login" class="text-primary _600">Inloggen?</a></div>
+    </div>
+  </div>
+
+  <div ng-show="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
+    <div class="p-v-lg text-center">
+      <div>Je bent al ingelogd als {{user.auth.email}}!</div>    
+      <div class="m-b"><a ui-sref="signout" class="text-primary _600">Uitloggen?</a></div>
+    </div>
+  </div>  
+  
+  <helpsuggestie suggestie='Wachtwoord vergeten'/>

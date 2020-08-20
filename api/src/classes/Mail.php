@@ -4,7 +4,7 @@ class Mail{
     
     
     function Mail($array){
-        DEFINE("SPARKPOST_API_KEY","0ac3c98674aefc2f930e8b6bb2adec95636cbeb8");
+        DEFINE("SPARKPOST_API_KEY",getenv('SPARKPOST_API_KEY'));
         
         foreach($array as $key => $value){
             $this->$key = $value;
@@ -88,9 +88,5 @@ class Mail{
             return false;
         }        
     }
-    
-    
-    
-    
 }
 ?>

@@ -76,10 +76,11 @@ component('users', {
             }
 
             $scope.createUser = function(){
-                self.createUser($scope.new_user_email, $scope.new_user_role, $scope.new_user_name, function(){
-                    $scope.new_user_email = "";
-                    $scope.new_user_name = "";
-                    $scope.new_user_role = "contributor";
+                console.log($scope);
+                self.createUser($scope.new_user.email, $scope.new_user.role, $scope.new_user.name, function(){
+                    $scope.new_user.email = "";
+                    $scope.new_user.name = "";
+                    $scope.new_user.role = "contributor";
                 });
             }
 
@@ -152,7 +153,7 @@ component('users', {
                 $scope.currentUser = user;
             }
 
-            $scope.new_user_role = "contributor";
+            $scope.new_user = {"role": "contributor"};
             this.loadUsers();
 
         }

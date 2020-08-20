@@ -1,0 +1,35 @@
+<div class='row'>
+    <div class='col-xs-1 col-md-3 col-xl-4'></div>
+    <div class='col-xs-10 col-md-6 col-xl-4'>
+        <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+          <div class="m-y">
+            <div ng-show='newPassword'>
+                <h3>Welkom bij Datapedia Smart Mobility</h3>
+                Voordat je aan de slag kan met de Datapedia willen we je eerst vragen om een wachtwoord aan te maken. Deze kan je nu zelf bedenken.
+            </div>
+            <div ng-hide='newPassword'>
+                <h3>Wachtwoord opnieuw instellen</h3>
+                Stel je wachtwoord opnieuw in door hieronder je nieuwe wachtwoord tweemaal in te voeren.
+            </div>
+          </div>
+          <form name="form" ng-submit="doReset(this)" ng-hide='!show_form'>
+            <div class="md-form-group float-label">
+              <input type='hidden' name='email' id='email' ng-model="email">
+              <input type="password" class="md-input" ng-model="new_password1" required>
+              <label>Wachtwoord</label>
+            </div>      
+            <div class="md-form-group float-label">
+              <input type="password" class="md-input" ng-model="new_password2" required>
+              <label>Wachtwoord (opnieuw)</label>
+            </div>      
+            <button type="submit" class="btn primary btn-block p-x-md" ng-disabled='new_password1 != new_password1 || new_pasword1.length == 0'>Opslaan & inloggen</button>
+          </form>
+          <div class="p-v-lg text-center m-y-md">
+            <div class="m-b warning">{{reset_msg.text}}</div>
+          </div>
+          <div ng-show='newPassword'>
+                <p>De volgende keer dat je de Datapedia bezoekt kun je direct naar https://www.datapedia.nl gaan en inloggen met je e-mailadres ({{email}}) en het wachtwoord dat je hierboven hebt ingevuld.</p>
+          </div>
+        </div>
+    </div>
+</div>
