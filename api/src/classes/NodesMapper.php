@@ -261,11 +261,11 @@ class NodesMapper extends Mapper
             $this->db->doUpdate("nodes", $arr, ["nodeId" => $data["nodeId"]]);
             $this->db->doSQL("UPDATE nodes_versions SET status='previous' WHERE nodeId = '". $data["nodeId"]. "' AND (status = 'current' OR status = '". $status."')"); //Laatste indien huidige status suggested is
             $arr["status"] = "current";
-            $this->db->doUpdate("nodes_versions", $arr, ["nodeId" => $data["nodeId"]]);
+            $this->db->doInsert("nodes_versions", $arr);
         } else {
             $arr["status"] = "suggested";
             $record["userData"] = json_encode($this->getUserData());
-            $this->db->doInsert("nodes_versions", $arr, ["nodeId" => $data["nodeId"]]);
+            $this->db->doInsert("nodes_versions", $arr);
         }
     }
 
