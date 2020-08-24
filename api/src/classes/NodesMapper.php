@@ -332,6 +332,7 @@ class NodesMapper extends Mapper
     function deleteNode($nodeId){
         $this->db->doSQL("DELETE FROM nodes WHERE nodeId = ". $nodeId);
         $this->db->doSQL("DELETE FROM relations WHERE sourceId = ". $nodeId ." OR targetId = ". $nodeId);
+        $this->db->doSQL("UPDATE nodes_versions SET status='deleted' WHERE nodeId = ". $nodeId ." AND status = 'current'");
     }
 
     function getUserData(){
