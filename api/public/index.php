@@ -131,7 +131,7 @@ $app->post("/nodes/add/", function (Slim\Http\Request $request, Slim\Http\Respon
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
 
-    if($token->isEditorOrUp) {
+    if($token->isEditorOrUp()) {
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->addNodes($data, $token);
         return $response->withStatus(200)->withJSON($result);
