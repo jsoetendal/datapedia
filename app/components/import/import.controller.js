@@ -77,9 +77,10 @@ angular.
                 }
                 data.push(node);
             }
-            console.log(data);
             Nodes.addNodes(data, function(result){
-                $scope.import.result = result;
+                $scope.success = true;
+                $scope.count = result.length;
+                $scope.import = {"data": null};
             });
         }
 

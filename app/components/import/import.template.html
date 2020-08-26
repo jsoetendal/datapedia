@@ -24,6 +24,19 @@
         </div>
     </div>
 
+    <div class="row p-t" ng-show="success">
+        <div class="col-12-md">
+            <div class="box">
+                <div class="box-header green">
+                    <h4>Data geïmporteerd!</h4>
+                </div>
+                <div class="box-body">
+                    Er zijn succesvol {{count}} {{entity.plural}} geïmporteerd.
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row p-t" ng-hide="import.data && import.header.length > 1 && import.data.length > 1">
         <div class="col-12-md">
             <div class="box">

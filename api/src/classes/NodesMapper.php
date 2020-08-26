@@ -226,10 +226,10 @@ class NodesMapper extends Mapper
         }
     }
 
-    function addNodes($data){
+    function addNodes($data, $token){
         $results = [];
         foreach($data as $node){
-            $results[] = $this->addNode($node);
+            $results[] = $this->addNode($node, $token);
         }
         return $results;
     }
