@@ -1,4 +1,4 @@
-<div class="box m-b-xs panel-default" ng-repeat="chapter in tree.subs | orderBy: title">
+<div class="box m-b-xs panel-default" ng-repeat="chapter in tree.subs | orderBy: ['title']">
     <div class="box-header pointer primary" ng-click="chapter.open = !chapter.open">
         <h4 class="panel-title">
             {{chapter.title}}
