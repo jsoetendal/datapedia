@@ -1,4 +1,4 @@
-<div class="box m-b-xs panel-default" ng-repeat="node in nodes">
+<div class="box m-b-xs panel-default" ng-repeat="node in nodes | orderBy: title">
     <div ng-click="scrollTo(node.nodeId)" class="box-header pointer primary">
         <h4 class="panel-title">
             {{node.title}}
