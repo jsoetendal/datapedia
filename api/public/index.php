@@ -52,6 +52,17 @@ function escape_object($txt){
     return json_decode(json_encode($txt));
 }
 
+$app->get('/nodes/extended/{type}/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    $nodesMapper = new NodesMapper($this->db);
+    $type = escape_string($request->getAttribute('type'));
+
+    $result = $nodesMapper->getNodesExtended($type);
+    return $response->withStatus(200)->withJSON($result);
+});
+
 $app->get('/nodes/{type}/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);

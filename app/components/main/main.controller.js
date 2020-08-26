@@ -22,14 +22,14 @@ angular.
 
         this.laadVoorbeelden = function(){
           //
-          Nodes.loadNodes("project", function () {
+          Nodes.loadNodes("project", false, function () {
             var nodes = Nodes.getNodes();
             $scope.voorbeelden = nodes.slice(0, 3);
           });
         }
 
         this.laadData = function(){
-          Nodes.loadNodes("onderwerp", function () {
+          Nodes.loadNodes("onderwerp", false, function () {
             $scope.nodes = Nodes.getNodes();
             Nodes.createTree(function(tree){
               $scope.tree = tree;

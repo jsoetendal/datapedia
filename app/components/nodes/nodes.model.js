@@ -7,10 +7,13 @@ angular.
       var nodes = [];
       var node = null;
 
-          this.loadNodes = function(type, func){
+          this.loadNodes = function(type, extended, func){
               var self = this;
 
               var url = $rootScope.APIBase + "nodes/" + type +"/";
+              if(extended){
+                  url = $rootScope.APIBase + "nodes/extended/" + type +"/";
+              }
               $http({
                   method: 'GET',
                   url: url,

@@ -83,12 +83,14 @@ angular.
               controller: ['$scope','$stateParams', function($scope, $stateParams){
               }]
           })
+          /*
           .state('relation', {
               url: "/relation/{key}",
               template: "<nodes class='controllermodule'></nodes>",
               controller: ['$scope', function($scope) {
               }]
           })
+          */
           .state('import', {
               url: "/import/{type}",
               template: "<import class='controllermodule'></import>",

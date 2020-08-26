@@ -26,47 +26,7 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <h6>Datasets</h6>
-                            <div class="row" ng-repeat="dataset in categorie.datasets">
-                                <div class="col-md-6">
-                                    <a  ui-sref="node({nodeId: dataset.nodeId})">{{dataset.title}}</a>
-                                </div>
-                                <div class="col-md-6" ng-if="dataset.data.details.beschikbaar=='true'">
-                                    <div class='floatblok' ng-show="dataset.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>
-                                    <div class='floatblok' ng-hide="dataset.data.details.beschikbaar=='true'"><i class="blok fa fa-times rood" title="De data is niet beschikbaar"></i></div>
-
-                                    <div class='floatblok' ng-show="dataset.data.details.online.waarde == 'true'"><i class="blok fa fa-download groen" title="De data is online beschikbaar"></i></div>
-                                    <div class='floatblok' ng-hide="dataset.data.details.online.waarde == 'true'"><i class="blok fa fa-download rood" title="De data is niet online beschikbaar"></i></div>
-
-                                    <div class='floatblok'  ng-show="dataset.data.details.machineleesbaar.waarde == 'true'"><i class="blok fa fa-keyboard-o groen" title="De data is machineleesbaar"></i></div>
-                                    <div class='floatblok'  ng-hide="dataset.data.details.machineleesbaar.waarde == 'true'"><i class="blok fa fa-keyboard-o rood" title="De data is niet machineleesbaar"></i></div>
-
-
-                                    <div class='floatblok'  ng-show="dataset.data.details.licentie.waarde == 'true'"><i class="blok fa fa-unlock-alt groen" title="De data is beschikbaar onder een open licentie"></i></div>
-                                    <div class='floatblok'  ng-hide="dataset.data.details.licentie.waarde == 'true'"><i class="blok fa fa-unlock-alt rood" title="De data is niet beschikbaar onder een open licentie"></i></div>
-
-                                    <div class='floatblok'  ng-show="dataset.data.details.gratis.waarde == 'true'"><i class="blok fa fa-dollar groen" title="De data is gratis verkrijgbaar"></i></div>
-                                    <div class='floatblok'  ng-hide="dataset.data.details.gratis.waarde == 'true'"><i class="blok fa fa-dollar rood" title="De data is niet gratis verkrijgbaar"></i></div>
-
-
-                                    <div class='floatblok'  ng-show="dataset.data.details.bulk.waarde == 'true'"><i class="blok fa fa-copy groen" title="De data is in bulk te downloaden"></i></div>
-                                    <div class='floatblok'  ng-hide="dataset.data.details.bulk.waarde == 'true'"><i class="blok fa fa-copy rood" title="De data is niet in bulk te downloaden"></i></div>
-
-                                    <div class='floatblok'  ng-show="dataset.data.details.actueel.waarde == 'true'"><i class="blok fa fa-clock-o groen" title="De data is compleet en actueel"></i></div>
-                                    <div class='floatblok'  ng-hide="dataset.data.details.actueel.waarde == 'true'"><i class="blok fa fa-clock-o rood" title="De data is niet compleet en/of niet actueel"></i> </div>
-
-                                    <div class='floatblok'  ng-show="dataset.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye groen" title="De data is voor iedereen toegankelijk, zonder registratie"></i></div>
-                                    <div class='floatblok'  ng-hide="dataset.data.details.publiek.waarde == 'true'"><i class="blok fa fa-eye rood" title="De data is niet voor iedereen toegankelijk zonder registratie"></i></div>
-                                </div>
-                                <div class="col-md-6" ng-if="dataset.data.details.beschikbaar=='false'">
-                                    <div class="opendatastatus">
-                                        <div class='stoplicht {{dataset.data.details.blokkades.politiek.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Politiek"><i class="fa fa-gavel"></i></div>
-                                        <div class='stoplicht {{dataset.data.details.blokkades.privacy.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Privacy"><i class="fa fa-eye"></i></div>
-                                        <div class='stoplicht {{dataset.data.details.blokkades.techniek.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Techniek"><i class="fa fa-gears"></i></div>
-                                        <div class='stoplicht {{dataset.data.details.blokkades.organisatie.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Organisatie"><i class="fa fa-users"></i></div>
-                                        <div class='stoplicht {{dataset.data.details.blokkades.kwaliteit.waarde}}' style="width: 1.8em; height: 1.8em; margin-top: 0px; padding-top:.2em" title="Kwaliteit"><i class="fa fa-star"></i></div>
-                                        <div style="clear: both"></div>
-                                    </div>
-                                </div>
+                            <div ng-init="nodes = categorie.datasets" ui-include="'app/components/custom/dataset.rows.view.html'">
                             </div>
                         </div>
                     </div>

@@ -15,9 +15,9 @@ angular.
               $scope.multipleTypes = false;
 
 
-              Nodes.loadNodes('onderwerp', function () {
+              Nodes.loadNodes('onderwerp', false, function () {
                   $scope.onderwerpen = Nodes.getNodes();
-                  Nodes.loadNodes('dataset', function() {
+                  Nodes.loadNodes('dataset', false, function() {
                       $scope.datasets = Nodes.getNodes();
 
                       $scope.entity = {

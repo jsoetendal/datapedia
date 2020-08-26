@@ -18,71 +18,68 @@ class NodesMapper extends Mapper
 
         //Relaties toevoegen
         $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.title FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
-        $currentId = null;
-        $currentKey = null;
-        $currentPos = null;
-        $arr = null;
-        foreach($relations as $relation){
-            if($relation->key != $currentKey || $relation->sourceId != $currentId){
-                if($arr && $currentPos !== null && $currentKey){
-                    $rows[$currentPos]->$currentKey = $arr;
+        foreach($relations as $relation) {
+            foreach ($rows as $key => $value) {
+                if ($value->nodeId == $relation->sourceId) {
+                    $currentKey = $relation->key;
+                    if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
+                    array_push($rows[$key]->$currentKey, $relation->title);
                 }
-                $arr = [];
-                $currentKey = $relation->key;
             }
-            if($relation->sourceId != $currentId){
-                $currentPos = null;
-                foreach($rows as $key => $value){
-                    if($value->nodeId == $relation->sourceId){
-                        $currentPos = $key;
-                        break;
-                    }
-                }
-                $currentId = $relation->sourceId;
-            }
-            $arr[] = $relation->title;
         }
 
-        //Laatste nog toevoegen:
-        if($arr && $currentPos !== null && $currentKey){
-            $rows[$currentPos]->$currentKey = $arr;
-        }
 
         //Idem, dependencies toevoegen
         $dependencies = $this->db->getArray("SELECT relations.targetId, relations.key, source.nodeId, source.title FROM relations JOIN nodes as target ON (relations.targetId = target.nodeId AND target.type = '". $type ."') JOIN nodes as source ON (relations.sourceId = source.nodeId) ORDER BY targetId, `key`, title");
-        $currentId = null;
-        $currentKey = null;
-        $currentPos = null;
-        $arr = null;
         foreach($dependencies as $relation){
-            if($relation->key != $currentKey || $relation->targetId != $currentId){
-                if($arr && $currentPos !== null && $currentKey){
-                    $rows[$currentPos]->$currentKey = $arr;
+            foreach ($rows as $key => $value) {
+                if ($value->nodeId == $relation->targetId) {
+                    $currentKey = $relation->key;
+                    if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
+                    array_push($rows[$key]->$currentKey, $relation->title);
                 }
-                $arr = [];
-                $currentKey = $relation->key;
             }
-            if($relation->targetId != $currentId){
-                $currentPos = null;
-                foreach($rows as $key => $value){
-                    if($value->nodeId == $relation->targetId){
-                        $currentPos = $key;
-                        break;
-                    }
-                }
-                $currentId = $relation->targetId;
-            }
-            $arr[] = $relation->title;
-        }
-
-        //Laatste nog toevoegen:
-        if($arr && $currentPos !== null && $currentKey){
-            $rows[$currentPos]->$currentKey = $arr;
         }
 
 
         return $rows;
     }
+
+    /**
+     * Returns extended Node: each node has an extra field for each relation and dependency, named after the key and consisting of an array with all related nodes (including path, title, text, imgUrl and data)
+     * @param $type
+     * @return mixed
+     */
+    function getNodesExtended($type){
+        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'");
+
+        //Relaties toevoegen
+        $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.path, target.title, target.text, target.imgUrl, target.data FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
+        foreach($relations as $relation) {
+            foreach ($rows as $key => $value) {
+                if ($value->nodeId == $relation->sourceId) {
+                    $currentKey = $relation->key;
+                    if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
+                    array_push($rows[$key]->$currentKey, $relation);
+                }
+            }
+        }
+
+
+        //Idem, dependencies toevoegen
+        $dependencies = $this->db->getArray("SELECT relations.targetId, relations.key, source.nodeId, source.path, source.title, source.text, source.imgUrl, source.data FROM relations JOIN nodes as target ON (relations.targetId = target.nodeId AND target.type = '". $type ."') JOIN nodes as source ON (relations.sourceId = source.nodeId) ORDER BY targetId, `key`, title");
+        foreach($dependencies as $relation){
+            foreach ($rows as $key => $value) {
+                if ($value->nodeId == $relation->targetId) {
+                    $currentKey = $relation->key;
+                    if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
+                    array_push($rows[$key]->$currentKey, $relation);
+                }
+            }
+        }
+        return $rows;
+    }
+
 
     /**
      * Returns for a specific relation (defined by $key), all Nodes that are 'source' for this relation, including a '<$key>' field including al target Nodes for this relation.
@@ -130,6 +127,7 @@ class NodesMapper extends Mapper
             $key = $relatedNode->key;
             if(!$node->relations->$key) $node->relations->$key = [];
             $relatedNode->data = json_decode($relatedNode->data);
+            $relatedNode->visible = true;
             array_push($node->relations->$key, $relatedNode);
         }
         $node->dependencies = new stdClass();
@@ -138,6 +136,7 @@ class NodesMapper extends Mapper
             $key = $dependentNode->key;
             if(!$node->dependencies->$key) $node->dependencies->$key = [];
             $dependentNode->data = json_decode($dependentNode->data);
+            $dependentNode->visible = true;
             array_push($node->dependencies->$key, $dependentNode);
         }
         return $node;

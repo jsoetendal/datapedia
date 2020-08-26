@@ -3,8 +3,9 @@ angular.
   module('app').
   component('nodes', {
     templateUrl: 'app/components/nodes/nodes.template.html',
-    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location',
-      function NodesController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location) {
+    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$anchorScroll', '$timeout',
+      function NodesController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $anchorScroll, $timeout) {
+
         var self = this;
         $scope.zoeken = {};
         this.facetsCreated = false;
@@ -23,9 +24,14 @@ angular.
                   }
               }
 
-              Nodes.loadNodes(type, function () {
+              if($scope.entity.views[0] == "set"){
+                var extended = true;
+              } else {
+                var extended = false;
+              }
+              Nodes.loadNodes(type, extended, function () {
                   self.setNodes();
-                  if($scope.entity.facet.default){
+                  if ($scope.entity.facet.default) {
                       $scope.setFacet($scope.entity.facet.default);
                   } else {
                       $scope.setFacet(false);
@@ -412,6 +418,15 @@ angular.
               $scope.view = view;
           }
 
+          $scope.scrollTo = function(nodeId){
+              {
+                  $anchorScroll.yOffset = 150;
+                  $timeout(function() {
+                      $location.hash('node' + nodeId);
+                      $anchorScroll();
+                  });
+              }
+          }
 
         $scope.orderProp = ["path","title"];
         $scope.filterProp = [];

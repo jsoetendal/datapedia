@@ -48,7 +48,6 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
         $http.get(fname).then(function(response) {
             if(response.data){
                 $rootScope.settings = response.data;
-                console.log($rootScope.settings)
             }
         });
 

@@ -8,9 +8,9 @@
             </div>
             <div class="p-a">
                 <div class="node-tile-text">
-                <h5>{{node.title}}</h5>
-                <span ng-bind-html="node.text | plain:150"></span>
-                <!--<br/><a class="btn btn-xs white m-t">Meer info</a>-->
+                    <h5>{{node.title}}</h5>
+                    <span ng-bind-html="node.text | plain:150"></span>
+                    <!--<br/><a class="btn btn-xs white m-t">Meer info</a>-->
                 </div>
                 <div class="node-tile-labels">
                     <a href="" class="pull-left mralabel" ng-repeat="tag in node.path.split(';')" ng-hide="tag.length==0">{{tag}}</a>
@@ -21,6 +21,39 @@
     </div>
     <div ng-if="($index + 1) % 2 == 0" class="clearfix visible-lg visible-md" style="clear: both"></div>
     <div ng-if="($index + 1) % 3 == 0" class="clearfix visible-xl visible-xxl" style="clear: both"></div>
+</script>
+
+<script type="text/ng-template" id="nodeMiniTile">
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-2 node">
+        <div class="box pointer licht" ui-sref="node({nodeId: node.nodeId})">
+            <div class="item dark" style='height: 120px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
+                <a class="item-overlay w-full">
+                    <span class="bottom text-md primary" style='padding: 10px; font-weight: bold'><i class="fa fa-plus"></i> Klik voor meer info</span>
+                </a>
+            </div>
+            <div class="p-a">
+                <strong>{{node.title}}</strong>
+            </div>
+        </div>
+    </div>
+    <div ng-if="($index + 1) % 2 == 0" class="clearfix visible-xs visible-sm" style="clear: both"></div>
+    <div ng-if="($index + 1) % 4 == 0" class="clearfix visible-lg visible-md" style="clear: both"></div>
+    <div ng-if="($index + 1) % 6 == 0" class="clearfix visible-xl visible-xxl" style="clear: both"></div>
+</script>
+
+<script type="text/ng-template" id="nodeRowTile">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 node m-b">
+        <div class="pointer licht" ui-sref="node({nodeId: node.nodeId})">
+            <div class="item dark" style='float: left; width: 60px; height: 60px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
+            </div>
+            <div class="p-a" style="margin-left: 70px; min-height: 60px">
+                <strong>{{node.title}}</strong>
+            </div>
+        </div>
+    </div>
+    <div ng-if="($index + 1) % 2 == 0" class="clearfix visible-xs visible-sm" style="clear: both"></div>
+    <div ng-if="($index + 1) % 4 == 0" class="clearfix visible-lg visible-md" style="clear: both"></div>
+    <div ng-if="($index + 1) % 6 == 0" class="clearfix visible-xl visible-xxl" style="clear: both"></div>
 </script>
 
 
@@ -40,6 +73,28 @@
     <div ng-if="($index + 1) % 2 == 0" class="clearfix visible-lg visible-md" style="clear: both"></div>
     <div ng-if="($index + 1) % 3 == 0" class="clearfix visible-xl visible-xxl" style="clear: both"></div>
 </script>
+
+
+<script type="text/ng-template" id="nodeSet">
+    <div class="col-xs-12 node pointer">
+        <div class="box">
+            <div class="box-header primary">
+                <a id="node{{node.nodeId}}" ui-sref="node({'nodeId': node.nodeId})"><h3>{{node.title}}</h3></a>
+            </div>
+            <div class="box-body">
+                <span ng-bind-html="node.text | plain:500"></span>
+                <div class="row">
+                    <div class="col-xs-12 col-md-{{relation.cols}}" ng-repeat="relation in entity.relations" ng-if="node[relation.key].length > 0">
+                            <h5 class="m-t p-b m-b b-b">{{relation.label}}</h5>
+                            <div ng-if="!relation.custom" ui-include="'app/components/nodes/nodes.views.template.html'"  ng-init="nodes = node[relation.key]; view=relation.view; faceted=false"></div>
+                            <div ng-if="relation.custom" ui-include="'{{relation.custom}}'"  ng-init="nodes = node[relation.key];"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 
 <script type="text/ng-template" id="nodePolaroid">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 node">
@@ -101,8 +156,15 @@
     <div class="col-sm-12" ng-class="{'col-sm-9 col-lg-10': faceted}">
 
         <div class="row" ng-if="view == 'tile'">
-            <div ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results" ng-include="'nodeTileText'">
-            </div>
+            <div ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results" ng-include="'nodeTileText'"></div>
+        </div>
+
+        <div class="row" ng-if="view == 'mini'">
+            <div ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results" ng-include="'nodeMiniTile'"></div>
+        </div>
+
+        <div class="row" ng-if="view == 'row'">
+            <div ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results" ng-include="'nodeRowTile'"></div>
         </div>
 
         <table ng-if="view == 'table'" class="table table-striped b-t">
@@ -131,7 +193,20 @@
             </div>
         </div>
 
+        <div ng-if="view == 'simple'">
+            <div class="col-sm-12">
+                <ul>
+                    <li ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results track by $index" ui-sref="node({'nodeId': node.nodeId})" class="pointer">
+                        <div ng-if="$index == 0 || list[$index-1].path != node.path" ng-class="{'m-t-sm': $index > 0}" class="text-sm _600">
+                            {{node.path | path}}
+                        </div>
 
+                        <small><strong></strong></small>
+                        {{node.title}}
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <div ng-if="view == 'tree' && nodesLoaded" class="row">
             <script type="text/ng-template" id="nodeTree">
@@ -203,6 +278,21 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="view == 'set'" class="row">
+            <div class="col-xs-12 col-md-3 col-xl-2" ng-init="chapters = nodes">
+                <div class="box">
+                    <div class="box-body nopadding">
+                        <div ui-include="'app/components/custom/nodes.nodes.accordion.template.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-9 col-xl-10">
+                <div ng-repeat="node in nodes | filter: {'visible': true} | filter: zoeken.searchText as results track by $index">
+                    <div ui-include="'nodeSet'"></div>
                 </div>
             </div>
         </div>
