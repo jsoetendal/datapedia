@@ -106,6 +106,20 @@ $app->get('/node/get/{id}', function (Slim\Http\Request $request, Slim\Http\Resp
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->get('/node/history/{id}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $id = intVal($request->getAttribute('id'));
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isEditorOrUp()) {
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->getNodeHistory($id);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
 $app->get('/node/delete/{id}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $id = intVal($request->getAttribute('id'));
     $token = new Token($request);

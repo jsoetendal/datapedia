@@ -178,6 +178,44 @@ angular.
            return this.node;
       }
 
+      this.loadNodeHistory = function(nodeId, func){
+          var self = this;
+
+          var url = $rootScope.APIBase + "node/history/" + nodeId;
+          $http({
+              method: 'GET',
+              url: url,
+              headers: {
+                  'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+              }
+          }).then(function(response) {
+              log(response);
+              if(response.status == 200){
+                  var nodes = [];
+                  if(response.data){
+                      var data = response.data;
+                      for(var i in data){
+                          var h = data[i];
+                          nodes.push(new Node(h));
+                      }
+                  }
+                  if(func) func(nodes);
+              } else {
+                  log(response);
+              }
+          }).catch(function(fallback) {
+              log(fallback);
+              if(fallback.status == 401){
+                  //Refresh needed
+                  $rootScope.setup.user.refreshUser(function(){
+                      self.loadNodeHistory(nodeId,func);
+                  });
+              } else {
+                  alert("Mislukt om nodes op te halen");
+              }
+          });
+      }
+
           this.addNode = function(data, func){
               var url = $rootScope.APIBase + "node/add/";
               $http({

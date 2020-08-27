@@ -14,7 +14,7 @@ class NodesMapper extends Mapper
     }
 
     function getNodesExtendedWithLabels($type){
-        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."' ORDER BY `path`,`title`");
+        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'"); //" ORDER BY `path`,`title`");
 
         //Relaties toevoegen
         $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.title FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
@@ -51,7 +51,7 @@ class NodesMapper extends Mapper
      * @return mixed
      */
     function getNodesExtended($type){
-        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."' ORDER BY `path`,`title`");
+        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'"); //" ORDER BY `path`,`title`");
 
         //Relaties toevoegen
         $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.path, target.title, target.text, target.imgUrl, target.data FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
@@ -155,6 +155,13 @@ class NodesMapper extends Mapper
         }
         return $node;
     }
+
+    function getNodeHistory($nodeId){
+        $rows = $this->db->getArray("SELECT nodes_versions.*, users.name, users.role FROM nodes_versions LEFT JOIN users ON (nodes_versions.creatorId = users.id) WHERE nodes_versions.nodeId = '". $nodeId ."' ORDER BY nodes_versions.created");
+
+        return $rows;
+    }
+
 
     function addNode($data, $token){
         $jsonData = new stdClass();

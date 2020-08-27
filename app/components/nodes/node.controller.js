@@ -7,6 +7,7 @@ angular.
       function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $sanitize, $sce) {
         var self = this;
         $scope.user = $rootScope.setup.user;
+        $scope.history = null;
 
         this.loadNode = function(nodeId){
             $scope.node = null;
@@ -24,6 +25,7 @@ angular.
                 $scope.loaded = true;
                 console.log($scope.entity);
                 if($scope.view.tab == "edit") $scope.startEdit();
+                if($scope.view.tab == "version") $scope.startVersion();
 
                 if($scope.entity.views[0] == 'chapters'){
                     self.loadTree();
@@ -127,6 +129,15 @@ angular.
                 $scope.paths = paths;
             });
         }
+
+        $scope.startVersion = function(){
+            if(!$scope.history){
+                Nodes.loadNodeHistory(self.nodeId, function(nodes) {
+                    $scope.history = {'nodes': nodes};
+                });
+            }
+        }
+
           /**
            * addRelatie voegt een nieuwe relatie toe aan de Node
            * @param relatie
@@ -262,6 +273,7 @@ angular.
             if(!$scope.view) $scope.view = {"tab": "details"}
             $scope.view.tab = tab;
             if($scope.node && tab == "edit") $scope.startEdit();
+            if(self.nodeId && tab == "version") $scope.startVersion();
         }
 
         $scope.searchText = {};
@@ -290,7 +302,6 @@ angular.
               skin: 'lightgray',
               theme : 'modern'
           };
-
 
           if(this.nodeId && $state.current.name != "node.newrelated") {
             this.loadNode(this.nodeId);
