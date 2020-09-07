@@ -40,7 +40,7 @@ angular.
                   if(fallback.status == 401){
                       //Refresh needed
                       $rootScope.setup.user.refreshUser(function(){
-                          self.loadNodes(type,func);
+                          self.loadNodes(type, extended, func);
                       });
                   } else {
                       alert("Mislukt om nodes op te halen");

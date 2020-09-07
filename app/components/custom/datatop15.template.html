@@ -2,34 +2,76 @@
     <div class="licht lt">
         <div class="row">
             <div class="col-sm-6">
-                <h4 class="p-a m-b-0 datapedia">Data Top 15</h4>
+                <h4 class="p-a m-b-0 datapedia">Status Data Top 15</h4>
+            </div>
+            <div class="col-sm-6">
+                <form class="navbar-form form-inline navbar-item m-l v-m pull-right" role="search">
+                    <div class="form-group l-h m-a-0">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="zoeken.searchText" placeholder="Zoek naar {{entity.plural|lowercase}}..." style="">
+                            <span class="input-group-btn">
+                                                        <button type="submit" class="btn white b-a no-shadow"><i class="fa fa-search"></i></button>
+                                                    </span>
+                            <span class="input-group-btn ng-hide" ng-show="zoeken.searchText">
+                                <button class="btn white b-a no-shadow" ng-click="zoeken.searchText=''"><i class="fa fa-times"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="row m-t">
         <div class="col-sm-12">
-            <div class="box" ng-repeat="categorie in categorieen">
-                <div class="box-header primary">
-                    <h2>{{categorie.key}}</h2>
+            <div class="box">
+                <div class="box-header">
+                    <h3>Status per gemeente per Data Top 15-item</h3>
+                    <p><small>In onderstaande tabel staat de bij ons bekende status per gemeente per data-item</small></p>
+                    <table class="table">
+                        <tr>
+                            <td><div class="status-score YlGnBu q-1-5">-</div></td>
+                            <td>Onbekend</td>
+                            <td><div class="status-score YlGnBu q0-5">1</div></td>
+                            <td>Nog niet gestart</td>
+                            <td><div class="status-score YlGnBu q1-5">2</div></td>
+                            <td>Oriënterend</td>
+                            <td><div class="status-score YlGnBu q2-5">3</div></td>
+                            <td>Aan de slag</td>
+                            <td><div class="status-score YlGnBu q3-5">4</div></td>
+                            <td>Goed bezig</td>
+                            <td><div class="status-score YlGnBu q4-5">5</div></td>
+                            <td>Compleet</td>
+                        </tr>
+                    </table>
                 </div>
+                <div class="box-divider"></div>
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <h6>Onderwerpen</h6>
-                            <div ng-repeat="onderwerp in categorie.onderwerpen | orderBy: ['path','title'] as list track by $index" ui-sref="node({nodeId: onderwerp.nodeId})" class="pointer">
-                                <div ng-if="$index == 0 || list[$index-1].path != onderwerp.path" ng-class="{'m-t': $index > 0}" class="text-sm _600">
-                                    {{onderwerp.path | path}}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Gemeente</th>
+                            <th ng-repeat="item in dataitems" style="text-align: center" title="{{item.title}}">
+                                <div ui-sref="node({nodeId: item.nodeId})" class='status-item-header'>{{item.title|truncate:3}}</div>
+                                <small>{{item.title|substr:3:12}}</small>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="gemeente in gemeentes| orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results track by $index">
+                            <td ui-sref="node({nodeId: gemeente.nodeId})">{{gemeente.title}}</td>
+                            <td ng-repeat="item in dataitems" style="text-align: center">
+                                <div ng-show="matrix[gemeente.nodeId][item.nodeId]" title="{{matrix[gemeente.nodeId][item.nodeId].label}}" class="status-score YlGnBu q{{matrix[gemeente.nodeId][item.nodeId].score - 1}}-5">
+                                    {{matrix[gemeente.nodeId][item.nodeId].score}}
                                 </div>
-                                {{onderwerp.title}} <span ng-show='onderwerp.dataset.length > 0' class="label rounded extradonker" title="{{onderwerp.dataset.length}} datasets beschikbaar">{{onderwerp.dataset.length}}</span><span ng-hide='onderwerp.dataset.length > 0' class="label rounded grijs" title="Geen datasets beschikbaar">0</span>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <h6>Datasets</h6>
-                            <div ng-init="nodes = categorie.datasets" ui-include="'app/components/custom/dataset.rows.view.html'">
-                            </div>
-                        </div>
-                    </div>
+                                <div ng-hide="matrix[gemeente.nodeId][item.nodeId]" title="Onbekend" class="status-score YlGnBu q-1-5">
+                                    -
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
                 </div>
             </div>
         </div>

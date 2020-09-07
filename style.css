@@ -686,3 +686,16 @@ ul.tree.accordion{
     padding: 0px;
     margin: 0px 0px 0px 10px;
 }
+
+.diff0{
+}
+
+.diff1{
+    color: green;
+    text-decoration: underline;
+}
+
+.diff-1{
+    color: indianred;
+    text-decoration: line-through;
+}

@@ -26,6 +26,7 @@ angular.
                 console.log($scope.entity);
                 if($scope.view.tab == "edit") $scope.startEdit();
                 if($scope.view.tab == "version") $scope.startVersion();
+                if($scope.node.data.geometry) $scope.prepareGeo();
 
                 if($scope.entity.views[0] == 'chapters'){
                     self.loadTree();
@@ -133,10 +134,74 @@ angular.
         $scope.startVersion = function(){
             if(!$scope.history){
                 Nodes.loadNodeHistory(self.nodeId, function(nodes) {
-                    $scope.history = {'nodes': nodes};
+                    $scope.history = {'nodes': []};
+                    for(i in nodes){
+                        $scope.history.nodes.push(nodes[i]);
+                        if(nodes[i].status == 'current'){
+                            $scope.history.currentNode = nodes[i];
+                        }
+                    }
+                    $scope.historySelect(nodes[i]); //Select last node as selected one
                 });
             }
         }
+
+        $scope.historySelect = function(node) {
+            $scope.history.selectedNode = node;
+
+            for (var i in $scope.history.nodes) {
+                if ($scope.history.nodes[i].nodeVersionId == node.nodeVersionId) {
+                    $scope.historyCompare($scope.history.nodes[Math.max(0,i - 1)]);
+                }
+            }
+        }
+
+        $scope.historyCompare = function(node){
+            $scope.history.selectedNode.diff = {
+                'text' : ""
+            }
+            $scope.history.comparedNode = node;
+            var dmp = new diff_match_patch();
+            var diff = dmp.diff_main(""+node.text, ""+$scope.history.selectedNode.text);
+            dmp.diff_cleanupSemantic(diff);
+            $scope.history.selectedNode.diff = {
+                'text' : diff
+            }
+        }
+
+          $scope.historyApprove = function(node){
+              alert(node.nodeVersionId);
+          }
+
+          $scope.historyRevert = function(node){
+              alert(node.nodeVersionId);
+          }
+
+          $scope.historyDelete = function(node){
+              alert(node.nodeVersionId);
+          }
+
+          $scope.prepareGeo = function(){
+              $scope.googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=" + $rootScope.GoogleMapsKey;
+              $scope.node.geo = {"center": "", "paths": []};
+              var latlngbounds = new google.maps.LatLngBounds();
+
+              var json = JSON.parse($scope.node.data.geometry.replace(/&#34;/g, "\""));
+              for(var j in json.coordinates){
+                  var paths = [];
+                  for(var k in json.coordinates[j][0]){
+                      paths.push([json.coordinates[j][0][k][1],json.coordinates[j][0][k][0]]); //Reverse Lat & Lon
+                      latlngbounds.extend(new google.maps.LatLng(json.coordinates[j][0][k][1],json.coordinates[j][0][k][0]));
+                  }
+                  $scope.node.geo.paths.push(paths);
+              }
+
+              $scope.node.geo.center = ""+latlngbounds.getCenter().lat() + ","+latlngbounds.getCenter().lng();
+              $scope.$on('mapInitialized', function(event, map) {
+                map.setCenter(latlngbounds.getCenter());
+                map.fitBounds(latlngbounds);
+              });
+          }
 
           /**
            * addRelatie voegt een nieuwe relatie toe aan de Node

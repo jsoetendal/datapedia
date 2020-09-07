@@ -15,6 +15,7 @@
           'ui.router',
           'ui.tinymce',
           'ui.bootstrap',
+          'ngMap',
           'core']);
 
 })();

@@ -232,7 +232,7 @@ class Auth{
     function doChangePassword($id, $new_password){
         $user = Array();
 
-        $salt = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+        $salt = bin2hex(random_bytes(32));
         $saltedPW = $salt. $new_password;
         $hashedPW = hash('sha256', $saltedPW);
         $user["password"] = $hashedPW;

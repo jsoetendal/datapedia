@@ -335,6 +335,68 @@
         ],
         "dependencies": [
         ]
+      },
+      {
+        "type": "gemeente",
+        "single": "Gemeente",
+        "plural": "Gemeentes",
+        "image": "logo",
+        "background": "app/images/cs.jpg",
+        "path": false,
+        "views": ["geo","list","tile"],
+        "getNodesExtended": true,
+        "facet": {
+          "optional": true,
+          "default": false
+        },
+        "data": [
+          {
+            "key": "geometry",
+            "type": "geometry",
+            "label": "Geolocatie",
+            "descriptionInput": "",
+            "required": false
+          },
+          {
+            "key": "contact",
+            "type": "text",
+            "label": "Contactpersoon",
+            "descriptionInput": "Geef de naam van een contactpersoon van dit project",
+            "required": false
+          },
+          {
+            "key": "url",
+            "type": "url",
+            "label": "Website",
+            "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
+            "required": false
+          }
+        ],
+        "relations": [
+          {
+            "key": "gemeente_datatop15",
+            "type": "datatop15",
+            "label": "Status Data Top 15",
+            "description": "Status per Data Top 15-item",
+            "descriptionInput": "Selecteer een Data Top 15-item waarvoor je de status wilt vastleggen",
+            "facet": true,
+            "min": 0,
+            "max": 999,
+            "view": "app/components/custom/gemeente_datatop15.relations.view.html",
+            "data": [
+              {
+                "key": "status",
+                "type": "enum",
+                "options": ["Onbekend","Nog niet gestart","Orienterend", "Aan de slag","Goed bezig", "Compleet"],
+                "label": "Status",
+                "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
+                "required": false
+              }
+            ]
+          }
+        ],
+        "dependencies": [
+        ]
       }
     ]
   },
@@ -374,7 +436,15 @@
           "url": "#/nodes/dataset",
           "state": "nodes",
           "params": {"type":  "dataset"}
-        },
+        }
+      ]
+    },
+    {
+      "label": "Data Top 15",
+      "url": "#/nodes/onderwerp",
+      "state": "nodes",
+      "params": {"type":  "onderwerp"},
+      "sub": [
         {
           "label": "Data Top 15",
           "url": "#/nodes/datatop15",
@@ -382,10 +452,16 @@
           "params": {"type": "dataset"}
         },
         {
-          "label": "Organisaties",
-          "url": "#/nodes/organisatie",
+          "label": "Status",
+          "url": "#/datatop15",
+          "state": "datatop15",
+          "params": {}
+        },
+        {
+          "label": "Gemeentes",
+          "url": "#/nodes/gemeente",
           "state": "nodes",
-          "params": {"type":  "organisatie"}
+          "params": {"type":  "gemeente"}
         }
       ]
     },

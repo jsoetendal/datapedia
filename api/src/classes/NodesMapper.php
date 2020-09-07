@@ -54,12 +54,13 @@ class NodesMapper extends Mapper
         $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'"); //" ORDER BY `path`,`title`");
 
         //Relaties toevoegen
-        $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.path, target.title, target.text, target.imgUrl, target.data FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
+        $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, relations.data as datarelation, target.nodeId, target.path, target.title, target.text, target.imgUrl, target.data FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
         foreach($relations as $relation) {
             foreach ($rows as $key => $value) {
                 if ($value->nodeId == $relation->sourceId) {
                     $currentKey = $relation->key;
                     if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
+                    if(trim($relation->datarelation) != "") $relation->datarelation = json_decode($relation->datarelation);
                     array_push($rows[$key]->$currentKey, $relation);
                 }
             }
@@ -67,12 +68,13 @@ class NodesMapper extends Mapper
 
 
         //Idem, dependencies toevoegen
-        $dependencies = $this->db->getArray("SELECT relations.targetId, relations.key, source.nodeId, source.path, source.title, source.text, source.imgUrl, source.data FROM relations JOIN nodes as target ON (relations.targetId = target.nodeId AND target.type = '". $type ."') JOIN nodes as source ON (relations.sourceId = source.nodeId) ORDER BY targetId, `key`, title");
+        $dependencies = $this->db->getArray("SELECT relations.targetId, relations.key, relations.data as datarelation, source.nodeId, source.path, source.title, source.text, source.imgUrl, source.data FROM relations JOIN nodes as target ON (relations.targetId = target.nodeId AND target.type = '". $type ."') JOIN nodes as source ON (relations.sourceId = source.nodeId) ORDER BY targetId, `key`, title");
         foreach($dependencies as $relation){
             foreach ($rows as $key => $value) {
                 if ($value->nodeId == $relation->targetId) {
                     $currentKey = $relation->key;
                     if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
+                    if(trim($relation->datarelation) != "") $relation->datarelation = json_decode($relation->datarelation);
                     array_push($rows[$key]->$currentKey, $relation);
                 }
             }
@@ -122,20 +124,22 @@ class NodesMapper extends Mapper
             $node = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeId = '". $nodeId ."' ORDER BY nodeVersionId DESC");
         }
         $node->relations = new stdClass();
-        $relatedNodes = $this->db->getArray("SELECT * FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '". $nodeId ."'");
+        $relatedNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '". $nodeId ."'");
         foreach($relatedNodes as $relatedNode){
             $key = $relatedNode->key;
             if(!$node->relations->$key) $node->relations->$key = [];
             $relatedNode->data = json_decode($relatedNode->data);
+            $relatedNode->datarelation = json_decode($relatedNode->datarelation);
             $relatedNode->visible = true;
             array_push($node->relations->$key, $relatedNode);
         }
         $node->dependencies = new stdClass();
-        $dependentNodes = $this->db->getArray("SELECT * FROM relations JOIN nodes ON (relations.sourceId = nodes.nodeId) WHERE targetId = '". $nodeId ."'");
+        $dependentNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.sourceId = nodes.nodeId) WHERE targetId = '". $nodeId ."'");
         foreach($dependentNodes as $dependentNode){
             $key = $dependentNode->key;
             if(!$node->dependencies->$key) $node->dependencies->$key = [];
             $dependentNode->data = json_decode($dependentNode->data);
+            $dependentNode->datarelation = json_decode($dependentNode->datarelation);
             $dependentNode->visible = true;
             array_push($node->dependencies->$key, $dependentNode);
         }
@@ -157,8 +161,10 @@ class NodesMapper extends Mapper
     }
 
     function getNodeHistory($nodeId){
-        $rows = $this->db->getArray("SELECT nodes_versions.*, users.name, users.role FROM nodes_versions LEFT JOIN users ON (nodes_versions.creatorId = users.id) WHERE nodes_versions.nodeId = '". $nodeId ."' ORDER BY nodes_versions.created");
-
+        $rows = $this->db->getArray("SELECT nodes_versions.*, creator.name as creatorName, creator.role as creatorRole, updater.name as updaterName, updater.role as updaterRole FROM nodes_versions LEFT JOIN users as creator ON (nodes_versions.creatorId = creator.id) LEFT JOIN users as updater ON(nodes_versions.updaterId = updater.id) WHERE nodes_versions.nodeId = '". $nodeId ."' ORDER BY nodes_versions.updated");
+        foreach($rows as $key => $row){
+            $rows[$key]->userData = json_decode($row->userData);
+        }
         return $rows;
     }
 
@@ -254,8 +260,10 @@ class NodesMapper extends Mapper
 
         //Ignore elements that do not need to be saved:
         unset($arr["nodeVersionId"]);
+        $relations = $arr["relations"];
         unset($arr["relations"]);
         unset($arr["dependencies"]);
+        unset($arr["geo"]);
         unset($arr["visible"]);
 
         $arr["updated"] = date("Y-m-d H:i:s");
@@ -268,6 +276,14 @@ class NodesMapper extends Mapper
             $this->db->doSQL("UPDATE nodes_versions SET status='previous' WHERE nodeId = '". $data["nodeId"]. "' AND (status = 'current' OR status = '". $status."')"); //Laatste indien huidige status suggested is
             $arr["status"] = "current";
             $this->db->doInsert("nodes_versions", $arr);
+            foreach($relations as $key => $rels){
+                foreach($rels as $relation){
+                    if($relation["datarelation"]){
+                        $json = json_encode($relation["datarelation"]);
+                        $this->db->doSQL("UPDATE relations SET data = '". $json ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
+                    }
+                }
+            }
         } else {
             $arr["status"] = "suggested";
             $record["userData"] = json_encode($this->getUserData());

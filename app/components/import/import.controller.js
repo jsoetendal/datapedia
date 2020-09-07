@@ -19,25 +19,60 @@ angular.
         }
 
         $scope.onPasteData = function(){
-            var text = $scope.import.text.replace(/\r/g, '').trim('\n');
-            var rowsOfText = text.split('\n');
             var header = [];
             var rows = [];
-            rowsOfText.forEach(function(rowAsText) {
-                // Remove wrapping double quotes
-                var row = rowAsText.split('\t').map(function(colAsText) {
-                    return colAsText.trim().replace(/^"(.*)"$/, '$1');
-                });
-                // The first row containing data is assumed to be the header
-                if (header.length == 0) {
-                    // Remove empty columns
-                    while (row.length && !row[row.length-1].trim()) row.pop();
-                    if (row.length == 0) return;
-                    header = row;
-                } else {
-                    rows.push(row.slice(0, header.length));
+            var text = $scope.import.text.replace(/\r/g, '').trim();
+            if(text.charAt(0) == "{" && text.charAt(text.length - 1) == "}") {
+                //Found a possible GeoJSON-object
+                var json = JSON.parse(text);
+                var properties = [];
+                if (json.features) {
+                    header.push("geometry");
+                    for (var i in json.features[0].properties) {
+                        header.push(i);
+                        properties.push(i);
+                    }
+                    for (var i in json.features) {
+                        var row = [];
+                        row.push(JSON.stringify(json.features[i].geometry));
+                        for (var j in properties) {
+                            row.push(json.features[i].properties[properties[j]]);
+                        }
+                        rows.push(row);
+                    }
                 }
-            });
+            } else if(text.charAt(0) == "[" && text.charAt(text.length - 1) == "]"){
+                //Found a JSON-object
+                var json = JSON.parse(text);
+                for(var i in json[0]){
+                    header.push(i);
+                }
+                for(var i in json){
+                    var row = [];
+                    for(var j in header){
+                        row.push(json[i][header[j]]);
+                    }
+                    rows.push(row);
+                }
+            } else {
+                //Process as CSV
+                var rowsOfText = text.split('\n');
+                rowsOfText.forEach(function (rowAsText) {
+                    // Remove wrapping double quotes
+                    var row = rowAsText.split('\t').map(function (colAsText) {
+                        return colAsText.trim().replace(/^"(.*)"$/, '$1');
+                    });
+                    // The first row containing data is assumed to be the header
+                    if (header.length == 0) {
+                        // Remove empty columns
+                        while (row.length && !row[row.length - 1].trim()) row.pop();
+                        if (row.length == 0) return;
+                        header = row;
+                    } else {
+                        rows.push(row.slice(0, header.length));
+                    }
+                });
+            }
             $scope.import.header = header;
             $scope.import.data = rows;
         }

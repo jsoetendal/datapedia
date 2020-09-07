@@ -21,6 +21,7 @@
         $rootScope.environment = window.__env.environment;
         $rootScope.wwwBase = window.__env.wwwBase;
         $rootScope.APIBase = window.__env.APIBase;
+        $rootScope.GoogleMapsKey = window.__env.GoogleMapsKey;
         $rootScope.topHeader = "Smart Mobility";
 
         $rootScope.backgroundImgUrl = "https://smartmobilitymra.nl/wp-content/uploads/2019/07/Fietsfiles_Amsterdam_Centrum_3758.jpg";

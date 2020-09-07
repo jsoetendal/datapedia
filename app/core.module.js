@@ -381,6 +381,25 @@ return function(input) {
             return input.substr(0,max) + "...";
         }
     };
+}).filter('truncate', function(){
+    return function(input,max){
+        if(input && input.length < max){
+            return input;
+        }else if(input){
+            return input.substr(0,max);
+        }
+    };
+}).filter('substr', function(){
+    return function(input,start,length){
+        var result = "";
+        if(input){
+            result = input.substr(start,length);
+            if(input.length > start + length){
+                result += "..."
+            }
+        }
+        return result;
+    };
 })
 .directive('tobottom', ['$window','$timeout', function ($window, $timeout) {
 

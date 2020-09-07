@@ -169,3 +169,64 @@ h4.datapedia{
 .label {
     vertical-align: text-top;
 }
+
+ng-map{
+    position: relative;
+}
+
+#tooltip{
+    position: absolute;
+    z-index: 999;
+    width: 20%;
+    left: 0px;
+    top: 0px;
+    background: white;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+ul.relatie{
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+ul.relatie li{
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.status-score{
+    padding: 2px 10px;
+    width: 2rem;
+    margin: 0px auto;
+    border: 1px solid silver;
+    border-radius: 5px;
+}
+
+.YlGnBu{
+    color: white;
+}
+.YlGnBu.q-1-5{
+    fill:rgb(244,244,244);
+    background-color:rgb(244,244,244);
+}
+.YlGnBu.q0-5{
+    fill:rgb(255,255,204);
+    background-color:rgb(255,255,204);
+}
+.YlGnBu.q1-5{
+    fill:rgb(161,218,180);
+    background-color:rgb(161,218,180);
+}
+.YlGnBu.q2-5{
+    fill:rgb(65,182,196);
+    background-color:rgb(65,182,196);
+}
+.YlGnBu.q3-5{
+    fill:rgb(44,127,184);
+    background-color:rgb(44,127,184);
+}
+.YlGnBu.q4-5{
+    fill:rgb(37,52,148);
+    background-color:rgb(37,52,148);
+}

@@ -24,7 +24,7 @@ angular.
                   }
               }
 
-              if($scope.entity.views[0] == "set"){
+              if($scope.entity.views[0] == "set" || $scope.entity.getNodesExtended){
                 var extended = true;
               } else {
                 var extended = false;
@@ -399,6 +399,45 @@ angular.
               self.doSearch($scope.zoeken.q);
           }
 
+          $scope.prepareGeo = function() {
+              $scope.paths = [];
+              var latlngbounds = new google.maps.LatLngBounds();
+              for(var i in $scope.nodes){
+                  if($scope.nodes[i].data.geometry) {
+                      //$scope.nodes[i].geo = {};
+                      var json = JSON.parse($scope.nodes[i].data.geometry.replace(/&#34;/g, "\""));
+                      for(var j in json.coordinates){
+                          var paths = [];
+                          for(var k in json.coordinates[j][0]){
+                              paths.push([json.coordinates[j][0][k][1],json.coordinates[j][0][k][0]]); //Reverse Lat & Lon
+                              latlngbounds.extend(new google.maps.LatLng(json.coordinates[j][0][k][1],json.coordinates[j][0][k][0]));
+                          }
+                          $scope.paths.push({"node": $scope.nodes[i],"nodeId": $scope.nodes[i].nodeId, "paths": paths});
+                      }
+                      //$scope.nodes[i].geo.paths = json.coordinates;
+                  }
+              }
+              $scope.$on('mapInitialized', function(event, map) {
+                  map.setCenter(latlngbounds.getCenter());
+                  map.fitBounds(latlngbounds);
+              });
+          }
+
+          $scope.geoSelect = function(event, node){
+              $state.go("node",{"nodeId": node.nodeId});
+          }
+
+          $scope.geoOver = function(event, node) {
+              $scope.node = node;
+              $scope.tooltipX = event.ub.offsetX + 20;
+              $scope.tooltipY = event.ub.offsetY + 20;
+              console.log(event);
+          }
+
+          $scope.geoOut = function(event, node) {
+              $scope.node = null;
+          }
+
           $scope.setFacet = function(bool){
             self.faceted = bool;
             if(self.faceted && !self.facetsCreated){
@@ -416,6 +455,9 @@ angular.
 
           $scope.setView = function(view){
               $scope.view = view;
+              if(view == "geo"){
+                  $scope.prepareGeo();
+              }
           }
 
           $scope.scrollTo = function(nodeId){
@@ -432,6 +474,7 @@ angular.
         $scope.filterProp = [];
         $scope.nodesLoaded = false;
         $scope.user = $rootScope.setup.user;
+        $scope.googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=" + $rootScope.GoogleMapsKey;
 
         $scope.type = $stateParams.type;
         $scope.key = $stateParams.key;

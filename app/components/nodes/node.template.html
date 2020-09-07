@@ -59,6 +59,24 @@
                                                 <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
                                             </div>
                                             <div class="col-xs-12" ng-class="{'col-md-8': entity.image == 'right' || entity.image=='left'}">
+                                                <div ng-if="node.data.geometry">
+                                                    <div map-lazy-load="https://maps.google.com/maps/api/js"
+                                                         map-lazy-load-params="{{googleMapsUrl}}"
+                                                         style="width: 100%; height: 30vh">
+                                                        <ng-map center="{{node.geo.center}}" zoom="8" style="display: block; height: 100%; border: 1px solid black; width: 100%;">
+                                                            <shape ng-repeat="path in node.geo.paths"
+                                                                   name="polygon"
+                                                                   paths="{{path}}"
+                                                                   stroke-color="#FF0000"
+                                                                   stroke-opacity="0.5"
+                                                                   stroke-weight="2"
+                                                                   fill-color="#000000"
+                                                                   fill-opacity="0.15"
+                                                            >
+                                                            </shape>
+                                                        </ng-map>
+                                                    </div>
+                                                </div>
                                                 <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl}}" style="width: 100%">
                                                 <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl.src}}" style="width: 100%">
                                                 <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 4rem; float: left; margin: 0px 2rem 2rem 0px">
@@ -67,11 +85,24 @@
                                                     <div class="label info">Suggestie</div> <span class="text-muted"><i>Let op, dit is een suggestie, nog niet voor iedereen zichtbaar.</i></span>
                                                 </div>
                                                 <p ng-class='{"m-t": entity.image == "photo"}' ng-bind-html="trustAsHtml(node.text)"></p>
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="row in entity.data" ng-if="node.data[row.key] && row.type !='custom' && row.type !='geometry'">
+                                                        <td>
+                                                            <strong>{{row.label}}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <a ng-if="row.type=='url'" href="{{node.data[row.key]}}">{{node.data[row.key]}}</a>
+                                                            <span ng-hide="row.type=='url'" ng-if="node.data[row.key]">{{node.data[row.key]}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <!--
                                                 <dl>
                                                     <dt ng-repeat-start="row in entity.data" ng-if="node.data[row.key]" ng-hide="row.type =='custom'">{{row.label}}</dt>
                                                     <dd ng-if="row.type=='url'"><a href="{{node.data[row.key]}}">{{node.data[row.key]}}</a></dd>
-                                                    <dd ng-repeat-end ng-hide="row.type =='custom' || row.type=='url'" ng-if="node.data[row.key]">{{node.data[row.key]}}</dd>
+                                                    <dd ng-repeat-end ng-hide="row.type =='custom' || row.type =='geometry' || row.type=='url'" ng-if="node.data[row.key]">{{node.data[row.key]}}</dd>
                                                 </dl>
+                                                -->
                                             </div>
                                             <div class="col-md-4" ng-if="entity.image=='right'">
                                                 <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
@@ -105,7 +136,12 @@
                                         </div>
                                         <div class="box-body" ng-if="!relatie.view">
                                             <ul>
-                                                <li ng-repeat="related in node.relations[relatie.key]"><a ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a></li>
+                                                <li ng-repeat="related in node.relations[relatie.key]"><a ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a>
+                                                    <dl ng-if="relatie.data.length > 0" class="table">
+                                                        <dt ng-repeat-start="row in relatie.data" ng-if="related.datarelation[row.key]">{{row.label}}</dt>
+                                                        <dd ng-repeat-end>{{related.datarelation[row.key]}}</dd>
+                                                    </dl>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -237,8 +273,23 @@
                                         <div class="box-body">
                                             <form role="form" ng-submit="addRelatie(relatie, this);">
                                                 <div class="form-group relatie">
-                                                    <ul>
-                                                        <li ng-repeat="related in node.relations[relatie.key]">{{related.title}} <i class="text-danger fa fa-times pointer" ng-click="deleteRelatie(related)"></i></li>
+                                                    <ul class="relatie">
+                                                        <li ng-repeat="related in node.relations[relatie.key]">
+                                                            <div class="title p-a-sm licht">{{related.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-click="deleteRelatie(related)"></i></div>
+                                                            <div ng-if="relatie.data.length > 0" class="p-a">
+                                                                <div ng-repeat="row in relatie.data" class="form-group">
+                                                                    <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]"> {{row.label}}
+                                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                    </label><br/>
+                                                                    <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="related.datarelation[row.key]">
+                                                                    <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="related.datarelation[row.key]"></textarea>
+                                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="related.data[row.key]">
+                                                                    <select ng-if="row.type == 'enum'"  ng-model="related.datarelation[row.key]" class="form-control" >
+                                                                        <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </li>
                                                     </ul>
                                                     <div ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}">
                                                         <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Voeg {{relatie.label|lowercase}} toe">
@@ -267,8 +318,10 @@
                                         <div class="box-body">
                                             <form role="form" ng-submit="addDependency(dependency, this);">
                                                 <div class="form-group relatie">
-                                                    <ul>
-                                                        <li ng-repeat="dependent in node.dependencies[dependency.key]">{{dependent.title}} <i class="text-danger fa fa-times pointer" ng-click="deleteDependency(dependent)"></i></li>
+                                                    <ul class="relatie">
+                                                        <li ng-repeat="dependent in node.dependencies[dependency.key]">
+                                                            <div class="title p-a-sm licht">{{dependent.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-click="deleteDependency(dependent)"></i></div>
+                                                        </li>
                                                     </ul>
                                                     <div ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}">
                                                         <input type="text" class="form-control" ng-model="searchText[dependency.key]" placeholder="Voeg {{dependency.label|lowercase}} toe">
@@ -336,11 +389,21 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr ng-repeat="node in history.nodes" ng-click="history.selectedNode = node" class="p-a pointer">
-                                                <td>{{node.title}}</td>
-                                                <td>{{node.created}}</td>
-                                                <td>{{node.name}}</td>
-                                                <td>{{node.status}}</td>
+                                            <tr ng-repeat="node in history.nodes" class="p-a pointer" ng-class="{'st-selected': node == history.selectedNode}">
+                                                <td ng-click="historySelect(node)">{{node.title}}</td>
+                                                <td ng-click="historySelect(node)">
+                                                    <span ng-hide="node.updated">{{node.created}}</span>
+                                                    <span>{{node.updated}}</span>
+                                                </td>
+                                                <td ng-click="historySelect(node)">
+                                                    <span ng-show="$index == 0">{{node.creatorName}}</span>
+                                                    <span ng-hide="$index == 0">{{node.updaterName}}</span>
+                                                </td>
+                                                <td ng-click="historySelect(node)">{{node.status}}</td>
+                                                <td>
+                                                    <span ng-if="history.selectedNode" ng-show="history.comparedNode == node"><strong><i class="fa fa-arrow-left"></i></strong></span>
+                                                    <span ng-if="history.selectedNode" ng-hide="history.comparedNode == node" class="text-muted" ng-click="historyCompare(node)"><i class="fa fa-arrow-circle-o-left"></i></span>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -350,17 +413,31 @@
                             <div class="col-xs-12 col-md-6">
                                 <div class="box" ng-if="history.selectedNode">
                                     <div class="box-header">
+                                        <div class="pull-right mralabel">{{history.selectedNode.status}}</div>
                                         <h3>{{history.selectedNode.title}}</h3>
                                         {{history.selectedNode.created}},
-                                        <span ng-show="history.selectedNode.name">{{history.selectedNode.name}}</span>
-                                        <span ng-hide="history.selectedNode.name">Bezoeker</span>
+                                        <span ng-show="!history.selectedNode.updaterName && !history.selectedNode.userdata">{{history.selectedNode.creatorName}}</span>
+                                        <span ng-show="history.selectedNode.updaterName">{{history.selectedNode.updaterName}}</span>
+                                        <span ng-show="history.selectedNode.userdata">Bezoeker</span>
                                     </div>
                                     <div class="box-body">
-                                        {{history.selectedNode}}
+                                        <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
+                                        <span ng-if="history.selectedNode != history.comparedNode" ng-repeat='diff in history.selectedNode.diff.text' class="diff{{diff[0]}}">{{diff[1]}}</span>
+                                        <h5 class="m-t">Data</h5>
+                                        <table class="table table-striped">
+                                            <tr ng-repeat="(key, value) in history.selectedNode.data">
+                                                <td><strong>{{key}}</strong></td>
+                                                <td>{{value}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="box-footer m-y">
+                                        <div class="btn btn-fwd danger pull-right" ng-if="history.selectedNode.status != 'current'" ng-click="historyDelete(history.selectedNode)">Verwijderen</div>
+                                        <div class="btn btn-fwd success pull-right m-r" ng-if="history.selectedNode.status == 'previous'" ng-click="historyRevert(history.selectedNode)">Terugzetten</div>
+                                        <div class="btn btn-fwd success" ng-if="history.selectedNode.status == 'suggested'" ng-click="historyApprove(history.selectedNode)">Accepteren</div>
                                     </div>
                                     <div class="box-body">
-                                        <div class="btn btn-fwd primary" ng-if="history.selectedNode.status == 'suggested'">Accepteren</div>
-                                        <div class="btn btn-fwd primary" ng-if="history.selectedNode.status == 'previous'">Terugzetten</div>
+                                        <div class="text-muted">{{history.selectedNode}}</div>
                                     </div>
                                 </div>
                             </div>

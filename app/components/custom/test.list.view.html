@@ -1,0 +1,7 @@
+<h1>Default</h1>
+<div ng-repeat="node in nodes | orderBy: ['title'] | filter: {'visible': true} | filter: zoeken.searchText as results track by $index">
+    <h2>{{node.title}}</h2>
+    {{node}}
+</div>
+{{nodes}}
+
