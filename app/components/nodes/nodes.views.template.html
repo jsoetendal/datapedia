@@ -55,12 +55,12 @@
 </script>
 
 <script type="text/ng-template" id="nodeRowTile">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 node m-b">
-        <div class="pointer licht" ui-sref="node({nodeId: node.nodeId})">
-            <div class="item dark" style='float: left; width: 60px; height: 60px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
+    <div class="col-xs-12 col-sm-12 col-md-12 node m-b">
+        <div class="pointer" ui-sref="node({nodeId: node.nodeId})">
+            <div class="item dark" style='float: left; width: 105px; height: 60px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
-            <div class="p-a" style="margin-left: 70px; min-height: 60px">
-                <strong>{{node.title}}</strong>
+            <div class="p-a" style="margin-left: 115px; min-height: 60px">
+                {{node.title}}
             </div>
         </div>
     </div>
