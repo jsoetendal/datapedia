@@ -2,10 +2,18 @@
     <h3>{{relatie.label}}</h3>
     <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
 </div>
-<div class="box-body">
+<td class="box-body">
     <table class="table">
-        <tr ng-repeat="related in node.relations[relatie.key]">
+        <tr ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
             <td>{{related.title}}</td>
+            <td>
+                <div ng-if="!related.datarelation['status'] || related.datarelation['status'] == 'Onbekend'"  class="status-score YlGnBu q-1-5">-</div>
+                <div ng-if="related.datarelation['status'] == 'Nog niet gestart'"  class="status-score YlGnBu q0-5">1</div>
+                <div ng-if="related.datarelation['status'] == 'Orienterend'"  class="status-score YlGnBu q1-5">2</div>
+                <div ng-if="related.datarelation['status'] == 'Aan de slag'"  class="status-score YlGnBu q2-5">3</div>
+                <div ng-if="related.datarelation['status'] == 'Goed bezig'"  class="status-score YlGnBu q3-5">4</div>
+                <div ng-if="related.datarelation['status'] == 'Compleet'"  class="status-score YlGnBu q4-5">5</div>
+            </td>
             <td>{{related.datarelation["status"]}}</td>
         </tr>
     </table>

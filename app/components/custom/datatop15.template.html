@@ -53,7 +53,7 @@
                             <th>Gemeente</th>
                             <th ng-repeat="item in dataitems" style="text-align: center" title="{{item.title}}">
                                 <div ui-sref="node({nodeId: item.nodeId})" class='status-item-header'>{{item.title|truncate:3}}</div>
-                                <small>{{item.title|substr:3:12}}</small>
+                                <small>{{item.title|substr:3:8}}</small>
                             </th>
                         </tr>
                         </thead>
