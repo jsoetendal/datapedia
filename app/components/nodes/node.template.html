@@ -153,7 +153,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div ng-repeat="relatie in entity.relations" ng-if="relatie.view">
+                                <div ng-repeat="relatie in combined = entity.relations.concat(entity.dependencies)" ng-if="relatie.view">
+                                    <div style="clear: both" ng-if="relatie.clear"></div>
                                     <div class="col-xs-12" ng-if="!relatie.cols && relatie.view.indexOf('.html') > 0" ui-include="'{{relatie.view}}'">
                                     </div>
                                     <div class="col-xs-{{relatie.cols}}" ng-if="relatie.cols && relatie.view == 'custom'">
@@ -162,7 +163,8 @@
                                                 <h3>{{relatie.label}}</h3>
                                             </div>
                                             <div class="box-body">
-                                                <div ng-init="nodes = node.relations[relatie.key]"  ui-include="'{{relatie.custom}}'"></div>
+                                                <div ng-if="node.relations[relatie.key]" ng-init="nodes = node.relations[relatie.key]"  ui-include="'{{relatie.custom}}'"></div>
+                                                <div ng-if="node.dependencies[relatie.key]" ng-init="nodes = node.dependencies[relatie.key]"  ui-include="'{{relatie.custom}}'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +174,8 @@
                                                 <h3>{{relatie.label}}</h3>
                                             </div>
                                             <div class="box-body">
-                                                <div ng-init="nodes = node.relations[relatie.key]; view=relatie.view; faceted=false" ui-include="'app/components/nodes/nodes.views.template.html'"></div>
+                                                <div ng-if="node.relations[relatie.key]" ng-init="nodes = node.relations[relatie.key]; view=relatie.view; faceted=false" ui-include="'app/components/nodes/nodes.views.template.html'"></div>
+                                                <div ng-if="node.dependencies[relatie.key]" ng-init="nodes = node.dependencies[relatie.key]; view=relatie.view; faceted=false" ui-include="'app/components/nodes/nodes.views.template.html'"></div>
                                             </div>
                                         </div>
                                     </div>

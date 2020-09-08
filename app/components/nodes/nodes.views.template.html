@@ -110,10 +110,18 @@
             <div class="box-body">
                 <span ng-bind-html="node.text | plain:500"></span>
                 <div class="row">
-                    <div class="col-xs-12 col-md-{{relation.cols}}" ng-repeat="relation in entity.relations" ng-if="node[relation.key].length > 0">
-                            <h5 class="m-t p-b m-b b-b">{{relation.label}}</h5>
-                            <div ng-if="!relation.custom" ui-include="'app/components/nodes/nodes.views.template.html'"  ng-init="nodes = node[relation.key]; view=relation.view; faceted=false"></div>
-                            <div ng-if="relation.custom" ui-include="'{{relation.custom}}'"  ng-init="nodes = node[relation.key];"></div>
+                    <div ng-repeat-start="relation in entity.relations" ng-if="relation.clear" class="clearfix" style="clear: both"></div>
+                    <div ng-repeat-end class="col-xs-12 col-md-{{relation.cols}}" ng-if="node[relation.key].length > 0">
+                        <h5 class="m-t p-b m-b b-b">{{relation.label}}</h5>
+                        <div ng-if="!relation.custom" ui-include="'app/components/nodes/nodes.views.template.html'"  ng-init="nodes = node[relation.key]; view=relation.view; faceted=false"></div>
+                        <div ng-if="relation.custom" ui-include="'{{relation.custom}}'"  ng-init="nodes = node[relation.key];"></div>
+                    </div>
+
+                    <div ng-repeat-start="relation in entity.dependencies" ng-if="relation.clear" class="clearfix" style="clear: both"></div>
+                    <div ng-repeat-end class="col-xs-12 col-md-{{relation.cols}}" ng-if="node[relation.key].length > 0">
+                        <h5 class="m-t p-b m-b b-b">{{relation.label}}</h5>
+                        <div ng-if="!relation.custom" ui-include="'app/components/nodes/nodes.views.template.html'"  ng-init="nodes = node[relation.key]; view=relation.view; faceted=false"></div>
+                        <div ng-if="relation.custom" ui-include="'{{relation.custom}}'"  ng-init="nodes = node[relation.key];"></div>
                     </div>
                 </div>
             </div>

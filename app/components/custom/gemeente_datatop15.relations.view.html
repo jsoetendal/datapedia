@@ -2,7 +2,7 @@
     <h3>{{relatie.label}}</h3>
     <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
 </div>
-<td class="box-body">
+<div class="box-body">
     <table class="table">
         <tr ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
             <td>{{related.title}}</td>

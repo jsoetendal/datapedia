@@ -32,11 +32,13 @@ angular.
                   if($scope.gemeentes[i].gemeente_datatop15) {
                       for (var j in $scope.gemeentes[i].gemeente_datatop15) {
                           if(!$scope.matrix[$scope.gemeentes[i].nodeId]) $scope.matrix[$scope.gemeentes[i].nodeId] = {};
-                          $scope.matrix[$scope.gemeentes[i].nodeId][$scope.gemeentes[i].gemeente_datatop15[j].nodeId] =
-                              {
-                                  'score': self.getScore($scope.gemeentes[i].gemeente_datatop15[j].datarelation.status),
-                                  'label': $scope.gemeentes[i].gemeente_datatop15[j].datarelation.status
-                              }
+                          if($scope.gemeentes[i].gemeente_datatop15[j].datarelation) {
+                              $scope.matrix[$scope.gemeentes[i].nodeId][$scope.gemeentes[i].gemeente_datatop15[j].nodeId] =
+                                  {
+                                      'score': self.getScore($scope.gemeentes[i].gemeente_datatop15[j].datarelation.status),
+                                      'label': $scope.gemeentes[i].gemeente_datatop15[j].datarelation.status
+                                  }
+                          }
                       }
                   }
               }

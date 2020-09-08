@@ -326,7 +326,8 @@
             "label": "Aanpak",
             "description": "Relevante artikelen uit het handboek voor dit onderwerp",
             "descriptionInput": "Selecteer één of meerdere artikelen",
-            "cols": 12,
+            "cols": 6,
+            "clear": true,
             "facet": false,
             "view": "row",
             "min": 0,
@@ -334,6 +335,29 @@
           }
         ],
         "dependencies": [
+          {
+            "key": "gemeente_datatop15",
+            "type": "gemeente",
+            "label": "Status gemeentes",
+            "description": "Status per gemeente",
+            "descriptionInput": "Selecteer een gemeente waarvoor je de status wilt vastleggen",
+            "cols": 6,
+            "facet": false,
+            "min": 0,
+            "max": 999,
+            "view": "custom",
+            "custom": "app/components/custom/gemeente_datatop15.dependency.view.html",
+            "data": [
+              {
+                "key": "status",
+                "type": "enum",
+                "options": ["Onbekend","Nog niet gestart","Orienterend", "Aan de slag","Goed bezig", "Compleet"],
+                "label": "Status",
+                "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
+                "required": false
+              }
+              ]
+          }
         ]
       },
       {
