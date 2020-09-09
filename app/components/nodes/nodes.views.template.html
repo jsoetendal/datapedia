@@ -60,7 +60,7 @@
             <div class="item dark" style='float: left; width: 105px; height: 60px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
             <div class="p-a" style="margin-left: 115px; min-height: 60px">
-                {{node.title}}
+                <strong>{{node.title}}</strong>
             </div>
         </div>
     </div>
@@ -356,7 +356,8 @@
                         <div ng-show='node' id="tooltip" ng-include="'nodeTooltip'" style="left: {{tooltipX}}px; top: {{tooltipY}}px"></div>
                     </div>
                 </div>
-                <div ng-repeat="node in nodes | orderBy: ['title'] | filter: {'visible': true} | filter: zoeken.searchText as results track by $index" ui-include="'nodeTinyTile'">
+                <div ng-repeat="node in nodes | orderBy:['title'] | filter: {'visible': true} | filter: zoeken.searchText as results track by $index">
+                    <div ui-include="'nodeTinyTile'"></div>
                 </div>
             </div>
         </div>

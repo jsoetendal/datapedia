@@ -411,7 +411,7 @@
               {
                 "key": "status",
                 "type": "enum",
-                "options": ["Onbekend","Nog niet gestart","Orienterend", "Aan de slag","Goed bezig", "Compleet"],
+                "options": ["Onbekend","Nog niet gestart","Orienterend", "Aan de slag","Goed bezig", "Compleet","Niet van toepassing"],
                 "label": "Status",
                 "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
                 "required": false

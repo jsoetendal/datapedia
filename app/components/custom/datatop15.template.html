@@ -61,7 +61,8 @@
                         <tr ng-repeat="gemeente in gemeentes| orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results track by $index">
                             <td ui-sref="node({nodeId: gemeente.nodeId})">{{gemeente.title}}</td>
                             <td ng-repeat="item in dataitems" style="text-align: center">
-                                <div ng-show="matrix[gemeente.nodeId][item.nodeId]" title="{{matrix[gemeente.nodeId][item.nodeId].label}}" class="status-score YlGnBu q{{matrix[gemeente.nodeId][item.nodeId].score - 1}}-5">
+                                <span ng-show="matrix[gemeente.nodeId][item.nodeId] && matrix[gemeente.nodeId][item.nodeId].label == 'Niet van toepassing'">-</span>
+                                <div ng-show="matrix[gemeente.nodeId][item.nodeId] && matrix[gemeente.nodeId][item.nodeId].label != 'Niet van toepassing'" title="{{matrix[gemeente.nodeId][item.nodeId].label}}" class="status-score YlGnBu q{{matrix[gemeente.nodeId][item.nodeId].score - 1}}-5">
                                     {{matrix[gemeente.nodeId][item.nodeId].score}}
                                 </div>
                                 <div ng-hide="matrix[gemeente.nodeId][item.nodeId]" title="Onbekend" class="status-score YlGnBu q-1-5">
