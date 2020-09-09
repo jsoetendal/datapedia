@@ -211,6 +211,22 @@ ul.relatie li{
     border: 1px solid silver;
 }
 
+.status-handboek.q1-5{
+    border-left: 10px solid rgb(161,218,180);
+    padding-left: 10px;
+}
+.status-handboek.q2-5{
+    border-left: 10px solid rgb(65,182,196);
+    padding-left: 10px;
+}
+.status-handboek.q3-5{
+    border-left: 10px solid rgb(44,127,184);
+    padding-left: 10px;
+}
+.status-handboek.q4-5{
+    border-left: 10px solid rgb(37,52,148);
+    padding-left: 10px;
+}
 
 .YlGnBu{
     color: white;

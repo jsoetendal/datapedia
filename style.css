@@ -150,7 +150,7 @@ iframe{
   }
 }
 
-a {
+a, .itemcontent a{
     color:  #3182bd;
     text-decoration: none;
 }
@@ -699,3 +699,4 @@ ul.tree.accordion{
     color: indianred;
     text-decoration: line-through;
 }
+
