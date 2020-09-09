@@ -306,12 +306,19 @@ class NodesMapper extends Mapper
      * @return mixed getNodeSimple($data[targetId])
      */
 
-    function addRelation($data){
+    function addRelation($data, $token){
         $sourceId = intval($data["sourceId"]);
         $targetId = intval($data["targetId"]);
         $key = escape_string($data["key"]);
 
-        $this->db->doInsert("relations",["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s")]);
+        $creatorId = max(0, $token->getUserId()); //Wordt 0 als er geen userId is.
+
+        if($token->isContributorOrUp()) {
+            $this->db->doInsert("relations", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s")]);
+            $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "current"]);
+        } else {
+            $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "suggested"]);
+        }
 
         return $this->getNodeSimple($targetId);
     }

@@ -283,7 +283,7 @@
                                                 <div class="form-group relatie">
                                                     <ul class="relatie">
                                                         <li ng-repeat="related in node.relations[relatie.key]">
-                                                            <div class="title p-a-sm licht">{{related.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-click="deleteRelatie(related)"></i></div>
+                                                            <div class="title p-a-sm licht">{{related.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteRelatie(related)"></i></div>
                                                             <div ng-if="relatie.data.length > 0" class="p-a">
                                                                 <div ng-repeat="row in relatie.data" class="form-group">
                                                                     <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]"> {{row.label}}
@@ -328,7 +328,7 @@
                                                 <div class="form-group relatie">
                                                     <ul class="relatie">
                                                         <li ng-repeat="dependent in node.dependencies[dependency.key]">
-                                                            <div class="title p-a-sm licht">{{dependent.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-click="deleteDependency(dependent)"></i></div>
+                                                            <div class="title p-a-sm licht">{{dependent.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteDependency(dependent)"></i></div>
                                                             <div ng-if="dependency.data.length > 0" class="p-a">
                                                                 <div ng-repeat="row in dependency.data" class="form-group">
                                                                     <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}

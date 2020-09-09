@@ -125,9 +125,13 @@ $app->get('/node/delete/{id}', function (Slim\Http\Request $request, Slim\Http\R
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
 
-    $nodesMapper = new NodesMapper($this->db);
-    $result = $nodesMapper->deleteNode($id, $token);
-    return $response->withStatus(200)->withJSON($result);
+    if($token->isContributorOrUp()) {
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->deleteNode($id, $token);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
 });
 
 $app->post("/node/add/", function (Slim\Http\Request $request, Slim\Http\Response $response) {
@@ -179,9 +183,13 @@ $app->post("/relation/delete/", function (Slim\Http\Request $request, Slim\Http\
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
 
-    $nodesMapper = new NodesMapper($this->db);
-    $result = $nodesMapper->deleteRelation($data, $token);
-    return $response->withStatus(200)->withJSON($result);
+    if($token->isContributorOrUp()) {
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->deleteRelation($data, $token);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
 });
 
 
