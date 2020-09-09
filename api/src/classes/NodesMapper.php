@@ -261,6 +261,7 @@ class NodesMapper extends Mapper
         //Ignore elements that do not need to be saved:
         unset($arr["nodeVersionId"]);
         $relations = $arr["relations"];
+        $dependencies = $arr["dependencies"];
         unset($arr["relations"]);
         unset($arr["dependencies"]);
         unset($arr["geo"]);
@@ -277,6 +278,14 @@ class NodesMapper extends Mapper
             $arr["status"] = "current";
             $this->db->doInsert("nodes_versions", $arr);
             foreach($relations as $key => $rels){
+                foreach($rels as $relation){
+                    if($relation["datarelation"]){
+                        $json = json_encode($relation["datarelation"]);
+                        $this->db->doSQL("UPDATE relations SET data = '". $json ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
+                    }
+                }
+            }
+            foreach($dependencies as $key => $rels){
                 foreach($rels as $relation){
                     if($relation["datarelation"]){
                         $json = json_encode($relation["datarelation"]);

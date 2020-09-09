@@ -126,6 +126,11 @@
                                         <div class="box-body" ng-if="!dependency.view">
                                             <ul>
                                                 <li ng-repeat="dependent in node.dependencies[dependency.key]"><a ui-sref="node({nodeId: dependent.nodeId})">{{dependent.title}}</a></li>
+                                                    <dl ng-if="dependency.data.length > 0" class="table">
+                                                        <dt ng-repeat-start="row in dependency.data" ng-if="dependent.datarelation[row.key]">{{row.label}}</dt>
+                                                        <dd ng-repeat-end>{{dependent.datarelation[row.key]}}</dd>
+                                                    </dl>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -324,6 +329,19 @@
                                                     <ul class="relatie">
                                                         <li ng-repeat="dependent in node.dependencies[dependency.key]">
                                                             <div class="title p-a-sm licht">{{dependent.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-click="deleteDependency(dependent)"></i></div>
+                                                            <div ng-if="dependency.data.length > 0" class="p-a">
+                                                                <div ng-repeat="row in dependency.data" class="form-group">
+                                                                    <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}
+                                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                    </label><br/>
+                                                                    <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="dependent.datarelation[row.key]">
+                                                                    <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="dependent.datarelation[row.key]"></textarea>
+                                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="dependent.data[row.key]">
+                                                                    <select ng-if="row.type == 'enum'"  ng-model="dependent.datarelation[row.key]" class="form-control" >
+                                                                        <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </li>
                                                     </ul>
                                                     <div ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}">
