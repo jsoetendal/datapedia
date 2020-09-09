@@ -42,7 +42,7 @@ class Auth{
         if(!$token->isValid()) return Array("code" => 403, "data" => ["msg" => "Unable to refresh"]);
         if($token->isExpired()) return Array("code" => 403, "data" => ["msg" => "Unable to refresh"]);
 
-        $user = $this->db->returnFirst("SELECT id, email, role, type, region, agent, status, lastsave, wensen FROM users WHERE email = '". $email ."' AND id = '". $token->getUserId() ."' AND status='actief' AND (refresh IS NULL OR refresh < '". date("Y-m-d H:i:s", $token->getIssued())."')");
+        $user = $this->db->returnFirst("SELECT id, email, role, lastsave FROM users WHERE email = '". $email ."' AND id = '". $token->getUserId() ."' AND (refresh IS NULL OR refresh < '". date("Y-m-d H:i:s", $token->getIssued())."')");
 
         if(!$user) return Array("code" => 403, "data" => ["msg" => "Unable to refresh"]);
 

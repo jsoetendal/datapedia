@@ -29,6 +29,8 @@
                 <div class="box-header ypadding">
                     <div class="b-b nav-active-bg row">
                         <div class="col-md-7 col-lg-8">
+                            <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
+                            <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl.src}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
                             <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
                             <h1>{{node.title}}</h1>
                         </div>
@@ -79,8 +81,6 @@
                                                 </div>
                                                 <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl}}" style="width: 100%">
                                                 <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl.src}}" style="width: 100%">
-                                                <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 4rem; float: left; margin: 0px 2rem 2rem 0px">
-                                                <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl.src}}" style="height: 4rem; float: left; margin: 0px 2rem 2rem 0px">
                                                 <div ng-if="node.status == 'suggested'" class="m-t">
                                                     <div class="label info">Suggestie</div> <span class="text-muted"><i>Let op, dit is een suggestie, nog niet voor iedereen zichtbaar.</i></span>
                                                 </div>
