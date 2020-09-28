@@ -14,9 +14,9 @@ angular.
               $scope.loaded = false;
               $scope.multipleTypes = false;
 
-              Nodes.loadNodes('gemeente', true, function () {
+              Nodes.loadNodes('gemeente', true, null, function () {
                   $scope.gemeentes = Nodes.getNodes();
-                  Nodes.loadNodes('datatop15', false, function () {
+                  Nodes.loadNodes('datatop15', false, null, function () {
                       $scope.dataitems = Nodes.getNodes();
                       self.prepareView();
                   });

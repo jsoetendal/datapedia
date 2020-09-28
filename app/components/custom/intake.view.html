@@ -1,0 +1,85 @@
+<div class="box">
+    <div class="box-header">
+        <h2>Intake Data Top 15</h2>
+        <small>Voor de intake van een gemeente kan een vertegenwoordiger van de gemeente voor de Data Top 15-items aangeven wat de huidige status van de organisatie is.<br/>Per item wordt gevraagd een inventarisatie uit te voeren en de huidige status aan te geven.</small>
+    </div>
+</div>
+
+<div ng-if="!user.auth || !user.auth.authenticated" class="row">
+    <div class="m-b p-a info lt">
+        <strong>Je bent niet ingelogd</strong><br/>Dat betekent dat je deze intake niet in kan vullen.<br/>Wil je wel direct kunnen invoeren en wijzigen? <a ui-sref="login">Log dan in</a> of <a ui-sref="signup">maak een account aan</a>.
+        <!--TODO: Link opnemen naar inloggen en nieuw account -->
+    </div>
+</div>
+
+<div ng-if="user.auth && user.auth.authenticated" class="row">
+    <div class="col-xs-12 datatop15item">
+        <div class="box">
+            <div class="box-header">
+                <h2>{{item.title}}</h2>
+                <small><a ui-sref="node({nodeId: item.nodeId})" target="_blank">Meer informatie over dit onderdeel</a></small>
+            </div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-9">
+                        <p ng-bind-html="item.status.intro"></p>
+                        <div class="p-t" ng-if="item.status.inventarisatie">
+                            <h4>Inventarisatie</h4>
+                            <p ng-if="item.status.inventarisatie" ng-bind-html="item.status.inventarisatie"></p>
+                            <strong>Korte toelichting/beantwoording inventarisatie:</strong>
+                            <textarea ng-model="item.status.data.inventarisatie" style="width: 100%; height: 150px"></textarea>
+                        </div>
+                        <div class="p-t" ng-hide="item.status.inventarisatie">
+                            Van dit onderdeel is nog geen introductie beschikbaar
+                        </div>
+                        <div class="p-t" ng-if="item.status.stappen.length > 0">
+                            <h4>Huidige status</h4>
+                            <strong>Welk van onderstaande beschrijvingen is het meest van toepassing voor deze gemeente?</strong><br/>
+                            <small class="text-muted">Vink de stap aan die het beste past:</small><br/><br/>
+                            <table>
+                                <tr ng-repeat="stap in item.status.stappen">
+                                    <td style="width: 60px">
+                                        <input type="radio" ng-model="item.status.data.status" ng-value="stap.value">
+                                    </td>
+                                    <td>
+                                        <div  class="status-handboek q{{stap.score}}-5">
+                                            <p ng-bind-html="stap.text"></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="p-t" ng-if="!item.status || item.status.stappen.length == 0">
+                            Voor dit onderdeel is de intake nog niet beschikbaar.
+                        </div>
+
+                        <div class="p-t">
+                            <h4>Hulp vanuit het Regionaal Datateam</h4>
+                            <p>Waarmee zou het Regionaal Datateam kunnen helpen bij dit onderdeel?</p>
+                            <textarea ng-model="item.status.data.hulpRDT" style="width: 100%; height: 150px"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="hidden-sm col-md-3">
+                        <img src="item.status.img" ng-if="item.status.img" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="box-divider"></div>
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="btn btn-fw primary" ng-show="currentNum < (items.length - 1)" ng-click="nextItem();">Opslaan & volgende</div>
+                        <div class="btn btn-fw primary" ng-show="currentNum == (items.length - 1)" ng-click="lastItem();">Opslaan</div>
+                        <small class="text-muted pointer" ng-show="currentNum > 0" ng-click="prevItem();"><br/><br/>&lt;&lt; terug naar vorige</small>
+                    </div>
+                    <div class="col-sm-9" style="text-align: center">
+                        {{currentNum + 1}} / {{items.length}}<br/>
+                        <div class="progress progress-sm"><div class="progress-bar primary" style="width: {{(currentNum / items.length) * 100}}%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

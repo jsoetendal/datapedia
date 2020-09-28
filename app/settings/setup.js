@@ -3,7 +3,7 @@ angular.
 module('core.setup',['core.user']).
 service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User', function($rootScope, $window, $location, $state, $http, User){
 
-    this.doLogin = function(scope, currentRegionId){
+    this.doLogin = function(scope){
         var self = this;
 
         self.user.doLogin(scope, function(){
@@ -72,17 +72,12 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
         return this.user;
     }
 
-    this.setDirty = function(type, userOrClient){
-        if(userOrClient == "user"){
-            this.user.setDirty(type);
-        } else {
-            this.client.setDirty(type);
-        }
+    this.setDirty = function(type){
+        this.user.setDirty(type);
     }
 
     this.saveDirty = function(){
-        if(this.user) this.user.saveDirty();
-        if(this.client) this.client.saveDirty();
+        this.user.saveDirty();
     }
 
     this.refreshUser = function(func){

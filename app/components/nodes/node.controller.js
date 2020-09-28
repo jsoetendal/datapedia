@@ -61,7 +61,7 @@ angular.
         this.loadTree = function() {
             //Als de view 'chapters' is, dan ook de 'inhoudsopgave' downloaden
 
-            Nodes.loadNodes($scope.entity.type, false, function (type) {
+            Nodes.loadNodes($scope.entity.type, false, null, function (type) {
                 $scope.nodes = Nodes.getNodes();
 
                 //Vind volgende en vorige
@@ -109,7 +109,7 @@ angular.
                 $scope.relations = {};
                 for (var i in $scope.entity.relations) {
                     if (!$scope.relations[$scope.entity.relations[i].type]) {
-                        Nodes.loadNodes($scope.entity.relations[i].type, false, function (type) {
+                        Nodes.loadNodes($scope.entity.relations[i].type, false, null, function (type) {
                             $scope.relations[type] = Nodes.getNodes();
                         });
                     }
@@ -118,7 +118,7 @@ angular.
                 //Load all possible dependencies (target relations)
                 for (var i in $scope.entity.dependencies) {
                     if (!$scope.relations[$scope.entity.dependencies[i].type]) {
-                        Nodes.loadNodes($scope.entity.dependencies[i].type, false, function (type) {
+                        Nodes.loadNodes($scope.entity.dependencies[i].type, false, null, function (type) {
                             $scope.relations[type] = Nodes.getNodes();
                         });
                     }

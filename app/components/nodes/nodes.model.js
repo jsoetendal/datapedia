@@ -7,11 +7,13 @@ angular.
       var nodes = [];
       var node = null;
 
-          this.loadNodes = function(type, extended, func){
+          this.loadNodes = function(type, extended, path, func){
               var self = this;
 
               var url = $rootScope.APIBase + "nodes/" + type +"/";
-              if(extended){
+              if(path){
+                  url = $rootScope.APIBase + "nodes/" + type +"/path/" + path;
+              } else if(extended){ //else -> path kan niet extended opgehaald worden
                   url = $rootScope.APIBase + "nodes/extended/" + type +"/";
               }
               $http({
@@ -40,7 +42,7 @@ angular.
                   if(fallback.status == 401){
                       //Refresh needed
                       $rootScope.setup.user.refreshUser(function(){
-                          self.loadNodes(type, extended, func);
+                          self.loadNodes(type, extended, path, func);
                       });
                   } else {
                       alert("Mislukt om nodes op te halen");
@@ -337,6 +339,44 @@ angular.
                       //Refresh needed
                       $rootScope.setup.user.refreshUser(function(){
                           self.addRelation(sourceId, key, targetId, func);
+                      });
+                  } else {
+                      alert("Mislukt om node toe te voegen");
+                  }
+              });
+          }
+
+          this.setRelationData = function(sourceId, key, targetId, data, func){
+              var url = $rootScope.APIBase + "relation/set/";
+              $http({
+                  method: 'POST',
+                  url: url,
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  },
+                  data: {
+                      "sourceId": sourceId,
+                      "key": key,
+                      "targetId": targetId,
+                      "data": data
+                  }
+              }).then(function(response) {
+                  if(response.status == 200){
+                      if(response.data){
+                          var node = new Node(response.data);
+                          if(func) func(node);
+                      }
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.setRelationData(sourceId, key, targetId, data, func);
                       });
                   } else {
                       alert("Mislukt om node toe te voegen");

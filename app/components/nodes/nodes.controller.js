@@ -29,7 +29,7 @@ angular.
               } else {
                 var extended = false;
               }
-              Nodes.loadNodes(type, extended, function () {
+              Nodes.loadNodes(type, extended, null, function () {
                   self.setNodes();
                   if ($scope.entity.facet.default) {
                       $scope.setFacet($scope.entity.facet.default);

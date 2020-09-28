@@ -415,7 +415,7 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', function($rootSco
                     //Verlopen
                     this.auth.authenticated = false;
                     this.refreshUser(function(){
-                        $rootScope.setup.refreshClient(self, function(){
+                        $rootScope.setup.refreshUser(self, function(){
                             $window.location.reload();
                         });
                     });

@@ -6,15 +6,17 @@ class NodesMapper extends Mapper
         $this->media = $media;
     }
 
-    function getNodes($type){
-        return $this->getNodesExtendedWithLabels($type);
+    function getNodes($type, $path = null){
+        return $this->getNodesExtendedWithLabels($type, $path);
 
         $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'");
         return $rows;
     }
 
-    function getNodesExtendedWithLabels($type){
-        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'"); //" ORDER BY `path`,`title`");
+    function getNodesExtendedWithLabels($type, $path = null){
+        $SQL = "SELECT * FROM nodes WHERE type = '". $type ."'";
+        if($path) $SQL .= " AND path LIKE '%". $path ."%'";
+        $rows = $this->db->getArray($SQL); //" ORDER BY `path`,`title`");
 
         //Relaties toevoegen
         $relations = $this->db->getArray("SELECT relations.sourceId, relations.key, target.nodeId, target.title FROM relations JOIN nodes as source ON (relations.sourceId = source.nodeId AND source.type = '". $type ."') JOIN nodes as target ON (relations.targetId = target.nodeId) ORDER BY sourceId, `key`, title");
@@ -321,6 +323,22 @@ class NodesMapper extends Mapper
         }
 
         return $this->getNodeSimple($targetId);
+    }
+
+    function setRelation($data, $token){
+        $sourceId = intval($data["sourceId"]);
+        $targetId = intval($data["targetId"]);
+        $key = escape_string($data["key"]);
+        $data = json_encode($data["data"]);
+
+        $creatorId = max(0, $token->getUserId()); //Wordt 0 als er geen userId is.
+
+        if($token->isContributorOrUp()) {
+            $this->db->doUpdate("relations", ["data" => $data], ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key]);
+            $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "current"]);
+        } else {
+            $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "suggested"]);
+        }
     }
 
     function deleteRelation($data){

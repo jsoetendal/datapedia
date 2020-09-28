@@ -126,7 +126,7 @@ component('users', {
                         if(fallback.status == 401){
                             //Refresh needed
                             self.user.refreshUser(function(){
-                                self.editUser(client, password1, password2);
+                                self.editUser(user, password1, password2);
                             });
                         } else if(fallback.status == 406){
                             $scope.infomsg = "";

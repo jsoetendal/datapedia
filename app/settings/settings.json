@@ -373,6 +373,13 @@
           "optional": true,
           "default": false
         },
+        "tabs": [
+          {
+            "key": "intake",
+            "title": "Intake",
+            "templateHTML": "<intake></intake>"
+          }
+        ],
         "data": [
           {
             "key": "geometry",

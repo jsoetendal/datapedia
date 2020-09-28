@@ -74,6 +74,18 @@ $app->get('/nodes/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->get('/nodes/{type}/path/{path}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    $nodesMapper = new NodesMapper($this->db);
+    $type = escape_string($request->getAttribute('type'));
+    $path = escape_string($request->getAttribute('path'));
+
+    $result = $nodesMapper->getNodes($type, $path);
+    return $response->withStatus(200)->withJSON($result);
+});
+
 $app->get('/nodes/relation/{key}/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
@@ -176,6 +188,20 @@ $app->post("/relation/add/", function (Slim\Http\Request $request, Slim\Http\Res
     $nodesMapper = new NodesMapper($this->db);
     $result = $nodesMapper->addRelation($data, $token);
     return $response->withStatus(200)->withJSON($result);
+});
+
+$app->post("/relation/set/", function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $data = $request->getParsedBody();
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    //if($token->isContributorOrUp()) {
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->setRelation($data, $token);
+        return $response->withStatus(200)->withJSON($result);
+    //} else {
+    //  return $response->withStatus(403);
+    //}
 });
 
 $app->post("/relation/delete/", function (Slim\Http\Request $request, Slim\Http\Response $response) {

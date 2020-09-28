@@ -39,6 +39,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
                                 </li>
+                                <li ng-repeat="tab in entity.tabs" class="nav-item">
+                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': tab.key})" href="" data-toggle="tab" data-target="#tab-{{tab.key}}" ng-class="{'active': view.tab == tab.key}">{{tab.title}}</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
                                 </li>
@@ -463,7 +466,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="tab-pane animated fadeIn text-muted" ng-repeat="tab in entity.tabs" id="tab-{{tab.key}}"  ng-class="{'active': view.tab == tab.key}">
+                            <div compile="tab.templateHTML"></div>
+                        </div>
                 </div>
             </div>
         </div>
