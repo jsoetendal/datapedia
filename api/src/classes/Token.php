@@ -4,7 +4,7 @@ use \Firebase\JWT\JWT;
 class Token{
  
     public function __construct($requestOrString = null){
-        $this->key = "ThA{fKPLSZbu\"&]Ur#Mv/'D2@Nz[]D7@Il`1Im6X#Y}Tw<%:9[|D+?$X@w!%wZ^q";
+        $this->key = "[4`,uU@(Wt2L[+{8zNS7~u-UgCkuUPCi.vnRzx<gV?~0uB|,30SZT&*_vv7RYjT";
         if(is_object($requestOrString)){
             //load from Request
             if($requestOrString->getHeader('HTTP_X_Authorization')){
@@ -113,6 +113,12 @@ class Token{
     
     function setData($data){
         $this->token->data = $data;
+    }
+
+    function encodeSimpleData($data){
+        $this->token->iss = null;
+        $this->token->aud = null;
+        $this->token->iat = null;
     }
     
     function encode(){
