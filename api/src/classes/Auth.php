@@ -301,5 +301,10 @@ class Auth{
                 ]
         );
     }
+
+    function getEditToken($nodeId){
+        $token = new Token();
+        return Array("code" => 200, "data" => $token->encodeSimpleData(["nodeId" => $nodeId, "single" => "edit"]));
+    }
 }
 ?>

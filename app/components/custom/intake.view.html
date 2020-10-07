@@ -5,14 +5,14 @@
     </div>
 </div>
 
-<div ng-if="!user.auth || !user.auth.authenticated" class="row">
+<div ng-if="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))" class="row">
     <div class="m-b p-a info lt">
         <strong>Je bent niet ingelogd</strong><br/>Dat betekent dat je deze intake niet in kan vullen.<br/>Wil je wel direct kunnen invoeren en wijzigen? <a ui-sref="login">Log dan in</a> of <a ui-sref="signup">maak een account aan</a>.
         <!--TODO: Link opnemen naar inloggen en nieuw account -->
     </div>
 </div>
 
-<div ng-if="user.auth && user.auth.authenticated" class="row">
+<div ng-if="user.auth && (user.auth.authenticated || (user.auth.accesstoken && user.auth.nodeId == node.nodeId))" class="row">
     <div class="col-xs-12 datatop15item">
         <div class="box">
             <div class="box-header">

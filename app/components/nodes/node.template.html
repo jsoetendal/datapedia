@@ -46,6 +46,9 @@
                                     <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
                                 </li>
                                 <li class="nav-item" ng-if="user.isEditorOrUp">
+                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'share'})" data-toggle="tab" data-target="#tab4" ng-class="{'active': view.tab == 'share'}">Delen</a>
+                                </li>
+                                <li class="nav-item" ng-if="user.isEditorOrUp">
                                     <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'version'})" data-toggle="tab" data-target="#tab3" ng-class="{'active': view.tab == 'version'}">Versiebeheer</a>
                                 </li>
                             </ul>
@@ -192,14 +195,13 @@
                         </div>
                         <div class="tab-pane animated fadeIn text-muted" id="tab2"  ng-class="{'active': view.tab == 'edit'}">
                             <div class="row">
-                                <div ng-if="!user.auth || !user.auth.authenticated" class="m-b p-a info lt">
+                                <div ng-if="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))" class="m-b p-a info lt">
                                     <strong>Je bent niet ingelogd</strong><br/>Dat betekent dat je wel <span ng-hide="node.nodeId > 0">nieuwe items kan invoeren</span><span ng-show="node.nodeId > 0">wijzigingen kunt opgeven</span>, maar dat deze niet automatisch verwerkt zullen worden, maar als suggestie worden aangeboden.<br/>Wil je wel direct kunnen invoeren en wijzigen? <a ui-sref="login">Log dan in</a> of <a ui-sref="signup">maak een account aan</a>.
                                     <!--TODO: Link opnemen naar inloggen en nieuw account -->
                                 </div>
                                 <div ng-if="user.isEditorOrUp && node.status == 'suggested'" class="m-b p-a info lt box-shadow">
                                     <strong>Dit is een suggestie</strong><br/>Je kan dit item aanpassen (indien gewenst/nodig) en vervolgens op 'Goedkeuren & Opslaan' klikken om de suggestie te accepteren.
                                 </div>
-
                             </div>
 
                             <div class="row">
@@ -466,6 +468,44 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="tab-pane animated fadeIn text-muted" id="tab4"  ng-class="{'active': view.tab == 'share'}">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3>Delen</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label>Via deze link is deze pagina direct beschikbaar:</label>
+                                            <input type="text" class="form-control" ng-model="simplelink"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3>Delen met rechten om te wijzigen</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        Wil je iemand die geen account heeft toch toegang geven tot deze pagina met schrijfrechten?
+                                        <div ng-hide="token">
+                                            <br/>
+                                            <div class="btn btn-primary" ng-click="getTokenLink()">Geef link</div>
+                                        </div>
+                                        <div class="form-group" ng-show="token">
+                                            <br/>
+                                            <label>Directe link om deze pagina te kunnen wijzigen zonder in te loggen:</label>
+                                            <input type="text" class="form-control" ng-model="tokenlink"/>
+                                            <div ng-repeat="tab in entity.tabs" class="m-t">
+                                                <label>Directe link naar '{{tab.title}}':</label>
+                                                <input type="text" class="form-control" ng-value='tokenlink.replace("?token=","/tab/"+tab.key+"?token=")'/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="tab-pane animated fadeIn text-muted" ng-repeat="tab in entity.tabs" id="tab-{{tab.key}}"  ng-class="{'active': view.tab == tab.key}">
                             <div compile="tab.templateHTML"></div>

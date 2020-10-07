@@ -55,8 +55,9 @@ class Token{
         return $this->expired;
     }
     
-    function isLoggedIn(){
+    function isLoggedIn($nodeId = null){
         if($this->token->data->id > 0) return true;
+        if($nodeId && $nodeId == $this->token->data->nodeId && $this->token->data->single == "edit") return true;
         return false;
     }
     
@@ -77,21 +78,23 @@ class Token{
         return false;
     }
     
-    function isEditor(){
+    function isEditor($nodeId = null){
         if($this->token->data->role == "editor") return true;
+        if($nodeId && $nodeId == $this->token->data->nodeId && $this->token->data->single == "edit") return true;
         return false;
     }
-    function isContributor(){
+    function isContributor($nodeId = null){
         if($this->token->data->role == "contributor") return true;
+        if($nodeId && $nodeId == $this->token->data->nodeId && $this->token->data->single == "edit") return true;
         return false;
     }
 
-    function isContributorOrUp(){
-        return $this->isContributor() || $this->isEditor() || $this->isAdmin();
+    function isContributorOrUp($nodeId= null){
+        return $this->isContributor($nodeId) || $this->isEditor($nodeId) || $this->isAdmin();
     }
 
-    function isEditorOrUp(){
-        return $this->isEditor() || $this->isAdmin();
+    function isEditorOrUp($nodeId = null){
+        return $this->isEditor($nodeId) || $this->isAdmin();
     }
 
     function isTemp(){
@@ -116,9 +119,11 @@ class Token{
     }
 
     function encodeSimpleData($data){
-        $this->token->iss = null;
-        $this->token->aud = null;
-        $this->token->iat = null;
+        unset($this->token->iss);
+        unset($this->token->aud);
+        unset($this->token->iat);
+        $this->token->data = $data;
+        return JWT::encode($this->token, $this->key);
     }
     
     function encode(){

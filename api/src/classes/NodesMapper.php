@@ -272,7 +272,7 @@ class NodesMapper extends Mapper
         $arr["updated"] = date("Y-m-d H:i:s");
         $arr["updaterId"] = max(0, $token->getUserId());
 
-        if($token->isLoggedIn() && ($arr["status"] != "suggested" || $token->isEditorOrUp())) {
+        if($token->isLoggedIn($data["nodeId"]) && ($arr["status"] != "suggested" || $token->isEditorOrUp($data["nodeId"]))) {
             $status = $arr["status"];
             unset($arr["status"]);
             $this->db->doUpdate("nodes", $arr, ["nodeId" => $data["nodeId"]]);
@@ -315,7 +315,7 @@ class NodesMapper extends Mapper
 
         $creatorId = max(0, $token->getUserId()); //Wordt 0 als er geen userId is.
 
-        if($token->isContributorOrUp()) {
+        if($token->isContributorOrUp($sourceId)) {
             $this->db->doInsert("relations", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s")]);
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "current"]);
         } else {
@@ -333,7 +333,7 @@ class NodesMapper extends Mapper
 
         $creatorId = max(0, $token->getUserId()); //Wordt 0 als er geen userId is.
 
-        if($token->isContributorOrUp()) {
+        if($token->isContributorOrUp($sourceId)) {
             $this->db->doUpdate("relations", ["data" => $data], ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key]);
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "current"]);
         } else {

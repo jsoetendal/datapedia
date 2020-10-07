@@ -334,6 +334,13 @@ angular.
             $state.go("node.newrelated", {"type": type, "relation": relation}, {"reload": true});
         }
 
+        $scope.getTokenLink = function(){
+            Nodes.getTokenLink($scope.node.nodeId, function(tokenStr){
+                $scope.token = tokenStr;
+                $scope.tokenlink = $scope.simplelink + "?token=" + $scope.token;
+            });
+        }
+
         $scope.setTab = function(tab){
             if(!$scope.view) $scope.view = {"tab": "details"}
             $scope.view.tab = tab;
@@ -343,6 +350,7 @@ angular.
 
         $scope.searchText = {};
         this.nodeId = $stateParams.nodeId;
+        console.log($stateParams);
         if($stateParams.tab){
             $scope.setTab($stateParams.tab)
         } else {
@@ -367,6 +375,8 @@ angular.
               skin: 'lightgray',
               theme : 'modern'
           };
+
+          $scope.simplelink = $rootScope.wwwBase +"#/node/" + this.nodeId;
 
           if(this.nodeId && $state.current.name != "node.newrelated") {
             this.loadNode(this.nodeId);

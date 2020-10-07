@@ -1,7 +1,7 @@
 'use strict';
 angular.
 module('core.user',[]).
-service('User', ['$rootScope', '$http', '$timeout', '$window', function($rootScope, $http, $timeout, $window){
+service('User', ['$rootScope', '$http', '$timeout', '$window', '$location', function($rootScope, $http, $timeout, $window, $location){
 
         this.doLogin = function(scope, func){
             var self = this;
@@ -422,6 +422,15 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', function($rootSco
                 } else {
                     //Alles OK!
                     this.name = this.retrieve('userName');
+                }
+            } else if($location.search().token){
+                var token = $location.search().token;
+                var decoded = jwt_decode(token);
+                this.auth = {
+                    authenticated: false,
+                    accesstoken: token,
+                    nodeId: decoded.data.nodeId,
+                    single: decoded.data.single
                 }
             } else {
                 this.auth = {"accesstoken": null};

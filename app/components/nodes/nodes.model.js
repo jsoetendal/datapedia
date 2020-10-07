@@ -379,7 +379,8 @@ angular.
                           self.setRelationData(sourceId, key, targetId, data, func);
                       });
                   } else {
-                      alert("Mislukt om node toe te voegen");
+                      $("#melding").modal()
+                      $rootScope.melding = {"titel": "Wijzigen niet opgeslagen", "tekst": "Je hebt geen toestemming om deze gegevens te wijzigen. Log opnieuw in of gebruik de eenmalige link opnieuw."}
                   }
               });
           }
@@ -420,6 +421,38 @@ angular.
 
           this.addImage = function(nodeId, data, func){
 
+          }
+
+          this.getTokenLink = function(nodeId, func){
+              var self = this;
+
+              var url = $rootScope.APIBase + "node/token/" + nodeId;
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      if(response.data && func){
+                          func(response.data);
+                      }
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.getTokenLink(nodeId, func);
+                      });
+                  } else {
+                      alert("Mislukt om node "+ nodeId +" op te halen");
+                  }
+              });
           }
 
           this.loadPaths = function(type, func){
