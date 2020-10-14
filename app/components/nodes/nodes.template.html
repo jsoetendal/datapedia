@@ -72,6 +72,9 @@
             </div>
         </div>
     </div>
+    <div class="row p-t" ng-if="entity.introduction">
+        <div class="col-xs-12"><p class="p-x m-b-0" ng-bind-html="entity.introduction"></p></div>
+    </div>
 
     <div ui-include="'app/components/nodes/nodes.views.template.html'"></div>
 </div>
