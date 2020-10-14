@@ -15,15 +15,15 @@ angular.
             Nodes.loadNode(nodeId, function(){
                 $scope.node = Nodes.getNode();
                 if(!$scope.node.data || $scope.node.data == []) $scope.node.data = {};
-                console.log($scope.node);
-                console.log($rootScope.settings);
+                //console.log($scope.node);
+                //console.log($rootScope.settings);
                 for(var i in $rootScope.settings.content.entities){
                     if($rootScope.settings.content.entities[i].type == $scope.node.type){
                         $scope.entity = $rootScope.settings.content.entities[i];
                     }
                 }
                 $scope.loaded = true;
-                console.log($scope.entity);
+                //console.log($scope.entity);
                 if($scope.view.tab == "edit") $scope.startEdit();
                 if($scope.view.tab == "version") $scope.startVersion();
                 if($scope.node.data.geometry) $scope.prepareGeo();
@@ -94,7 +94,7 @@ angular.
                         }
                     }
 
-                    console.log($scope.siblings);
+                    //console.log($scope.siblings);
                 });
 
             });
@@ -260,7 +260,7 @@ angular.
                 $scope.node.data = Object.assign({}, $scope.node.data);
             }
             if(!$scope.node.nodeId){
-                console.log($scope.node);
+                //console.log($scope.node);
                 if($scope.node.addRelation){
                     //AddNode & Terug naar de 'parent' waar deze node aan is toegevoegd
                     Nodes.addNode($scope.node, function (newId) {
@@ -289,8 +289,8 @@ angular.
             var files = document.getElementById('file').files[0];
             fd.append('file',files);
 
-            console.log(fd);
-            console.log(files);
+            //console.log(fd);
+            //console.log(files);
 
             Nodes.addImage(self.nodeId, fd, function(src){
                 $scope.node.imgUrl = src;
@@ -315,8 +315,8 @@ angular.
             if(paths.indexOf(path) === -1){
                 paths.push(path);
             }
-            console.log(path);
-            console.log(paths);
+            //console.log(path);
+            //console.log(paths);
             $scope.searchPath = "";
             $scope.node.path = paths.join(";");
         }
@@ -350,7 +350,7 @@ angular.
 
         $scope.searchText = {};
         this.nodeId = $stateParams.nodeId;
-        console.log($stateParams);
+        //console.log($stateParams);
         if($stateParams.tab){
             $scope.setTab($stateParams.tab)
         } else {
