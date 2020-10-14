@@ -3,7 +3,7 @@ class Mail{
     var $email, $subject, $text, $html;
     
     
-    function Mail($array){
+    function __construct($array){
         DEFINE("SPARKPOST_API_KEY",getenv('SPARKPOST_API_KEY'));
         
         foreach($array as $key => $value){

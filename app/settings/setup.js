@@ -25,6 +25,40 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
         });
     }
 
+    this.doSignup = function(scope){
+        var data = {
+            email: scope.email,
+            role: 'contributor',
+            name: scope.name
+        };
+
+        $http({
+            method: 'POST',
+            url: $rootScope.APIBase + 'user/create/',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            data: data
+        }).then(function(response) {
+            if(response.status == 200){
+                $("#melding").modal()
+                $rootScope.melding = {"titel": "Account aangemaakt", "tekst": "Er is een account aangemaakt. Er is een e-mail gestuurd naar het opgegeven adres, waarmee je een wachtwoord kan aanmeken en inloggen."}
+            }
+        }).catch(function(fallback) {
+            if(fallback.status == 406){
+                $("#melding").modal()
+                $rootScope.melding = {"titel": "E-mailadres al in gebruik", "tekst": "Er is al een account met dit e-mailadres. Gebruik 'Wachtwoord vergeten' om een nieuw wachtwoord aan te vragen."}
+                return false;
+            } else {
+                log(fallback);
+                $("#melding").modal()
+                $rootScope.melding = {"titel": "Account aanmaken mislukt", "tekst": "Het is niet gelukt om een account aan te maken. Er is iets mis gegaan..."}
+            }
+        });
+
+    }
+
     this.doChangePassword = function(scope, func, msg_element){
         this.user.changePassword(scope, func, msg_element);
     }
