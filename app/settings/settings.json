@@ -8,7 +8,6 @@
         "plural": "Voorbeelden",
         "image": "photo",
         "background": "app/images/library.jpg",
-        "introduction": "Er zijn vele voorbeelden van smart mobility en hoe data bij kan dragen aan het slimmer maken van de mobiliteit. Hieronder vind je een selectie van deze voorbeelden uit onze regio, verdeeld over een aantal verschillende thema's:",
         "path": {
           "label": "Categorie",
           "multilevel": false,
@@ -126,7 +125,6 @@
         "type": "onderwerp",
         "single": "Onderwerp",
         "plural": "Onderwerpen",
-        "introduction": "Om zichtbaar te maken welke data beschikbaar is, hebben we er voor gekozen om een overzicht van alle mogelijke onderwerpen voor data over smart mobility te maken. In onderstaand overzicht zie je voor welke onderwerpen al wel data beschikbaar is (in de groene bolletjes staat het aantal datasets) en waar nog niet:",
         "image": false,
         "background": "app/images/cs.jpg",
         "path": {
@@ -254,11 +252,10 @@
       },
       {
         "type": "article",
-        "single": "Handboekpagina",
-        "plural": "Handboek",
+        "single": "Kookboekpagina",
+        "plural": "Datakookboek",
         "image": "right",
         "background": "app/images/koken.jpg",
-        "introduction": "In het Handboek Data Top 15 willen we zo concreet mogelijk aangeven hoe gemeentes en andere wegbeheerders aan de slag kunnen met de Data Top 15. <br/>We benoemen een aantal basisbeginselen en geven voor ieder item in de Data Top 15 een concrete aanpak:",
         "path": {
           "label": "Hoofdstuk",
           "multilevel": false,
@@ -290,7 +287,6 @@
         "image": false,
         "path": false,
         "background": "app/images/cs.jpg",
-        "introduction": "Voor ieder item uit de Data Top 15 laten we zien welke onderwerpen van toepassing zijn, welke datasets beschikbaar zijn, verwijzen we naar de aanpak voor het item en zie je in een snel overzicht de status van de verschillende gemeentes:",
         "views": ["set"],
         "facet": {
           "optional": false,
@@ -370,7 +366,6 @@
         "plural": "Gemeentes",
         "image": "logo",
         "background": "app/images/cs.jpg",
-        "introduction": "Een overzicht van de gemeentes in onze regio. Klik op een gemeente om de huidige status te zien en evt. een intake in te vullen.",
         "path": false,
         "views": ["geo","list","tile"],
         "getNodesExtended": true,
@@ -444,7 +439,7 @@
       "params": {}
     },
     {
-      "label": "Handboek",
+      "label": "Kookboek",
       "url": "#/nodes/article",
       "state": "nodes",
       "params": {"type":  "article"}
