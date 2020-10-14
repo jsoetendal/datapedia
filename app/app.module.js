@@ -30,12 +30,6 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('signup', {
-              url: "/signup",
-              template: "<signup class='controllermodule'></signup>",
-              controller: ['$scope', function($scope) {
-              }]
-          })
           .state('logoff', {
               url: "/logoff",
               template: "<logoff class='controllermodule'></logoff>",

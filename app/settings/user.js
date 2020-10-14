@@ -1,7 +1,7 @@
 'use strict';
 angular.
 module('core.user',[]).
-service('User', ['$rootScope', '$http', '$timeout', '$window', '$location','$state', function($rootScope, $http, $timeout, $window, $location, $state){
+service('User', ['$rootScope', '$http', '$timeout', '$window', '$location', function($rootScope, $http, $timeout, $window, $location){
 
         this.doLogin = function(scope, func){
             var self = this;
@@ -373,7 +373,6 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', '$location','$sta
                         if(response.status == 200){
                             msg_element.text = "Wachtwoord succesvol gewijzigd! Je wordt nu automatisch ingelogd.";
                             //console.log({email: values.email, password: values.new_password1, region: $rootScope.settings.getCurrentRegion().kantoorId});
-                            $state.go("main");
                             $rootScope.setup.doLogin({email: values.email, password: values.new_password1});
                         }
                     }).catch(function(fallback) {

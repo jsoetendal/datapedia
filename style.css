@@ -150,19 +150,9 @@ iframe{
   }
 }
 
-.itemcontent h3, .itemcontent h4{
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-}
-
-
 a, .itemcontent a{
     color:  #3182bd;
     text-decoration: none;
-}
-
-.donker a, .donker .itemcontent a{
-    color: white;
 }
 
 a:hover {
@@ -710,15 +700,3 @@ ul.tree.accordion{
     text-decoration: line-through;
 }
 
-footer{
-    margin-top: 100px;
-    padding: 100px 50px;
-    padding-top: 100px;
-    border-top: 3px solid #e2eeee;
-    background: #f5f5f5;
-}
-
-#main-footer .footer-widget h4 {
-    font-size: 18px;
-    color: #e04952;
-}
