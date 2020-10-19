@@ -265,6 +265,16 @@ filter('duur', function() {
         }
     }
  }).
+filter('nodeIdNotIn', function() {
+    return function(arr1, arr2) {
+        return arr1.filter(function(val) {
+            for(var i in arr2){
+                if(arr2[i].nodeId == val.nodeId) return false;
+            }
+            return true;
+        })
+    }
+}).
   directive('nieuw', function() {
     return {
         replace: true,

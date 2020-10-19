@@ -309,7 +309,7 @@
                                                         <div class="autosuggest" ng-show="searchText[relatie.key] && results.length > 0">
                                                             <strong>Selecteer een bestaande {{relatie.type}}:</strong>
                                                             <ul>
-                                                                <li ng-repeat="option in relations[relatie.type] | filter: searchText[relatie.key] | limitTo: 10 as results track by option.nodeId" ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</li>
+                                                                <li ng-repeat="option in relations[relatie.type] | filter: searchText[relatie.key] | nodeIdNotIn: node.relations[relatie.key] | limitTo: 10 as results track by option.nodeId" ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</li>
                                                             </ul>
                                                         </div>
                                                         <div ng-show="searchText[relatie.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[relatie.key].toLowerCase())">
@@ -354,7 +354,7 @@
                                                         <div class="autosuggest" ng-show="searchText[dependency.key] && results.length > 0">
                                                             <strong>Selecteer een bestaande {{dependency.type}}:</strong>
                                                             <ul>
-                                                                <li ng-repeat="option in relations[dependency.type] | filter: searchText[dependency.key] | limitTo: 10 as results track by option.nodeId" ng-click="addDependency(dependency,option.nodeId);" class="pointer">{{option.title}}</li>
+                                                                <li ng-repeat="option in relations[dependency.type] | filter: searchText[dependency.key] | nodeIdNotIn: node.dependencies[dependency.key] | limitTo: 10 as results track by option.nodeId" ng-click="addDependency(dependency,option.nodeId);" class="pointer">{{option.title}}</li>
                                                             </ul>
                                                         </div>
                                                         <div class='m-t' ng-show="searchText[dependency.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[dependency.key].toLowerCase())">
