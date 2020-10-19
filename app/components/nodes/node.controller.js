@@ -64,42 +64,39 @@ angular.
             Nodes.loadNodes($scope.entity.type, false, null, function (type) {
                 $scope.nodes = Nodes.getNodes();
 
-                //Vind volgende en vorige
-                $scope.siblings = {'previous': null, 'next': null, 'nodes': []}
-                for (var i in $scope.nodes) {
-                    if ($scope.nodes[i].path == $scope.node.path && $scope.nodes[i].nodeId != nodeId) {
-                        $scope.siblings.nodes.push($scope.nodes[i]);
-                        if ((!$scope.siblings.previous || $scope.nodes[i].created >= $scope.siblings.previous.created) && $scope.nodes[i].created <= $scope.node.created) {
-                            $scope.siblings.previous = $scope.nodes[i];
-                        }
-                        if ((!$scope.siblings.next || $scope.nodes[i].created <= $scope.siblings.next.created) && $scope.nodes[i].created >= $scope.node.created) {
-                            $scope.siblings.next = $scope.nodes[i];
-                        }
-                    }
-                }
                 //load Tree
                 Nodes.createTree(function (tree) {
                     $scope.tree = tree;
                     $scope.tree.subs = $filter('orderBy')($scope.tree.subs, 'title', false); //Zelfde sorteervolgorde als in weergave
 
-                    console.log($scope.tree);
-                    for(var i in tree.subs){
-                        if($scope.node.path.split(";").indexOf(tree.subs[i].title) >= 0){
-                            tree.subs[i].open = true;
-                            if(!$scope.siblings.next && tree.subs[parseInt(i) + 1] && tree.subs[parseInt(i) + 1].nodes.length > 0){
-                                //Als next net niet gevonden, dan het eerste artikel van het volgende hoofdstuk alsnog next maken
-                                $scope.siblings.next = tree.subs[parseInt(i)+1].nodes[0];
-                            }
-                            if(!$scope.siblings.previous && tree.subs[parseInt(i) - 1] && tree.subs[parseInt(i) - 1].nodes.length > 0){
-                                //Als next net niet gevonden, dan het eerste artikel van het volgende hoofdstuk alsnog next maken
-                                $scope.siblings.previous = tree.subs[parseInt(i)-1].nodes[tree.subs[parseInt(i)-1].nodes.length - 1];
+                    var treePos = null;
+                    var subPos = null;
+                    for(var i in $scope.tree.subs) {
+                        if ($scope.node.path.split(";").indexOf($scope.tree.subs[i].title) >= 0) {
+                            $scope.tree.subs[i].open = true;
+                            treePos = parseInt(i);
+                            for (var j in $scope.tree.subs[i].nodes) {
+                                if ($scope.tree.subs[i].nodes[j].nodeId == $scope.node.nodeId) {
+                                    subPos = parseInt(j);
+                                }
                             }
                         }
                     }
-
-                    //console.log($scope.siblings);
+                    //Vind volgende en vorige
+                    $scope.siblings = {'previous': null, 'next': null, 'nodes': tree.subs[treePos]}
+                    //Vorige
+                    if(subPos > 0){
+                        $scope.siblings.previous = $scope.tree.subs[treePos].nodes[subPos - 1];
+                    }else if(treePos > 0){
+                        $scope.siblings.previous = $scope.tree.subs[treePos - 1].nodes[$scope.tree.subs[treePos - 1].nodes.length - 1];
+                    }
+                    //Volgende\
+                    if(subPos < $scope.tree.subs[treePos].nodes.length - 1){
+                        $scope.siblings.next = $scope.tree.subs[treePos].nodes[subPos + 1];
+                    }else if(treePos < $scope.tree.subs.length - 1){
+                        $scope.siblings.next = $scope.tree.subs[treePos + 1].nodes[0];
+                    }
                 });
-
             });
         }
 
