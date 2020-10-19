@@ -346,6 +346,44 @@ angular.
               });
           }
 
+          //Does exactly the same as addRelation, only difference is the node that is returned...
+          this.addDependency = function(sourceId, key, targetId, func){
+              var url = $rootScope.APIBase + "dependency/add/";
+              $http({
+                  method: 'POST',
+                  url: url,
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  },
+                  data: {
+                      "sourceId": sourceId,
+                      "key": key,
+                      "targetId": targetId
+                  }
+              }).then(function(response) {
+                  if(response.status == 200){
+                      if(response.data){
+                          var node = new Node(response.data);
+                          if(func) func(node);
+                      }
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.addDependency(sourceId, key, targetId, func);
+                      });
+                  } else {
+                      alert("Mislukt om node toe te voegen");
+                  }
+              });
+          }
+
           this.setRelationData = function(sourceId, key, targetId, data, func){
               var url = $rootScope.APIBase + "relation/set/";
               $http({

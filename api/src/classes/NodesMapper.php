@@ -302,13 +302,8 @@ class NodesMapper extends Mapper
         }
     }
 
-    /**
-     * adding a relation from $data[sourceId] to $data[targetId] with $data[key]
-     * @param $data
-     * @return mixed getNodeSimple($data[targetId])
-     */
 
-    function addRelation($data, $token){
+    function addRelationOrDependency($data, $token){
         $sourceId = intval($data["sourceId"]);
         $targetId = intval($data["targetId"]);
         $key = escape_string($data["key"]);
@@ -321,8 +316,33 @@ class NodesMapper extends Mapper
         } else {
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "suggested"]);
         }
+    }
 
+
+    /**
+     * adding a relation from $data[sourceId] to $data[targetId] with $data[key]
+     * @param $data
+     * @return mixed getNodeSimple($data[targetId])
+     */
+
+    function addRelation($data, $token){
+        $this->addRelationOrDependency($data, $token);
+
+        $targetId = intval($data["targetId"]);
         return $this->getNodeSimple($targetId);
+    }
+
+    /**
+     * adding a relation from $data[sourceId] to $data[targetId] with $data[key]
+     * @param $data
+     * @return mixed getNodeSimple($data[sourceId])
+     */
+
+    function addDependency($data, $token){
+        $this->addRelationOrDependency($data, $token);
+
+        $sourceId = intval($data["sourceId"]);
+        return $this->getNodeSimple($sourceId);
     }
 
     function setRelation($data, $token){

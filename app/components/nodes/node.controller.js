@@ -212,6 +212,9 @@ angular.
               if(Number.isInteger(formOrNodeId) || typeof(formOrNodeId) == "string"){
                   //Existing node
                   Nodes.addRelation(self.nodeId, relatie.key, formOrNodeId, function(relatedNode){
+                      relatedNode.sourceId = self.nodeId;
+                      relatedNode.targetId = relatedNode.nodeId;
+                      relatedNode.key = relatie.key;
                       $scope.node.addRelatedNode(relatedNode, relatie.key);
                       $scope.searchText[relatie.key] = null; //Reset text input field
                   });
@@ -228,6 +231,7 @@ angular.
                       });
                   });
               }
+              return false;
           }
 
           /**
@@ -236,11 +240,14 @@ angular.
            * @param sourceId - De nodeId van de bestaande node die de sourceId van de relatie wordt
            */
           $scope.addDependency = function(relatie, sourceId){
-              Nodes.addRelation(sourceId, relatie.key, self.nodeId, function(relatedNode){
-                  $state.reload();
+              Nodes.addDependency(sourceId, relatie.key, self.nodeId, function(relatedNode){
+                  relatedNode.sourceId = relatedNode.nodeId;
+                  relatedNode.targetId = self.nodeId;
+                  relatedNode.key = relatie.key;
+                  $scope.node.addDependentNode(relatedNode, relatie.key);
+                  $scope.searchText[relatie.key] = null; //Reset text input field
               });
           }
-
 
           $scope.deleteRelatie = function(relatie){
               Nodes.deleteRelation(relatie, function(){

@@ -34,6 +34,13 @@ Node.prototype.addRelatedNode = function(node, key){
     this.relations[key].push(node);
 }
 
+Node.prototype.addDependentNode = function(node, key){
+    if(!this.dependencies[key]){
+        this.dependencies[key] = [];
+    }
+    this.dependencies[key].push(node);
+}
+
 Node.prototype.deleteRelatedNode = function(relation) {
     var temp = [];
     for (var i in this.relations[relation.key]) {

@@ -204,6 +204,17 @@ $app->post("/relation/add/", function (Slim\Http\Request $request, Slim\Http\Res
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->post("/dependency/add/", function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    //Does exactly the same as relation/add, only difference is the node it returns
+    $data = $request->getParsedBody();
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    $nodesMapper = new NodesMapper($this->db);
+    $result = $nodesMapper->addDependency($data, $token);
+    return $response->withStatus(200)->withJSON($result);
+});
+
 $app->post("/relation/set/", function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $data = $request->getParsedBody();
     $token = new Token($request);
