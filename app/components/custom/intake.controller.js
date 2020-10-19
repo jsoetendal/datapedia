@@ -98,12 +98,14 @@ angular.
           $scope.saveItem();
           $scope.currentNum += 1;
           $scope.item = $scope.items[$scope.currentNum];
+          $('html, body').animate({scrollTop: 0}, 'fast');
         }
 
         $scope.prevItem = function(){
           $scope.saveItem();
           $scope.currentNum -= 1;
           $scope.item = $scope.items[$scope.currentNum];
+          $('html, body').animate({scrollTop: 0}, 'fast');
         }
 
         $scope.lastItem = function(){
