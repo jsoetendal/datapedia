@@ -3,8 +3,8 @@ angular.
   module('app').
   component('node', {
     templateUrl: 'app/components/nodes/node.template.html',
-    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$sanitize', '$sce',
-      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $sanitize, $sce) {
+    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$filter', '$sanitize', '$sce',
+      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $filter, $sanitize, $sce) {
         var self = this;
         $scope.user = $rootScope.setup.user;
         $scope.history = null;
@@ -80,6 +80,9 @@ angular.
                 //load Tree
                 Nodes.createTree(function (tree) {
                     $scope.tree = tree;
+                    $scope.tree.subs = $filter('orderBy')($scope.tree.subs, 'title', false); //Zelfde sorteervolgorde als in weergave
+
+                    console.log($scope.tree);
                     for(var i in tree.subs){
                         if($scope.node.path.split(";").indexOf(tree.subs[i].title) >= 0){
                             tree.subs[i].open = true;
