@@ -29,7 +29,7 @@ angular.
                 if($scope.node.data.geometry) $scope.prepareGeo();
 
                 if($scope.entity.views[0] == 'chapters'){
-                    self.loadTree();
+                    self.loadTree(nodeId);
                     $scope.showChapter = true;
                 } else {
                     $scope.showChapter = false;
@@ -58,7 +58,7 @@ angular.
             }
         }
 
-        this.loadTree = function() {
+        this.loadTree = function(nodeId) {
             //Als de view 'chapters' is, dan ook de 'inhoudsopgave' downloaden
 
             Nodes.loadNodes($scope.entity.type, false, null, function (type) {
@@ -67,12 +67,12 @@ angular.
                 //Vind volgende en vorige
                 $scope.siblings = {'previous': null, 'next': null, 'nodes': []}
                 for (var i in $scope.nodes) {
-                    if ($scope.nodes[i].path == $scope.node.path && $scope.nodes[i].nodeId != $scope.nodeId) {
+                    if ($scope.nodes[i].path == $scope.node.path && $scope.nodes[i].nodeId != nodeId) {
                         $scope.siblings.nodes.push($scope.nodes[i]);
-                        if ((!$scope.siblings.previous || $scope.nodes[i].created > $scope.siblings.previous.created) && $scope.nodes[i].created < $scope.node.created) {
+                        if ((!$scope.siblings.previous || $scope.nodes[i].created >= $scope.siblings.previous.created) && $scope.nodes[i].created <= $scope.node.created) {
                             $scope.siblings.previous = $scope.nodes[i];
                         }
-                        if ((!$scope.siblings.next || $scope.nodes[i].created < $scope.siblings.next.created) && $scope.nodes[i].created > $scope.node.created) {
+                        if ((!$scope.siblings.next || $scope.nodes[i].created <= $scope.siblings.next.created) && $scope.nodes[i].created >= $scope.node.created) {
                             $scope.siblings.next = $scope.nodes[i];
                         }
                     }
