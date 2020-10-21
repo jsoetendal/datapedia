@@ -461,6 +461,15 @@ class NodesMapper extends Mapper
 
             $this->db->doSQL("UPDATE nodes_versions SET status = 'previous' WHERE nodeId = ". $nodeVersion->nodeId ." AND status = 'current'");
             $this->db->doSQL("UPDATE nodes_versions SET status = 'current' WHERE nodeVersionId = ". $nodeVersionId);
+
+            $relations = $this->db->getArray("SELECT * FROM relations_versions WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'suggested'");
+            foreach($relations as $relation){
+                $arr = (array) $relation;
+                unset($arr["status"]);
+                unset($arr["creatorId"]);
+                $this->db->doUpsert("relations", $arr);
+            }
+            $this->db->doSQL("UPDATE relations_versions SET status = 'current' WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'suggested'");
         }
     }
 
