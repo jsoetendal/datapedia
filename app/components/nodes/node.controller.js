@@ -28,7 +28,7 @@ angular.
                 if($scope.view.tab == "version") $scope.startVersion();
                 if($scope.node.data.geometry) $scope.prepareGeo();
 
-                if($scope.entity.views[0] == 'chapters'){
+                if($scope.entity && $scope.entity.views[0] == 'chapters'){
                     self.loadTree(nodeId);
                     $scope.showChapter = true;
                 } else {
@@ -170,15 +170,21 @@ angular.
         }
 
           $scope.historyApprove = function(node){
-              alert(node.nodeVersionId);
+              Nodes.historyApprove(node, function(){
+                  $window.location.reload();
+              })
           }
 
           $scope.historyRevert = function(node){
-              alert(node.nodeVersionId);
+              Nodes.historyRevert(node, function(){
+                  $window.location.reload();
+              })
           }
 
           $scope.historyDelete = function(node){
-              alert(node.nodeVersionId);
+              Nodes.historyDelete(node, function(){
+                  $window.location.reload();
+              })
           }
 
           $scope.prepareGeo = function(){

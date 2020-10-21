@@ -1,0 +1,41 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="p-a m-b-0 _300 pointer">Contentbeheer</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-t">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3>Suggesties</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Titel</th>
+                                <th>Gemaakt</th>
+                                <th>Gewijzigd</th>
+                                <!--<th>Door</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="suggestion in suggestions" class="pointer" ui-sref="node.tab({'nodeId': suggestion.nodeId, 'tab': 'version'})">
+                                <td>{{suggestion.nodeId}}</td>
+                                <td>{{suggestion.title}}</td>
+                                <td>{{suggestion.created|geleden}}</td>
+                                <td>{{suggestion.updated|geleden}}</td>
+                                <!--<td>{{suggestion.userData}}</td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

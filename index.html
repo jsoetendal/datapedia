@@ -123,6 +123,11 @@
                       </a>
                     </li>
                     <li class="dropdown-item">
+                      <a ui-sref="content" ng-show="user.isEditorOrUp">
+                        <span class="dropdown-item">Contentbeheer</span>
+                      </a>
+                    </li>
+                    <li class="dropdown-item">
                       <a ui-sref="users" ng-show="user.isEditorOrUp">
                         <span class="dropdown-item">Users</span>
                       </a>
@@ -291,6 +296,7 @@
     <script src="app/components/users/user.model.js"></script>
     <script src="app/components/users/users.model.js"></script>
     <script src="app/components/users/users.controller.js"></script>
+    <script src="app/components/admin/content.controller.js"></script>
     <script src="app/components/import/import.controller.js"></script>
     <script src="app/components/import/dataoverheid.controller.js"></script>
     <script src="app/settings/diverse.controllers.js"></script>

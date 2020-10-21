@@ -432,5 +432,40 @@ class NodesMapper extends Mapper
         }
         return $result;
     }
+
+
+    function getSuggestions(){
+        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'suggested' ORDER BY GREATEST(COALESCE(created,0), COALESCE(updated,0)) DESC LIMIT 0,100");
+        return $rows;
+    }
+
+    function historyApprove($nodeVersionId){
+        $nodeVersion = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeVersionId = ". $nodeVersionId);
+        if($nodeVersion){
+            $arr = (array) $nodeVersion;
+            unset($arr["nodeVersionId"]);
+            unset($arr["status"]);
+            if(trim($arr["updated"]) == "") $arr["updated"] = date("Y-m-d H:i:s");
+            if(trim($arr["updaterId"]) == "") $arr["updaterId"] = 0;
+
+            $arr["path"] = $this->db->escape($arr["path"]);
+            $arr["title"] = $this->db->escape($arr["title"]);
+            $arr["text"] = $this->db->escape($arr["text"]);
+
+            $this->db->doUpsert("nodes", $arr);
+
+            $this->db->doSQL("UPDATE nodes_versions SET status = 'previous' WHERE nodeId = ". $nodeVersion->nodeId ." AND status = 'current'");
+            $this->db->doSQL("UPDATE nodes_versions SET status = 'current' WHERE nodeVersionId = ". $nodeVersionId);
+        }
+    }
+
+    function historyRevert($nodeVersionId){
+        $this->historyApprove($nodeVersionId);
+    }
+
+    function historyDelete($nodeVersionId){
+        $this->db->doSQL("DELETE FROM nodes_versions WHERE nodeVersionId = ". $nodeVersionId ." AND status != 'current'");
+    }
+
 }
 ?>

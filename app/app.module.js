@@ -127,6 +127,12 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+          .state('content', {
+              url: "/admin/content",
+              template: "<contentbeheer class='controllermodule'></contentbeheer>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
 }]);
   //Zoeken naar: ui-router! Docs: https://github.com/angular-ui/ui-router/wiki
   

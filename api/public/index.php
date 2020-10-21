@@ -488,6 +488,61 @@ $app->post('/user/forgot/', function (Slim\Http\Request $request, Slim\Http\Resp
     return $response->withStatus(200);
 });
 
+$app->get('/suggestions/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->getSuggestions();
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->get('/history/approve/{nodeVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $nodeVersionId = intval($request->getAttribute('nodeVersionId'));
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->historyApprove($nodeVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->get('/history/revert/{nodeVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $nodeVersionId = intval($request->getAttribute('nodeVersionId'));
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->historyRevert($nodeVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->get('/history/delete/{nodeVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $nodeVersionId = intval($request->getAttribute('nodeVersionId'));
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->historyDelete($nodeVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
 $app->get('/data/overheid/{q}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $dataMapper = new DataMapper($this->db);
     $q = escape_string($request->getAttribute('q'));

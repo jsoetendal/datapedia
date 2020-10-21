@@ -606,5 +606,121 @@ angular.
                   }
               }
           }
+
+          this.loadSuggestions = function(func){
+              var self = this;
+
+              var url = $rootScope.APIBase + "suggestions/";
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      var suggestions = [];
+                      if(func) func(response.data);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadSuggesties(func);
+                      });
+                  } else {
+                      alert("Mislukt om suggesties op te halen");
+                  }
+              });
+          }
+
+          this.historyApprove = function(nodeVersion, func){
+              var url = $rootScope.APIBase + "history/approve/" + nodeVersion.nodeVersionId;
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      if(func) func(response.data);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.historyApprove(nodeVersion, func);
+                      });
+                  } else {
+                      alert("Mislukt om suggesties goed te keuren");
+                  }
+              });
+          }
+
+          this.historyRevert = function(nodeVersion, func){
+              var url = $rootScope.APIBase + "history/revert/" + nodeVersion.nodeVersionId;
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      if(func) func(response.data);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.historyRevert(nodeVersion, func);
+                      });
+                  } else {
+                      alert("Mislukt om wijziging terug te zetten");
+                  }
+              });
+
+          }
+
+          this.historyDelete = function(nodeVersion, func){
+              var url = $rootScope.APIBase + "history/delete/" + nodeVersion.nodeVersionId;
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      if(func) func(response.data);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.historyDelete(nodeVersion, func);
+                      });
+                  } else {
+                      alert("Mislukt om versie te verwijderen");
+                  }
+              });
+          }
       }]
 );
