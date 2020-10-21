@@ -267,7 +267,7 @@ filter('duur', function() {
  }).
 filter('nodeIdNotIn', function() {
     return function(arr1, arr2) {
-        if(!arr1 || !arr2) return true;
+        if(!arr1) return false;
         return arr1.filter(function(val) {
             for(var i in arr2){
                 if(arr2[i].nodeId == val.nodeId) return false;
