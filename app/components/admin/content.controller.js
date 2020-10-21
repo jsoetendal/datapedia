@@ -12,11 +12,12 @@ component('contentbeheer', {
                 Nodes.loadSuggestions(function(data){
                     $scope.suggestions = data;
                 })
+                Nodes.loadUpdates(function(data){
+                    $scope.updates = data;
+                })
             }
 
-
             this.loadContent();
-
         }
     ]
 });

@@ -16,22 +16,50 @@
                 <div class="box-body">
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Titel</th>
-                                <th>Gemaakt</th>
-                                <th>Gewijzigd</th>
-                                <!--<th>Door</th>-->
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Titel</th>
+                            <th>Gemaakt</th>
+                            <th>Gewijzigd</th>
+                            <!--<th>Door</th>-->
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="suggestion in suggestions" class="pointer" ui-sref="node.tab({'nodeId': suggestion.nodeId, 'tab': 'version'})">
-                                <td>{{suggestion.nodeId}}</td>
-                                <td>{{suggestion.title}}</td>
-                                <td>{{suggestion.created|geleden}}</td>
-                                <td>{{suggestion.updated|geleden}}</td>
-                                <!--<td>{{suggestion.userData}}</td>-->
-                            </tr>
+                        <tr ng-repeat="suggestion in suggestions" class="pointer" ui-sref="node.tab({'nodeId': suggestion.nodeId, 'tab': 'version'})">
+                            <td>{{suggestion.nodeId}}</td>
+                            <td>{{suggestion.title}}</td>
+                            <td>{{suggestion.created|geleden}}</td>
+                            <td>{{suggestion.updated|geleden}}</td>
+                            <!--<td>{{suggestion.userData}}</td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="box-header">
+                    <h3>Wijzigingen</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titel</th>
+                            <th>Gemaakt</th>
+                            <th>Gewijzigd</th>
+                            <!--<th>Door</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="update in updates" class="pointer" ui-sref="node({'nodeId': update.nodeId})">
+                            <td>{{update.nodeId}}</td>
+                            <td>{{update.title}}</td>
+                            <td>{{update.created|geleden}}</td>
+                            <td>{{update.updated|geleden}}</td>
+                            <!--<td>{{suggestion.userData}}</td>-->
+                        </tr>
                         </tbody>
                     </table>
                 </div>

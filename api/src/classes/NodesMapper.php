@@ -439,6 +439,11 @@ class NodesMapper extends Mapper
         return $rows;
     }
 
+    function getUpdates(){
+        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'current' ORDER BY GREATEST(COALESCE(created,0), COALESCE(updated,0)) DESC LIMIT 0,100");
+        return $rows;
+    }
+
     function historyApprove($nodeVersionId){
         $nodeVersion = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeVersionId = ". $nodeVersionId);
         if($nodeVersion){

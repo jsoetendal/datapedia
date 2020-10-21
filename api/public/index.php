@@ -501,6 +501,19 @@ $app->get('/suggestions/', function (Slim\Http\Request $request, Slim\Http\Respo
     }
 });
 
+$app->get('/updates/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->getUpdates();
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
 $app->get('/history/approve/{nodeVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     $nodeVersionId = intval($request->getAttribute('nodeVersionId'));

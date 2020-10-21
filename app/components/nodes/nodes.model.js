@@ -607,6 +607,37 @@ angular.
               }
           }
 
+          this.loadUpdates = function(func){
+              var self = this;
+
+              var url = $rootScope.APIBase + "updates/";
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      var suggestions = [];
+                      if(func) func(response.data);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadUpdates(func);
+                      });
+                  } else {
+                      alert("Mislukt om updates op te halen");
+                  }
+              });
+          }
+
           this.loadSuggestions = function(func){
               var self = this;
 
