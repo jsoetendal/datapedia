@@ -13,7 +13,7 @@
                 <div class="box-header">
                     <h3>Suggesties</h3>
                 </div>
-                <div class="box-body">
+                <div class="box-body" ng-show="suggestions.length > 0">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -34,6 +34,11 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="m-x" ng-hide="suggestions.length > 0">
+                    <div class="p-a info lt ng-scope">
+                        Er zijn op dit moment geen nieuwe suggesties.
+                    </div>
                 </div>
             </div>
 
