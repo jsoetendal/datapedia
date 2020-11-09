@@ -142,15 +142,6 @@
         },
         "data": [
           {
-            "key": "datatop15",
-            "type": "enum",
-            "options": ["1. Geplande wegwerkzaamheden", "2. Actuele wegwerkzaamheden", "3. Incidenten","4. Restduur incidenten","5. Maximumsnelheden","6. Borden", "7. Regelscenario's verkeerscentrales","8. Beeldstanden rijkswegen","9. Brugopeningen","10. Statische parkeerdata","11. Dynamische parkeerdata","12. Evenementen", "13. VRI-data","14. Data voor logistiek","15. Fietsdata"],
-            "label": "In Data Top 15",
-            "descriptionInput": "Is deze data onderdeel van de Data Top 15?",
-            "required": false,
-            "facet": true
-          },
-          {
             "key": "mogelijke_bron",
             "type": "text",
             "label": "Mogelijke bron",
@@ -191,13 +182,23 @@
         ],
         "dependencies": [
           {
+            "key": "datatop15_onderwerp",
+            "type": "datatop15",
+            "label": "Data Top 15",
+            "description": "Dit item staat in de Data Top 15 bij:",
+            "descriptionInput": "Selecteer een item uit de Data Top 15",
+            "facet": true,
+            "add": true,
+            "max": 999
+          },
+          {
             "key": "onderwerp",
             "type": "voorbeeld",
             "min": 0,
             "max": 100,
             "explicit": true,
             "label": "Voorbeelden",
-            "description": "Deze voorbeelden maken gebruik van deze data:",
+            "description": "Deze voorbeelden maken gebruik van dit onderwerp:",
             "facet": false
           }
         ]

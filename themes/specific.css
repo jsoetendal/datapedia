@@ -78,7 +78,7 @@ header .navbar{
 .primary .dk {
     background-color: var(--primary-darker); }
 .primary .bg {
-    background-color: #var(--primary); }
+    background-color: var(--primary); }
 .modal .fullright{ border-top-color: var(--primary); }
 .btn.b-primary:hover,
 .btn.b-primary:focus,
@@ -254,4 +254,22 @@ ul.relatie li{
 .YlGnBu.q4-5{
     fill:rgb(37,52,148);
     background-color:rgb(37,52,148);
+}
+
+
+ul.frontpage{
+    padding: 0px;
+    margin: 0px;
+}
+
+ul.frontpage li{
+    list-style: none;
+    margin: 1em 0px;
+    clear: both;
+}
+
+ul.frontpage li i{
+    margin-right: 0.5em;
+    font-size: 200%;
+    color: var(--primary);
 }

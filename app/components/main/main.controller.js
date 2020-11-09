@@ -21,10 +21,15 @@ angular.
         }
 
         this.laadVoorbeelden = function(){
-          //
           Nodes.loadNodes("project", false, null, function () {
             var nodes = Nodes.getNodes();
-            $scope.voorbeelden = nodes.slice(0, 3);
+            $scope.voorbeelden = [];
+            while($scope.voorbeelden.length < 3){
+              var i = Math.round(Math.random() * nodes.length);
+              var slice = nodes.slice(i,i+1);
+              $scope.voorbeelden.push(slice[0]); // Add a random element from nodes
+              nodes.splice(i,1); //Remove selected element from origing
+            }
           });
         }
 

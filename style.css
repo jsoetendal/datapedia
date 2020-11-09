@@ -165,6 +165,12 @@ a, .itemcontent a{
     color: white;
 }
 
+.info a, .extradonker a{
+    color: white;
+    font-weight: bold;
+}
+
+
 a:hover {
 }
 

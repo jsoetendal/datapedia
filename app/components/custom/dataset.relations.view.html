@@ -1,15 +1,17 @@
 <div class="box-header">
-    <h3>{{relatie.label}}</h3>
+    <h2>{{relatie.label}}</h2>
     <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
 </div>
+<div class="box-divider"></div>
 <div class="box-body">
     <div class="row m-b" ng-repeat="related in node.relations[relatie.key]">
         <!--<div class="col-xs-12" ng-if="$index == 0 || list[$index -1].data.details.beschikbaar != related.data.details.beschikbaar" ng-class="{'m-t-2': $index > 0}">
             <strong ng-show="related.data.details.beschikbaar=='true'">Beschikbare datasets</strong>
             <strong ng-hide="related.data.details.beschikbaar=='true'">Nog niet beschikbare datasets</strong>
         </div>-->
-        <div class="col-md-3">
-            <a  ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a>
+        <div class="col-md-3 text-md">
+            <div class="pull-left m-r text-primary"><i class="fa fa-chevron-right"></i></div>
+            <a  ui-sref="node({nodeId: related.nodeId})" style="color: black;">{{related.title}}</a>
         </div>
         <div class="col-md-3" ng-if="related.data.details.beschikbaar=='true'">
             <div class='floatblok' ng-show="related.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>
@@ -42,7 +44,7 @@
             {{related.data.details.geoscope.optie}} <span ng-show="related.data.details.geoscope.toelichting">({{related.data.details.geoscope.toelichting}})</span>
         </div>
         <div class="col-md-3" ng-if="related.data.details.beschikbaar=='true'">
-            <div ng-if="related.data.details.resources && related.data.details.resources[0]"><a href='{{related.data.details.resources[0].url}}'>{{related.data.details.resources[0].url}}</a></div>
+            <div ng-if="related.data.details.resources && related.data.details.resources[0]"><a href='{{related.data.details.resources[0].url}}'>{{related.data.details.resources[0].url|maxlength:40}}</a></div>
         </div>
         <div class="col-md-3" ng-if="related.data.details.beschikbaar=='false'">
             <div class='floatblok'><i class="blok fa fa-times rood" title="De data is niet beschikbaar"></i> De data is niet beschikbaar</div>
