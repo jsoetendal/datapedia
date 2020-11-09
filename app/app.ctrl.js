@@ -51,6 +51,7 @@
             "name": state.name,
             "params": params
           }
+          $('html,body').scrollTop(0); //Scroll to top of new page
         });
 
 
