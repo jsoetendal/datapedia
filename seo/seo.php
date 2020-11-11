@@ -33,7 +33,9 @@
 <body>
 <h1>Datapedia</h1>
 <?php
-    print_r($_GET["url"]);
+    print_r($_SERVER['REQUEST_URI']);
+    print("<HR>");
+    print_r($_SERVER);
 ?>
 </body>
 </html>
