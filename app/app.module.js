@@ -72,7 +72,7 @@ angular.
               template: "<node class='controllermodule'></node>"
           })
           .state('node', {
-              url: '/node/{nodeId}', // /{title} toevoegen voor SEO? Let op: dan vervallen alle gedeelde lnks voor intake gemeentes evt. via specifieke .htaccess redirect opvangen!
+              url: '/node/{title}/{nodeId}', // /{title} toevoegen voor SEO? Let op: dan vervallen alle gedeelde lnks voor intake gemeentes evt. via specifieke .htaccess redirect opvangen!
               template: "<node class='controllermodule'></node>"
           })
           .state('node.tab', {
