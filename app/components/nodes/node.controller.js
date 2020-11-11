@@ -389,7 +389,7 @@ angular.
               theme : 'modern'
           };
 
-          $scope.simplelink = $rootScope.wwwBase +"#/node/" + this.nodeId;
+          $scope.simplelink = $rootScope.wwwBase +"/node/" + this.nodeId;
 
           if(this.nodeId && $state.current.name != "node.newrelated") {
             this.loadNode(this.nodeId);

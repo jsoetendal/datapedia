@@ -1,9 +1,11 @@
 'use strict';
 angular.
   module('app').
-  config(['$stateProvider','$urlRouterProvider','$sceDelegateProvider', function($stateProvider, $urlRouterProvider, $sceDelegateProvider) {
+  config(['$stateProvider','$urlRouterProvider','$sceDelegateProvider', "$locationProvider", function($stateProvider, $urlRouterProvider, $sceDelegateProvider, $locationProvider) {
 
-      $sceDelegateProvider.resourceUrlWhitelist([
+    $locationProvider.html5Mode(true); //prevent using #
+
+    $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
         'self',
         // Allow loading from outer templates domain.

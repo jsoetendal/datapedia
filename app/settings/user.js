@@ -25,7 +25,7 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', '$location','$sta
             }).catch(function(fallback) {
                 log(fallback);
                 self.reset();
-                $window.location.href = $rootScope.wwwBase + "#/login";
+                $window.location.href = $rootScope.wwwBase + "/login";
                 $("#melding").modal()
                 if(fallback.data && fallback.data.msg){
                     var msg = fallback.data.msg;

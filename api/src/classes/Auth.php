@@ -140,7 +140,7 @@ class Auth{
 
         $tokenStr = $accessToken->encode();
 
-        $url = "https://test.datapedia.nl/#/passwordreset/1/" . $tokenStr;
+        $url = "https://test.datapedia.nl/passwordreset/1/" . $tokenStr;
         $link = "<a href='". $url ."'>Inloggen en wachtwoord bedenken</a>";
 
         if(trim($email) <> ""){
@@ -255,7 +255,7 @@ class Auth{
 
             $tokenStr = $accessToken->encode();
 
-            $url = "https://localhost/datapedia.nl/#/passwordreset/0/" . $tokenStr;
+            $url = "https://localhost/datapedia.nl/passwordreset/0/" . $tokenStr;
             $link = "<a href='". $url ."'>Wachtwoord opnieuw instellen</a>";
 
 

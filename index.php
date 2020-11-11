@@ -6,6 +6,7 @@
     <meta name="description" content="Smart City, Smart Mobility, Data, Datalandschap" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="<?php print(getenv('BASE_HREF'));?>">
     <link rel="stylesheet" href="style.css"/>
 
     <!-- for ios 7 style, multi-resolution icon of 152x152 -->
@@ -46,7 +47,7 @@
             <a data-toggle="collapse" data-target="#navbar-1" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
               <i class="material-icons"></i>
             </a>
-            <a class="navbar-brand" href="#/">
+            <a class="navbar-brand" href=".">
               <span class="hidden-folded inline ng-binding">Datapedia <span class="text-primary">Smart Mobility</span></span>
             </a>
             <ul class="nav navbar-nav pull-right">

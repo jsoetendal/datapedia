@@ -67,7 +67,7 @@ component('passwordreset', {
                                 if(response.data){
                                     //true, dus wachtwoord is al ingesteld, doorverwijzen naar login
                                     //console.log(response);
-                                    window.location.href = $rootScope.wwwBase + "#/login";
+                                    window.location.href = $rootScope.wwwBase + "/login";
                                 }
                             } else {
                             }

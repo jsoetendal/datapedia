@@ -440,37 +440,37 @@
   "navigation": [
     {
       "label": "Home",
-      "url": "#/",
+      "url": ".",
       "state": "main",
       "params": {}
     },
     {
       "label": "Handboek",
-      "url": "#/nodes/article",
+      "url": "nodes/article",
       "state": "nodes",
       "params": {"type":  "article"}
     },
     {
       "label": "Voorbeelden",
-      "url": "#/nodes/project",
+      "url": "nodes/project",
       "state": "nodes",
       "params": {"type":  "project"}
     },
     {
       "label": "Data",
-      "url": "#/nodes/onderwerp",
+      "url": "nodes/onderwerp",
       "state": "nodes",
       "params": {"type":  "onderwerp"},
       "sub": [
         {
           "label": "Onderwerpen",
-          "url": "#/nodes/onderwerp",
+          "url": "nodes/onderwerp",
           "state": "nodes",
           "params": {"type":  "onderwerp"}
         },
         {
           "label": "Datasets",
-          "url": "#/nodes/dataset",
+          "url": "nodes/dataset",
           "state": "nodes",
           "params": {"type":  "dataset"}
         }
@@ -478,25 +478,25 @@
     },
     {
       "label": "Data Top 15",
-      "url": "#/nodes/onderwerp",
+      "url": "nodes/onderwerp",
       "state": "nodes",
       "params": {"type":  "onderwerp"},
       "sub": [
         {
           "label": "Data Top 15",
-          "url": "#/nodes/datatop15",
+          "url": "nodes/datatop15",
           "state": "nodes",
           "params": {"type": "dataset"}
         },
         {
           "label": "Status",
-          "url": "#/datatop15",
+          "url": "datatop15",
           "state": "datatop15",
           "params": {}
         },
         {
           "label": "Gemeentes",
-          "url": "#/nodes/gemeente",
+          "url": "nodes/gemeente",
           "state": "nodes",
           "params": {"type":  "gemeente"}
         }
@@ -504,7 +504,7 @@
     },
     {
       "label": "Zoeken",
-      "url": "#/nodes/zoeken",
+      "url": "nodes/zoeken",
       "state": "nodes",
       "params": {"type":  "zoeken"}
     }
