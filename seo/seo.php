@@ -35,6 +35,11 @@
         $pos = strpos($text, " ", (0.9 * 255));
         return substr($text, 0, min($max, $pos));
     }
+
+    function linkname($text){
+        $text = str_replace(" ","-",$text);
+        return preg_replace("/[^a-zA-Z0-9\-]+/", "", $text);
+    }
 ?>
 <html ng-app="app" ng-controller="AppCtrl" lang="en">
 <head>
@@ -69,6 +74,8 @@
     <link rel="stylesheet" href="../themes/specific.css"/>
 </head>
 <body>
+<div class="app" id="app">
+
 <header class="app-header white box-shadow">
     <div class="navbar">
         <a data-toggle="collapse" data-target="#navbar-1" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
@@ -82,8 +89,8 @@
         <div class="collapse navbar-toggleable-sm" id="navbar-1">
             <ul class="nav navbar-nav nav-active-border b-primary pull-right">
                 <?php
-                foreach($settings.navigation as $link){
-                    echo '<li nclass="nav-item"></li><a href="'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'{{link.label}}</span></a>';
+                foreach($settings->navigation as $link){
+                    echo '<li class="nav-item"></li><a href="'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'{{link.label}}</span></a>';
                     if($link->sub){
                         echo '<ul class="dropdown-menu pull-down text-color ng-scope" role="menu">';
                         foreach($link->sub as $sub) {
@@ -215,5 +222,9 @@
         </div>
     </div>
 </div> <!-- content -->
+</div>
+<?php
+ print_r($node);
+?>
 </body>
 </html>
