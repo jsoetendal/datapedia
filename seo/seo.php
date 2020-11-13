@@ -1,7 +1,9 @@
 <?php
+    error_reporting(E_ALL ^E_NOTICE);
     $url = $_SERVER['REQUEST_URI'];
+    //$url = '/node//505';
     $parts = explode("/", $url);
-    $settings = json_decode(file_get_contents("../settings/settings.json"));
+    $settings = json_decode(file_get_contents("../app/settings/settings.json"));
 
     if(strtolower($parts[1] == "nodes")){
         $type = $parts[2];
@@ -14,7 +16,7 @@
 
     if($type){
         foreach($settings->content->entities as $e){
-            if($e->type == $type){
+            if(strtolower(trim($e->type)) == strtolower(trim($type))){
                 $entity = $e;
             }
         }
@@ -90,7 +92,7 @@
             <ul class="nav navbar-nav nav-active-border b-primary pull-right">
                 <?php
                 foreach($settings->navigation as $link){
-                    echo '<li class="nav-item"></li><a href="'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'{{link.label}}</span></a>';
+                    echo '<li class="nav-item"></li><a href="'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'</span></a>';
                     if($link->sub){
                         echo '<ul class="dropdown-menu pull-down text-color ng-scope" role="menu">';
                         foreach($link->sub as $sub) {
@@ -130,21 +132,25 @@
                             echo "<dd>". $node->data->$param ."</dd>";
                         }
                         echo "</dl>";
-                        foreach($entity->relations as $relation){
-                            $key = $relation->key;
-                            echo "<h4>". $relation->label ."</h4><ul>";
-                            foreach($data->relations->$key as $rel){
-                                echo "<li><a href='../node/". linkname($rel->title) ."/". $rel->targetId ."'>". $rel->title ."</li>";
+                        if($entity->relations) {
+                            foreach ($entity->relations as $relation) {
+                                $key = $relation->key;
+                                echo "<h4>" . $relation->label . "</h4><ul>";
+                                foreach ($node->relations->$key as $rel) {
+                                    echo "<li><a href='../node/" . linkname($rel->title) . "/" . $rel->targetId . "'>" . $rel->title . "</li>";
+                                }
+                                echo "</ul>";
                             }
-                            echo "</ul>";
                         }
-                        foreach($entity->depedency as $relation){
-                            $key = $relation->key;
-                            echo "<h4>". $relation->label ."</h4><ul>";
-                            foreach($data->relations->$key as $rel){
-                                echo "<li><a href='../node/". linkname($rel->title) ."/". $rel->sourceId ."'>". $rel->title ."</li>";
+                        if($entity->depedencies) {
+                            foreach ($entity->depedencies as $relation) {
+                                $key = $relation->key;
+                                echo "<h4>" . $relation->label . "</h4><ul>";
+                                foreach ($node->relations->$key as $rel) {
+                                    echo "<li><a href='../node/" . linkname($rel->title) . "/" . $rel->sourceId . "'>" . $rel->title . "</li>";
+                                }
+                                echo "</ul>";
                             }
-                            echo "</ul>";
                         }
                     }else if($nodes){
 
@@ -223,8 +229,10 @@
     </div>
 </div> <!-- content -->
 </div>
+<!--
 <?php
  print_r($node);
 ?>
+-->
 </body>
 </html>
