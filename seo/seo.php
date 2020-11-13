@@ -1,7 +1,7 @@
 <?php
     $url = $_SERVER['REQUEST_URI'];
     $parts = explode("/", $url);
-
+    print_r($parts);
     /*
         TODO: Main menu
               url: "/nodes/{type}",
