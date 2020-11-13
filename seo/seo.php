@@ -12,7 +12,7 @@
 
     if(strtolower($parts[1] == "nodes")){
         $HTMLTitle = $parts[2];
-        $nodes= json_decode(file_get_contents("https://www.datapedia.nl/api/public/nodes/". $parts[2]));
+        $nodes= json_decode(file_get_contents("https://www.datapedia.nl/api/public/nodes/". $parts[2] ."/"));
         print_r($nodes); exit();
     }elseif(strtolower($parts[1] == "node")){
         $HTMLTitle = $parts[2];
