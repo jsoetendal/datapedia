@@ -1,13 +1,6 @@
 <?php
     $url = $_SERVER['REQUEST_URI'];
     $parts = explode("/", $url);
-    print_r($parts);
-    /*
-        TODO: Main menu
-              url: "/nodes/{type}",
-              url: '/node/{title}/{nodeId}',
-    */
-
     $settings = json_decode(file_get_contents("../settings/settings.json"));
 
     if(strtolower($parts[1] == "nodes")){
@@ -33,7 +26,7 @@
             $HTMLDescription = $entity->introduction;
         }
     } else {
-        $HTMLTitle = "Overzicht van data en toepassingen";
+        $HTMLTitle = "Overzicht van data en toepassingen  | Datapedia Smart Mobility";
         $HTMLDescription = "Smart City, Smart Mobility, Data, Datalandschap";
     }
 
@@ -42,12 +35,11 @@
         $pos = strpos($text, " ", (0.9 * 255));
         return substr($text, 0, min($max, $pos));
     }
-
 ?>
 <html ng-app="app" ng-controller="AppCtrl" lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Smart Mobility Data | <?php echo($HTMLTitle);?></title>
+    <title><?php echo($HTMLTitle);?></title>
     <meta name="description" content="<?php echo($HTMLDescription); ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
