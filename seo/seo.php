@@ -3,7 +3,7 @@
     $url = $_SERVER['REQUEST_URI'];
     //$url = '/node//505';
     $parts = explode("/", $url);
-    $settings = json_decode(file_get_contents("../app/settings/settings.json"));
+    $settings = json_decode(file_get_contents("/app/settings/settings.json"));
 
     if(strtolower($parts[1] == "nodes")){
         $type = $parts[2];
@@ -50,7 +50,7 @@
     <meta name="description" content="<?php echo($HTMLDescription); ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../style.css"/>
+    <link rel="stylesheet" href="/style.css"/>
 
     <!-- for ios 7 style, multi-resolution icon of 152x152 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -62,18 +62,18 @@
     <link rel="shortcut icon" sizes="196x196" href="../themes/assets/images/logo.png">
 
     <!-- style -->
-    <link rel="stylesheet" href="../themes/assets/animate.css/animate.min.css" type="text/css" />
-    <link rel="stylesheet" href="../themes/assets/glyphicons/glyphicons.css" type="text/css" />
-    <link rel="stylesheet" href="../themes/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="../themes/assets/material-design-icons/material-design-icons.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/animate.css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/material-design-icons/material-design-icons.css" type="text/css" />
 
-    <link rel="stylesheet" href="../themes/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
     <!-- build:css themes/assets/styles/app.min.css -->
-    <link rel="stylesheet" href="../themes/assets/styles/app.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/styles/app.css" type="text/css" />
     <!-- endbuild -->
-    <link rel="stylesheet" href="../themes/assets/styles/font.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/assets/styles/font.css" type="text/css" />
 
-    <link rel="stylesheet" href="../themes/specific.css"/>
+    <link rel="stylesheet" href="/themes/specific.css"/>
 </head>
 <body>
 <div class="app" id="app">
@@ -92,11 +92,11 @@
             <ul class="nav navbar-nav nav-active-border b-primary pull-right">
                 <?php
                 foreach($settings->navigation as $link){
-                    echo '<li class="nav-item"></li><a href="'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'</span></a>';
+                    echo '<li class="nav-item"></li><a href="/'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'</span></a>';
                     if($link->sub){
                         echo '<ul class="dropdown-menu pull-down text-color ng-scope" role="menu">';
                         foreach($link->sub as $sub) {
-                            echo '<li class="dropdown-item"><a href="' . $sub->url . '"><span class="dropdown-item">' . $sub->label . '</span></a></li>';
+                            echo '<li class="dropdown-item"><a href="/' . $sub->url . '"><span class="dropdown-item">' . $sub->label . '</span></a></li>';
                         }
                         echo '</ul>';
                     }
@@ -137,7 +137,7 @@
                                 $key = $relation->key;
                                 echo "<h4>" . $relation->label . "</h4><ul>";
                                 foreach ($node->relations->$key as $rel) {
-                                    echo "<li><a href='../node/" . linkname($rel->title) . "/" . $rel->targetId . "'>" . $rel->title . "</li>";
+                                    echo "<li><a href='/node/" . linkname($rel->title) . "/" . $rel->targetId . "'>" . $rel->title . "</li>";
                                 }
                                 echo "</ul>";
                             }
@@ -147,7 +147,7 @@
                                 $key = $relation->key;
                                 echo "<h4>" . $relation->label . "</h4><ul>";
                                 foreach ($node->relations->$key as $rel) {
-                                    echo "<li><a href='../node/" . linkname($rel->title) . "/" . $rel->sourceId . "'>" . $rel->title . "</li>";
+                                    echo "<li><a href='/node/" . linkname($rel->title) . "/" . $rel->sourceId . "'>" . $rel->title . "</li>";
                                 }
                                 echo "</ul>";
                             }
