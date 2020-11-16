@@ -354,7 +354,7 @@ class NodesMapper extends Mapper
         $creatorId = max(0, $token->getUserId()); //Wordt 0 als er geen userId is.
 
         if($token->isContributorOrUp($sourceId)) {
-            $this->db->doUpdate("relations", ["data" => $data], ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key]);
+            $this->db->doUpsert("relations", ["data" => $data, "sourceId" => $sourceId, "targetId" => $targetId, "key" => $key]);
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "current"]);
         } else {
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "suggested"]);

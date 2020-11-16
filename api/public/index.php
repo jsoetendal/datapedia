@@ -220,13 +220,13 @@ $app->post("/relation/set/", function (Slim\Http\Request $request, Slim\Http\Res
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
 
-    if($token->isContributorOrUp($data["sourceId"])) {
+    //if($token->isContributorOrUp($data["sourceId"])) { //setRelation handles role/permission
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->setRelation($data, $token);
         return $response->withStatus(200)->withJSON($result);
-    } else {
-      return $response->withStatus(403);
-    }
+    //} else {
+      //return $response->withStatus(403);
+    //}
 });
 
 $app->post("/relation/delete/", function (Slim\Http\Request $request, Slim\Http\Response $response) {
