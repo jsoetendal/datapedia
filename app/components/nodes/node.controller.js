@@ -376,6 +376,7 @@ angular.
 
           //https://www.tiny.cloud/docs/advanced/editor-control-identifiers/#toolbarcontrols
           $scope.tinymceOptions = {
+              relative_urls : false,
               paste_as_text: true,
               height: 720,
               indent: false,
