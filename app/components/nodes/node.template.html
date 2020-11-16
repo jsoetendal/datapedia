@@ -159,7 +159,7 @@
                                 </div>
 
 
-                                <div class="col-xs-12" ng-repeat="dependency in entity.dependencies" ng-if="dependency.view">
+                                <div class="col-xs-12" ng-repeat="dependency in entity.dependencies" ng-if="dependency.view && dependency.view.indexOf('.') > -1"> //If view && view = html-template URL
                                     <div ui-include="'{{dependency.view}}'"></div>
                                 </div>
                             </div>
