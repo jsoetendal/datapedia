@@ -128,10 +128,11 @@
                         echo "<p>". $node->text ."</p>";
                         if($node->imgUrl) echo "<img src='../". $node->imgUrl ."'>";
                         echo "<dl>";
-                        foreach($entity->data as $data){
-                            echo "<dt>". $data->label ."</dt>";
-                            $param = $data->key;
-                            echo "<dd>". $node->data->$param ."</dd>";
+                        $data = json_decode($node->data);
+                        foreach($entity->data as $entity_data){
+                            echo "<dt>". $entity_data->label ."</dt>";
+                            $param = $entity_data->key;
+                            echo "<dd>". $data->$param ."</dd>";
                         }
                         echo "</dl>";
                         if($entity->relations) {
@@ -154,8 +155,14 @@
                                 echo "</ul>";
                             }
                         }
+                        //print_r($node);
                     }else if($nodes){
-
+                        //print_r($nodes);
+                        print("<ul>");
+                        foreach($nodes as $node){
+                            echo "<li><a href='/node/" . linkname($node->title) . "/" . $node->nodeId . "'>" . $node->title . "</li>";
+                        }
+                        print("</ul>");
                     }else {
                         //TODO: Links aanpassen!
                         ?>
@@ -192,8 +199,8 @@
                                     <div class="box-body licht" style="min-height: 12em">
                                         <h5>Waarom?</h5>
                                         <ul class="frontpage">
-                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de video <a class="text-primary" ui-sref="node({nodeId: 530})">"Wat is data en waarom is het zo belangrijk"</a></li>
-                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Zie de vele  <a class="text-primary" ui-sref="nodes({type: 'project'})">voorbeelden</a> van hoe data mobiliteit slimmer kan maken</li>
+                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de video <a class="text-primary" href="/node//530">"Wat is data en waarom is het zo belangrijk"</a></li>
+                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Zie de vele  <a class="text-primary" href="/nodes/project">voorbeelden</a> van hoe data mobiliteit slimmer kan maken</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -204,8 +211,8 @@
                                     <div class="box-body licht" style="min-height: 12em">
                                         <h5>Wat en hoe?</h5>
                                         <ul class="frontpage">
-                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Lees het <a class="text-primary" ui-sref="nodes({type: 'article'})">Handboek Data Top 15</a></li>
-                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de <a class="text-primary" ui-sref="nodes({type: 'onderwerp'})">verschillende onderwerpen en bijbehorende beschikbare datasets</a> en  <a class="text-primary" ui-sref="nodes({'type': 'datatop15'})">Data Top 15</a></li>
+                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Lees het <a class="text-primary" href="/nodes/article">Handboek Data Top 15</a></li>
+                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de <a class="text-primary" href="/nodes/onderwerp">verschillende onderwerpen en bijbehorende beschikbare datasets</a> en  <a class="text-primary" href="/nodes/datatop15">Data Top 15</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -216,8 +223,8 @@
                                     <div class="box-body licht" style="min-height: 12em">
                                         <h5>Aan de slag!</h5>
                                         <ul class="frontpage">
-                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de  <a class="text-primary" ui-sref="nodes({'type': 'datatop15'})">Data Top 15</a> met een <a class="text-primary" ui-sref="node({nodeId: 571})">aanpak</a> voor ieder data-item</li>
-                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Doe de <a class="text-primary" ui-sref="nodes({'type': 'gemeente'})">'intake' voor jouw gemeente</a> of vul deze verder aan.</li>
+                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de  <a class="text-primary" href="/nodes/datatop15">Data Top 15</a> met een <a class="text-primary" href="/node/actuele-wegwerkzaamheden/571">aanpak</a> voor ieder data-item</li>
+                                            <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Doe de <a class="text-primary" href="/nodes/gemeente">'intake' voor jouw gemeente</a> of vul deze verder aan.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -233,7 +240,7 @@
 </div>
 <!--
 <?php
- print_r($node);
+ //print_r($node);
 ?>
 -->
 </body>
