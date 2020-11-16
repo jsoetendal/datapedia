@@ -2,8 +2,13 @@
     error_reporting(E_ALL ^E_NOTICE);
     $url = $_SERVER['REQUEST_URI'];
     //$url = '/node//505';
-    $parts = explode("/", $url);
-    $settings = json_decode(file_get_contents("/app/settings/settings.json"));
+    if($_SERVER["SERVER_NAME"] == "localhost") {
+        $parts = explode("/", $url);
+        array_splice($parts, 0,1);
+    } else {
+        $parts = explode("/", $url);
+    }
+    $settings = json_decode(file_get_contents("https://www.datapedia.nl/app/settings/settings.json"));
 
     if(strtolower($parts[1] == "nodes")){
         $type = $parts[2];
@@ -47,6 +52,7 @@
 <head>
     <meta charset="utf-8" />
     <title><?php echo($HTMLTitle);?></title>
+    <base href="http://www.datapedia.nl/">
     <meta name="description" content="<?php echo($HTMLDescription); ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,11 +61,11 @@
     <!-- for ios 7 style, multi-resolution icon of 152x152 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
-    <link rel="apple-touch-icon" href="../themes/assets/images/logo.png">
+    <link rel="apple-touch-icon" href="/themes/assets/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Smart Mobility Data">
     <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="shortcut icon" sizes="196x196" href="../themes/assets/images/logo.png">
+    <link rel="shortcut icon" sizes="196x196" href="/themes/assets/images/logo.png">
 
     <!-- style -->
     <link rel="stylesheet" href="/themes/assets/animate.css/animate.min.css" type="text/css" />
@@ -112,12 +118,8 @@
 <div id="content" role="main">
     <div class="app-body" id="view">
         <div class="padding">
+            <div class="box licht lt m-b-lg"><div class="row"><div class="col-xs-12"><h1><?php echo $HTMLTitle; ?></h1><strong><a href="/nodes/<?php echo $node->type; ?>"><?php echo $entity->plural; ?></a></strong><br/><small><?php echo $HTMLDescription; ?></small></div></div></div>
             <div class="box">
-                <div class="box-header">
-                    <h1><?php echo $HTMLTitle; ?></h1>
-                    <small><?php echo $HTMLDescription; ?></small>
-                </div>
-            </div>
             <div class="box-body">
                 <?php
                     if($node){

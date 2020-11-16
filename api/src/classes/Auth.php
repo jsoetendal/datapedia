@@ -255,7 +255,7 @@ class Auth{
 
             $tokenStr = $accessToken->encode();
 
-            $url = "https://localhost/datapedia.nl/passwordreset/0/" . $tokenStr;
+            $url = "https://www.datapedia.nl/passwordreset/0/" . $tokenStr;
             $link = "<a href='". $url ."'>Wachtwoord opnieuw instellen</a>";
 
 
@@ -267,7 +267,6 @@ class Auth{
             $html = "<style>body {background-color: white; font-family: Calibri, Arial, Verdana, Sans}</style>";
             $html .= "<body>";
             $html .= "<div style=\"width: 500px; margin: 0px auto; padding: 30px; background-color: white;\">";
-            $html .= "<center><img src=\"https://". $regio->slug .".copaan.nl/kantoor/logo.png\" style=\"margin: 10px 0px 40px 0px\"></center>";
             $html .= str_replace("\n","<BR/>", $mail);
             $html .= "<br/><br/><br/><p><small>Werkt bovenstaande link niet goed? Knip en plak dan onderstaande volledige link in je browser:<br/>".$url."</p>";
             $html .= "</div></body></html>";
@@ -275,7 +274,7 @@ class Auth{
 
             $m = new Mail([
                 "email" => $email,
-                "subject" => $regio->title . " - Wachtwoord Copaan opnieuw instellen",
+                "subject" => "Wachtwoord Datapedia opnieuw instellen",
                 "text" => $mail,
                 "html" => $html
             ]);
