@@ -98,7 +98,7 @@
             <ul class="nav navbar-nav nav-active-border b-primary pull-right">
                 <?php
                 foreach($settings->navigation as $link){
-                    echo '<li class="nav-item"></li><a href="/'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'</span></a>';
+                    echo '<li class="nav-item"><a href="/'. $link->url .'" class="nav-link"><span class="nav-text">'. $link->label .'</span></a>';
                     if($link->sub){
                         echo '<ul class="dropdown-menu pull-down text-color ng-scope" role="menu">';
                         foreach($link->sub as $sub) {
@@ -237,6 +237,51 @@
         </div>
     </div>
 </div> <!-- content -->
+
+    <footer id="main-footer">
+        <div id="footer-widgets" class="row">
+            <div class="footer-widget">
+                <div id="text-4" class="col-xs-12 col-md-3">
+                    <h4 class="title">Over de Data Top 15</h4>
+                    <div class="textwidget"><p>In het programma 'Digitalisering Overheden' werken 5 landsdelen samen om in 2023 'digitaal capabel in mobiliteit' te zijn. Aan de hand van de Data Top 15 wordt data van de wegbeheerders gepubliceerd.</p>
+                        <!--<p><a href="//smartmobilitymra.nl/wat-is-smart-mobility/"><strong>Lees meer</strong></a></p>-->
+                    </div>
+                </div> <!-- end .fwidget -->
+            </div> <!-- end .footer-widget -->
+
+            <div class="footer-widget">
+                <div id="text-3" class="col-xs-12 col-md-3">
+                    <h4 class="title">Over het Regionaal Data Team (RDT)</h4>
+                    <div class="textwidget"><p>In het landsdeel Noord-Holland/Flevoland is het Regionaal Datateam (RDT) actief om wegbeheerders te ondersteunen in de digitaliserings-opgave.</p>
+                        <!--<p><a href="//smartmobilitymra.nl/wat-is-smart-mobility/"><strong>Lees meer</strong></a></p>-->
+                    </div>
+                </div> <!-- end .fwidget -->
+            </div> <!-- end .footer-widget -->
+
+            <div class="footer-widget">
+                <div id="text-2" class="col-xs-12 col-md-3">
+                    <h4 class="title">Over MRA Smart Mobility</h4>
+                    <div class="textwidget"><p>Het MRA-platform Smart Mobility richt zich concreet op innovaties op datagebied in combinatie met het optimaal benutten van slimme techniek.</p>
+                        <p><a href="//smartmobilitymra.nl/wat-is-smart-mobility/"><strong>Lees meer</strong></a></p>
+                    </div>
+                </div> <!-- end .fwidget -->
+            </div> <!-- end .footer-widget -->
+            <div class="footer-widget">
+                <div id="text-2" class="col-xs-12 col-md-3">
+                    <h4 class="title">Onderwerpen</h4>
+                    <div class="textwidget">
+                        <ul>
+                        <?php
+                        foreach($settings->content->entities as $e){
+                            echo "<li><a href='/nodes/". $e->type ."'>". $e->plural ."</a></li>";
+                        }
+                        ?>
+                    </ul>
+                    </div>
+                </div> <!-- end .fwidget -->
+            </div> <!-- end .footer-widget -->
+        </div> <!-- #footer-widgets -->
+    </footer>
 </div>
 <!--
 <?php
