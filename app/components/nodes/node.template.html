@@ -367,7 +367,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-md-6" ng-if="node.nodeId">
+                                <div class="col-xs-12 col-md-6" ng-if="node.nodeId" ng-hide="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))">
                                     <div class="box">
                                         <div class="box-header">
                                             <h2>Verwijderen</h2>
@@ -459,7 +459,7 @@
                                     </div>
                                     <div class="box-footer m-y">
                                         <div class="btn btn-fwd danger pull-right" ng-if="history.selectedNode.status != 'current'" ng-click="historyDelete(history.selectedNode)">Verwijderen</div>
-                                        <div class="btn btn-fwd success pull-right m-r" ng-if="history.selectedNode.status == 'previous'" ng-click="historyRevert(history.selectedNode)">Terugzetten</div>
+                                        <div class="btn btn-fwd success pull-right m-r" ng-if="history.selectedNode.status == 'previous' || history.selectedNode.status == 'deleted'" ng-click="historyRevert(history.selectedNode)">Terugzetten</div>
                                         <div class="btn btn-fwd success" ng-if="history.selectedNode.status == 'suggested'" ng-click="historyApprove(history.selectedNode)">Accepteren</div>
                                     </div>
                                     <div class="box-body">

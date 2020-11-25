@@ -15,6 +15,9 @@ component('contentbeheer', {
                 Nodes.loadUpdates(function(data){
                     $scope.updates = data;
                 })
+                Nodes.loadDeleted(function(data){
+                    $scope.deleted = data;
+                })
             }
 
             this.loadContent();

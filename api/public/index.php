@@ -514,6 +514,19 @@ $app->get('/updates/', function (Slim\Http\Request $request, Slim\Http\Response 
     }
 });
 
+$app->get('/deleted/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->getDeleted();
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
 $app->get('/history/approve/{nodeVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     $nodeVersionId = intval($request->getAttribute('nodeVersionId'));

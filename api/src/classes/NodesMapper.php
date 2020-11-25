@@ -121,29 +121,31 @@ class NodesMapper extends Mapper
      */
     function getNode($nodeId){
         $node = $this->db->returnFirst("SELECT * FROM nodes WHERE nodeId = '". $nodeId ."'");
-        if($node && trim($node->type == "")){
+        if(!$node || ($node && trim($node->type == ""))){
             //Dit is een suggested node die hier niet gevuld is. Data uit node_versions halen
             $node = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeId = '". $nodeId ."' ORDER BY nodeVersionId DESC");
         }
-        $node->relations = new stdClass();
-        $relatedNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '". $nodeId ."'");
-        foreach($relatedNodes as $relatedNode){
-            $key = $relatedNode->key;
-            if(!$node->relations->$key) $node->relations->$key = [];
-            $relatedNode->data = json_decode($relatedNode->data);
-            $relatedNode->datarelation = json_decode($relatedNode->datarelation);
-            $relatedNode->visible = true;
-            array_push($node->relations->$key, $relatedNode);
-        }
-        $node->dependencies = new stdClass();
-        $dependentNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.sourceId = nodes.nodeId) WHERE targetId = '". $nodeId ."'");
-        foreach($dependentNodes as $dependentNode){
-            $key = $dependentNode->key;
-            if(!$node->dependencies->$key) $node->dependencies->$key = [];
-            $dependentNode->data = json_decode($dependentNode->data);
-            $dependentNode->datarelation = json_decode($dependentNode->datarelation);
-            $dependentNode->visible = true;
-            array_push($node->dependencies->$key, $dependentNode);
+        if($node) {
+            $node->relations = new stdClass();
+            $relatedNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '" . $nodeId . "'");
+            foreach ($relatedNodes as $relatedNode) {
+                $key = $relatedNode->key;
+                if (!$node->relations->$key) $node->relations->$key = [];
+                $relatedNode->data = json_decode($relatedNode->data);
+                $relatedNode->datarelation = json_decode($relatedNode->datarelation);
+                $relatedNode->visible = true;
+                array_push($node->relations->$key, $relatedNode);
+            }
+            $node->dependencies = new stdClass();
+            $dependentNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.sourceId = nodes.nodeId) WHERE targetId = '" . $nodeId . "'");
+            foreach ($dependentNodes as $dependentNode) {
+                $key = $dependentNode->key;
+                if (!$node->dependencies->$key) $node->dependencies->$key = [];
+                $dependentNode->data = json_decode($dependentNode->data);
+                $dependentNode->datarelation = json_decode($dependentNode->datarelation);
+                $dependentNode->visible = true;
+                array_push($node->dependencies->$key, $dependentNode);
+            }
         }
         return $node;
     }
@@ -408,7 +410,7 @@ class NodesMapper extends Mapper
     function deleteNode($nodeId){
         $this->db->doSQL("DELETE FROM nodes WHERE nodeId = ". $nodeId);
         $this->db->doSQL("DELETE FROM relations WHERE sourceId = ". $nodeId ." OR targetId = ". $nodeId);
-        $this->db->doSQL("UPDATE nodes_versions SET status='deleted' WHERE nodeId = ". $nodeId ." AND status = 'current'");
+        $this->db->doSQL("UPDATE nodes_versions SET status='deleted', updated=NOW() WHERE nodeId = ". $nodeId ." AND status = 'current'");
     }
 
     function getUserData(){
@@ -435,12 +437,17 @@ class NodesMapper extends Mapper
 
 
     function getSuggestions(){
-        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'suggested' ORDER BY GREATEST(COALESCE(created,0), COALESCE(updated,0)) DESC LIMIT 0,100");
+        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'suggested' ORDER BY GREATEST(COALESCE(created,0), COALESCE(updated,0)) DESC LIMIT 0,50");
         return $rows;
     }
 
     function getUpdates(){
         $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'current' ORDER BY GREATEST(COALESCE(created,0), COALESCE(updated,0)) DESC LIMIT 0,100");
+        return $rows;
+    }
+
+    function getDeleted(){
+        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'deleted' AND updated > '". date("Y-m-d h:i:s", strtotime("-30days")) ."' ORDER BY updated DESC LIMIT 0,50");
         return $rows;
     }
 
