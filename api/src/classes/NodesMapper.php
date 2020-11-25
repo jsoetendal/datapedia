@@ -409,6 +409,8 @@ class NodesMapper extends Mapper
 
     function deleteNode($nodeId){
         $this->db->doSQL("DELETE FROM nodes WHERE nodeId = ". $nodeId);
+        $this->db->doSQL("DELETE FROM relations_versions WHERE (sourceId = ". $nodeId ." OR targetId = ". $nodeId .") AND status = 'deleted'"); //Verwijder relaties die al verwijderd waren. TODO: Deze netjes bewaren en bij een revert ook weer als deleted terugzetten.
+        $this->db->doSQL("UPDATE relations_versions SET status='deleted' WHERE (sourceId = ". $nodeId ." OR targetId = ". $nodeId .") AND status = 'current'"); //Zet huidige relaties op deleted, zodat die bij evt. revert weer netjes worden meegenomen
         $this->db->doSQL("DELETE FROM relations WHERE sourceId = ". $nodeId ." OR targetId = ". $nodeId);
         $this->db->doSQL("UPDATE nodes_versions SET status='deleted', updated=NOW() WHERE nodeId = ". $nodeId ." AND status = 'current'");
     }
@@ -447,7 +449,7 @@ class NodesMapper extends Mapper
     }
 
     function getDeleted(){
-        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'deleted' AND updated > '". date("Y-m-d h:i:s", strtotime("-30days")) ."' ORDER BY updated DESC LIMIT 0,50");
+        $rows = $this->db->getArray("SELECT * FROM nodes_versions WHERE status = 'deleted' AND updated > '". date("Y-m-d H:i:s", strtotime("-30days")) ."' ORDER BY updated DESC LIMIT 0,50");
         return $rows;
     }
 
@@ -469,14 +471,18 @@ class NodesMapper extends Mapper
             $this->db->doSQL("UPDATE nodes_versions SET status = 'previous' WHERE nodeId = ". $nodeVersion->nodeId ." AND status = 'current'");
             $this->db->doSQL("UPDATE nodes_versions SET status = 'current' WHERE nodeVersionId = ". $nodeVersionId);
 
-            $relations = $this->db->getArray("SELECT * FROM relations_versions WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'suggested'");
+            if($nodeVersion->status == "deleted"){
+                $this->db->doSQL("UPDATE relations_versions SET status = 'current' WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'deleted'");
+            } else {
+                $this->db->doSQL("UPDATE relations_versions SET status = 'current' WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'suggested'");
+            }
+            $relations = $this->db->getArray("SELECT * FROM relations_versions WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'current'");
             foreach($relations as $relation){
                 $arr = (array) $relation;
                 unset($arr["status"]);
                 unset($arr["creatorId"]);
                 $this->db->doUpsert("relations", $arr);
             }
-            $this->db->doSQL("UPDATE relations_versions SET status = 'current' WHERE (targetId = ". $nodeVersion->nodeId ." OR sourceId = ". $nodeVersion->nodeId .") AND status = 'suggested'");
         }
     }
 
