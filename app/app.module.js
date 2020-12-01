@@ -135,6 +135,12 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+          .state('settings', {
+              url: "/admin/settings",
+              template: "<settings class='controllermodule'></settings>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
 }]);
   //Zoeken naar: ui-router! Docs: https://github.com/angular-ui/ui-router/wiki
   

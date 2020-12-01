@@ -7,6 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="<?php print(getenv('BASE_HREF'));?>">
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W62XEBVFPS"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-W62XEBVFPS');
+    </script>
     <link rel="stylesheet" href="style.css"/>
 
     <!-- for ios 7 style, multi-resolution icon of 152x152 -->
@@ -119,7 +127,7 @@
                       </a>
                     </li>
                     <li class="dropdown-item">
-                      <a ui-sref="admin" ng-show="user.isAdmin">
+                      <a ui-sref="settings" ng-show="user.isAdmin">
                         <span class="dropdown-item">Admin</span>
                       </a>
                     </li>
@@ -298,6 +306,8 @@
     <script src="app/components/users/users.model.js"></script>
     <script src="app/components/users/users.controller.js"></script>
     <script src="app/components/admin/content.controller.js"></script>
+    <script src="app/components/admin/settings.model.js"></script>
+    <script src="app/components/admin/settings.controller.js"></script>
     <script src="app/components/import/import.controller.js"></script>
     <script src="app/components/import/dataoverheid.controller.js"></script>
     <script src="app/settings/diverse.controllers.js"></script>

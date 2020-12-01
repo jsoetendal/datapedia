@@ -254,6 +254,15 @@ $app->get('/paths/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->get('/entities/count/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $nodesMapper = new NodesMapper($this->db);
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    $result = $nodesMapper->getEntityCount();
+    return $response->withStatus(200)->withJSON($result);
+});
+
 $app->get('/users/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
@@ -563,6 +572,34 @@ $app->get('/history/delete/{nodeVersionId}', function (Slim\Http\Request $reques
     if($token->isEditorOrUp()){
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->historyDelete($nodeVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->get('/settings/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isAdmin()) {
+        $settingsMapper = new SettingsMapper($this->db);
+        $result = $settingsMapper->getSettings();
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+
+    }
+});
+
+$app->post('/settings/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $data = $request->getParsedBody();
+    $token = new Token($request);
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isAdmin()) {
+        $settingsMapper = new SettingsMapper($this->db);
+        $result = $settingsMapper->saveSettings($data);
         return $response->withStatus(200)->withJSON($result);
     } else {
         return $response->withStatus(403);

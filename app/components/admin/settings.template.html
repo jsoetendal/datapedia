@@ -1,0 +1,135 @@
+<div class="p-a">
+    <div class="white lt box-shadow">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="p-a m-b-0 _300 pointer">Admin</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-t">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="btn btn-primary pull-right" ng-click="saveSettings()">Alles opslaan</div>
+                    <h1>Entiteiten</h1>
+                </div>
+                <div class="box-body" ng-init="show = []">
+                    <div class="box" ng-repeat="entity in settings.content.entities">
+                        <div class="box-header">
+                            <div class="btn btn-fwd pull-right" ng-click="show[entity.type] = !show[entity.type]"><span ng-hide="show[entity.type]">Aanpassen</span><span ng-show="show[entity.type]">Inklappen</span></div>
+                            <div class="btn btn-danger pull-right m-r" ng-click="deleteEntity(entity.type)" ng-if="!count[entity.type] || count[entity.type] == 0">Verwijderen</div>
+                            <h2 ng-click="show[entity.type] = !show[entity.type]">{{entity.single}}</h2>
+                            <small>{{count[entity.type]}} {{entity.plural.toLowerCase()}}</small>
+                        </div>
+                        <div class="box-divider m-a-0"></div>
+                        <div class="box-body" ng-show="show[entity.type]">
+                            <form role="form" class="ng-pristine ng-valid">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Type</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="entity.type">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Naam entiteit (enkelvoud)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="entity.single">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Naam entiteit (meervoud)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="entity.plural">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Introductie</label>
+                                    <div class="col-sm-10"><textarea class="form-control" rows="2" ng-model="entity.introduction"></textarea></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Achtergrond (url)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="entity.background">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Path label</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="entity.path.label">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox col-sm-10 col-sm-offset-2"><label><input type="checkbox" ng-model="entity.path.multilevel">Multi level</label></div>
+                                    <div class="checkbox col-sm-10 col-sm-offset-2"><label><input type="checkbox" ng-model="entity.path.multiple">Meerdere paths bij een {{entity.single.toLowerCase()}}</label></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1 form-control-label">Weergave</label>
+                                    <label class="col-sm-1 form-control-label">primair:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" ng-model="entity.views[0]">
+                                            <option value="list">list - Lijst</option>
+                                            <option value="tile">tile - Tegels</option>
+                                            <option value="tree">tree - Kolommen</option>
+                                            <option value="chapters">chapters - Hoofdstukken</option>
+                                            <option value="geo">geo - Kaart</option>
+                                            <option value="set">set - Set</option>
+                                            <option value="custom">custom - Specifiek</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-1 col-sm-offset-1 form-control-label">optioneel:</label>
+                                    <div class="col-sm-10 p-t">
+                                        <div class='m-b-sm' ng-repeat="optie in ['list','tile','tree','chapters','geo','set'] track by $index">
+                                            <add-toggle label="optie" arr="entity.views"></add-toggle>
+                                        </div>
+                                    </div>
+                                    <label ng-if="entity.views[0] == 'custom'" class="col-sm-1 col-sm-offset-1 form-control-label">Specifiek:<br/><small class="text-muted">URL template</small></label>
+                                    <div ng-if="entity.views[0] == 'custom'" class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="entity.custom">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-2">Facet search<br/><small class="text-muted">Selectie in linkerkolom</small></label>
+                                    <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="entity.facet.default">Standaard aan</label><br/><label><input type="checkbox" ng-model="entity.facet.optional">Optioneel</label></div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-2">Uitgebreid<br/></label>
+                                    <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="entity.getNodesExtended">Uitgebreide nodes ophalen. (GetNodesExtended)</label></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 b-b p-t-sm m-t b-t"><h5>Data</h5></div>
+                                    {{entity.data}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 b-b p-t-sm m-t b-t"><h5>Relaties</h5></div>
+                                    {{entity.data}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 b-b p-t-sm m-t b-t"><h5>Dependencies</h5></div>
+                                    {{entity.data}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="btn btn-primary pull-right" ng-click="saveSettings()">Alles opslaan</div>
+                    <div class="btn btn-primary" ng-click="addEntity();">Entiteit toevoegen</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3>Navigatie</h3>
+                </div>
+                <div class="box-body">
+                    <div ng-repeat="nav in settings.navigation">
+                        <h3>{{nav.label}}</h3>
+                        {{nav}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

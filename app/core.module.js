@@ -1,7 +1,7 @@
 'use strict';
 
 // Define the `core` module
-angular.module('core', ['core.nodes','core.users','core.user','core.setup']);
+angular.module('core', ['core.nodes','core.users','core.user','core.setup', 'core.settings']);
 
 angular.
   module('core').
@@ -412,6 +412,54 @@ return function(input) {
         return result;
     };
 })
+    .directive('addToggle', [function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            label: '=',
+            arr: '=',
+        },
+        template:
+            ['<div class="twotoggle toggle">',
+                '<span ng-show="disabled" class="label grey-300"><i class="fa fa-check"></i></span>',
+                '<span ng-show="!disabled && checked" class="label green" ng-click="delValue();"><i class="fa fa-check"></i></span>',
+                '<span ng-hide="disabled || checked" class="label grey-300" ng-click="addValue();"><i class="fa"></i></span>',
+                ' {{label}}</div>'].join(''),
+            link: function(scope, el, attrs) {
+
+            scope.$watch("arr",function(newValue,oldValue) {
+                if(vm.arr[0] == vm.label){
+                    vm.checked = true;
+                    vm.disabled = true;
+                }else if(vm.arr.indexOf(vm.label) > 0){
+                    vm.checked = true;
+                    vm.disabled = false;
+                } else {
+                    vm.checked = false;
+                    vm.disabled = false;
+                }
+            }, true);
+
+            // VM shorthand
+            var vm = scope;
+
+            vm.addValue = function(){
+                if(vm.arr.indexOf(vm.label) == -1){
+                    vm.arr.push(vm.label);
+                }
+                vm.checked = true;
+            }
+
+            vm.delValue = function(){
+                if(vm.arr.indexOf(vm.label) > -1){
+                    vm.arr.splice(vm.arr.indexOf(vm.label),1);
+                }
+                vm.checked = false;
+            }
+        },
+    };
+}])
 .directive('tobottom', ['$window','$timeout', function ($window, $timeout) {
 
      return {

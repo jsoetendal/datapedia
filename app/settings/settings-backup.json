@@ -1,0 +1,512 @@
+{
+  "content": {
+    "entities":
+    [
+      {
+        "type": "project",
+        "single": "Voorbeeld",
+        "plural": "Voorbeelden",
+        "image": "photo",
+        "background": "app/images/library.jpg",
+        "introduction": "Er zijn vele voorbeelden van smart mobility en hoe data bij kan dragen aan het slimmer maken van de mobiliteit. Hieronder vind je een selectie van deze voorbeelden uit onze regio, verdeeld over een aantal verschillende thema's:",
+        "path": {
+          "label": "Categorie",
+          "multilevel": false,
+          "multiple": true
+        },
+        "views": ["tile","tree","chapters"],
+        "facet": {
+          "optional": true,
+          "default": false
+        },
+        "data": [
+          {
+            "key": "status",
+            "type": "enum",
+            "options": ["Ambitie","Uitdaging","Idee","Pilot","Project"],
+            "label": "Status",
+            "descriptionInput": "De status van dit voorbeeld",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "contact",
+            "type": "text",
+            "label": "Contactpersoon",
+            "descriptionInput": "Geef de naam van een contactpersoon van dit project",
+            "required": false,
+            "facet": false
+          },
+          {
+            "key": "url",
+            "type": "url",
+            "label": "Meer info",
+            "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
+            "required": false,
+            "facet": false
+          }
+        ],
+        "relations": [
+          {
+            "key": "betrokken",
+            "type": "organisatie",
+            "min": 0,
+            "max": 100,
+            "explicit": true,
+            "label": "Betrokken partijen",
+            "facet": true
+          },
+          {
+            "key": "onderwerp",
+            "type": "onderwerp",
+            "min": 0,
+            "max": 100,
+            "explicit": true,
+            "label": "Relevante datasets",
+            "facet": false
+          }
+
+        ]
+      },
+      {
+        "type": "organisatie",
+        "single": "Organisatie",
+        "plural": "Organisaties",
+        "image": "logo",
+        "background": "app/images/cs.jpg",
+        "path": {
+          "label": "Categorie",
+          "multilevel": false,
+          "multiple": false
+        },
+        "views": ["list","tile"],
+        "facet": {
+          "optional": false,
+          "default": false
+        },
+        "data": [
+          {
+            "key": "contact",
+            "type": "text",
+            "label": "Contactpersoon",
+            "descriptionInput": "Geef de naam van een contactpersoon van dit project",
+            "required": false
+          },
+          {
+            "key": "url",
+            "type": "url",
+            "label": "Website",
+            "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
+            "required": false
+          }
+        ],
+        "relations": [
+        ],
+        "dependencies": [
+          {
+            "key": "bronhouder",
+            "type": "dataset",
+            "label": "Datasets",
+            "description": "Deze organisatie heeft de volgende datasets:",
+            "add": true,
+            "max": 255,
+            "view": "app/components/custom/dataset.dependencies.view.html"
+          },
+          {
+            "key": "betrokken",
+            "type": "organisatie",
+            "label": "Voorbeelden",
+            "description": "Deze organisatie is betrokken bij de volgende voorbeelden:",
+            "add": true,
+            "max": 255
+          }
+        ]
+      },
+      {
+        "type": "onderwerp",
+        "single": "Onderwerp",
+        "plural": "Onderwerpen",
+        "introduction": "Om zichtbaar te maken welke data beschikbaar is, hebben we er voor gekozen om een overzicht van alle mogelijke onderwerpen voor data over smart mobility te maken. In onderstaand overzicht zie je voor welke onderwerpen al wel data beschikbaar is (in de groene bolletjes staat het aantal datasets) en waar nog niet:",
+        "image": false,
+        "background": "app/images/cs.jpg",
+        "path": {
+          "label": "Categorie",
+          "multilevel": true,
+          "multiple": true
+        },
+        "custom": "app/components/custom/onderwerp.kolommen.html",
+        "views": ["custom","list"],
+        "facet": {
+          "optional": true,
+          "default": false
+        },
+        "data": [
+          {
+            "key": "mogelijke_bron",
+            "type": "text",
+            "label": "Mogelijke bron",
+            "descriptionInput": "Naam van mogelijke bron of bronhouder",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "bronhouder",
+            "type": "text",
+            "label": "Bronhouder(s)",
+            "required": false,
+            "facet": true
+          },
+          {
+            "key": "publiekprivaat",
+            "type": "enum",
+            "options": ["Overheid","Privaat","Overheid/Privaat"],
+            "label": "Overheid of private partij(en)",
+            "descriptionInput": "Is de bronhouder overheid of private partijen?",
+            "required": false,
+            "facet": true
+          }
+        ],
+        "relations": [
+          {
+            "key": "dataset",
+            "type": "dataset",
+            "min": 0,
+            "max": 255,
+            "explicit": true,
+            "label": "Beschikbare dataset",
+            "description": "Beschikbare datasets",
+            "descriptionInput": "Selecteer een beschikbare dataset",
+            "facet": false,
+            "view": "app/components/custom/dataset.relations.view.html"
+          }
+        ],
+        "dependencies": [
+          {
+            "key": "datatop15_onderwerp",
+            "type": "datatop15",
+            "label": "Data Top 15",
+            "description": "Dit item staat in de Data Top 15 bij:",
+            "descriptionInput": "Selecteer een item uit de Data Top 15",
+            "facet": true,
+            "add": true,
+            "max": 999
+          },
+          {
+            "key": "onderwerp",
+            "type": "voorbeeld",
+            "min": 0,
+            "max": 100,
+            "explicit": true,
+            "label": "Voorbeelden",
+            "description": "Deze voorbeelden maken gebruik van dit onderwerp:",
+            "facet": false
+          }
+        ]
+      },
+      {
+        "type": "dataset",
+        "single": "Dataset",
+        "plural": "Datasets",
+        "image": false,
+        "path": false,
+        "background": "app/images/cs.jpg",
+        "custom": "app/components/custom/dataset.list.view.html",
+        "views": ["custom","list"],
+        "facet": {
+          "optional": true,
+          "default": true
+        },
+        "data": [
+          {
+            "key": "details",
+            "type": "custom",
+            "label": "Details",
+            "templates": {
+              "input": "app/components/custom/dataset.details.edit.html",
+              "view": "app/components/custom/dataset.details.view.html"
+            },
+            "required": true,
+            "facet": false
+          }
+        ],
+        "relations": [
+          {
+            "key": "bronhouder",
+            "type": "organisatie",
+            "label": "Bronhouders",
+            "description": "Organisaties die de brondata beheren en beschikbaar maken",
+            "descriptionInput": "Selecteer één of meerdere bronhouders",
+            "facet": true,
+            "min": 0,
+            "max": 999
+          }
+        ],
+        "dependencies": [
+          {
+            "key": "dataset",
+            "type": "onderwerp",
+            "label": "Onderwerpen",
+            "description": "Deze dataset bevat de volgende onderwerpen:",
+            "facet": true,
+            "add": true,
+            "max": 255
+          }
+        ]
+      },
+      {
+        "type": "article",
+        "single": "Handboekpagina",
+        "plural": "Handboek",
+        "image": "right",
+        "background": "app/images/koken.jpg",
+        "introduction": "In het Handboek Data Top 15 willen we zo concreet mogelijk aangeven hoe gemeentes en andere wegbeheerders aan de slag kunnen met de Data Top 15. <br/>We benoemen een aantal basisbeginselen en geven voor ieder item in de Data Top 15 een concrete aanpak:",
+        "path": {
+          "label": "Hoofdstuk",
+          "multilevel": false,
+          "multiple": false
+        },
+        "views": ["chapters","tile","list","tree"],
+        "facet": {
+          "optional": false,
+          "default": false
+        },
+        "data": [
+          {
+            "key": "credits",
+            "type": "text",
+            "label": "Credits foto",
+            "required": false,
+            "facet": false
+          }
+        ],
+        "relations": [
+        ],
+        "dependencies": [
+        ]
+      },
+      {
+        "type": "datatop15",
+        "single": "Data Top 15-item",
+        "plural": "Data Top 15",
+        "image": false,
+        "path": false,
+        "background": "app/images/cs.jpg",
+        "introduction": "Voor ieder item uit de Data Top 15 laten we zien welke onderwerpen van toepassing zijn, welke datasets beschikbaar zijn, verwijzen we naar de aanpak voor het item en zie je in een snel overzicht de status van de verschillende gemeentes:",
+        "views": ["set"],
+        "facet": {
+          "optional": false,
+          "default": false
+        },
+        "data": [
+        ],
+        "relations": [
+          {
+            "key": "datatop15_onderwerp",
+            "type": "onderwerp",
+            "label": "Onderwerpen",
+            "description": "Dit data-item omvat de volgende onderwerpen:",
+            "descriptionInput": "Selecteer één of meerdere onderwerpen",
+            "cols":6,
+            "facet": false,
+            "view": "simple",
+            "min": 0,
+            "max": 999
+          },
+          {
+            "key": "datatop15_dataset",
+            "type": "dataset",
+            "label": "Datasets",
+            "description": "Voor dit data-item zijn de volgende datasets beschikbaar:",
+            "descriptionInput": "Selecteer één of meerdere onderwerpen",
+            "cols": 6,
+            "facet": false,
+            "custom": "app/components/custom/dataset.rows.view.html",
+            "view": "custom",
+            "min": 0,
+            "max": 999
+          },
+          {
+            "key": "datatop15_handboek",
+            "type": "article",
+            "label": "Aanpak",
+            "description": "Relevante artikelen uit het handboek voor dit onderwerp",
+            "descriptionInput": "Selecteer één of meerdere artikelen",
+            "cols": 6,
+            "clear": true,
+            "facet": false,
+            "view": "row",
+            "min": 0,
+            "max": 999
+          }
+        ],
+        "dependencies": [
+          {
+            "key": "gemeente_datatop15",
+            "type": "gemeente",
+            "label": "Status gemeentes",
+            "description": "Status per gemeente",
+            "descriptionInput": "Selecteer een gemeente waarvoor je de status wilt vastleggen",
+            "cols": 6,
+            "facet": false,
+            "min": 0,
+            "max": 999,
+            "view": "custom",
+            "custom": "app/components/custom/gemeente_datatop15.dependency.view.html",
+            "data": [
+              {
+                "key": "status",
+                "type": "enum",
+                "options": ["Onbekend","Nog niet gestart","Orienterend", "Aan de slag","Goed bezig", "Compleet"],
+                "label": "Status",
+                "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
+                "required": false
+              }
+              ]
+          }
+        ]
+      },
+      {
+        "type": "gemeente",
+        "single": "Gemeente",
+        "plural": "Gemeentes",
+        "image": "logo",
+        "background": "app/images/cs.jpg",
+        "introduction": "Een overzicht van de gemeentes in onze regio. Klik op een gemeente om de huidige status te zien en evt. een intake in te vullen.",
+        "path": false,
+        "views": ["geo","list","tile"],
+        "getNodesExtended": true,
+        "facet": {
+          "optional": true,
+          "default": false
+        },
+        "tabs": [
+          {
+            "key": "intake",
+            "title": "Intake",
+            "templateHTML": "<intake></intake>"
+          }
+        ],
+        "data": [
+          {
+            "key": "geometry",
+            "type": "geometry",
+            "label": "Geolocatie",
+            "descriptionInput": "",
+            "required": false
+          },
+          {
+            "key": "contact",
+            "type": "text",
+            "label": "Contactpersoon",
+            "descriptionInput": "Geef de naam van een contactpersoon van dit project",
+            "required": false
+          },
+          {
+            "key": "url",
+            "type": "url",
+            "label": "Website",
+            "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
+            "required": false
+          }
+        ],
+        "relations": [
+          {
+            "key": "gemeente_datatop15",
+            "type": "datatop15",
+            "label": "Status Data Top 15",
+            "description": "Status per Data Top 15-item",
+            "descriptionInput": "Selecteer een Data Top 15-item waarvoor je de status wilt vastleggen",
+            "facet": true,
+            "min": 0,
+            "max": 999,
+            "view": "app/components/custom/gemeente_datatop15.relations.view.html",
+            "data": [
+              {
+                "key": "status",
+                "type": "enum",
+                "options": ["Onbekend","Nog niet gestart","Orienterend", "Aan de slag","Goed bezig", "Compleet","Niet van toepassing"],
+                "label": "Status",
+                "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
+                "required": false
+              }
+            ]
+          }
+        ],
+        "dependencies": [
+        ]
+      }
+    ]
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "url": ".",
+      "state": "main",
+      "params": {}
+    },
+    {
+      "label": "Handboek",
+      "url": "nodes/article",
+      "state": "nodes",
+      "params": {"type":  "article"}
+    },
+    {
+      "label": "Voorbeelden",
+      "url": "nodes/project",
+      "state": "nodes",
+      "params": {"type":  "project"}
+    },
+    {
+      "label": "Data",
+      "url": "nodes/onderwerp",
+      "state": "nodes",
+      "params": {"type":  "onderwerp"},
+      "sub": [
+        {
+          "label": "Onderwerpen",
+          "url": "nodes/onderwerp",
+          "state": "nodes",
+          "params": {"type":  "onderwerp"}
+        },
+        {
+          "label": "Datasets",
+          "url": "nodes/dataset",
+          "state": "nodes",
+          "params": {"type":  "dataset"}
+        }
+      ]
+    },
+    {
+      "label": "Data Top 15",
+      "url": "nodes/onderwerp",
+      "state": "nodes",
+      "params": {"type":  "onderwerp"},
+      "sub": [
+        {
+          "label": "Data Top 15",
+          "url": "nodes/datatop15",
+          "state": "nodes",
+          "params": {"type": "dataset"}
+        },
+        {
+          "label": "Status",
+          "url": "datatop15",
+          "state": "datatop15",
+          "params": {}
+        },
+        {
+          "label": "Gemeentes",
+          "url": "nodes/gemeente",
+          "state": "nodes",
+          "params": {"type":  "gemeente"}
+        }
+      ]
+    },
+    {
+      "label": "Zoeken",
+      "url": "nodes/zoeken",
+      "state": "nodes",
+      "params": {"type":  "zoeken"}
+    }
+  ]
+}

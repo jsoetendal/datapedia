@@ -6,6 +6,8 @@ class NodesMapper extends Mapper
         $this->media = $media;
     }
 
+
+
     function getNodes($type, $path = null){
         return $this->getNodesExtendedWithLabels($type, $path);
 
@@ -494,5 +496,8 @@ class NodesMapper extends Mapper
         $this->db->doSQL("DELETE FROM nodes_versions WHERE nodeVersionId = ". $nodeVersionId ." AND status != 'current'");
     }
 
+    function getEntityCount(){
+        return $this->db->getArray("SELECT type , count(*) AS count FROM nodes WHERE type IS NOT NULL GROUP BY type");
+    }
 }
 ?>

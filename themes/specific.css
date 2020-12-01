@@ -273,3 +273,8 @@ ul.frontpage li i{
     font-size: 200%;
     color: var(--primary);
 }
+
+div.toggle .label i.fa {
+    width: 0.9em;
+    height: 0.9em;
+}
