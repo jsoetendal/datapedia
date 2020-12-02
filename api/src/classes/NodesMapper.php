@@ -184,7 +184,8 @@ class NodesMapper extends Mapper
             if(in_array($key, ['type','path','title','text','created','updated'])) {
                 // in node zelf toevoegen
                 //$record[$key] = escape_string($val);
-                $record[$key] = $this->db->escape($val);
+                //$record[$key] = $this->db->escape($val);
+                $record[$key] = $val;
             }elseif($key == "data"){
                 $jsonData = $data[$key];
             }elseif($key == "imgUrl") {
