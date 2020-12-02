@@ -60,6 +60,9 @@
             </div>
         </div>
     </div>
+    <div class="p-a" ng-show="!node.relations[relatie.key] || node.relations[relatie.key].length == 0">
+        Er zijn (nog) geen datasets beschikbaar.
+    </div>
 </div>
 <div class="box-footer">
     <div class="btn btn-fw btn-primary" ng-click="addRelatedNode(relatie.type, relatie.key)">Dataset toevoegen</div>

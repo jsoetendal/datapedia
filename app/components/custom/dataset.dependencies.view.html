@@ -59,6 +59,9 @@
         </div>
 
     </div>
+    <div class="p-a" ng-show="!node.dependencies[dependency.key] || node.dependencies[dependency.key].length == 0">
+        Er zijn (nog) geen datasets beschikbaar.
+    </div>
 </div>
 <!--
 <div class="box-footer">

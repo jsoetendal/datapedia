@@ -98,6 +98,44 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 b-b p-t-sm m-t b-t"><h5>Data</h5></div>
+                                    <div class="col-xs-12 p-t" ng-repeat="item in entity.data">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 form-control-label"><strong>{{item.label}}</strong></label>
+                                            <label class="col-sm-2 form-control-label">Label</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" ng-model="item.label">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-sm-offset-2 form-control-label">Toelichting bij invoer</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control"  type="text" ng-model="item.descriptionInput">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-sm-offset-2 form-control-label">Key</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control"  type="text" ng-model="item.key">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-sm-offset-2 form-control-label">Type</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" ng-model="item.type">
+                                                    <option value="text">Tekst</option>
+                                                    <option value="url">URL</option>
+                                                    <option value="enum">Meerkeuze</option>
+                                                    <option value="custom">Aangepast</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="item.required">Verplicht</label></div>
+                                            <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="item.facet">Facet</label></div>
+                                        </div>
+
+                                    </div>
+                                    <div class="btn btn-primary" ng-click="addData(entity.type)">Data-item toevoegen</div>
                                     {{entity.data}}
                                 </div>
                                 <div class="row">
