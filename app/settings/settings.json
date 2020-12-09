@@ -31,7 +31,8 @@
                             "Uitdaging",
                             "Idee",
                             "Pilot",
-                            "Project"
+                            "Project",
+                            "Volwassen marktpartij"
                         ],
                         "label": "Status",
                         "descriptionInput": "De status van dit voorbeeld",

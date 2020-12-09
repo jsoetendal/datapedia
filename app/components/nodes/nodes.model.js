@@ -233,7 +233,7 @@ angular.
                   if(response.status == 200){
                       if(response.data){
                           var newId = response.data.nodeId;
-                          console.log(newId);
+                          //console.log(newId);
                           if(func) func(newId);
                       }
                   } else {
