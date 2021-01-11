@@ -77,7 +77,10 @@ angular.
                       s.score = 4;
                     }
                     $scope.items[i].status.stappen.push(s);
-                    $scope.maturitylevels.push({"item": $scope.items[i],"level": s});
+
+                    var s2 = angular.copy(s);
+                    s2.text = s2.text.replace("<strong>" + s.value +"</strong>","").replace("<strong>Oriënterend</strong>","").replace("<ul>","").replace("</ul>","").replaceAll("<li>","- ").replaceAll("</li>","<br/>");
+                    $scope.maturitylevels.push({"item": $scope.items[i],"level": s2});
                   }
                 }
 
