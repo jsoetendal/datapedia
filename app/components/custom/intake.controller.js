@@ -9,6 +9,7 @@ angular.
 
         this.laadData = function() {
           $scope.node = $scope.$parent.$parent.node;
+          $scope.maturitylevels = [];
 
           Nodes.loadNodes("datatop15", true, null, function () {
             //De Datatop-15 items ophalen
@@ -76,6 +77,7 @@ angular.
                       s.score = 4;
                     }
                     $scope.items[i].status.stappen.push(s);
+                    $scope.maturitylevels.push({"item": $scope.items[i],"level": s});
                   }
                 }
 

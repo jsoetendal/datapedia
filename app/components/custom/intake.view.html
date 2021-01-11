@@ -83,3 +83,36 @@
         </div>
     </div>
 </div>
+
+<div ng-if="user.auth && (user.auth.authenticated && user.auth.role == 'admin')" class="row">
+    <div class="col-xs-12 datatop15item">
+        <div class="box">
+            <div class="box-header">
+                <h2>Data Top 15 Volwassenheidniveaus</h2>
+            </div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <div class="row">
+                    <table class="table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Data-item</th>
+                                <th>Level</th>
+                                <th>Levelnaam</th>
+                                <th>text</th>
+                            </tr>
+                        </thead>
+                        </tbody>
+
+                        <tr ng-repeat="level in maturitylevels">
+                            <td>{{level.item.title}}</td>
+                            <td>{{level.level.score}}</td>
+                            <td>{{level.level.value}}</td>
+                            <td ng-bind-html="level.level.text"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
