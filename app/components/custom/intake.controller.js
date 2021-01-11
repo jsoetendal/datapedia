@@ -79,7 +79,7 @@ angular.
                     $scope.items[i].status.stappen.push(s);
 
                     var s2 = angular.copy(s);
-                    s2.text = s2.text.replace("<strong>" + s.value +"</strong>","").replace("<strong>Oriënterend</strong>","").replace("<ul>","").replace("</ul>","").replaceAll("<li>","- ").replaceAll("</li>","<br/>");
+                    s2.text = s2.text.replace("<strong>" + s.value +"</strong>","").replace("<strong>Oriënterend</strong>","").replace("<ul>","").replace("</ul>","").replaceAll("<li>","- ").replaceAll("</li>","|");
                     $scope.maturitylevels.push({"item": $scope.items[i],"level": s2});
                   }
                 }
