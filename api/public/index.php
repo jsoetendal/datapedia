@@ -58,6 +58,7 @@ $app->get('/nodes/extended/{type}/', function (Slim\Http\Request $request, Slim\
 
     $nodesMapper = new NodesMapper($this->db);
     $type = escape_string($request->getAttribute('type'));
+    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
 
     $result = $nodesMapper->getNodesExtended($type);
     return $response->withStatus(200)->withJSON($result);
@@ -69,6 +70,7 @@ $app->get('/nodes/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
 
     $nodesMapper = new NodesMapper($this->db);
     $type = escape_string($request->getAttribute('type'));
+    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
 
     $result = $nodesMapper->getNodes($type);
     return $response->withStatus(200)->withJSON($result);
@@ -81,6 +83,7 @@ $app->get('/nodes/{type}/path/{path}', function (Slim\Http\Request $request, Sli
     $nodesMapper = new NodesMapper($this->db);
     $type = escape_string($request->getAttribute('type'));
     $path = escape_string($request->getAttribute('path'));
+    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
 
     $result = $nodesMapper->getNodes($type, $path);
     return $response->withStatus(200)->withJSON($result);
@@ -115,6 +118,8 @@ $app->get('/node/get/{id}', function (Slim\Http\Request $request, Slim\Http\Resp
 
     $nodesMapper = new NodesMapper($this->db);
     $result = $nodesMapper->getNode($id);
+    if(!$nodesMapper->hasAccess($result->type, $token->getRole()) && !$token->hasSingleAccess($id)) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+
     return $response->withStatus(200)->withJSON($result);
 });
 
@@ -126,6 +131,7 @@ $app->get('/node/history/{id}', function (Slim\Http\Request $request, Slim\Http\
     if($token->isEditorOrUp()) {
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->getNodeHistory($id);
+        if(!$nodesMapper->hasAccess($result->type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
         return $response->withStatus(200)->withJSON($result);
     } else {
         return $response->withStatus(403);
@@ -139,6 +145,7 @@ $app->get('/node/delete/{id}', function (Slim\Http\Request $request, Slim\Http\R
 
     if($token->isContributorOrUp($id)) {
         $nodesMapper = new NodesMapper($this->db);
+        if(!$nodesMapper->hasAccessNodeId($id, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
         $result = $nodesMapper->deleteNode($id, $token);
         return $response->withStatus(200)->withJSON($result);
     } else {
@@ -152,6 +159,8 @@ $app->get('/node/token/{id}', function (Slim\Http\Request $request, Slim\Http\Re
     if($token->isExpired()) return $response->withStatus(401);
 
     if($token->isContributorOrUp()) {
+        $nodesMapper = new NodesMapper($this->db);
+        if(!$nodesMapper->hasAccessNodeId($id, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
         $auth = new Auth($this->db);
         $result = $auth->getEditToken($id);
         return $response->withStatus($result["code"])->withJSON($result["data"]);
@@ -166,6 +175,7 @@ $app->post("/node/add/", function (Slim\Http\Request $request, Slim\Http\Respons
     if($token->isExpired()) return $response->withStatus(401);
 
     $nodesMapper = new NodesMapper($this->db, $this->media);
+    if(!$nodesMapper->hasAccess($data->type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
     $result = $nodesMapper->addNode($data, $token);
     return $response->withStatus(200)->withJSON($result);
 });
@@ -178,6 +188,7 @@ $app->post("/nodes/add/", function (Slim\Http\Request $request, Slim\Http\Respon
     if($token->isEditorOrUp()) {
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->addNodes($data, $token);
+        if(!$nodesMapper->hasAccess($data[0]->type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
         return $response->withStatus(200)->withJSON($result);
     } else {
         return $response->withStatus(403);
@@ -190,6 +201,7 @@ $app->post("/node/save/", function (Slim\Http\Request $request, Slim\Http\Respon
     if($token->isExpired()) return $response->withStatus(401);
 
     $nodesMapper = new NodesMapper($this->db, $this->media);
+    if(!$nodesMapper->hasAccess($data->type, $token->getRole())  && !$token->hasSingleAccess($data->id)) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
     $result = $nodesMapper->saveNode($data, $token);
     return $response->withStatus(200)->withJSON($result);
 });
@@ -249,6 +261,7 @@ $app->get('/paths/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
     $type = escape_string($request->getAttribute('type'));
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
+    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
 
     $result = $nodesMapper->getPaths($type);
     return $response->withStatus(200)->withJSON($result);

@@ -62,12 +62,12 @@
             </ul>
             <div class="collapse navbar-toggleable-sm" id="navbar-1">
               <ul class="nav navbar-nav nav-active-border b-primary pull-right">
-                <li ng-repeat-start="link in settings.navigation" class="nav-item" ng-if="!link.sub">
+                <li ng-repeat-start="link in settings.navigation" class="nav-item" ng-if="!link.sub  && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
                   <a ng-href="{{link.url}}" class="nav-link" ng-class="{'text-primary': state.name == link.state && state.params.type == link.params.type}">
                     <span class="nav-text">{{link.label}}</span>
                   </a>
                 </li>
-                <li ng-repeat-end class="nav-item dropdown dropdown-submenu"  ng-class="{'text-primary': state.name == link.state && state.params.type == link.params.type}" ng-if="link.sub">
+                <li ng-repeat-end class="nav-item dropdown dropdown-submenu"  ng-class="{'text-primary': state.name == link.state && state.params.type == link.params.type}" ng-if="link.sub && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
                   <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">
                     <span class="nav-text">{{link.label}}</span>
                   </a>

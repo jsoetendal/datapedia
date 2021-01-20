@@ -6,7 +6,23 @@ class NodesMapper extends Mapper
         $this->media = $media;
     }
 
+    function hasAccess($type, $role){
+        $settings = json_decode(file_get_contents( getenv('CONFIG_SETTINGS_PATH')));
+        foreach($settings->content->entities as $entity){
+            if($entity->type === $type){
+                if(!$entity->restricted){
+                    return true;
+                } else {
+                    return in_array($role, $entity->restricted);
+                }
+            }
+        }
+        return false;
+    }
 
+    function hasAccessNodeId($nodeId, $role){
+        return $this->hasAccess($this->db->returnQuery("SELECT type as result FROM node WHERE nodeId = ". $nodeId), $role);
+    }
 
     function getNodes($type, $path = null){
         return $this->getNodesExtendedWithLabels($type, $path);

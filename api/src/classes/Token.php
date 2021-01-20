@@ -54,14 +54,18 @@ class Token{
     function isExpired(){
         return $this->expired;
     }
-    
+
     function isLoggedIn($nodeId = null){
         if($this->token->data->id > 0) return true;
         if($nodeId && $nodeId == $this->token->data->nodeId && $this->token->data->single == "edit") return true;
         return false;
     }
-    
-    function getUserId(){
+
+    function hasSingleAccess($nodeId = null){
+        if ($nodeId && $nodeId == $this->token->data->nodeId && $this->token->data->single == "edit") return true;
+    }
+
+   function getUserId(){
         return $this->token->data->id;        
     }
     

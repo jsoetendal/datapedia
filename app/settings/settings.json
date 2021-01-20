@@ -410,6 +410,7 @@
                     "list",
                     "tile"
                 ],
+                "restricted": ["contributor", "editor", "admin"],
                 "getNodesExtended": true,
                 "facet": {
                     "optional": true,
@@ -485,7 +486,8 @@
             "label": "Home",
             "url": ".",
             "state": "main",
-            "params": []
+            "params": [],
+            "roles": ["unauthenticated", "contributor","editor","admin"]
         },
         {
             "label": "Handboek",
@@ -493,7 +495,8 @@
             "state": "nodes",
             "params": {
                 "type": "article"
-            }
+            },
+            "roles": ["unauthenticated", "contributor","editor","admin"]
         },
         {
             "label": "Voorbeelden",
@@ -501,7 +504,8 @@
             "state": "nodes",
             "params": {
                 "type": "project"
-            }
+            },
+            "roles": ["unauthenticated", "contributor","editor","admin"]
         },
         {
             "label": "Data",
@@ -510,6 +514,7 @@
             "params": {
                 "type": "onderwerp"
             },
+            "roles": ["unauthenticated", "contributor","editor","admin"],
             "sub": [
                 {
                     "label": "Onderwerpen",
@@ -531,18 +536,27 @@
         },
         {
             "label": "Data Top 15",
+            "url": "nodes/datatop15",
+            "state": "nodes",
+            "params": {
+                "type": "datatop15"
+            },
+            "roles": ["unauthenticated"]
+        },        {
+            "label": "Data Top 15",
             "url": "nodes/onderwerp",
             "state": "nodes",
             "params": {
-                "type": "onderwerp"
+                "type": "datatop15"
             },
+            "roles": ["contributor","editor","admin"],
             "sub": [
                 {
                     "label": "Data Top 15",
                     "url": "nodes/datatop15",
                     "state": "nodes",
                     "params": {
-                        "type": "dataset"
+                        "type": "datatop15"
                     }
                 },
                 {
@@ -567,7 +581,8 @@
             "state": "nodes",
             "params": {
                 "type": "zoeken"
-            }
+            },
+            "roles": ["unauthenticated", "contributor","editor","admin"]
         }
     ]
 }
