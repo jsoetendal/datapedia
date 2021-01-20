@@ -410,7 +410,7 @@
                     "list",
                     "tile"
                 ],
-                "restricted": ["contributor", "editor", "admin"],
+                "restricted": ["editor", "admin"],
                 "getNodesExtended": true,
                 "facet": {
                     "optional": true,
@@ -541,7 +541,7 @@
             "params": {
                 "type": "datatop15"
             },
-            "roles": ["unauthenticated"]
+            "roles": ["unauthenticated","contributor"]
         },        {
             "label": "Data Top 15",
             "url": "nodes/onderwerp",
@@ -549,7 +549,7 @@
             "params": {
                 "type": "datatop15"
             },
-            "roles": ["contributor","editor","admin"],
+            "roles": ["editor","admin"],
             "sub": [
                 {
                     "label": "Data Top 15",
