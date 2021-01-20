@@ -3,7 +3,7 @@
         <tr ng-repeat="(key,status) in ['Nog niet gestart','Orienterend','Aan de slag','Goed bezig','Compleet']">
             <td style="width: 150px">{{status}}</td>
             <td>
-                <div ng-repeat="gemeente in nodes" ng-if="gemeente.datarelation.status == status" title="{{gemeente.title}}" class="status-blokje YlGnBu q{{key}}-5">&nbsp;</div>
+                <div ng-repeat="gemeente in nodes" ng-if="gemeente.datarelation.status == status" class="status-blokje YlGnBu q{{key}}-5">&nbsp;</div>
             </td>
         </tr>
     </table>
