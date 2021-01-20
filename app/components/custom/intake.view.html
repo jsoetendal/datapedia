@@ -48,6 +48,14 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="width: 60px">
+                                        <input type="radio" ng-model="item.status.data.status" value="Niet van toepassing">
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">Dit data-item is niet van toeppassing</span>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="p-t" ng-if="!item.status || item.status.stappen.length == 0">
