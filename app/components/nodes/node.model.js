@@ -60,3 +60,7 @@ Node.prototype.deleteDependencyNode = function(relation) {
     }
     this.dependencies[relation.key] = temp;
 }
+
+Node.prototype.getLinkTitle = function(){
+    return this.title.replace(/[\W_-]+/g,"");
+}
