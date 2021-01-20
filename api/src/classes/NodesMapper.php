@@ -21,7 +21,7 @@ class NodesMapper extends Mapper
     }
 
     function hasAccessNodeId($nodeId, $role){
-        return $this->hasAccess($this->db->returnQuery("SELECT type as result FROM node WHERE nodeId = ". $nodeId), $role);
+        return $this->hasAccess($this->db->returnQuery("SELECT type as result FROM nodes WHERE nodeId = ". $nodeId), $role);
     }
 
     function getNodes($type, $path = null){
