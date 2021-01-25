@@ -211,7 +211,7 @@
                     },
                     {
                         "key": "onderwerp",
-                        "type": "voorbeeld",
+                        "type": "project",
                         "min": 0,
                         "max": 100,
                         "explicit": true,
