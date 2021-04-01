@@ -80,7 +80,7 @@ class NodesMapper extends Mapper
                 if ($value->nodeId == $relation->sourceId) {
                     $currentKey = $relation->key;
                     if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
-                    if(trim($relation->datarelation) != "") $relation->datarelation = json_decode($relation->datarelation);
+                    if(trim($relation->datarelation) != "") $relation->datarelation = json_decode(str_replace(["\n","\r"],"",$relation->datarelation));
                     array_push($rows[$key]->$currentKey, $relation);
                 }
             }
@@ -94,7 +94,7 @@ class NodesMapper extends Mapper
                 if ($value->nodeId == $relation->targetId) {
                     $currentKey = $relation->key;
                     if (!$rows[$key]->$currentKey) $rows[$key]->$currentKey = [];
-                    if(trim($relation->datarelation) != "") $relation->datarelation = json_decode($relation->datarelation);
+                    if(trim($relation->datarelation) != "") $relation->datarelation = json_decode(str_replace(["\n","\r"],"",$relation->datarelation));
                     array_push($rows[$key]->$currentKey, $relation);
                 }
             }
@@ -149,8 +149,8 @@ class NodesMapper extends Mapper
             foreach ($relatedNodes as $relatedNode) {
                 $key = $relatedNode->key;
                 if (!$node->relations->$key) $node->relations->$key = [];
-                $relatedNode->data = json_decode($relatedNode->data);
-                $relatedNode->datarelation = json_decode($relatedNode->datarelation);
+                $relatedNode->data = json_decode(str_replace(["\n","\r"],"",$relatedNode->data));
+                $relatedNode->datarelation = json_decode(str_replace(["\n","\r"],"",$relatedNode->datarelation));
                 $relatedNode->visible = true;
                 array_push($node->relations->$key, $relatedNode);
             }
@@ -159,8 +159,8 @@ class NodesMapper extends Mapper
             foreach ($dependentNodes as $dependentNode) {
                 $key = $dependentNode->key;
                 if (!$node->dependencies->$key) $node->dependencies->$key = [];
-                $dependentNode->data = json_decode($dependentNode->data);
-                $dependentNode->datarelation = json_decode($dependentNode->datarelation);
+                $dependentNode->data = json_decode(str_replace(["\n","\r"],"",$dependentNode->data));
+                $dependentNode->datarelation = json_decode(str_replace(["\n","\r"],"",$dependentNode->datarelation));
                 $dependentNode->visible = true;
                 array_push($node->dependencies->$key, $dependentNode);
             }
