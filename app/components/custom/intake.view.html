@@ -13,7 +13,19 @@
 </div>
 
 <div ng-if="user.auth && (user.auth.authenticated || (user.auth.accesstoken && user.auth.nodeId == node.nodeId))" class="row">
-    <div class="col-xs-12 datatop15item">
+    <div class="col-xs-12 col-md-2">
+        <div class="box-header">
+            <h2>Data Top 15-items</h2>
+            <small>Inhoudsopgave</small>
+        </div>
+        <div class="box-divider"></div>
+        <div class="box-body">
+            <ul class="intakenav">
+                <li ng-click="goItem($index)" ng-repeat="navItem in items" ng-class="{'active': navItem.nodeId == item.nodeId}">{{navItem.title | maxlength:20}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-10 datatop15item">
         <div class="box">
             <div class="box-header">
                 <h2>{{item.title}}</h2>
@@ -28,7 +40,9 @@
                             <h4>Inventarisatie</h4>
                             <p ng-if="item.status.inventarisatie" ng-bind-html="item.status.inventarisatie"></p>
                             <strong>Korte toelichting/beantwoording inventarisatie:</strong>
-                            <textarea ng-model="item.status.data.inventarisatie" style="width: 100%; height: 150px"></textarea>
+                            <textarea ui-tinymce="tinymceOptions" ng-model="item.status.data.inventarisatie"></textarea>
+
+                            <!--textarea ng-model="item.status.data.inventarisatie" style="width: 100%; height: 150px"></textarea>-->
                         </div>
                         <div class="p-t" ng-hide="item.status.inventarisatie">
                             Van dit onderdeel is nog geen introductie beschikbaar
@@ -65,7 +79,8 @@
                         <div class="p-t">
                             <h4>Hulp vanuit het Regionaal Datateam</h4>
                             <p>Waarmee zou het Regionaal Datateam kunnen helpen bij dit onderdeel?</p>
-                            <textarea ng-model="item.status.data.hulpRDT" style="width: 100%; height: 150px"></textarea>
+                            <textarea ui-tinymce="tinymceOptions" ng-model="item.status.data.hulpRDT"></textarea>
+                            <!--<textarea ng-model="item.status.data.hulpRDT" style="width: 100%; height: 150px"></textarea>-->
                         </div>
 
                     </div>

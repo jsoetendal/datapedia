@@ -99,6 +99,13 @@ angular.
           });
         }
 
+        $scope.goItem = function(index){
+          $scope.saveItem();
+          $scope.currentNum = index;
+          $scope.item = $scope.items[$scope.currentNum];
+          //$('html, body').animate({scrollTop: 0}, 'fast');
+        }
+
         $scope.nextItem = function(){
           $scope.saveItem();
           $scope.currentNum += 1;
@@ -122,6 +129,14 @@ angular.
           //console.log($scope.item);
           Nodes.setRelationData($scope.node.nodeId, "gemeente_datatop15", $scope.item.nodeId, $scope.item.status.data);
         }
+
+        //https://www.tiny.cloud/docs/advanced/editor-control-identifiers/#toolbarcontrols
+        $scope.tinymceOptions = {
+          plugins: [ 'quickbars' ],
+          height: 260,
+          toolbar: false,
+          menubar: false
+        };
 
         $scope.user = $rootScope.setup.user;
         this.laadData();
