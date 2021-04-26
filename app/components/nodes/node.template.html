@@ -115,15 +115,8 @@
                                                 <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
                                             </div>
                                         </div>
-                                    <div class="m-t" ng-if="showChapter">
-                                        <div ng-if="siblings.next" ui-sref="node({nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
-                                        <div ng-if="siblings.previous" ui-sref="node({nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
-                                        <div class="clearfix"></div>
-                                    </div>
 
-                                    <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
-
-                                    <div ng-if="node.data.attachments && node.data.attachments.length > 0">
+                                    <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0">
                                         <div class="box">
                                             <div class="box-header">
                                                 <h3>Bijlage<span ng-show="node.data.attachments.length > 0">n</span></h3>
@@ -145,6 +138,15 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="m-t" ng-if="showChapter">
+                                        <div ng-if="siblings.next" ui-sref="node({nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
+                                        <div ng-if="siblings.previous" ui-sref="node({nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
+
                                 </div>
                                 <div class="col-xs-12 col-md-5 col-lg-4">
                                     <div class='box donker' ng-repeat="dependency in entity.dependencies" ng-hide="dependency.view || !node.dependencies[dependency.key] || node.dependencies[dependency.key].length == 0">
