@@ -120,7 +120,31 @@
                                         <div ng-if="siblings.previous" ui-sref="node({nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
                                         <div class="clearfix"></div>
                                     </div>
+
                                     <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
+
+                                    <div ng-if="node.data.attachments && node.data.attachments.length > 0">
+                                        <div class="box">
+                                            <div class="box-header">
+                                                <h3>Bijlage<span ng-show="node.data.attachments.length > 0">n</span></h3>
+                                            </div>
+                                            <div class="box-body">
+                                                <ul class="list inset" ng-repeat="att in node.data.attachments">
+                                                    <li class="list-item">
+                                                        <a href="{{att.url}}" target="_blank" class="list-left">
+                                                            <span class="w-40 r-2x _600 text-lg primary"><i class="fa fa-file"></i></span>
+                                                        </a>
+                                                        <div class="list-body">
+                                                            <div><a href="{{att.url}}" target="_blank">{{att.title}}</a></div>
+                                                            <div class="text-sm">
+                                                                <span class="text-muted">{{att.name}}, {{att.size | bytes}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-xs-12 col-md-5 col-lg-4">
                                     <div class='box donker' ng-repeat="dependency in entity.dependencies" ng-hide="dependency.view || !node.dependencies[dependency.key] || node.dependencies[dependency.key].length == 0">
@@ -364,6 +388,20 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                    <div class="box" ng-show="entity.attachments" ng-if="user.auth.authenticated">
+                                        <div class="box-header">
+                                            <h2>Bijlage(n)</h2>
+                                            <small>Voeg een of meerdere bijlagen toe</small>
+                                        </div>
+                                        <div class="box-divider m-a-0"></div>
+                                        <div class="box-body">
+                                            <div ng-repeat="(key, att) in node.data.attachments" class="form-group">
+                                                <input class="form-control" type="text" ng-model="node.data.attachments[key].title"><br/>
+                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}})
+                                            </div>
+                                            <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
                                         </div>
                                     </div>
                                 </div>

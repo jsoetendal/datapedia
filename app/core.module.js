@@ -19,11 +19,23 @@ angular.
       return "EUR " + format_number(input);
     };
   }).
-  filter('EURROUND', function() {
+filter('EURROUND', function() {
     return function(input) {
-      return "EUR " + format_number(500 * Math.round(input/500));
+        return "EUR " + format_number(500 * Math.round(input/500));
     };
-  }).
+}).
+filter('bytes', function() {
+    return function(input) {
+        if(isNaN(input)) return "-";
+        if(input > 1024 * 1024){
+            return Math.round(input / (1024 * 102.4)) / 10 + " mb"
+        } else if(input > 1024){
+            return Math.round(input / (102.4)) / 10 + " kb"
+        } else {
+            return input + " bytes";
+        }
+    };
+}).
   filter('number', function() {
     return function(input) {
         if(isNaN(input)) return "-";
@@ -484,96 +496,156 @@ return function(input) {
      }
 
  }])
-.directive("imgUpload",function($http,$compile){
-    return {
-        restrict : 'AE',
-        scope : {
-            key : "@",
-            msg: "@",
-            node : "="
-        },
-        template : 	'<input class="fileUpload" type="file" multiple />'+
-            '<div class="preview clearfix" ng-if="previewData.src">'+
-            '<div class="previewData clearfix">'+
+    .directive("imgUpload",function($http,$compile){
+        return {
+            restrict : 'AE',
+            scope : {
+                key : "@",
+                msg: "@",
+                node : "="
+            },
+            template : 	'<input class="fileUpload" type="file" multiple />'+
+                '<div class="preview clearfix" ng-if="previewData.src">'+
+                '<div class="previewData clearfix">'+
                 '<img src={{previewData.src}}></img>'+
                 '<div class="previewDetails">'+
-                    '{{previewData.name}}, {{previewData.type}}, {{previewData.size}}'+
-                        '<span ng-click="remove(data)" class="circle remove">'+
-                        '<i class="fa fa-close"></i>'+
-                        '</span>'+
+                '{{previewData.name}}, {{previewData.type}}, {{previewData.size}}'+
+                '<span ng-click="remove(data)" class="circle remove">'+
+                '<i class="fa fa-close"></i>'+
+                '</span>'+
                 '</div>'+
-            '</div>'+
-            '</div>'+
-            '<div class="dropzone">'+
-            '<p class="msg">{{msg}}</p>'+
-            '</div>',
-        link : function(scope,elem,attrs){
-            var formData = new FormData();
-            scope.previewData = [];
+                '</div>'+
+                '</div>'+
+                '<div class="dropzone">'+
+                '<p class="msg">{{msg}}</p>'+
+                '</div>',
+            link : function(scope,elem,attrs){
+                var formData = new FormData();
+                scope.previewData = [];
 
-            function previewFile(file){
-                var reader = new FileReader();
-                var obj = new FormData().append('file',file);
-                reader.onload=function(data){
-                    var src = data.target.result;
-                    var size = ((file.size/(1024*1024)) > 1)? (file.size/(1024*1024)) + ' mB' : (file.size/		1024)+' kB';
-                    scope.$apply(function(){
-                        scope.previewData = {'name':file.name,'size':size,'type':file.type,
-                            'src':src,'data':obj, 'originalValue': scope.previewData.originalValue};
-                        if(scope.node[scope.key] && typeof scope.node[scope.key] == "string"){
-                            scope.previewData.originalValue = scope.node[scope.key];
+                function previewFile(file){
+                    var reader = new FileReader();
+                    var obj = new FormData().append('file',file);
+                    reader.onload=function(data){
+                        var src = data.target.result;
+                        var size = ((file.size/(1024*1024)) > 1)? (file.size/(1024*1024)) + ' mB' : (file.size/		1024)+' kB';
+                        scope.$apply(function(){
+                            scope.previewData = {'name':file.name,'size':size,'type':file.type,
+                                'src':src,'data':obj, 'originalValue': scope.previewData.originalValue};
+                            if(scope.node[scope.key] && typeof scope.node[scope.key] == "string"){
+                                scope.previewData.originalValue = scope.node[scope.key];
+                            }
+                            scope.node[scope.key] = scope.previewData; //Was eerder pushen naar previewData om meerdere toe te staan
+                            console.log(scope.node);
+                        });
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+                function uploadFile(e,type){
+                    e.preventDefault();
+                    var files = "";
+                    if(type == "formControl"){
+                        files = e.target.files;
+                    } else if(type === "drop"){
+                        files = e.originalEvent.dataTransfer.files;
+                    }
+                    for(var i=0;i<files.length;i++){
+                        var file = files[i];
+                        if(file.type.indexOf("image") !== -1){
+                            previewFile(file);
+                        } else {
+                            alert(file.name + " is not supported");
                         }
-                        scope.node[scope.key] = scope.previewData; //Was eerder pushen naar previewData om meerdere toe te staan
-                        console.log(scope.node);
-                    });
-                }
-                reader.readAsDataURL(file);
-            }
-
-            function uploadFile(e,type){
-                e.preventDefault();
-                var files = "";
-                if(type == "formControl"){
-                    files = e.target.files;
-                } else if(type === "drop"){
-                    files = e.originalEvent.dataTransfer.files;
-                }
-                for(var i=0;i<files.length;i++){
-                    var file = files[i];
-                    if(file.type.indexOf("image") !== -1){
-                        previewFile(file);
-                    } else {
-                        alert(file.name + " is not supported");
                     }
                 }
-            }
-            elem.find('.fileUpload').bind('change',function(e){
-                uploadFile(e,'formControl');
-            });
+                elem.find('.fileUpload').bind('change',function(e){
+                    uploadFile(e,'formControl');
+                });
 
-            elem.find('.dropzone').bind("click",function(e){
-                $compile(elem.find('.fileUpload'))(scope).trigger('click');
-            });
+                elem.find('.dropzone').bind("click",function(e){
+                    $compile(elem.find('.fileUpload'))(scope).trigger('click');
+                });
 
-            elem.find('.dropzone').bind("dragover",function(e){
-                e.preventDefault();
-            });
+                elem.find('.dropzone').bind("dragover",function(e){
+                    e.preventDefault();
+                });
 
-            elem.find('.dropzone').bind("drop",function(e){
-                uploadFile(e,'drop');
-            });
+                elem.find('.dropzone').bind("drop",function(e){
+                    uploadFile(e,'drop');
+                });
 
-            scope.remove=function(data){
-                if(scope.previewData.originalValue){
-                    scope.node[scope.key] = scope.previewData.originalValue;
-                } else {
-                    scope.node[scope.key] = null;
+                scope.remove=function(data){
+                    if(scope.previewData.originalValue){
+                        scope.node[scope.key] = scope.previewData.originalValue;
+                    } else {
+                        scope.node[scope.key] = null;
+                    }
+                    scope.previewData = null;
                 }
-                scope.previewData = null;
             }
         }
-    }
-})
+    })
+    .directive("fileUpload",function($http,$compile){
+        return {
+            restrict : 'AE',
+            scope : {
+                msg: "@",
+                attachments : "="
+            },
+            template : 	'<input class="fileUpload" type="file" multiple />'+
+                '<div class="dropzone">'+
+                '<p class="msg">{{msg}}</p>'+
+                '</div>',
+            link : function(scope,elem,attrs){
+                var formData = new FormData();
+                scope.previewData = [];
+
+                function addFile(file){
+                    var reader = new FileReader();
+                    var obj = new FormData().append('file',file);
+                    reader.onload=function(data){
+                        var src = data.target.result;
+                        scope.$apply(function(){
+                            if(!scope.attachments) scope.attachments = [];
+                            scope.attachments.push({'name':file.name,'title':file.name,'size':file.size,'type':file.type,
+                                'src':src,'data':obj});
+                        });
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+                function uploadFile(e,type){
+                    e.preventDefault();
+                    var files = "";
+                    if(type == "formControl"){
+                        files = e.target.files;
+                    } else if(type === "drop"){
+                        files = e.originalEvent.dataTransfer.files;
+                    }
+                    for(var i=0;i<files.length;i++){
+                        var file = files[i];
+                        addFile(file);
+                    }
+                }
+                elem.find('.fileUpload').bind('change',function(e){
+                    uploadFile(e,'formControl');
+                });
+
+                elem.find('.dropzone').bind("click",function(e){
+                    $compile(elem.find('.fileUpload'))(scope).trigger('click');
+                });
+
+                elem.find('.dropzone').bind("dragover",function(e){
+                    e.preventDefault();
+                });
+
+                elem.find('.dropzone').bind("drop",function(e){
+                    uploadFile(e,'drop');
+                });
+            }
+        }
+    })
 // source: https://docs.angularjs.org/api/ng/service/$compile
 .directive('compile', function ($compile) {
     return function(scope, element, attrs) {

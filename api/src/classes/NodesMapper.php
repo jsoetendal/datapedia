@@ -271,6 +271,17 @@ class NodesMapper extends Mapper
     }
 
     function saveNode($data, $token){
+        //Upload new attachments
+        if($data["data"]["attachments"] && count($data["data"]["attachments"]) > 0){
+            foreach($data["data"]["attachments"] as $key => $att){
+                if($att["src"]) {
+                    $data["data"]["attachments"][$key]["url"] = $this->uploadFileData($data["nodeId"], $att);
+                    unset($data["data"]["attachments"][$key]["src"]);
+                }
+            }
+        }
+
+
         $data["data"] = json_encode($data["data"]);
         $arr = (array) $data;
 
@@ -412,6 +423,33 @@ class NodesMapper extends Mapper
 
             return "";
         }
+    }
+
+    /**
+     * Data.src as received by browser is uploaded and the url of the uploaded file is returned
+     * @param $data
+     * @return mixed
+     */
+    function uploadFileData($nodeId, $data){
+        $directory = $this->media['path'];
+        $www = $this->media['www'];
+
+        $filename = $nodeId . "-" . hash('sha256', $nodeId . $data["name"] . $data["size"] . "x!m!6N8g7~KO^X3");
+
+        // open the output file for writing
+        $ifp = fopen($directory . $filename, 'wb');
+
+        // split the string on commas
+        // $data[ 0 ] == "data:image/png;base64"
+        // $data[ 1 ] == <actual base64 string>
+        $src = explode( ',', $data["src"]);
+
+        // we could add validation here with ensuring count( $data ) > 1
+        fwrite($ifp, base64_decode($src[1]));
+
+        // clean up the file resource
+        fclose($ifp);
+        return $www . $filename;
     }
 
 

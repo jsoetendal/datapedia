@@ -6,6 +6,7 @@
                 "single": "Voorbeeld",
                 "plural": "Voorbeelden",
                 "image": "photo",
+                "attachments": true,
                 "background": "app/images/library.jpg",
                 "introduction": "Er zijn vele voorbeelden van smart mobility en hoe data bij kan dragen aan het slimmer maken van de mobiliteit. Hieronder vind je een selectie van deze voorbeelden uit onze regio, verdeeld over een aantal verschillende thema's:",
                 "path": {
@@ -82,6 +83,7 @@
                 "single": "Organisatie",
                 "plural": "Organisaties",
                 "image": "logo",
+                "attachments": false,
                 "background": "app/images/cs.jpg",
                 "path": {
                     "label": "Categorie",
@@ -139,6 +141,7 @@
                 "plural": "Onderwerpen",
                 "introduction": "Om zichtbaar te maken welke data beschikbaar is, hebben we er voor gekozen om een overzicht van alle mogelijke onderwerpen voor data over smart mobility te maken. In onderstaand overzicht zie je voor welke onderwerpen al wel data beschikbaar is (in de groene bolletjes staat het aantal datasets) en waar nog niet:",
                 "image": false,
+                "attachments": false,
                 "background": "app/images/cs.jpg",
                 "path": {
                     "label": "Categorie",
@@ -228,6 +231,7 @@
                 "image": false,
                 "path": false,
                 "background": "app/images/cs.jpg",
+                "attachments": true,
                 "custom": "app/components/custom/dataset.list.view.html",
                 "views": [
                     "custom",
@@ -279,6 +283,7 @@
                 "single": "Handboekpagina",
                 "plural": "Handboek",
                 "image": "right",
+                "attachments": true,
                 "background": "app/images/fietsfile.jpg",
                 "introduction": "In het Handboek Data Top 15 willen we zo concreet mogelijk aangeven hoe gemeentes en andere wegbeheerders aan de slag kunnen met de Data Top 15. <br/>We benoemen een aantal basisbeginselen en geven voor ieder item in de Data Top 15 een concrete aanpak:",
                 "path": {
@@ -315,6 +320,7 @@
                 "image": false,
                 "path": false,
                 "background": "app/images/cs.jpg",
+                "attachments": false,
                 "introduction": "Voor ieder item uit de Data Top 15 laten we zien welke onderwerpen van toepassing zijn, welke datasets beschikbaar zijn, verwijzen we naar de aanpak voor het item en zie je in een snel overzicht de status van de verschillende gemeentes:",
                 "views": [
                     "set"
@@ -403,6 +409,7 @@
                 "plural": "Gemeentes",
                 "image": "logo",
                 "background": "app/images/cs.jpg",
+                "attachments": false,
                 "introduction": "Een overzicht van de gemeentes in onze regio. Klik op een gemeente om de huidige status te zien en evt. een intake in te vullen.",
                 "path": false,
                 "views": [
