@@ -10,10 +10,6 @@
                 <strong>{{node.date | compleetDateTime}}</strong>
                 <h4>{{node.title}}</h4>
                 <div ng-bind-html="node.text | plain:200"></div>
-                <div class="text-muted text-sm">
-                    <span class="m-r" ng-repeat="relation in entity.relations" ng-if="node[relation.key].length > 0">{{relation.label}}: {{node[relation.key].length}}</span>
-                    <span class="m-r" ng-repeat="dependency in entity.dependencies" ng-if="node[dependency.key].length > 0">{{dependency.label}}: {{node[dependency.key].length}}</span>
-                </div>
                 <div class="node-facet-labels">
                     <a href="" class="pull-left mralabel" ng-repeat="tag in node.path.split(';')" ng-hide="tag.length==0">{{tag}}</a>
                     <div style="clear: both"></div>
