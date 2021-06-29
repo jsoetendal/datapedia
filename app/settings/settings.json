@@ -510,7 +510,18 @@
                         "facet": false
                     }
                 ],
-                "relations": [],
+                "relations": [
+                    {
+                        "key": "sessie_datatop15",
+                        "type": "datatop15",
+                        "label": "Data Top 15",
+                        "description": "Deze Data Top 15-items staan op de agenda",
+                        "descriptionInput": "Selecteer de Data Top 15-item(s) die in deze sessie aan bod komen",
+                        "facet": true,
+                        "min": 0,
+                        "max": 999
+                    }
+                ],
                 "dependencies": [],
                 "introduction": "Het Regionaal Datateam organiseert werksessies ..."
             }
