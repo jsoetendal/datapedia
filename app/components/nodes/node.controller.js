@@ -34,6 +34,7 @@ angular.
                 } else {
                     $scope.showChapter = false;
                 }
+                self.setDate();
 
                 $scope.simplelink = $rootScope.wwwBase +"node/" + $scope.node.getLinkTitle() + "/" + nodeId;
             });
@@ -57,6 +58,26 @@ angular.
                     $scope.node[i] = $rootScope.newNode[i];
                 }
                 $rootScope.newNode = null
+            }
+        }
+
+        this.setDate = function(){
+            if($scope.entity){
+                for(var i in $scope.entity.data){
+                    if($scope.entity.data[i].type == "datetime"){
+                        if($scope.node.data[$scope.entity.data[i].key]){
+                            if($scope.node.data[$scope.entity.data[i].key] instanceof Date){
+                                $scope.node.date = $scope.node.data[$scope.entity.data[i].key];
+                            } else {
+                                $scope.node.date = new Date($scope.node.data[$scope.entity.data[i].key]);
+                            }
+                            $scope.node.dateYear = $scope.node.date.getFullYear();
+                            $scope.node.dateMonth = $scope.node.date.getMonth();
+                            $scope.node.dateHistoric = $scope.node.date < new Date();
+                        }
+                        return null; //Only do this for first datetime
+                    }
+                }
             }
         }
 
@@ -105,6 +126,20 @@ angular.
         $scope.startEdit = function() {
             //Set options for text-editor
             $scope.wysiwyg = false;
+
+            //convert date into date-object
+            if($scope.entity && $scope.node && $scope.node.data){
+                for(let i in $scope.entity.data){
+                    switch($scope.entity.data[i].type){
+                        case "datetime":
+                            if($scope.node.data[$scope.entity.data[i].key]){
+                                $scope.node.data[$scope.entity.data[i].key] = new Date($scope.node.data[$scope.entity.data[i].key]);
+                            }
+                            break;
+                    }
+                }
+            }
+
 
             //Load all possible relations
             if (!$scope.relations || $scope.relations.length == 0) {

@@ -48,6 +48,19 @@ component('settings', {
                 $scope.settings.content.entities.push(newEntity);
             }
 
+            $scope.addData = function(){
+                $scope.selected.entity.data.push(
+                    {
+                        "key": "nieuwe_data",
+                        "type": "text",
+                        "label": "Nieuw",
+                        "descriptionInput": "",
+                        "required": false,
+                        "facet": false
+                    }
+                );
+            }
+
             $scope.deleteEntity = function(type){
                 var newArray = [];
                 for(var i in $scope.settings.content.entities){
@@ -58,6 +71,7 @@ component('settings', {
                 $scope.settings.content.entities = newArray;
             }
 
+            $scope.selected = {"entity": null };
             this.loadSettings();
         }
     ]

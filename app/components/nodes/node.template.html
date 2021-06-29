@@ -33,6 +33,7 @@
                             <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl.src}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
                             <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
                             <h1>{{node.title}}</h1>
+                            <div ng-if="node.date">{{node.date | compleetDateTime}}</div>
                         </div>
                         <div class="col-md-5 col-lg-4 v-b">
                             <ul class="nav nav-tabs pull-right" style="margin-top: 2.5rem">
@@ -288,6 +289,7 @@
                                                         <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
                                                     </label><br/>
                                                     <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="node.data[row.key]">
+                                                    <input ng-if="row.type == 'datetime'" type="datetime-local" class="form-control" ng-model="node.data[row.key]">
                                                     <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="node.data[row.key]"></textarea>
                                                     <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="node.data[row.key]">
                                                     <select ng-if="row.type == 'enum'"  ng-model="node.data[row.key]" class="form-control" >

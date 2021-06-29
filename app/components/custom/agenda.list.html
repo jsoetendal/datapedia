@@ -1,0 +1,54 @@
+<script type="text/ng-template" id="nodeAgenda">
+    <div class="col-xs-1 node pointer" ui-sref="node({nodeId: node.nodeId})">
+        <span class="label label-lg primary">{{node.date | dag}}</span>
+    </div>
+    <div class="col-xs-11 node pointer" ui-sref="node({nodeId: node.nodeId})">
+        <div class="p-b-md">
+            <div ng-hide="!node.imgUrl || node.imgUrl.length == 0" style='margin-left: 20px; float:right; width: 250px; height: 150px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
+            </div>
+            <div style="margin-right: 270px">
+                <strong>{{node.date | compleetDateTime}}</strong>
+                <h4>{{node.title}}</h4>
+                <div ng-bind-html="node.text | plain:200"></div>
+                <div class="text-muted text-sm">
+                    <span class="m-r" ng-repeat="relation in entity.relations" ng-if="node[relation.key].length > 0">{{relation.label}}: {{node[relation.key].length}}</span>
+                    <span class="m-r" ng-repeat="dependency in entity.dependencies" ng-if="node[dependency.key].length > 0">{{dependency.label}}: {{node[dependency.key].length}}</span>
+                </div>
+                <div class="node-facet-labels">
+                    <a href="" class="pull-left mralabel" ng-repeat="tag in node.path.split(';')" ng-hide="tag.length==0">{{tag}}</a>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="nodeAgendaHistoric">
+    <div>
+            {{node.date | compleetDateTime}}<br/>
+            <strong>{{node.title}}</strong>
+    </div>
+</script>
+
+<div class="col-sm-12">
+    <div class='row' ng-repeat="node in (nodes | orderBy:['data.date'] | filter: {'visible': true, 'dateHistoric': false} | filter: zoeken.searchText) as results track by $index">
+        <div class="col-xs-12" ng-if="$index == 0 || results[$index - 1].dateYear != node.dateYear ||  results[$index - 1].dateMonth != node.dateMonth">
+            <div class="box">
+                <div class="box-header primary">
+                    <h2>{{node.date | maand}}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div ui-include="'nodeAgenda'"></div>
+    </div>
+
+    <div class="m-t-3">Eerdere sessies:</div>
+    <ul>
+        <li ng-repeat="node in nodes | orderBy:['-data.date'] | filter: {'visible': true, 'dateHistoric': true} | filter: zoeken.searchText as results2 track by $index" ui-sref="node({nodeId: node.nodeId})" class="pointer">
+            <div ui-include="'nodeAgendaHistoric'"></div>
+        </li>
+    </ul>
+
+</div>

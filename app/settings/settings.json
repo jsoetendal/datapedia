@@ -63,7 +63,6 @@
                         "type": "organisatie",
                         "min": 0,
                         "max": 100,
-                        "explicit": true,
                         "label": "Betrokken partijen",
                         "facet": true
                     },
@@ -72,7 +71,6 @@
                         "type": "onderwerp",
                         "min": 0,
                         "max": 100,
-                        "explicit": true,
                         "label": "Relevante datasets",
                         "facet": false
                     }
@@ -193,7 +191,6 @@
                         "type": "dataset",
                         "min": 0,
                         "max": 255,
-                        "explicit": true,
                         "label": "Beschikbare dataset",
                         "description": "Beschikbare datasets",
                         "descriptionInput": "Selecteer een beschikbare dataset",
@@ -217,7 +214,6 @@
                         "type": "project",
                         "min": 0,
                         "max": 100,
-                        "explicit": true,
                         "label": "Voorbeelden",
                         "description": "Deze voorbeelden maken gebruik van dit onderwerp:",
                         "facet": false
@@ -417,7 +413,10 @@
                     "list",
                     "tile"
                 ],
-                "restricted": ["editor", "admin"],
+                "restricted": [
+                    "editor",
+                    "admin"
+                ],
                 "getNodesExtended": true,
                 "facet": {
                     "optional": true,
@@ -485,6 +484,35 @@
                     }
                 ],
                 "dependencies": []
+            },
+            {
+                "type": "sessie",
+                "single": "Kennissessie",
+                "plural": "Agenda",
+                "image": false,
+                "path": false,
+                "background": "",
+                "custom": "app/components/custom/agenda.list.html",
+                "views": [
+                    "custom"
+                ],
+                "facet": {
+                    "optional": false,
+                    "default": false
+                },
+                "data": [
+                    {
+                        "key": "date",
+                        "type": "datetime",
+                        "label": "Datum",
+                        "descriptionInput": "",
+                        "required": false,
+                        "facet": false
+                    }
+                ],
+                "relations": [],
+                "dependencies": [],
+                "introduction": "Het Regionaal Datateam organiseert werksessies ..."
             }
         ]
     },
@@ -494,7 +522,12 @@
             "url": ".",
             "state": "main",
             "params": [],
-            "roles": ["unauthenticated", "contributor","editor","admin"]
+            "roles": [
+                "unauthenticated",
+                "contributor",
+                "editor",
+                "admin"
+            ]
         },
         {
             "label": "Handboek",
@@ -503,7 +536,12 @@
             "params": {
                 "type": "article"
             },
-            "roles": ["unauthenticated", "contributor","editor","admin"]
+            "roles": [
+                "unauthenticated",
+                "contributor",
+                "editor",
+                "admin"
+            ]
         },
         {
             "label": "Voorbeelden",
@@ -512,7 +550,12 @@
             "params": {
                 "type": "project"
             },
-            "roles": ["unauthenticated", "contributor","editor","admin"]
+            "roles": [
+                "unauthenticated",
+                "contributor",
+                "editor",
+                "admin"
+            ]
         },
         {
             "label": "Data",
@@ -521,7 +564,12 @@
             "params": {
                 "type": "onderwerp"
             },
-            "roles": ["unauthenticated", "contributor","editor","admin"],
+            "roles": [
+                "unauthenticated",
+                "contributor",
+                "editor",
+                "admin"
+            ],
             "sub": [
                 {
                     "label": "Onderwerpen",
@@ -548,15 +596,22 @@
             "params": {
                 "type": "datatop15"
             },
-            "roles": ["unauthenticated","contributor"]
-        },        {
+            "roles": [
+                "unauthenticated",
+                "contributor"
+            ]
+        },
+        {
             "label": "Data Top 15",
             "url": "nodes/onderwerp",
             "state": "nodes",
             "params": {
                 "type": "datatop15"
             },
-            "roles": ["editor","admin"],
+            "roles": [
+                "editor",
+                "admin"
+            ],
             "sub": [
                 {
                     "label": "Data Top 15",
@@ -583,13 +638,32 @@
             ]
         },
         {
+            "label": "Agenda",
+            "url": "nodes/sessie",
+            "state": "nodes",
+            "params": {
+                "type": "sessie"
+            },
+            "roles": [
+                "unauthenticated",
+                "contributor",
+                "editor",
+                "admin"
+            ]
+        },
+        {
             "label": "Zoeken",
             "url": "nodes/zoeken",
             "state": "nodes",
             "params": {
                 "type": "zoeken"
             },
-            "roles": ["unauthenticated", "contributor","editor","admin"]
+            "roles": [
+                "unauthenticated",
+                "contributor",
+                "editor",
+                "admin"
+            ]
         }
     ]
 }

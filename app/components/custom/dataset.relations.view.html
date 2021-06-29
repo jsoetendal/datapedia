@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="p-a" ng-show="!node.relations[relatie.key] || node.relations[relatie.key].length == 0">
+    <div class="p-a" ng-hide="node.relations[relatie.key] && node.relations[relatie.key].length > 0">
         Er zijn (nog) geen datasets beschikbaar.
     </div>
 </div>

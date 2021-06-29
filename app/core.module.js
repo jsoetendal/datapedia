@@ -177,14 +177,58 @@ filter('last', function(){
             return input.replace(";","").replace("\\"," > ").trim();
         }
     })
-  .filter('correctTime', function() {
-    return function(input) {
-        if(!input) return input;
-        if(input.toUpperCase() == 'ZOJUIST') return input;
-        var d=new Date(input.replace(" ","T") + "Z"); //Convert to UTC timezone
-        return d.toLocaleTimeString("default", {timeZone: 'Europe/Amsterdam',weekday: 'long', day: 'numeric', month:'long', hour: '2-digit', minute:'2-digit'});
-    };
-  }).
+    .filter('dag', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input instanceof Date){
+                var d = input;
+            } else {
+                var d = new Date(input);
+            }
+            return d.toLocaleDateString("default", {timeZone: 'Europe/Amsterdam', day: 'numeric'});
+        };
+    })
+    .filter('maand', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input instanceof Date){
+                var d = input;
+            } else {
+                var d = new Date(input);
+            }
+            return d.toLocaleDateString("default", {timeZone: 'Europe/Amsterdam', month:'long', year:'numeric'});
+        };
+    })
+    .filter('tijd', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input instanceof Date){
+                var d = input;
+            } else {
+                var d = new Date(input);
+            }
+            return d.toLocaleTimeString("default", {timeZone: 'Europe/Amsterdam', hour: '2-digit', minute:'2-digit'});
+        };
+    })
+    .filter('compleetDateTime', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input instanceof Date){
+                var d = input;
+            } else {
+                var d = new Date(input);
+            }
+            return d.toLocaleTimeString("default", {timeZone: 'Europe/Amsterdam', weekday: 'long', day: 'numeric', month:'long', year:"numeric", hour: '2-digit', minute:'2-digit'});
+        };
+    })
+    .filter('correctTime', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input.toUpperCase() == 'ZOJUIST') return input;
+            var d=new Date(input.replace(" ","T") + "Z"); //Convert to UTC timezone
+            return d.toLocaleTimeString("default", {timeZone: 'Europe/Amsterdam',weekday: 'long', day: 'numeric', month:'long', hour: '2-digit', minute:'2-digit'});
+        };
+    }).
   filter('correctTimeUpdate', function() {
     return function(input) {
         var d=new Date(input.replace(" ","T") + "Z"); //Convert to UTC timezone

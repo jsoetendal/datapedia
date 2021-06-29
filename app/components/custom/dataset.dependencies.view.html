@@ -59,7 +59,7 @@
         </div>
 
     </div>
-    <div class="p-a" ng-show="!node.dependencies[dependency.key] || node.dependencies[dependency.key].length == 0">
+    <div class="p-a" ng-hide = "node.dependencies[dependency.key] && node.dependencies[dependency.key].length > 0">
         Er zijn (nog) geen datasets beschikbaar.
     </div>
 </div>

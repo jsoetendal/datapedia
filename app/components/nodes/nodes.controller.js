@@ -14,7 +14,6 @@ angular.
               $scope.nodes = [];
               $scope.loaded = false;
               $scope.multipleTypes = false;
-
               for (var i in $rootScope.settings.content.entities) {
                   if ($rootScope.settings.content.entities[i].type == type) {
                       $scope.entity = $rootScope.settings.content.entities[i];
@@ -23,7 +22,6 @@ angular.
                       }
                   }
               }
-
               if($scope.entity.views[0] == "set" || $scope.entity.getNodesExtended){
                 var extended = true;
               } else {
@@ -101,6 +99,8 @@ angular.
             $scope.loaded = true;
             //console.log($scope.nodes);
 
+            this.setDates();
+
             Nodes.createTree(function(tree){
                 $scope.tree = tree;
             });
@@ -108,6 +108,30 @@ angular.
 
             $scope.setView($scope.entity.views[0]);
             if (!$scope.view) $scope.setView('tile');
+        }
+
+        this.setDates = function(){
+              if($scope.entity){
+                  for(var i in $scope.entity.data){
+                      if($scope.entity.data[i].type == "datetime"){
+                          for(let j in $scope.nodes){
+                              if($scope.nodes[j].data[$scope.entity.data[i].key]){
+                                  if($scope.nodes[j].data[$scope.entity.data[i].key]){
+                                      if($scope.nodes[j].data[$scope.entity.data[i].key] instanceof Date){
+                                          $scope.nodes[j].date = $scope.nodes[j].data[$scope.entity.data[i].key];
+                                      } else {
+                                          $scope.nodes[j].date = new Date($scope.nodes[j].data[$scope.entity.data[i].key]);
+                                      }
+                                      $scope.nodes[j].dateYear = $scope.nodes[j].date.getFullYear();
+                                      $scope.nodes[j].dateMonth = $scope.nodes[j].date.getMonth();
+                                      $scope.nodes[j].dateHistoric = $scope.nodes[j].date < new Date();
+                                  }
+                              }
+                          }
+                          return null; //Only do this for first datetime
+                      }
+                  }
+              }
         }
 
         this.createFacets = function(){
