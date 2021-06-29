@@ -99,7 +99,8 @@
                                                         </td>
                                                         <td>
                                                             <a ng-if="row.type=='url'" href="{{node.data[row.key]}}">{{node.data[row.key]}}</a>
-                                                            <span ng-hide="row.type=='url'" ng-if="node.data[row.key]">{{node.data[row.key]}}</span>
+                                                            <span ng-if="row.type=='datetime'">{{node.data[row.key] | compleetDateTime}}</span>
+                                                            <span ng-hide="row.type=='url' || row.type=='datetime'" ng-if="node.data[row.key]">{{node.data[row.key]}}</span>
                                                         </td>
                                                     </tr>
                                                 </table>
