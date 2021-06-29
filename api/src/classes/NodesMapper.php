@@ -299,6 +299,10 @@ class NodesMapper extends Mapper
         unset($arr["relations"]);
         unset($arr["dependencies"]);
         unset($arr["geo"]);
+        unset($arr["date"]);
+        unset($arr["dateYear"]);
+        unset($arr["dateMonth"]);
+        unset($arr["dateHistoric"]);
         unset($arr["visible"]);
 
         $arr["updated"] = date("Y-m-d H:i:s");
