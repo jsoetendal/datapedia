@@ -126,9 +126,7 @@
                                             <div class="box-body">
                                                 <ul class="list inset" ng-repeat="att in node.data.attachments">
                                                     <li class="list-item">
-                                                        <a href="{{att.url}}" target="_blank" class="list-left">
-                                                            <span class="w-40 r-2x _600 text-lg primary"><i class="fa fa-file"></i></span>
-                                                        </a>
+                                                        <a ng-if="att.url" href="{{att.url}}" target="_blank" class="list-left"><span class="w-40 r-2x _600 text-lg primary"><i class="fa fa-file"></i></span></a>
                                                         <div class="list-body">
                                                             <div><a href="{{att.url}}" target="_blank">{{att.title}}</a></div>
                                                             <div class="text-sm">
@@ -404,7 +402,7 @@
                                         <div class="box-body">
                                             <div ng-repeat="(key, att) in node.data.attachments" class="form-group">
                                                 <input class="form-control" type="text" ng-model="node.data.attachments[key].title"><br/>
-                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}})
+                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}}) <a ng-click="deleteAttachment($index)" class="pull-right"><i class="fa fa-times text-danger"></i> verwijderen</a>
                                             </div>
                                             <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
                                         </div>

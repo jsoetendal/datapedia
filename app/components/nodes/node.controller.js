@@ -35,6 +35,7 @@ angular.
                     $scope.showChapter = false;
                 }
                 self.setDate();
+                self.setAttachments();
 
                 $scope.simplelink = $rootScope.wwwBase +"node/" + $scope.node.getLinkTitle() + "/" + nodeId;
             });
@@ -76,6 +77,16 @@ angular.
                             $scope.node.dateHistoric = $scope.node.date < new Date();
                         }
                         return null; //Only do this for first datetime
+                    }
+                }
+            }
+        }
+
+        this.setAttachments = function(){
+            if($scope.node.data.attachments){
+                for(var i in $scope.node.data.attachments){
+                    if($scope.node.data.attachments[i].hash){
+                        $scope.node.data.attachments[i].url =  $rootScope.APIBase + "file/" + $scope.node.nodeId +"/" + $scope.node.data.attachments[i].hash;
                     }
                 }
             }
@@ -349,7 +360,11 @@ angular.
             // headers: {'Content-Type': undefined},
         }
 
-        $scope.deletePath = function(path){
+        $scope.deleteAttachment = function(num){
+            $scope.node.data.attachments.splice(num,1);
+        }
+
+    $scope.deletePath = function(path){
             var paths = $scope.node.path.split(";");
             var newpaths = [];
             for(var i in paths){

@@ -619,6 +619,15 @@ $app->post('/settings/', function (Slim\Http\Request $request, Slim\Http\Respons
     }
 });
 
+$app->get('/file/{nodeId}/{url}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $nodeId = intval($request->getAttribute('nodeId'));
+    $url = escape_string($request->getAttribute('url'));
+
+    $nodesMapper = new NodesMapper($this->db, $this->media);
+    $nodesMapper->outputAttachment($nodeId, $url);
+    return $response->withStatus(404); //previous command will exit if file is found
+});
+
 $app->get('/data/overheid/{q}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $dataMapper = new DataMapper($this->db);
     $q = escape_string($request->getAttribute('q'));

@@ -275,7 +275,7 @@ class NodesMapper extends Mapper
         if($data["data"]["attachments"] && count($data["data"]["attachments"]) > 0){
             foreach($data["data"]["attachments"] as $key => $att){
                 if($att["src"]) {
-                    $data["data"]["attachments"][$key]["url"] = $this->uploadFileData($data["nodeId"], $att);
+                    $data["data"]["attachments"][$key]["hash"] = $this->uploadFileData($data["nodeId"], $att);
                     unset($data["data"]["attachments"][$key]["src"]);
                 }
             }
@@ -453,7 +453,27 @@ class NodesMapper extends Mapper
 
         // clean up the file resource
         fclose($ifp);
-        return $www . $filename;
+        return $filename;
+    }
+
+    function outputAttachment($nodeId, $url){
+        $node = $this->db->returnFirst("SELECT * FROM nodes WHERE nodeId = '". $nodeId ."'");
+        $data = json_decode(str_replace(["\n","\r"],"",$node->data));
+        if($data && $data->attachments){
+            foreach($data->attachments as $att){
+                if($att->hash == $url){
+                    header("Content-Disposition: attachment; filename=\"". $att->name . "\"");
+                    header("Content-Type: ". $att->type);
+                    header("Content-Length: ". $att->size);
+                    $fname = $this->media['path'] . $att->hash;
+                    $f = fopen($fname,"rb");
+                    $contents = fread($f, filesize($fname));
+                    fclose($f);
+                    echo $contents;
+                    exit();
+                }
+            }
+        }
     }
 
 
