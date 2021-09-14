@@ -198,7 +198,7 @@ class Auth{
         $user["email"] = $email;
         $user["name"] = $name;
         $user["lastsave"] = $lastsave;
-        if($role) $user[$role] = $role;
+        if($role) $user["role"] = $role;
 
         $this->db->doUpdate("users", $user, ["id" => $id]);
 

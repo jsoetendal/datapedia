@@ -11,7 +11,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <div class="btn btn-primary pull-right" ng-click="selected.entity = null">&lt; Terug</div>
+                    <div class="btn btn-primary pull-right" ng-click="selectEntity(null)">&lt; Terug</div>
                     <h1>{{selected.entity.single}}</h1>
                 </div>
                 <div class="box-body">
@@ -39,9 +39,9 @@
                         <div class="col-sm-9">
                             <div class="tab-content p-a m-b-md">
                                 <div class="tab-pane animated fadeIn text-muted active" id="tab1" aria-expanded="true">
+                                    <h3>Weergave</h3>
                                     <div class="box">
                                         <div class="box-header">
-                                            <h2>Weergave</h2>
                                             <smal class="text-muted"></smal>
                                         </div>
                                         <div class="box-body">
@@ -123,20 +123,31 @@
                                 </div>
 
                                 <div class="tab-pane animated fadeIn text-muted" id="tab2" aria-expanded="false">
+                                    <h3>Data</h3>
                                     <div class="box">
                                         <div class="box-header">
-                                            <h2>Data</h2>
-                                            <smal class="text-muted"></smal>
+                                            <small class="text-muted"></small>
                                         </div>
-                                        <div class="box-body">
-                                            <form role="form" class="ng-pristine ng-valid">
+                                        <form role="form" class="ng-pristine ng-valid">
+                                        <div class="box-body" ng-repeat-start="item in selected.entity.data">
                                                 <div class="row">
-                                                    <div class="col-xs-12 p-t" ng-repeat="item in selected.entity.data">
+                                                    <div class="col-xs-12 p-t">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-2 form-control-label"><strong>{{item.label}}</strong></label>
+                                                            <div class="col-sm-2 form-control-label"><strong>{{item.label}}</strong>
+                                                                <br/><a ng-click="showDelete = !showDelete" class="text-muted text-sm"><i class="fa fa-times text-danger"></i> verwijderen</a>
+                                                            </div>
+                                                            <div class="col-sm-10 p-b-2" ng-show="showDelete">
+                                                                <strong class="text-danger">Weet je zeker dat je het veld '{{item.label}}' wilt verwijderen?</strong>
+                                                                <ul>
+                                                                    <li>Dit veld wordt niet meer getoond en kan niet meer worden ingevuld.</li>
+                                                                    <li>Bij bestaande {{selected.entity.plural}} waar dit veld al is opgeslagen blijft deze opgeslagen, maar wordt deze nergens getoond.</li>
+                                                                </ul>
+                                                                <div class="btn btn-danger" ng-click="deleteData($index)">Ja, verwijderen</div>
+                                                                <div class="btn btn-success" ng-click="showDelete = false">Nee, niet verwijderen</div>
+                                                            </div>
                                                             <label class="col-sm-2 form-control-label">Label</label>
                                                             <div class="col-sm-8">
-                                                                <input class="form-control" type="text" ng-model="item.label">
+                                                                <input class="form-control" type="text" ng-model="item.label" ng-blur="makeKey(item)" >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -151,7 +162,7 @@
                                                                 <input class="form-control"  type="text" ng-model="item.key">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row">
+                                                        <div class="form-group row p-t">
                                                             <label class="col-sm-2 col-sm-offset-2 form-control-label">Type</label>
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" ng-model="item.type">
@@ -160,6 +171,20 @@
                                                                     <option value="enum">Meerkeuze</option>
                                                                     <option value="custom">Aangepast</option>
                                                                 </select>
+                                                                <div class="form-group row m-t" ng-show="item.type == 'enum'">
+                                                                    <label class="col-sm-3 form-control-label">Keuzes</label>
+                                                                    <div class="col-sm-9">
+                                                                        <ul>
+                                                                            <li class="form-control-label" ng-repeat="option in item.options track by $index">{{option}} <a ng-click="deleteOption(item, $index)" class="text-sm text-muted"><i class="fa fa-times text-danger" title="verwijderen"></i></a></li>
+                                                                        </ul>
+                                                                        <div ng-hide="item.options.length > 0" class="m-b">Vul hieronder één of meerdere keuze-opties in:</div>
+                                                                    </div>
+                                                                    <label class="col-sm-3 form-control-label">Toevoegen</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" ng-model="nieuwe_keuze_optie">
+                                                                        <div class="btn btn-sm btn-danger m-t" ng-click="addOption(item, nieuwe_keuze_optie)">Toevoegen</div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -168,26 +193,38 @@
                                                         </div>
 
                                                     </div>
-                                                    <div class="btn btn-primary" ng-click="addData()">Data-item toevoegen</div>
-                                                    {{selected.entity.data}}
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="box-divider" ng-repeat-end=""></div>
+                                            <div class="box-body">
+                                                <div class="btn btn-primary" ng-click="addData()">Data-item toevoegen</div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="tab-pane animated fadeIn text-muted" id="tab3">
+                                    <h3>Relaties</h3>
                                     <div class="box">
                                         <div class="box-header">
-                                            <h2>Relaties</h2>
-                                            <smal class="text-muted"></smal>
                                         </div>
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <form role="form" class="ng-pristine ng-valid">
+                                        <form role="form" class="ng-pristine ng-valid">
+                                            <div class="box-body" ng-repeat-start="relation in selected.entity.relations">
+                                                <div class="row">
                                                     <div class="row">
-                                                        <div class="col-xs-12 p-t" ng-repeat="relation in selected.entity.relations">
+                                                        <div class="col-xs-12 p-t">
                                                             <div class="form-group row">
-                                                                <label class="col-sm-2 form-control-label"><strong>{{relation.label}}</strong></label>
+                                                                <div class="col-sm-2 form-control-label"><strong>{{relation.label}}</strong>
+                                                                    <br/><a ng-click="showDelete = !showDelete" class="text-muted text-sm"><i class="fa fa-times text-danger"></i> verwijderen</a>
+                                                                </div>
+                                                                <div class="col-sm-10 p-b-2" ng-show="showDelete">
+                                                                    <strong class="text-danger">Weet je zeker dat je deze relatie wilt verwijderen?</strong>
+                                                                    <ul>
+                                                                        <li>Deze relatie wordt niet meer getoond</li>
+                                                                        <li>Reeds bestaande relates blijven opgeslagen, maar worden nergens meer getoond.</li>
+                                                                    </ul>
+                                                                    <div class="btn btn-danger" ng-click="deleteRelatie($index)">Ja, verwijderen</div>
+                                                                    <div class="btn btn-success" ng-click="showDelete = false">Nee, niet verwijderen</div>
+                                                                </div>
                                                                 <label class="col-sm-2 form-control-label">Key</label>
                                                                 <div class="col-sm-8">
                                                                     <input class="form-control" type="text" ng-model="relation.key">
@@ -195,7 +232,7 @@
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Koppeling naar:</label>
-                                                                <div class="col-sm-8">
+                                                                <div class="col-sm-8 form-control-label">
                                                                     {{relation.type}} <!-- TODO: Hier selectlist van maken?? -->
                                                                 </div>
                                                             </div>
@@ -203,6 +240,18 @@
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Label</label>
                                                                 <div class="col-sm-8">
                                                                     <input class="form-control"  type="text" ng-model="relation.label">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Beschrijving</label>
+                                                                <div class="col-sm-8">
+                                                                    <input class="form-control"  type="text" ng-model="relation.description">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Toelichting bij invoer</label>
+                                                                <div class="col-sm-8">
+                                                                    <input class="form-control"  type="text" ng-model="relation.descriptionInput">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
@@ -218,98 +267,205 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="item.facet">Facet</label></div>
+                                                                <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="relation.facet">Opnemen als waarde in facet-selectie</label></div>
                                                             </div>
+                                                            <div class="form-group row" ng-if="selected.entity.views[0]=='set'">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Kolommen</label>
+                                                                <div class="col-sm-8">
+                                                                    <input class="form-control" type="number" min="1" max="12" ng-model="relation.cols">
+                                                                    <small class="text-muted">Leeg laten voor volledige breedte. (12 = volledige breedte)</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row" ng-if="selected.entity.views[0]=='set'">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">View</label>
+                                                                <div class="col-sm-8">
+                                                                    <select class="form-control" ng-model="relation.view">
+                                                                        <option value="simple">simple - Normaal</option>
+                                                                        <option value="row">row - Als rijen</option>
+                                                                        <option value="custom">custom - Specifieke view/html:</option>
+                                                                    </select>
+                                                                    <input class="form-control"  type="text" ng-model="relation.custom" ng-show="relation.view=='custom'">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row" ng-if="selected.entity.views[0] !='set'">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Custom view</label>
+                                                                <div class="col-sm-8">
+                                                                    <input class="form-control"  type="text" ng-model="relation.view">
+                                                                    <small class="text-muted">URL voor template, optioneel</small>
+                                                                </div>
+                                                            </div>
+                                                            <!-- TODO: Data  ook nog volledig interfacen
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Data</label>
+                                                                <div class="col-sm-8">
+                                                                    <textarea class="form-control" rows="6" ng-model="relation.data"></textarea>
+                                                                    <small class="text-muted">JSON voor data, optioneel</small>
+                                                                </div>
+                                                            </div>
+                                                            -->
 
                                                         </div>
-                                                        <a ng-click="showAddRelatie = !showAddRelatie">Relatie toevoegen</a>
-                                                        <div ng-show="showAddRelatie">
-                                                            <select ng-model='newrelation.type'>
-                                                                <option ng-repeat="entity in settings.content.entities" ng-value="entity.key">{{entity.plural}}</option>
-                                                            </select>
-                                                            <div class="btn btn-primary" ng-click="addRelatie()">Relatie met deze entiteit toevoegen</div>
-                                                        </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div ng-repeat-end="" class="box-divider"></div>
+                                            <div class="box-body">
+                                                <h5>Relatie toevoegen</h5>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 form-control-label">Relatie met:</label>
+                                                    <div class="col-sm-9">
+                                                        <select ng-model='newrelationtype'>
+                                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.key">{{entity.plural}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-9 col-sm-offset-3">
+                                                        <div class="btn btn-primary" ng-click="addRelatie(newrelationtype)">Toevoegen</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="box">
+                                    <h3>Afhankelijkheden</h3>
+                                    <div class="box" ng-show="selected.potentialDependencies.length > 0 || selected.entity.dependencies.length > 0">
                                         <div class="box-header">
-                                            <h2>Afhankelijkheden</h2>
-                                            <smal class="text-muted">...</smal>
+                                            <smal class="text-muted">Afhankelijkheden zijn relaties die van een ander type die naar dit type worden gelegd, maar die ook expliciet bij dit type getoond en bewerkt moeten kunnen worden. Een afhankelijkheid kan dus alleen van een bestaande relatie gemaakt worden.</smal>
                                         </div>
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <form role="form" class="ng-pristine ng-valid">
+                                        <form role="form" class="ng-pristine ng-valid">
+                                            <div class="box-body" ng-repeat-start="relation in selected.entity.dependencies">
+                                                <div class="row">
                                                     <div class="row">
-                                                        <div class="col-xs-12 p-t" ng-repeat="dependency in selected.entity.dependencies">
+                                                        <div class="col-xs-12 p-t">
                                                             <div class="form-group row">
-                                                                <label class="col-sm-2 form-control-label"><strong>{{dependency.label}}</strong></label>
+                                                                <div class="col-sm-2 form-control-label"><strong>{{relation.label}}</strong>
+                                                                    <br/><a ng-click="showDelete = !showDelete" class="text-muted text-sm"><i class="fa fa-times text-danger"></i> verwijderen</a>
+                                                                </div>
+                                                                <div class="col-sm-10 p-b-2" ng-show="showDelete">
+                                                                    <strong class="text-danger">Weet je zeker dat je deze afhankelijkheid wilt verwijderen?</strong>
+                                                                    <ul>
+                                                                        <li>Deze relatie wordt niet meer getoond</li>
+                                                                        <li>Reeds bestaande relaties blijven opgeslagen, maar worden nergens meer getoond.</li>
+                                                                    </ul>
+                                                                    <div class="btn btn-danger" ng-click="deleteDependency($index)">Ja, verwijderen</div>
+                                                                    <div class="btn btn-success" ng-click="showDelete = false">Nee, niet verwijderen</div>
+                                                                </div>
                                                                 <label class="col-sm-2 form-control-label">Key</label>
                                                                 <div class="col-sm-8">
-                                                                    <input class="form-control" type="text" ng-model="dependency.key">
+                                                                    {{relation.key}}
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Koppeling naar:</label>
-                                                                <div class="col-sm-8">
-                                                                    {{dependency.type}} <!-- TODO: Hier selectlist van maken?? -->
+                                                                <div class="col-sm-8 form-control-label">
+                                                                    {{relation.type}} <!-- TODO: Hier selectlist van maken?? -->
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Label</label>
                                                                 <div class="col-sm-8">
-                                                                    <input class="form-control"  type="text" ng-model="dependency.label">
+                                                                    <input class="form-control"  type="text" ng-model="relation.label">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Beschrijving</label>
                                                                 <div class="col-sm-8">
-                                                                    <input class="form-control"  type="text" ng-model="dependency.description">
+                                                                    <input class="form-control"  type="text" ng-model="relation.description">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Toelichting bij invoer</label>
                                                                 <div class="col-sm-8">
-                                                                    <input class="form-control"  type="text" ng-model="dependency.descriptionInput">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">View template</label>
-                                                                <div class="col-sm-8">
-                                                                    <input class="form-control"  type="text" ng-model="dependency.view">
+                                                                    <input class="form-control"  type="text" ng-model="relation.descriptionInput">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Minimumaantal</label>
                                                                 <div class="col-sm-8">
-                                                                    <input class="form-control" type="number" min="0" max="100" ng-model="dependency.min">
+                                                                    <input class="form-control" type="number" min="0" max="100" ng-model="relation.min">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-sm-offset-2 form-control-label">Maximumaantal</label>
                                                                 <div class="col-sm-8">
-                                                                    <input class="form-control" type="number" min="0" max="100" ng-model="dependency.max">
+                                                                    <input class="form-control" type="number" min="0" max="100" ng-model="relation.max">
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="item.facet">Facet</label></div>
+                                                                <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="relation.facet">Opnemen als waarde in facet-selectie</label></div>
                                                             </div>
-
-                                                        </div>
-                                                        <a ng-click="showAddRelatie = !showAddRelatie">Relatie toevoegen</a>
-                                                        <div ng-show="showAddRelatie">
-                                                            <select ng-model='newrelation.type'>
-                                                                <option ng-repeat="entity in settings.content.entities" ng-value="entity.key">{{entity.plural}}</option>
-                                                            </select>
-                                                            <div class="btn btn-primary" ng-click="addRelatie()">Relatie met deze entiteit toevoegen</div>
+                                                            <div class="form-group row" ng-if="selected.entity.views[0]=='set'">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Kolommen</label>
+                                                                <div class="col-sm-8">
+                                                                    <input class="form-control" type="number" min="1" max="12" ng-model="relation.cols">
+                                                                    <small class="text-muted">Leeg laten voor volledige breedte. (12 = volledige breedte)</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row" ng-if="selected.entity.views[0]=='set'">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">View</label>
+                                                                <div class="col-sm-8">
+                                                                    <select class="form-control" ng-model="relation.view">
+                                                                        <option value="simple">simple - Normaal</option>
+                                                                        <option value="row">row - Als rijen</option>
+                                                                        <option value="custom">custom - Specifieke view/html:</option>
+                                                                    </select>
+                                                                    <input class="form-control"  type="text" ng-model="relation.custom" ng-show="relation.view=='custom'">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row" ng-if="selected.entity.views[0] !='set'">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Custom view</label>
+                                                                <div class="col-sm-8">
+                                                                    <input class="form-control"  type="text" ng-model="relation.view">
+                                                                    <small class="text-muted">URL voor template, optioneel</small>
+                                                                </div>
+                                                            </div>
+                                                            <!-- TODO: Data  ook nog volledig interfacen
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-sm-offset-2 form-control-label">Data</label>
+                                                                <div class="col-sm-8">
+                                                                    <textarea class="form-control" rows="6" ng-model="relation.data"></textarea>
+                                                                    <small class="text-muted">JSON voor data, optioneel</small>
+                                                                </div>
+                                                            </div>
+                                                            -->
                                                         </div>
                                                     </div>
-                                                </form>
-
-                                                {{selected.entity.dependencies}}
+                                                </div>
                                             </div>
+                                            <div ng-repeat-end="" class="box-divider"></div>
+                                            <div class="box-body">
+                                                <h5>Afhankelijkheid toevoegen</h5>
+
+                                                <div class="form-group row" ng-show="selected.entity.dependencies.length > 0">
+                                                    De volgende afhankelijkheden kunnen worden toegevoegd:
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Label</th>
+                                                            <th>Type</th>
+                                                            <th>Key</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="pd in selected.potentialDependencies">
+                                                            <td>{{pd.label}}</td>
+                                                            <td>{{pd.type}}</td>
+                                                            <td>{{pd.key}}</td>
+                                                            <td><a ng-click="addDependency(pd)"><i class="fa fa-plus"></i> toevoegen</a></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="form-group row" ng-hide="selected.entity.dependencies.length > 0">
+                                                    <smal class="text-muted">Er zijn geen relaties die als afhankelijkheid toegevoegd kunnen worden.</smal>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="box" ng-hide="selected.potentialDependencies.length > 0">
+                                        <div class="box-header">
+                                            <smal class="text-muted">Er zijn geen relaties die als afhankelijkheid toegevoegd kunnen worden.</smal>
                                         </div>
                                     </div>
                                 </div>
@@ -331,9 +487,9 @@
                 <div class="box-body">
                     <div class="box" ng-repeat="entity in settings.content.entities">
                         <div class="box-header">
-                            <div class="btn btn-fwd pull-right" ng-click="selected.entity = entity"><span ng-hide="show[entity.type]">Aanpassen</span><span ng-show="show[entity.type]">Inklappen</span></div>
+                            <div class="btn btn-fwd pull-right pointer" ng-click="selectEntity(entity);"><span ng-hide="show[entity.type]">Aanpassen</span><span ng-show="show[entity.type]">Inklappen</span></div>
                             <div class="btn btn-danger pull-right m-r" ng-click="deleteEntity(entity.type)" ng-if="!count[entity.type] || count[entity.type] == 0">Verwijderen</div>
-                            <h2 ng-click="selected.entity = entity">{{entity.single}}</h2>
+                            <h2 class="pointer" ng-click="selectEntity(entity)">{{entity.single}}</h2>
                             <small>{{count[entity.type]}} {{entity.plural.toLowerCase()}}</small>
                         </div>
                         <div class="box-divider"></div>
@@ -348,12 +504,56 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3>Navigatie</h3>
+                    <div class="btn btn-primary pull-right" ng-click="saveSettings()">Alles opslaan</div>
+                    <h1>Navigatie</h1>
+                    <small>Onderstaande items worden in het hoofdmenu weergegeven</small>
                 </div>
                 <div class="box-body">
                     <div ng-repeat="nav in settings.navigation">
-                        <h3>{{nav.label}}</h3>
-                        {{nav}}
+                        <div class="box-body">
+                            <form role="form" class="ng-pristine ng-valid">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Label</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="nav.label">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="nav.url">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Zichtbaar voor:</label>
+                                    <div class="col-sm-10 p-t">
+                                        <div class='m-b-sm' ng-repeat="optie in ['unauthenticated','contributor','editor','admin'] track by $index">
+                                            <add-toggle2 label="optie" arr="nav.roles"></add-toggle2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row" ng-show="nav.sub.length > 0">
+                                    <label class="col-sm-2 form-control-label">Subitems</label>
+                                    <div class="col-sm-10">
+                                        <div ng-repeat="sub in nav.sub">
+                                            <div class="box-body">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label"><i class="fa fa-caret-right"></i> Label</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" ng-model="sub.label">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label">URL</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" ng-model="sub.url">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -55,6 +55,19 @@
                         "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
                         "required": false,
                         "facet": false
+                    },
+                    {
+                        "key": "iets_anders",
+                        "type": "enum",
+                        "label": "Iets anders",
+                        "descriptionInput": "Voor hier iets anders in",
+                        "required": true,
+                        "facet": true,
+                        "options": [
+                            "Test",
+                            "Twee",
+                            "Drie"
+                        ]
                     }
                 ],
                 "relations": [
@@ -64,7 +77,8 @@
                         "min": 0,
                         "max": 100,
                         "label": "Betrokken partijen",
-                        "facet": true
+                        "facet": true,
+                        "cols": null
                     },
                     {
                         "key": "onderwerp",
@@ -72,7 +86,8 @@
                         "min": 0,
                         "max": 100,
                         "label": "Relevante datasets",
-                        "facet": false
+                        "facet": false,
+                        "cols": null
                     }
                 ]
             },
@@ -125,7 +140,7 @@
                     },
                     {
                         "key": "betrokken",
-                        "type": "organisatie",
+                        "type": "project",
                         "label": "Voorbeelden",
                         "description": "Deze organisatie is betrokken bij de volgende voorbeelden:",
                         "add": true,

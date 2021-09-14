@@ -168,6 +168,7 @@ filter('last', function(){
             if(!input) return null
             if(!input.split) return null
             var paths = input.split(";");
+            var paths = input.split(";");
             return paths[paths.length - 1];
         }
     })
@@ -469,53 +470,98 @@ return function(input) {
     };
 })
     .directive('addToggle', [function() {
-    return {
-        restrict: 'E',
-        replace: true,
-        scope: {
-            label: '=',
-            arr: '=',
-        },
-        template:
-            ['<div class="twotoggle toggle">',
-                '<span ng-show="disabled" class="label grey-300"><i class="fa fa-check"></i></span>',
-                '<span ng-show="!disabled && checked" class="label green" ng-click="delValue();"><i class="fa fa-check"></i></span>',
-                '<span ng-hide="disabled || checked" class="label grey-300" ng-click="addValue();"><i class="fa"></i></span>',
-                ' {{label}}</div>'].join(''),
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                label: '=',
+                arr: '=',
+            },
+            template:
+                ['<div class="twotoggle toggle">',
+                    '<span ng-show="disabled" class="label grey-300"><i class="fa fa-check"></i></span>',
+                    '<span ng-show="!disabled && checked" class="label green" ng-click="delValue();"><i class="fa fa-check"></i></span>',
+                    '<span ng-hide="disabled || checked" class="label grey-300" ng-click="addValue();"><i class="fa"></i></span>',
+                    ' {{label}}</div>'].join(''),
             link: function(scope, el, attrs) {
 
-            scope.$watch("arr",function(newValue,oldValue) {
-                if(vm.arr[0] == vm.label){
+                scope.$watch("arr",function(newValue,oldValue) {
+                    if(vm.arr[0] == vm.label){
+                        vm.checked = true;
+                        vm.disabled = true;
+                    }else if(vm.arr.indexOf(vm.label) > 0){
+                        vm.checked = true;
+                        vm.disabled = false;
+                    } else {
+                        vm.checked = false;
+                        vm.disabled = false;
+                    }
+                }, true);
+
+                // VM shorthand
+                var vm = scope;
+
+                vm.addValue = function(){
+                    if(vm.arr.indexOf(vm.label) == -1){
+                        vm.arr.push(vm.label);
+                    }
                     vm.checked = true;
-                    vm.disabled = true;
-                }else if(vm.arr.indexOf(vm.label) > 0){
-                    vm.checked = true;
-                    vm.disabled = false;
-                } else {
+                }
+
+                vm.delValue = function(){
+                    if(vm.arr.indexOf(vm.label) > -1){
+                        vm.arr.splice(vm.arr.indexOf(vm.label),1);
+                    }
                     vm.checked = false;
-                    vm.disabled = false;
                 }
-            }, true);
+            },
+        };
+    }])
+    .directive('addToggle2', [function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                label: '=',
+                arr: '=',
+            },
+            template:
+                ['<div class="twotoggle toggle">',
+                    '<span ng-show="disabled" class="label grey-300"><i class="fa fa-check"></i></span>',
+                    '<span ng-show="!disabled && checked" class="label green" ng-click="delValue();"><i class="fa fa-check"></i></span>',
+                    '<span ng-hide="disabled || checked" class="label grey-300" ng-click="addValue();"><i class="fa"></i></span>',
+                    ' {{label}}</div>'].join(''),
+            link: function(scope, el, attrs) {
 
-            // VM shorthand
-            var vm = scope;
+                scope.$watch("arr",function(newValue,oldValue) {
+                    if(vm.arr.indexOf(vm.label) > -1){
+                        vm.checked = true;
+                        vm.disabled = false;
+                    } else {
+                        vm.checked = false;
+                        vm.disabled = false;
+                    }
+                }, true);
 
-            vm.addValue = function(){
-                if(vm.arr.indexOf(vm.label) == -1){
-                    vm.arr.push(vm.label);
+                // VM shorthand
+                var vm = scope;
+
+                vm.addValue = function(){
+                    if(vm.arr.indexOf(vm.label) == -1){
+                        vm.arr.push(vm.label);
+                    }
+                    vm.checked = true;
                 }
-                vm.checked = true;
-            }
 
-            vm.delValue = function(){
-                if(vm.arr.indexOf(vm.label) > -1){
-                    vm.arr.splice(vm.arr.indexOf(vm.label),1);
+                vm.delValue = function(){
+                    if(vm.arr.indexOf(vm.label) > -1){
+                        vm.arr.splice(vm.arr.indexOf(vm.label),1);
+                    }
+                    vm.checked = false;
                 }
-                vm.checked = false;
-            }
-        },
-    };
-}])
+            },
+        };
+    }])
 .directive('tobottom', ['$window','$timeout', function ($window, $timeout) {
 
      return {

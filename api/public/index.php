@@ -413,7 +413,7 @@ $app->post('/user/edit/', function (Slim\Http\Request $request, Slim\Http\Respon
     $id = intVal($data['id']);
     $email = escape_string($data['email']);
     $password = escape_string($data['password']);
-    $role = escape_string($data['name']);
+    $role = escape_string($data['role']);
     $name = escape_string($data['name']);
 
     $token = new Token($request);
