@@ -116,7 +116,6 @@
                                 <p><strong>Nog geen account?</strong></p>
                                 <div class="btn primary" ui-sref="signup">Account aanmaken</div>
                             </div>
-                          </div>
                         </form>
                       </div>
                     </div>
