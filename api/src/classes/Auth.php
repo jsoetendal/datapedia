@@ -245,7 +245,7 @@ class Auth{
     }
 
     function forgotPassword($email){
-        $users = $this->db->getArray("SELECT id, email, role, FROM users WHERE email = '". $email ."'");
+        $users = $this->db->getArray("SELECT id, email, role FROM users WHERE email = '". $email ."'");
         foreach($users as $user){
             $user->role = "temp";
 
