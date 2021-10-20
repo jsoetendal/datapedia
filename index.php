@@ -105,11 +105,17 @@
                           <div class="checkbox">
                             <label class="md-check"><input type="checkbox" ng-model="refresh"><i></i> Ingelogd blijven</label>
                           </div>
-                          <div class="m-t m-b-xs">
+                            <div class="m-t m-b-xs">
                             <button type="submit" class="btn btn-sm primary text-u-c p-x _600">Inloggen</button>
-                            <p class="text-muted m-t">Alle gegevens op de Datapedia zijn beschikbaar voor iedereen. Iedereen kan ook zonder inloggen reacties of suggesties geven.<br/>Inloggen is alleen nodig voor het beheren en redigeren van de Datapedia.</p>
-                            <p><strong>Nog geen account?</strong></p>
-                            <div class="btn primary" ui-sref="signup">Account aanmaken</div>
+                            </div>
+                            <div class="m-t m-b-xs text-center">
+                                <div class="m-b"><a ui-sref="passwordforgot" class="text-primary _600">Wachtwoord vergeten?</a></div>
+                            </div>
+                            <div class="m-t m-b-xs">
+                                <p class="text-muted m-t">Alle gegevens op de Datapedia zijn beschikbaar voor iedereen. Iedereen kan ook zonder inloggen reacties of suggesties geven.<br/>Inloggen is alleen nodig voor het beheren en redigeren van de Datapedia.</p>
+                                <p><strong>Nog geen account?</strong></p>
+                                <div class="btn primary" ui-sref="signup">Account aanmaken</div>
+                            </div>
                           </div>
                         </form>
                       </div>
