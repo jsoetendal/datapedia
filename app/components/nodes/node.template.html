@@ -488,8 +488,10 @@
                                         <span ng-show="history.selectedNode.userdata">Bezoeker</span>
                                     </div>
                                     <div class="box-body">
-                                        <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
-                                        <span ng-if="history.selectedNode != history.comparedNode" ng-repeat='diff in history.selectedNode.diff.text' class="diff{{diff[0]}}" ng-bind-html="diff[1]"></span>
+                                        <div class="b-a p-a m-a">
+                                            <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
+                                            <span ng-if="history.selectedNode != history.comparedNode" ng-repeat='diff in history.selectedNode.diff.text' class="diff{{diff[0]}}" ng-bind-html="diff[1]"></span>
+                                        </div>
                                         <h5 class="m-t">Data</h5>
                                         <table class="table table-striped">
                                             <tr ng-repeat="(key, value) in history.selectedNode.data">
