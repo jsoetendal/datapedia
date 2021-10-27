@@ -103,7 +103,7 @@
                             <input type="password" class="form-control" placeholder="Geef wachtwoord" ng-model="password" required autocomplete="off">
                           </div>
                           <div class="checkbox">
-                            <label class="md-check"><input type="checkbox" ng-model="refresh"><i></i> Ingelogd blijven</label>
+                            <label class="md-check"><input type="checkbox" ng-model="refresh" ng-init="refresh = false"><i></i> Ingelogd blijven</label>
                           </div>
                             <div class="m-t m-b-xs">
                             <button type="submit" class="btn btn-sm primary text-u-c p-x _600">Inloggen</button>

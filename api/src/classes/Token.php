@@ -2,6 +2,7 @@
 use \Firebase\JWT\JWT;
 
 class Token{
+    var $expired, $valid, $exception, $token, $key;
  
     public function __construct($requestOrString = null){
         $this->key = "[4`,uU@(Wt2L[+{8zNS7~u-UgCkuUPCi.vnRzx<gV?~0uB|,30SZT&*_vv7RYjT";
@@ -52,6 +53,7 @@ class Token{
     }
     
     function isExpired(){
+        if(!$this->expired) return false;
         return $this->expired;
     }
 
