@@ -213,7 +213,15 @@ angular.
             var diff = dmp.diff_main(""+node.text, ""+$scope.history.selectedNode.text);
             dmp.diff_cleanupSemantic(diff);
             $scope.history.selectedNode.diff = {
-                'text' : diff
+                'parts' : diff,
+                'complete': ""
+            }
+            for(let i in diff){
+                if(diff[i][0] == 0){
+                    $scope.history.selectedNode.diff.complete += diff[i][1];
+                } else {
+                    $scope.history.selectedNode.diff.complete += "<span class='diff" + diff[i][0] +"'>" + diff[i][1] + "</span>";
+                }
             }
         }
 

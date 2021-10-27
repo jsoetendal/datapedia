@@ -490,7 +490,7 @@
                                     <div class="box-body">
                                         <div class="b-a p-a m-a">
                                             <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
-                                            <span ng-if="history.selectedNode != history.comparedNode" ng-repeat='diff in history.selectedNode.diff.text' class="diff{{diff[0]}}" ng-bind-html="diff[1]"></span>
+                                            <span ng-if="history.selectedNode != history.comparedNode" ng-bind-html="history.selectedNode.diff.complete"></span>
                                         </div>
                                         <h5 class="m-t">Data</h5>
                                         <table class="table table-striped">
@@ -505,7 +505,8 @@
                                         <div class="btn btn-fwd success pull-right m-r" ng-if="history.selectedNode.status == 'previous' || history.selectedNode.status == 'deleted'" ng-click="historyRevert(history.selectedNode)">Terugzetten</div>
                                         <div class="btn btn-fwd success" ng-if="history.selectedNode.status == 'suggested'" ng-click="historyApprove(history.selectedNode)">Accepteren</div>
                                     </div>
-                                    <div class="box-body">
+                                    <div class="box-body" ng-if="user.isAdmin">
+                                        <h5>Volledige node</h5>
                                         <div class="text-muted">{{history.selectedNode}}</div>
                                     </div>
                                 </div>
