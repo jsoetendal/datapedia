@@ -422,6 +422,8 @@ angular.
         }
 
         $scope.searchText = {};
+        $scope.module = $rootScope.module;
+
         this.nodeId = $stateParams.nodeId;
         //console.log($stateParams);
         if($stateParams.tab){

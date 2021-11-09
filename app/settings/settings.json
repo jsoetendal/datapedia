@@ -291,12 +291,12 @@
             },
             {
                 "type": "article",
-                "single": "Handboekpagina",
-                "plural": "Handboek",
+                "single": "Kookboekpagina",
+                "plural": "Datakookboek",
                 "image": "right",
                 "attachments": true,
                 "background": "app/images/fietsfile.jpg",
-                "introduction": "In het Handboek Data Top 15 willen we zo concreet mogelijk aangeven hoe gemeentes en andere wegbeheerders aan de slag kunnen met de Data Top 15. <br/>We benoemen een aantal basisbeginselen en geven voor ieder item in de Data Top 15 een concrete aanpak:",
+                "introduction": "In het Datakookboek Smart Mobility willen we zo concreet mogelijk aangeven hoe gemeentes en andere wegbeheerders aan de slag kunnen met Data & Digitalisering<br/>We benoemen een aantal basisbeginselen en geven een concrete aanpak:",
                 "path": {
                     "label": "Hoofdstuk",
                     "multilevel": false,
@@ -543,153 +543,139 @@
             }
         ]
     },
-    "navigation": [
+    "modules": [
         {
-            "label": "Home",
-            "url": ".",
-            "state": "main",
-            "params": [],
-            "roles": [
-                "unauthenticated",
-                "contributor",
-                "editor",
-                "admin"
-            ]
-        },
-        {
-            "label": "Handboek",
-            "url": "nodes/article",
-            "state": "nodes",
-            "params": {
-                "type": "article"
-            },
-            "roles": [
-                "unauthenticated",
-                "contributor",
-                "editor",
-                "admin"
-            ]
-        },
-        {
-            "label": "Voorbeelden",
-            "url": "nodes/project",
-            "state": "nodes",
-            "params": {
-                "type": "project"
-            },
-            "roles": [
-                "unauthenticated",
-                "contributor",
-                "editor",
-                "admin"
-            ]
-        },
-        {
-            "label": "Data",
-            "url": "nodes/onderwerp",
-            "state": "nodes",
-            "params": {
-                "type": "onderwerp"
-            },
-            "roles": [
-                "unauthenticated",
-                "contributor",
-                "editor",
-                "admin"
-            ],
-            "sub": [
-                {
-                    "label": "Onderwerpen",
-                    "url": "nodes/onderwerp",
-                    "state": "nodes",
-                    "params": {
-                        "type": "onderwerp"
-                    }
-                },
-                {
-                    "label": "Datasets",
-                    "url": "nodes/dataset",
-                    "state": "nodes",
-                    "params": {
-                        "type": "dataset"
-                    }
+            "name": "datatop15",
+            "introduction": "Klik hier voor de Data Top 15",
+            "title": "Data Top 15",
+            "image": "uploads/paulus_west.jpg",
+            "background": "uploads/paulus_west.jpg",
+            "start": {
+                "state": "module.nodes",
+                "details": {
+                    "type": "datatop15"
                 }
-            ]
-        },
-        {
-            "label": "Data Top 15",
-            "url": "nodes/datatop15",
-            "state": "nodes",
-            "params": {
-                "type": "datatop15"
             },
-            "roles": [
-                "unauthenticated",
-                "contributor"
-            ]
-        },
-        {
-            "label": "Data Top 15",
-            "url": "nodes/onderwerp",
-            "state": "nodes",
-            "params": {
-                "type": "datatop15"
-            },
-            "roles": [
-                "editor",
-                "admin"
-            ],
-            "sub": [
+            "navigation": [
                 {
-                    "label": "Data Top 15",
+                    "label": "Items",
                     "url": "nodes/datatop15",
-                    "state": "nodes",
-                    "params": {
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ],
+                    "state": "module.nodes",
+                    "details": {
                         "type": "datatop15"
                     }
                 },
                 {
-                    "label": "Status",
-                    "url": "datatop15",
-                    "state": "datatop15",
-                    "params": []
-                },
-                {
-                    "label": "Gemeentes",
-                    "url": "nodes/gemeente",
-                    "state": "nodes",
-                    "params": {
-                        "type": "gemeente"
+                    "label": "Kennissessies",
+                    "url": "",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ],
+                    "state": "module.nodes",
+                    "details": {
+                        "type": "sessie"
                     }
                 }
             ]
         },
         {
-            "label": "Agenda",
-            "url": "nodes/sessie",
-            "state": "nodes",
-            "params": {
-                "type": "sessie"
+            "name": "smartmobility",
+            "introduction": "Klik hier voor smart Mobility",
+            "title": "Smart Mobility",
+            "image": "uploads/Fietsfiles_Amsterdam_Centrum_3758.jpg",
+            "background": "uploads/Fietsfiles_Amsterdam_Centrum_3758.jpg",
+            "start": {
+                "state": "module.main",
+                "details": []
             },
-            "roles": [
-                "unauthenticated",
-                "contributor",
-                "editor",
-                "admin"
-            ]
-        },
-        {
-            "label": "Zoeken",
-            "url": "nodes/zoeken",
-            "state": "nodes",
-            "params": {
-                "type": "zoeken"
-            },
-            "roles": [
-                "unauthenticated",
-                "contributor",
-                "editor",
-                "admin"
+            "navigation": [
+                {
+                    "label": "Home",
+                    "state": "module.main",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ]
+                },
+                {
+                    "label": "Kookboek",
+                    "state": "module.nodes",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ],
+                    "sub": [],
+                    "details": {
+                        "type": "article"
+                    }
+                },
+                {
+                    "label": "Voorbeelden",
+                    "state": "module.nodes",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ],
+                    "details": {
+                        "type": "project"
+                    }
+                },
+                {
+                    "label": "Data",
+                    "state": "module.nodes",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ],
+                    "sub": [
+                        {
+                            "label": "Onderwerpen",
+                            "url": "nodes/onderwerp",
+                            "state": "module.nodes",
+                            "details": {
+                                "type": "onderwerp"
+                            }
+                        },
+                        {
+                            "label": "Datasets",
+                            "url": "nodes/dataset",
+                            "state": "module.nodes",
+                            "details": {
+                                "type": "dataset"
+                            }
+                        }
+                    ],
+                    "details": {
+                        "type": "onderwerp"
+                    }
+                },
+                {
+                    "label": "Zoeken",
+                    "state": "module.nodes.query",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ]
+                }
             ]
         }
     ]

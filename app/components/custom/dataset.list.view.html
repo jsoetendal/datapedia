@@ -65,7 +65,7 @@
 
     <div class="col-xs-12">
         <div ng-repeat="dataset in nodes | orderBy: orderProp| filter: {'visible': true} | filter: zoeken.searchText as results track by $index">
-            <div ng-include="'nodeDataset'" class="row p-b-md m-b-md b-b node pointer" ui-sref="node({nodeId: dataset.nodeId})"></div>
+            <div ng-include="'nodeDataset'" class="row p-b-md m-b-md b-b node pointer" ui-sref="module.node({'modulename': module.name, nodeId: dataset.nodeId})"></div>
         </div>
     </div>
 </div>

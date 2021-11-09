@@ -12,7 +12,7 @@
     </script>
 
     <script type="text/ng-template" id="nodeLeaf">
-        <a ui-sref="node({nodeId: node.nodeId})" class="pointer" ng-class="{ 'text-muted': !node.dataset || node.dataset.length == 0}"><strong>{{node.title}}</strong></a>
+        <a ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})" class="pointer" ng-class="{ 'text-muted': !node.dataset || node.dataset.length == 0}"><strong>{{node.title}}</strong></a>
         <div>
             <div class='row m-l m-t' ng-repeat="dataset in node.dataset" ng-include="'nodeDataset'"></div>
         </div>
@@ -21,7 +21,7 @@
     <script type="text/ng-template" id="nodeDataset">
         <div class="col-md-3">
             <i class="fa fa-angle-right"></i>
-            <a  ui-sref="node({nodeId: dataset.nodeId})">{{dataset.title}}</a>
+            <a  ui-sref="module.node({'modulename': module.name, nodeId: dataset.nodeId})">{{dataset.title}}</a>
         </div>
         <div class="col-md-3" ng-if="dataset.data.details.beschikbaar=='true'">
             <div class='floatblok' ng-show="dataset.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>

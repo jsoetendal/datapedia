@@ -1,0 +1,37 @@
+    <div class="row m-t">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3>Verwijderd</h3>
+                </div>
+                <div class="box-body" ng-show="deleted.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titel</th>
+                            <th>Gemaakt</th>
+                            <th>Gewijzigd</th>
+                            <!--<th>Door</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="node in deleted" class="pointer" ui-sref="admin.node.tab({'nodeId': node.nodeId, 'tab': 'version'})">
+                            <td>{{node.nodeId}}</td>
+                            <td>{{node.title}}</td>
+                            <td>{{node.created|geleden}}</td>
+                            <td>{{node.updated|geleden}}</td>
+                            <!--<td>{{suggestion.userData}}</td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="m-x" ng-hide="deleted.length > 0">
+                    <div class="p-a">
+                        Er zijn op dit moment geen recente verwijderde items.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

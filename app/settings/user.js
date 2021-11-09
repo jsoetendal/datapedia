@@ -18,7 +18,6 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', '$location','$sta
                     refresh: scope.refresh
                 }
             }).then(function(response) {
-                log(response);
                 if(response.status == 200){
                     self.setUser(response.data, func);
                 }

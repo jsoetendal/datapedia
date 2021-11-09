@@ -60,6 +60,10 @@ header .navbar{
     margin: 0px auto;
 }
 
+#admincontent{
+    margin-left: 200px;
+}
+
 .background{
     background-image: url("app/images/fietsfile.jpg");
     background-repeat: no-repeat;

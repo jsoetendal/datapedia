@@ -500,6 +500,8 @@ angular.
         $scope.user = $rootScope.setup.user;
         $scope.googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=" + $rootScope.GoogleMapsKey;
 
+        $scope.module = $rootScope.module;
+
         $scope.type = $stateParams.type;
         $scope.key = $stateParams.key;
         if($scope.type == "zoeken"){

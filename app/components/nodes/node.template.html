@@ -2,13 +2,14 @@
     <div class="box licht lt">
         <div class="row">
             <div class="col-xs-6">
-                <h4 class="p-a m-b-0 datapedia" ui-sref="nodes({'type': node.type})">{{entity.plural}}</h4>
+                <h4 class="p-a m-b-0 datapedia" ui-sref="module.nodes({'modulename': module.name, 'type': node.type})">{{entity.plural}}</h4>
             </div>
             <div class="col-xs-6">
                 <div class="navbar-form form-inline navbar-item m-l v-m pull-right">
                     <ul class="nav navbar-nav pull-right m-r">
                         <li class="nav-item dropdown">
-                            <a class="nav-link" ui-sref="nodes({'type': node.type})">&lt;&lt; Terug</a>
+                            <!--<a class="nav-link" ui-sref="module.nodes({'modulename': module.name, 'type': node.type})">&lt;&lt; Terug</a>-->
+                            <a class="nav-link" onclick="window.history.back()">&lt;&lt; Terug</a>
                         </li>
                     </ul>
                 </div>
@@ -38,19 +39,19 @@
                         <div class="col-md-5 col-lg-4 v-b">
                             <ul class="nav nav-tabs pull-right" style="margin-top: 2.5rem">
                                 <li class="nav-item">
-                                    <a class="nav-link" ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
+                                    <a class="nav-link" ui-sref="^.node.tab({'modulename': module.name, 'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>
                                 </li>
                                 <li ng-repeat="tab in entity.tabs" class="nav-item">
-                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': tab.key})" href="" data-toggle="tab" data-target="#tab-{{tab.key}}" ng-class="{'active': view.tab == tab.key}">{{tab.title}}</a>
+                                    <a class="nav-link"  ui-sref="^.node.tab({'modulename': module.name, 'nodeId': node.nodeId, 'tab': tab.key})" href="" data-toggle="tab" data-target="#tab-{{tab.key}}" ng-class="{'active': view.tab == tab.key}">{{tab.title}}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
+                                    <a class="nav-link"  ui-sref="^.node.tab({'modulename': module.name, 'nodeId': node.nodeId, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-class="{'active': view.tab == 'edit'}">Wijzig</a>
                                 </li>
                                 <li class="nav-item" ng-if="user.isEditorOrUp">
-                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'share'})" data-toggle="tab" data-target="#tab4" ng-class="{'active': view.tab == 'share'}">Delen</a>
+                                    <a class="nav-link"  ui-sref="^.node.tab({'modulename': module.name, 'nodeId': node.nodeId, 'tab': 'share'})" data-toggle="tab" data-target="#tab4" ng-class="{'active': view.tab == 'share'}">Delen</a>
                                 </li>
                                 <li class="nav-item" ng-if="user.isEditorOrUp">
-                                    <a class="nav-link"  ui-sref="node.tab({'nodeId': node.nodeId, 'tab': 'version'})" data-toggle="tab" data-target="#tab3" ng-class="{'active': view.tab == 'version'}">Versiebeheer</a>
+                                    <a class="nav-link"  ui-sref="^.node.tab({'modulename': module.name, 'nodeId': node.nodeId, 'tab': 'version'})" data-toggle="tab" data-target="#tab3" ng-class="{'active': view.tab == 'version'}">Versiebeheer</a>
                                 </li>
                             </ul>
                             <div style="clear: both"></div>
@@ -140,8 +141,8 @@
                                     </div>
 
                                     <div class="m-t" ng-if="showChapter">
-                                        <div ng-if="siblings.next" ui-sref="node({nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
-                                        <div ng-if="siblings.previous" ui-sref="node({nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
+                                        <div ng-if="siblings.next" ui-sref="module.node({'modulename': module.name, nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
+                                        <div ng-if="siblings.previous" ui-sref="module.node({'modulename': module.name, nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
                                         <div class="clearfix"></div>
                                     </div>
 
@@ -157,7 +158,7 @@
                                         </div>
                                         <div class="box-body" ng-if="!dependency.view">
                                             <ul>
-                                                <li ng-repeat="dependent in node.dependencies[dependency.key]"><a ui-sref="node({nodeId: dependent.nodeId})">{{dependent.title}}</a></li>
+                                                <li ng-repeat="dependent in node.dependencies[dependency.key]"><a ui-sref="module.node({'modulename': module.name, nodeId: dependent.nodeId})">{{dependent.title}}</a></li>
                                                     <dl ng-if="dependency.data.length > 0" class="table">
                                                         <dt ng-repeat-start="row in dependency.data" ng-if="dependent.datarelation[row.key]">{{row.label}}</dt>
                                                         <dd ng-repeat-end>{{dependent.datarelation[row.key]}}</dd>
@@ -173,7 +174,7 @@
                                         </div>
                                         <div class="box-body" ng-if="!relatie.view">
                                             <ul>
-                                                <li ng-repeat="related in node.relations[relatie.key]"><a ui-sref="node({nodeId: related.nodeId})">{{related.title}}</a>
+                                                <li ng-repeat="related in node.relations[relatie.key]"><a ui-sref="module.node({'modulename': module.name, nodeId: related.nodeId})">{{related.title}}</a>
                                                     <dl ng-if="relatie.data.length > 0" class="table">
                                                         <dt ng-repeat-start="row in relatie.data" ng-if="related.datarelation[row.key]">{{row.label}}</dt>
                                                         <dd ng-repeat-end>{{related.datarelation[row.key]}}</dd>

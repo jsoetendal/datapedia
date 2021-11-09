@@ -1,0 +1,133 @@
+<!-- ############ LAYOUT START-->
+<!-- Header -->
+<header class="app-header white box-shadow">
+    <div class="navbar">
+        <!--<a href=""#/">
+          <img src="themes/assets/images/logoSmartMob.png" style="height: 100px;" ng-hide="scrolledDown">
+        </a>-->
+        <a data-toggle="collapse" data-target="#navbar-1" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="material-icons"></i>
+        </a>
+        <a class="navbar-brand" href=".">
+            <span class="hidden-folded inline ng-binding">Datapedia <span class="text-primary" ng-if="module">{{module.title}}</span></span>
+        </a>
+        <ul class="nav navbar-nav pull-right">
+        </ul>
+        <div class="collapse navbar-toggleable-sm" id="navbar-1">
+            <ul class="nav navbar-nav nav-active-border b-primary pull-right">
+                <li ng-repeat-start="link in module.navigation" class="nav-item" ng-if="module && (!link.sub || link.sub.length == 0) && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
+                    <a ui-sref="{{link.state}}({{link.details}})" class="nav-link" ng-class="{'text-primary': state.name == link.state && state.params.type == link.details.type}">
+                        <span class="nav-text">{{link.label}}</span>
+                    </a>
+                </li>
+                <li ng-repeat-end class="nav-item dropdown dropdown-submenu"  ng-class="{'text-primary': state.name == link.state && state.params.type == link.details.type}" ng-if="link.sub && link.sub.length > 0 && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
+                    <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">
+                        <span class="nav-text">{{link.label}}</span>
+                    </a>
+                    <ul ng-if="link.sub" class="dropdown-menu pull-down text-color ng-scope" role="menu">
+                        <li ng-repeat="sub in link.sub" class="dropdown-item">
+                            <a ui-sref="{{sub.state}}({{sub.details}})">
+                                <span class="dropdown-item">{{sub.label}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Inloggen -->
+                <li class="nav-item dropdown"  ng-hide="user.auth.authenticated">
+                    <a class="nav-link" href="" data-toggle="dropdown">
+                        <span class="nav-text">Login</span>
+                    </a>
+                    <div class="dropdown-menu w-xl animated fadeInUp pull-right p-a-0 ng-scope">
+                        <div class="box-color m-a-0">
+                            <div class="box-header b-b p-y-sm">
+                                <strong>Inloggen</strong>
+                            </div>
+                            <div class="box-body">
+                                <form role="form" ng-submit="doLogin()">
+                                    <div class="form-group">
+                                        <label>E-mailadres</label>
+                                        <input type="email" class="form-control" placeholder="Vul je e-mailadres in" ng-model="email" required autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Wachtwoord</label>
+                                        <input type="password" class="form-control" placeholder="Geef wachtwoord" ng-model="password" required autocomplete="off">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label class="md-check"><input type="checkbox" ng-model="refresh" ng-init="refresh = false"><i></i> Ingelogd blijven</label>
+                                    </div>
+                                    <div class="m-t m-b-xs">
+                                        <button type="submit" class="btn btn-sm primary text-u-c p-x _600">Inloggen</button>
+                                    </div>
+                                    <div class="m-t m-b-xs text-center">
+                                        <div class="m-b"><a ui-sref="passwordforgot" class="text-primary _600">Wachtwoord vergeten?</a></div>
+                                    </div>
+                                    <div class="m-t m-b-xs">
+                                        <p class="text-muted m-t">Alle gegevens op de Datapedia zijn beschikbaar voor iedereen. Iedereen kan ook zonder inloggen reacties of suggesties geven.<br/>Inloggen is alleen nodig voor het beheren en redigeren van de Datapedia.</p>
+                                        <p><strong>Nog geen account?</strong></p>
+                                        <div class="btn primary" ui-sref="signup">Account aanmaken</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Als ingelogd -->
+                <li class="nav-item dropdown dropdown-submenu" ng-if="user.auth.authenticated">
+                    <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">
+                        <span>Ingelogd</span>
+                    </a>
+                    <ul class="dropdown-menu pull-down text-color ng-scope" role="menu">
+                        <li class="dropdown-item">
+                            <a>
+                                <span class="dropdown-item nav-text m-l-sm text-left"><span class="_500">{{user.auth.email}}</span> <small class="text-muted">{{user.auth.role}}</small></span>
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a ui-sref="admin.settings" ng-show="user.isAdmin">
+                                <span class="dropdown-item">Admin</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a ui-sref="admin.content" ng-show="user.isEditorOrUp">
+                                <span class="dropdown-item">Contentbeheer</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a ui-sref="admin.users" ng-show="user.isEditorOrUp">
+                                <span class="dropdown-item">Users</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a ui-sref="logoff">
+                                <span class="dropdown-item">Uitloggen</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- Page title - Bind to $state's title -->
+        <!--
+          <div class="navbar-item pull-left navbar-brand" id="pageTitle">{{topHeader}}</div>
+
+          <ul class="nav navbar-nav pull-right">
+            <li class="nav-item" ng-hide="user.auth && user.auth.authenticated">
+              <a class="nav-link" ui-sref="login"><i class="fa fa-user text-muted"></i> <span>Inloggen</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link clear" ng-show="user.auth && user.auth.authenticated" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-user text-muted"></i> <span>{{user.auth.email}}</span></a>
+              <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
+                <a class="dropdown-item" ng-show="user.isAdmin" ui-sref="admin"><span>Admin</span></a>
+                <a class="dropdown-item" ng-show="user.isEditorOrUp" ui-sref="users"><span>Users</span></a>
+                <div class="dropdown-divider" ng-show="user.isEditorOrUp"></div>
+                <a class="dropdown-item" ui-sref="logoff">Uitloggen</a>
+              </div>
+            </li>
+          </ul>
+          -->
+    </div>
+</header>
