@@ -405,7 +405,7 @@ angular.
         }
 
         $scope.addNode = function(){
-            $state.go("node.new", {"type": $stateParams.type});
+            $state.go("module.node.new", {"type": $stateParams.type});
             /*
             Nodes.addNode({
                 "type": $stateParams.type,
@@ -462,6 +462,158 @@ angular.
               $scope.node = null;
           }
 
+          $scope.loadPDOK = function(force){
+              if((force || !$scope.pdokMap) && document.getElementById("mapPDOK")){
+                  // Achtergrond lagen
+                  var backgroundLayer = L.tileLayer('https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png', {
+                      attribution: '<a href="https://creativecommons.org/licenses/by/3.0/nl/">CC BY 3.0</a> Kadaster', // Attributie van kaartmateriaal
+                      maxZoom: 19, // Maximale zoom niveau van deze getegelde kaart service
+                      minZoom: 8, // Minimale zoom niveau van deze getegelde kaart service
+                      tileSize: 256, // Grootte van de tegels die opgehaald worden
+                      zoomOffset: 0 // Zoom offset (meestal 0)
+                  });
+                  var luchtfotoLayer = L.tileLayer('https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg', {
+                      attribution: '<a href="https://creativecommons.org/licenses/by/4.0/deed.nl">CC BY 4.0</a> Kadaster',
+                      maxZoom: 19,
+                      minZoom: 8,
+                      tileSize: 256,
+                      zoomOffset: 0
+                  });
+
+                  // Kaart aanmaken
+                  if($scope.pdokMap) $scope.pdokMap.remove(); // Forced, so set-up again
+
+                  $scope.pdokMap = L.map('mapPDOK', {
+                      center: [52.2, 5.3], // Coordinaten van het startpunt van de kaart
+                      zoom: 8, // Zoomniveau van het startpunt van de kaart
+                      layers: [backgroundLayer] // Ingeschakelde kaartlagen
+                  });
+
+                  // Kaartlagen controls aanmaken
+                  var baseMaps = {
+                      "Kaart": backgroundLayer,
+                      "Luchtfoto": luchtfotoLayer,
+                  }
+
+                  // Voeg laag control toe aan kaart object
+                  L.control.layers(baseMaps).addTo($scope.pdokMap);
+
+                  // Voeg een schaal control toe aan kaart object
+                  L.control.scale().addTo($scope.pdokMap);
+                  $scope.pdokMap.invalidateSize(false);
+              }
+              $scope.updateMap();
+          }
+
+          $scope.updateMap = function(force){
+              if(!$scope.pdokMap){
+                  $timeout(function(){ $scope.updateMap();}, 500); //If no map, try again...
+              } else {
+                  for(let i in $scope.nodes){
+                      if($scope.nodes[i].data.geometry) {
+                          var json = JSON.parse($scope.nodes[i].data.geometry.replace(/&#34;/g, "\""));
+                          let tooltip =" <div class=\"details\">\n" +
+                              "<strong>" + $scope.nodes[i].title + "</strong>";
+                              for(let j in $scope.entity.data){
+                                  if($scope.nodes[i].data[$scope.entity.data[j].key] && $scope.entity.data[j].type != "geometry"){
+                                      tooltip += "<br/>" + $scope.entity.data[j].label + ": " + $scope.nodes[i].data[$scope.entity.data[j].key];
+                                  }
+                              }
+                              tooltip += " </div>";
+                          $scope.nodes[i].layer = L.geoJSON(json).bindTooltip(tooltip,{
+                              permanent: false,
+                              sticky: true,
+                              offset: [10, 0],
+                              opacity: 0.75,
+                              className: 'leaflet-tooltip-own'
+                          }).addTo($scope.pdokMap);
+                          $scope.nodes[i].layer.on("click", function (e) {
+                              $state.go("module.node",{"nodeId": $scope.nodes[i].nodeId});
+                          });
+                          $scope.nodes[i].layer.setStyle({
+                              'fillColor': "#FFFFFF",
+                              'fillOpacity': '0.7', 'stroke': true, 'color': '#777', 'weight': 1, 'opacity': 1
+                          });
+
+                          /*
+                          //$scope.nodes[i].geo = {};
+                          for(var j in json.coordinates){
+                              var paths = [];
+                              for(var k in json.coordinates[j][0]){
+                                  paths.push([json.coordinates[j][0][k][1],json.coordinates[j][0][k][0]]); //Reverse Lat & Lon
+                                  latlngbounds.extend(new google.maps.LatLng(json.coordinates[j][0][k][1],json.coordinates[j][0][k][0]));
+                              }
+                              $scope.paths.push({"node": $scope.nodes[i],"nodeId": $scope.nodes[i].nodeId, "paths": paths});
+                          }
+                          //$scope.nodes[i].geo.paths = json.coordinates;
+                          */
+                      }
+                  }
+
+                  /*
+                  $scope.wijken.sort(function(a, b) {
+                      return b.matchscore - a.matchscore;
+                  });
+                  for (let i in $scope.wijken) {
+                      //Gemeente alleen tonen indien er wijken zijn gedefinieerd
+                      if ((force || !$scope.wijken[i].layer) && $scope.wijken[i].geo && $scope.wijken[i].geo.length > 0) {
+                          let wkt = new Wkt.Wkt();
+                          wkt.read($scope.wijken[i].geo);
+                          let tooltip =
+                              "<div class='match primary'>#" + (parseInt(i) + 1) +"</div>\n" +
+                              " <div class=\"details\">\n";
+                          if($scope.wijken[i].icon) tooltip += "   <div class='pull-right'><img src='" + $scope.wijken[i].icon.url + "'></div>\n";
+                          tooltip +=
+                              "    <small>" + $scope.wijken[i].gemeente + "</small>\n" +
+                              "    <br/><strong>" + $scope.wijken[i].title + "</strong>\n" +
+                              " </div>";
+                          $scope.wijken[i].layer = L.geoJSON(wkt.toJson()).bindTooltip(tooltip,{
+                              permanent: false,
+                              sticky: true,
+                              offset: [10, 0],
+                              opacity: 0.75,
+                              className: 'leaflet-tooltip-own'
+                          }).addTo($scope.pdokMap);
+                          $scope.wijken[i].layer.on("click", function (e) {
+                              $scope.showBuurt(this, $scope.wijken[i].id);
+                              $scope.$apply();
+                          });
+                          $scope.wijken[i].layer.setStyle({
+                              'fillColor': Buurten.colorMap[$scope.wijken[i].id],
+                              'fillOpacity': '0.7', 'stroke': true, 'color': '#FFFFFF', 'weight': 1, 'opacity': 1
+                          });
+                      }
+                  }
+                  */
+
+                  //Set bounds:
+                  const allLayers = [];
+                  $scope.pdokMap.eachLayer(function (layer) {
+                      if(layer.feature) { //If it is a feature
+                          allLayers.push(layer);
+                      }
+                  });
+
+                  if(allLayers.length > 0) {
+                      var all = new L.featureGroup(allLayers);
+                      $scope.pdokMap.fitBounds(all.getBounds());
+                  }
+              }
+          }
+
+          $scope.geoShow = function(node){
+              if(node.layer) {
+                  node.layer.setStyle({ 'stroke': true, 'color': '#F00', 'weight': 5, 'opacity': 1});
+              }
+          }
+
+          $scope.geoHide = function(node){
+              if(node.layer) {
+                  node.layer.setStyle({ 'stroke': true, 'color': '#777', 'weight': 1, 'opacity': 1});
+              }
+          }
+
+
           $scope.setFacet = function(bool){
             self.faceted = bool;
             if(self.faceted && !self.facetsCreated){
@@ -480,7 +632,8 @@ angular.
           $scope.setView = function(view){
               $scope.view = view;
               if(view == "geo"){
-                  $scope.prepareGeo();
+                  //$scope.prepareGeo();
+                  $scope.loadPDOK();
               }
           }
 
@@ -493,6 +646,18 @@ angular.
                   });
               }
           }
+
+          $scope.saveCurrent = function(){
+              window.localStorage.setItem("current", JSON.stringify($scope.current));
+          }
+
+          $scope.current = window.localStorage.getItem("current");
+          if($scope.current){
+              $scope.current = JSON.parse($scope.current);
+          } else {
+              $scope.current = {};
+          }
+
 
         $scope.orderProp = ["path","title"];
         $scope.filterProp = [];

@@ -77,8 +77,7 @@
                         "min": 0,
                         "max": 100,
                         "label": "Betrokken partijen",
-                        "facet": true,
-                        "cols": null
+                        "facet": true
                     },
                     {
                         "key": "onderwerp",
@@ -86,8 +85,7 @@
                         "min": 0,
                         "max": 100,
                         "label": "Relevante datasets",
-                        "facet": false,
-                        "cols": null
+                        "facet": false
                     }
                 ]
             },
@@ -135,7 +133,6 @@
                         "label": "Datasets",
                         "description": "Deze organisatie heeft de volgende datasets:",
                         "add": true,
-                        "max": 255,
                         "view": "app/components/custom/dataset.dependencies.view.html"
                     },
                     {
@@ -143,8 +140,7 @@
                         "type": "project",
                         "label": "Voorbeelden",
                         "description": "Deze organisatie is betrokken bij de volgende voorbeelden:",
-                        "add": true,
-                        "max": 255
+                        "add": true
                     }
                 ]
             },
@@ -205,7 +201,6 @@
                         "key": "dataset",
                         "type": "dataset",
                         "min": 0,
-                        "max": 255,
                         "label": "Beschikbare dataset",
                         "description": "Beschikbare datasets",
                         "descriptionInput": "Selecteer een beschikbare dataset",
@@ -221,8 +216,7 @@
                         "description": "Dit item staat in de Data Top 15 bij:",
                         "descriptionInput": "Selecteer een item uit de Data Top 15",
                         "facet": true,
-                        "add": true,
-                        "max": 999
+                        "add": true
                     },
                     {
                         "key": "onderwerp",
@@ -273,8 +267,7 @@
                         "description": "Organisaties die de brondata beheren en beschikbaar maken",
                         "descriptionInput": "Selecteer één of meerdere bronhouders",
                         "facet": true,
-                        "min": 0,
-                        "max": 999
+                        "min": 0
                     }
                 ],
                 "dependencies": [
@@ -284,8 +277,7 @@
                         "label": "Onderwerpen",
                         "description": "Deze dataset bevat de volgende onderwerpen:",
                         "facet": true,
-                        "add": true,
-                        "max": 255
+                        "add": true
                     }
                 ]
             },
@@ -328,122 +320,186 @@
                 "type": "datatop15",
                 "single": "Data Top 15-item",
                 "plural": "Data Top 15",
-                "image": false,
+                "image": true,
                 "path": false,
                 "background": "app/images/cs.jpg",
                 "attachments": false,
                 "introduction": "Voor ieder item uit de Data Top 15 laten we zien welke onderwerpen van toepassing zijn, welke datasets beschikbaar zijn, verwijzen we naar de aanpak voor het item en zie je in een snel overzicht de status van de verschillende gemeentes:",
                 "views": [
-                    "set"
+                    "custom"
                 ],
                 "facet": {
                     "optional": false,
                     "default": false
                 },
-                "data": [],
+                "data": [
+                    {
+                        "key": "Inventarisatie",
+                        "type": "textarea",
+                        "label": "Inventarisatie",
+                        "descriptionInput": "Overzicht van belangrijke vragen die gesteld kunnen worden bij het bepalen van het huidige niveau",
+                        "required": false,
+                        "facet": false
+                    },
+                    {
+                        "key": "Niveau1",
+                        "type": "textarea",
+                        "label": "Niveau 1 - Nog niet gestart",
+                        "descriptionInput": "Beschrijving van activiteiten die uitgevoerd moeten worden om niveau 1 te behalen",
+                        "required": false,
+                        "facet": false
+                    },
+                    {
+                        "key": "Niveau2",
+                        "type": "textarea",
+                        "label": "Niveau 2 - Oriënterend",
+                        "descriptionInput": "Beschrijving van activiteiten die uitgevoerd moeten worden om niveau 2 te behalen",
+                        "required": false,
+                        "facet": false
+                    },
+                    {
+                        "key": "Niveau3",
+                        "type": "textarea",
+                        "label": "Niveau 3 - Aan de slag",
+                        "descriptionInput": "Beschrijving van activiteiten die uitgevoerd moeten worden om niveau 3 te behalen",
+                        "required": false,
+                        "facet": false
+                    },
+                    {
+                        "key": "Niveau4",
+                        "type": "textarea",
+                        "label": "Niveau 4 - Goed bezig",
+                        "descriptionInput": "Beschrijving van activiteiten die uitgevoerd moeten worden om niveau 4 te behalen",
+                        "required": false,
+                        "facet": false
+                    },
+                    {
+                        "key": "Niveau5",
+                        "type": "textarea",
+                        "label": "Niveau 5 - Compleet",
+                        "descriptionInput": "Beschrijving van activiteiten die uitgevoerd moeten worden om niveau 5 te behalen",
+                        "required": false,
+                        "facet": false
+                    }
+                ],
                 "relations": [
                     {
-                        "key": "datatop15_onderwerp",
-                        "type": "onderwerp",
-                        "label": "Onderwerpen",
-                        "description": "Dit data-item omvat de volgende onderwerpen:",
-                        "descriptionInput": "Selecteer één of meerdere onderwerpen",
-                        "cols": 6,
+                        "key": "datatop15_voorziening",
+                        "type": "voorziening",
+                        "label": "Landelijke voorziening of resource",
+                        "description": "",
+                        "descriptionInput": "",
                         "facet": false,
-                        "view": "simple",
+                        "view": "app/components/custom/voorzieningen.relations.view.html",
                         "min": 0,
-                        "max": 999
+                        "position": "left"
                     },
                     {
-                        "key": "datatop15_dataset",
-                        "type": "dataset",
-                        "label": "Datasets",
-                        "description": "Voor dit data-item zijn de volgende datasets beschikbaar:",
-                        "descriptionInput": "Selecteer één of meerdere onderwerpen",
-                        "cols": 6,
+                        "key": "datatop15_document",
+                        "type": "document",
+                        "label": "Document",
+                        "description": "",
+                        "descriptionInput": "",
                         "facet": false,
-                        "custom": "app/components/custom/dataset.rows.view.html",
-                        "view": "custom",
+                        "view": "app/components/custom/documenten.relations.view.html",
                         "min": 0,
-                        "max": 999
+                        "position": "left"
                     },
                     {
-                        "key": "datatop15_handboek",
-                        "type": "article",
-                        "label": "Aanpak",
-                        "description": "Relevante artikelen uit het handboek voor dit onderwerp",
-                        "descriptionInput": "Selecteer één of meerdere artikelen",
-                        "cols": 6,
-                        "clear": true,
+                        "key": "datatop15_project",
+                        "type": "project",
+                        "label": "Voorbeeldprojecten",
+                        "description": "Voorbeelden van projecten m.b.t. dit Data Top 15-item",
+                        "descriptionInput": "Voorbeeldprojecten voor dit data-item",
                         "facet": false,
-                        "view": "row",
+                        "view": "",
                         "min": 0,
-                        "max": 999
+                        "cols": 12,
+                        "position": "right"
                     }
                 ],
                 "dependencies": [
+                    {
+                        "key": "personen_datatop15",
+                        "type": "personen",
+                        "label": "Contactpersonen",
+                        "description": "Contactpersonen bij dit data-item",
+                        "descriptionInput": "Geef de contactpersonen op die bij dit data-item zijn betrokken",
+                        "facet": false,
+                        "min": 0,
+                        "data": [
+                            {
+                                "key": "rol",
+                                "type": "text",
+                                "label": "Rol",
+                                "descriptionInput": "Beschrijving van de rol bij dit data-item",
+                                "required": false
+                            }
+                        ],
+                        "position": "right",
+                        "view": "app/components/custom/contactpersonen.dependencies.view.html"
+                    },
                     {
                         "key": "gemeente_datatop15",
                         "type": "gemeente",
                         "label": "Status gemeentes",
                         "description": "Status per gemeente",
                         "descriptionInput": "Selecteer een gemeente waarvoor je de status wilt vastleggen",
-                        "cols": 6,
                         "facet": false,
                         "min": 0,
-                        "max": 999,
-                        "view": "custom",
-                        "custom": "app/components/custom/gemeente_datatop15.dependency.view.html",
+                        "view": "app/components/custom/gemeente.dependencies.view.html",
                         "data": [
                             {
                                 "key": "status",
                                 "type": "enum",
                                 "options": [
-                                    "Onbekend",
-                                    "Nog niet gestart",
-                                    "Orienterend",
-                                    "Aan de slag",
-                                    "Goed bezig",
-                                    "Compleet"
+                                    "0 - Onbekend",
+                                    "1 - Nog niet gestart",
+                                    "2 - Orienterend",
+                                    "3 - Aan de slag",
+                                    "4 - Goed bezig",
+                                    "5 - Compleet",
+                                    "Niet van toepassing"
                                 ],
                                 "label": "Status",
                                 "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
                                 "required": false
                             }
-                        ]
+                        ],
+                        "position": "right"
+                    },
+                    {
+                        "key": "sessie_datatop15",
+                        "type": "sessie",
+                        "label": "Kennissessie",
+                        "description": "Deze Data Top 15-item staat op de agenda van de kennissessie",
+                        "descriptionInput": "Selecteer de kennissessies waar dit Data Top 15-item aan bod komt",
+                        "facet": false,
+                        "min": 0,
+                        "position": "right"
                     }
-                ]
+                ],
+                "dataview": "app/components/custom/datatop15item.data.view.html",
+                "custom": "app/components/custom/datatop15items.view.html"
             },
             {
                 "type": "gemeente",
-                "single": "Gemeente",
-                "plural": "Gemeentes",
+                "single": "Wegbeheerder",
+                "plural": "Wegbeheerders",
                 "image": "logo",
                 "background": "app/images/cs.jpg",
                 "attachments": false,
-                "introduction": "Een overzicht van de gemeentes in onze regio. Klik op een gemeente om de huidige status te zien en evt. een intake in te vullen.",
+                "introduction": "Een overzicht van de wegbeheerders en hun huidige status m.b.t. de Data Top 15.",
                 "path": false,
                 "views": [
-                    "geo",
-                    "list",
-                    "tile"
+                    "custom"
                 ],
-                "restricted": [
-                    "editor",
-                    "admin"
-                ],
-                "getNodesExtended": true,
+                "restricted": null,
+                "getNodesExtended": false,
                 "facet": {
-                    "optional": true,
+                    "optional": false,
                     "default": false
                 },
-                "tabs": [
-                    {
-                        "key": "intake",
-                        "title": "Intake",
-                        "templateHTML": "<intake></intake>"
-                    }
-                ],
                 "data": [
                     {
                         "key": "geometry",
@@ -465,6 +521,23 @@
                         "label": "Website",
                         "descriptionInput": "Geef de link naar een website of pagina met meer informatie",
                         "required": false
+                    },
+                    {
+                        "key": "regio",
+                        "type": "enum",
+                        "label": "Regio",
+                        "descriptionInput": "",
+                        "required": true,
+                        "facet": true,
+                        "options": [
+                            "Landelijk",
+                            "Zuid-Nederland",
+                            "Zuidwest-Nederland",
+                            "Oost-Nederland",
+                            "Noord-Nederland",
+                            "Noord-Holland & Flevoland",
+                            "Utrecht"
+                        ]
                     }
                 ],
                 "relations": [
@@ -474,21 +547,20 @@
                         "label": "Status Data Top 15",
                         "description": "Status per Data Top 15-item",
                         "descriptionInput": "Selecteer een Data Top 15-item waarvoor je de status wilt vastleggen",
-                        "facet": true,
+                        "facet": false,
                         "min": 0,
-                        "max": 999,
                         "view": "app/components/custom/gemeente_datatop15.relations.view.html",
                         "data": [
                             {
                                 "key": "status",
                                 "type": "enum",
                                 "options": [
-                                    "Onbekend",
-                                    "Nog niet gestart",
-                                    "Orienterend",
-                                    "Aan de slag",
-                                    "Goed bezig",
-                                    "Compleet",
+                                    "0 - Onbekend",
+                                    "1 - Nog niet gestart",
+                                    "2 - Orienterend",
+                                    "3 - Aan de slag",
+                                    "4 - Goed bezig",
+                                    "5 - Compleet",
                                     "Niet van toepassing"
                                 ],
                                 "label": "Status",
@@ -498,7 +570,8 @@
                         ]
                     }
                 ],
-                "dependencies": []
+                "dependencies": [],
+                "custom": "app/components/custom/gemeentes.template.html"
             },
             {
                 "type": "sessie",
@@ -534,12 +607,163 @@
                         "description": "Deze Data Top 15-items staan op de agenda",
                         "descriptionInput": "Selecteer de Data Top 15-item(s) die in deze sessie aan bod komen",
                         "facet": true,
-                        "min": 0,
-                        "max": 999
+                        "min": 0
                     }
                 ],
                 "dependencies": [],
                 "introduction": "Het Regionaal Datateam organiseert regelmatig kennissessies waarbij één of meerdere items uit de Data Top 15 centraal staan. We nodigen hier relevante sprekers voor uit. Deze kennissessies zijn toegankelijk voor alle geïnteresseerden, gericht op wegbeheerders in de provincies Noord-Holland en Flevoland."
+            },
+            {
+                "type": "voorziening",
+                "single": "Landelijke voorziening of resource",
+                "plural": "Landelijke voorzieningen en resources",
+                "image": false,
+                "path": false,
+                "background": "",
+                "views": [
+                    "list"
+                ],
+                "facet": {
+                    "optional": false,
+                    "default": false
+                },
+                "data": [
+                    {
+                        "key": "Type",
+                        "type": "enum",
+                        "label": "Type",
+                        "descriptionInput": "Selecteer het type voorziening/resource",
+                        "required": true,
+                        "facet": false,
+                        "options": [
+                            "Applicatie",
+                            "Databron",
+                            "Handleiding",
+                            "Website",
+                            "Project"
+                        ]
+                    },
+                    {
+                        "key": "Link",
+                        "type": "url",
+                        "label": "Link",
+                        "descriptionInput": "Link naar de betreffende voorziening/resource",
+                        "required": false,
+                        "facet": false
+                    }
+                ],
+                "relations": [],
+                "dependencies": [
+                    {
+                        "key": "datatop15_voorziening",
+                        "type": "datatop15",
+                        "label": "Data Top 15-item",
+                        "description": "Deze voorzieningen of resource wordt gebruikt bij:",
+                        "descriptionInput": "",
+                        "facet": false,
+                        "view": "",
+                        "min": 0,
+                        "position": "right"
+                    }
+                ],
+                "attachments": true
+            },
+            {
+                "type": "document",
+                "single": "Document",
+                "plural": "Documenten",
+                "image": false,
+                "path": false,
+                "background": "",
+                "views": [
+                    "list"
+                ],
+                "facet": {
+                    "optional": false,
+                    "default": false
+                },
+                "data": [],
+                "relations": [],
+                "dependencies": [
+                    {
+                        "key": "datatop15_document",
+                        "type": "datatop15",
+                        "label": "Data Top 15-item",
+                        "description": "Deze documenten zijn relevant bij:",
+                        "descriptionInput": "",
+                        "facet": false,
+                        "view": "",
+                        "min": 0,
+                        "position": "right"
+                    }
+                ],
+                "attachments": true,
+                "attachmentsPrimary": true
+            },
+            {
+                "type": "personen",
+                "single": "Contactpersoon",
+                "plural": "Contactpersonen",
+                "image": true,
+                "path": false,
+                "background": "",
+                "views": [
+                    "list"
+                ],
+                "facet": {
+                    "optional": false,
+                    "default": true
+                },
+                "data": [
+                    {
+                        "key": "url",
+                        "type": "url",
+                        "label": "LinkedIn URL",
+                        "descriptionInput": "Geeft de URL naar de LinkedIn-pagina van de contactpersoon",
+                        "required": false,
+                        "facet": false
+                    },
+                    {
+                        "key": "regio",
+                        "type": "enum",
+                        "label": "Regio",
+                        "descriptionInput": "",
+                        "required": true,
+                        "facet": true,
+                        "options": [
+                            "Landelijk",
+                            "Zuid-Nederland",
+                            "Zuidwest-Nederland",
+                            "Oost-Nederland",
+                            "Noord-Nederland",
+                            "Noord-Holland & Flevoland",
+                            "Utrecht"
+                        ]
+                    }
+                ],
+                "relations": [
+                    {
+                        "key": "personen_datatop15",
+                        "type": "datatop15",
+                        "label": "Data-item",
+                        "description": "Betrokken bij de volgende data-items",
+                        "descriptionInput": "Geef de data-items op waarbij deze contactpersoon is betrokken",
+                        "facet": false,
+                        "view": "",
+                        "min": 0,
+                        "data": [
+                            {
+                                "key": "rol",
+                                "type": "text",
+                                "label": "Rol",
+                                "descriptionInput": "Beschrijving van de rol bij dit data-item",
+                                "required": false
+                            }
+                        ],
+                        "position": "right"
+                    }
+                ],
+                "dependencies": []
             }
         ]
     },
@@ -569,6 +793,20 @@
                     "state": "module.nodes",
                     "details": {
                         "type": "datatop15"
+                    }
+                },
+                {
+                    "label": "Wegbeheerders",
+                    "url": "",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ],
+                    "state": "module.nodes",
+                    "details": {
+                        "type": "gemeente"
                     }
                 },
                 {

@@ -161,6 +161,14 @@ a, .itemcontent a{
     text-decoration: none;
 }
 
+.list-item a{
+    color: black;
+}
+
+.list-item a .light i{
+    color: silver;
+}
+
 .donker a, .donker .itemcontent a{
     color: white;
 }
@@ -727,4 +735,24 @@ footer{
 #main-footer .footer-widget h4 {
     font-size: 18px;
     color: #e04952;
+}
+
+.niveaublokje{
+    width: 2em;
+    font-size: 1em;
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: -0.5em;
+    text-align: center;
+    border: 1px solid silver;
+}
+
+.box.incontent{
+    margin-left: -1rem;
+    margin-bottom: 0.5rem;
+}
+
+.box.incontent .box-header{
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }

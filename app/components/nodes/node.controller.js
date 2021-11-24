@@ -37,7 +37,7 @@ angular.
                 self.setDate();
                 self.setAttachments();
 
-                $scope.simplelink = $rootScope.wwwBase +"node/" + $scope.node.getLinkTitle() + "/" + nodeId;
+                $scope.simplelink = $rootScope.wwwBase + $scope.module.name +"/" + "node/" + $scope.node.getLinkTitle() + "/" + nodeId;
             });
         }
 
@@ -333,12 +333,12 @@ angular.
                 if($scope.node.addRelation){
                     //AddNode & Terug naar de 'parent' waar deze node aan is toegevoegd
                     Nodes.addNode($scope.node, function (newId) {
-                        $state.go("node.tab", {"nodeId": $scope.node.addRelation.sourceId, "tab": "details"},{"reload": true});
+                        $state.go("module.node.tab", {"nodeId": $scope.node.addRelation.sourceId, "tab": "details"},{"reload": true});
                     })
                 } else {
                     //AddNode & Nieuwe node laten zien
                     Nodes.addNode($scope.node, function (newId) {
-                        $state.go("node.tab", {"nodeId": newId, "tab": "edit"});
+                        $state.go("module.node.tab", {"nodeId": newId, "tab": "edit"});
                     })
                 }
             } else {
@@ -404,7 +404,7 @@ angular.
 
         $scope.addRelatedNode = function(type, relation){
             //TOD: ander type, ophalen uit entity.relations!
-            $state.go("node.newrelated", {"type": type, "relation": relation}, {"reload": true});
+            $state.go("module.node.newrelated", {"type": type, "relation": relation}, {"reload": true});
         }
 
         $scope.getTokenLink = function(){
@@ -452,9 +452,33 @@ angular.
               theme : 'modern'
           };
 
+          $scope.tinymceOptionsSmall = {
+              relative_urls : false,
+              paste_as_text: true,
+              height: 240,
+              indent: false,
+              inline: false,
+              menubar: false,
+              plugins : 'advlist autolink link image lists charmap print preview paste media code textcolor',
+              toolbar: [
+                  'pastetext | undo redo | bold italic forecolor | link | bullist numlist'
+              ],
+              skin: 'lightgray',
+              theme : 'modern'
+          };
 
+          $scope.saveCurrent = function(){
+              window.localStorage.setItem("current", JSON.stringify($scope.current));
+          }
 
-          if(this.nodeId && $state.current.name != "node.newrelated") {
+          $scope.current = window.localStorage.getItem("current");
+          if($scope.current){
+              $scope.current = JSON.parse($scope.current);
+          } else {
+              $scope.current = {};
+          }
+
+        if(this.nodeId && $state.current.name != "module.node.newrelated") {
             this.loadNode(this.nodeId);
         } else {
             this.emptyNode($stateParams.type, $stateParams.relation);

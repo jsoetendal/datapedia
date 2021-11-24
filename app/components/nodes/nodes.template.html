@@ -44,7 +44,7 @@
                             <span>Filteren</span>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" ng-show="entity.views.length > 1">
                         <a class="nav-link dropdown-toggle clear" href="" data-toggle="dropdown" aria-expanded="false">
                             <span>Weergave</span>
                         </a>
@@ -64,7 +64,7 @@
                         </a>
                         <ul class="dropdown-menu pull-right ng-scope p-a" style="white-space: nowrap">
                             <li><a ng-click="addNode()"><i class="fa fa-plus m-r"></i> {{entity.single}}</a></li>
-                            <li><a ui-sref="import({type: entity.type})" ng-if="user.isContributorOrUp"><i class="fa fa-upload m-r"></i>
+                            <li><a ui-sref="module.import({type: entity.type})" ng-if="user.isContributorOrUp"><i class="fa fa-upload m-r"></i>
                                 {{entity.plural}} importeren</a></li>
                         </ul>
                     </li>

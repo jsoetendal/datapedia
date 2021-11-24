@@ -1,0 +1,38 @@
+<div>
+    <div class="box incontent">
+        <div class="box-header">
+            <h3 class="text-primary">Landelijke voorzieningen & resources</h3>
+        </div>
+        <div class="box-divider"></div>
+        <div class="box-body">
+            <ul class="list inset">
+                <li class="list-item" ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
+                    <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
+                        <span class="w-40 r-2x _600 text-lg light text-grey">
+                            <i class="fa fa-database" ng-if="related.data.Type == 'Databron'"></i>
+                            <i class="fa fa-mobile-phone" ng-if="related.data.Type == 'Applicatie'"></i>
+                            <i class="fa fa-file-o" ng-if="related.data.Type == 'Handleiding'"></i>
+                            <i class="fa fa-globe" ng-if="related.data.Type == 'Website'"></i>
+                            <i class="fa fa-briefcase" ng-if="related.data.Type == 'Project'"></i>
+                        </span>
+                    </a>
+                    <div class="list-body">
+                        <div class="m-y-sm pull-right">
+                            <a ui-sref="module.node.tab({'nodeId': related.nodeId, 'tab': 'edit'})" class=" btn btn-xs white btn-icon"><i class="fa fa-pencil"></i></a>
+                        </div>
+                        <div><a ui-sref="module.node({'nodeId': related.nodeId})"><strong>{{related.title}}</strong></a></div>
+                        <div class="text-sm"><span class="text-muted">{{related.data.Type}}</span></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item">
+                    <div class="list-body">
+                        <div class="m-y-sm pull-right" ng-click="addRelatedNode(relatie.type, relatie.key)">
+                            <a href="" class="btn btn-xs white"><i class="fa fa-plus"></i> <span style="font-weight: 400">Voorziening toevoegen</span></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

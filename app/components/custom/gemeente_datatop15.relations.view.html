@@ -1,4 +1,4 @@
-<div class="box-header">
+<!--<div class="box-header">
     <h3>{{relatie.label}}</h3>
     <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
 </div>
@@ -7,14 +7,28 @@
         <tr ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
             <td>{{related.title}}</td>
             <td>
-                <div ng-if="!related.datarelation['status'] || related.datarelation['status'] == 'Onbekend'"  class="status-score YlGnBu q-1-5">-</div>
-                <div ng-if="related.datarelation['status'] == 'Nog niet gestart'"  class="status-score YlGnBu q0-5">1</div>
-                <div ng-if="related.datarelation['status'] == 'Orienterend'"  class="status-score YlGnBu q1-5">2</div>
-                <div ng-if="related.datarelation['status'] == 'Aan de slag'"  class="status-score YlGnBu q2-5">3</div>
-                <div ng-if="related.datarelation['status'] == 'Goed bezig'"  class="status-score YlGnBu q3-5">4</div>
-                <div ng-if="related.datarelation['status'] == 'Compleet'"  class="status-score YlGnBu q4-5">5</div>
+                <div ng-if="!related.datarelation['status'] || related.datarelation['status'] == 'Onbekend' || related.datarelation['status'] == '0 - Onbekend' "  class="status-score YlGnBu q-1-5">-</div>
+                <div ng-if="related.datarelation['status'] == 'Nog niet gestart' || related.datarelation['status'] == '1 - Nog niet gestart'"  class="status-score YlGnBu q0-5">1</div>
+                <div ng-if="related.datarelation['status'] == 'Orienterend' || related.datarelation['status'] == '2 - Orienterend'"  class="status-score YlGnBu q1-5">2</div>
+                <div ng-if="related.datarelation['status'] == 'Aan de slag' || related.datarelation['status'] == '3 - Aan de slag'"  class="status-score YlGnBu q2-5">3</div>
+                <div ng-if="related.datarelation['status'] == 'Goed bezig' || related.datarelation['status'] == '4 - Goed bezig'"  class="status-score YlGnBu q3-5">4</div>
+                <div ng-if="related.datarelation['status'] == 'Compleet' || related.datarelation['status'] == '5 - Compleet'"  class="status-score YlGnBu q4-5">5</div>
             </td>
             <td>{{related.datarelation["status"]}}</td>
         </tr>
     </table>
+</div>
+-->
+<div class="box-header b-b" ng-repeat-start="related in node.relations[relatie.key] | orderBy: ['title']">
+    <h3 class="text-primary" ui-sref="module.node({nodeId: related.nodeId})">{{related.title}}</h3>
+</div>
+<div class="box-body" ng-repeat-end>
+    <div ng-if="!related.datarelation['status'] || related.datarelation['status'] == 'Onbekend' || related.datarelation['status'] == '0 - Onbekend' "  class="status-scorel YlGnBu q-1-5">-</div>
+    <div ng-if="related.datarelation['status'] == 'Nog niet gestart' || related.datarelation['status'] == '1 - Nog niet gestart'"  class="status-scorel YlGnBu q0-5">1</div>
+    <div ng-if="related.datarelation['status'] == 'Orienterend' || related.datarelation['status'] == '2 - Orienterend'"  class="status-scorel YlGnBu q1-5">2</div>
+    <div ng-if="related.datarelation['status'] == 'Aan de slag' || related.datarelation['status'] == '3 - Aan de slag'"  class="status-scorel YlGnBu q2-5">3</div>
+    <div ng-if="related.datarelation['status'] == 'Goed bezig' || related.datarelation['status'] == '4 - Goed bezig'"  class="status-scorel YlGnBu q3-5">4</div>
+    <div ng-if="related.datarelation['status'] == 'Compleet' || related.datarelation['status'] == '5 - Compleet'"  class="status-scorel YlGnBu q4-5">5</div>
+    <strong ng-hide="related.datarelation['status'] == 'Niet van toepassing'">{{related.datarelation["status"]|substr:3}}</strong>
+    <strong ng-show="related.datarelation['status'] == 'Niet van toepassing'">{{related.datarelation["status"]}}</strong>
 </div>

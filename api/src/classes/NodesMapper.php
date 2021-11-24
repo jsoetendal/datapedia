@@ -204,6 +204,10 @@ class NodesMapper extends Mapper
                 $record[$key] = $val;
             }elseif($key == "data"){
                 $jsonData = $data[$key];
+                if($jsonData["attachments"]){
+                    $attachments = $jsonData["attachments"];
+                    unset($jsonData["attachments"]); //Should not be added to record, should be uploaded first
+                }
             }elseif($key == "imgUrl") {
                 if (is_array($data["imgUrl"]) || is_object($data["imgUrl"])) {
                     //Object uploaden nadat newId bekend is
@@ -240,6 +244,17 @@ class NodesMapper extends Mapper
             if ($addRelation) {
                 $addRelation["targetId"] = $newId;
                 $this->addRelation($addRelation, $token);
+            }
+            //Upload new attachments
+            if($attachments && count($attachments) > 0){
+                $jsonData["attachments"] = $attachments; //Add to jsonData again
+                foreach($jsonData["attachments"] as $key => $att){
+                    if($att["src"]) {
+                        $jsonData["attachments"][$key]["hash"] = $this->uploadFileData($newId, $att);
+                        unset($jsonData["attachments"][$key]["src"]);
+                    }
+                }
+                $this->db->doUpdate("nodes", ["data" => json_encode($jsonData)],["nodeId" => $newId]);
             }
             return ["nodeId" => $newId];
         } else {
@@ -319,7 +334,7 @@ class NodesMapper extends Mapper
                 foreach($rels as $relation){
                     if($relation["datarelation"]){
                         $json = json_encode($relation["datarelation"]);
-                        $this->db->doSQL("UPDATE relations SET data = '". $json ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
+                        $this->db->doSQL("UPDATE relations SET data = '". $this->db->escape($json) ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
                     }
                 }
             }
@@ -327,7 +342,7 @@ class NodesMapper extends Mapper
                 foreach($rels as $relation){
                     if($relation["datarelation"]){
                         $json = json_encode($relation["datarelation"]);
-                        $this->db->doSQL("UPDATE relations SET data = '". $json ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
+                        $this->db->doSQL("UPDATE relations SET data = '". $this->db->escape($json) ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
                     }
                 }
             }

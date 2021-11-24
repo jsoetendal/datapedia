@@ -219,8 +219,24 @@ component('settings', {
                 }
             }
 
+            $scope.addTemplates = function(item){
+                if(!item.templates) item.templates = {'input': '', view:''}
+            }
+
+            $scope.deleteTemplates = function(item){
+                delete item.templates;
+            }
+
+            $scope.addDataview = function(entity){
+                console.log(entity);
+                if(!entity.dataview) entity.dataview = "...";
+            }
+
+            $scope.deleteDataview = function(entity){
+                delete entity.dataview;
+            }
+
             $scope.setAdminTab = function(tab){
-                console.log($scope.tab);
                 $scope.tab = tab;
                 if(!$scope.tab) $scope.tab = "entities";
             }

@@ -68,6 +68,25 @@
                                                             <div class="col-sm-10"><textarea class="form-control" rows="2" ng-model="selected.entity.introduction"></textarea></div>
                                                         </div>
                                                         <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Afbeelding</label>
+                                                            <div class="col-sm-10">
+                                                                <label><input type="checkbox" ng-model="selected.entity.image">Afbeelding kunnen toevoegen aan item</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Bijlage(n)</label>
+                                                            <div class="col-sm-10">
+                                                                <label><input type="checkbox" ng-model="selected.entity.attachments">Bijlage(n) kunnen toevoegen aan item</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row" ng-show="selected.entity.attachments">
+                                                            <label class="col-sm-2 form-control-label"></label>
+                                                            <div class="col-sm-10">
+                                                                <label><input type="checkbox" ng-model="selected.entity.attachmentsPrimary">Bijlagen zijn primair voor deze entiteit</label>
+                                                                <br/><small class="text-muted">Een bijlage is primair voor een entiteit, als het besand of bijlage het belangrijkste onderdeel van de entiteit is. Bijv. een entiteit 'Bestand' of 'Document'.<br/>In alle andere gevallen betreft het een normale 'bijlage' en hoeft deze optie niet aangevinkt te worden.</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
                                                             <label class="col-sm-2 form-control-label">Achtergrond (url)</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" ng-model="selected.entity.background">
@@ -84,7 +103,7 @@
                                                             <div class="checkbox col-sm-10 col-sm-offset-2"><label><input type="checkbox" ng-model="selected.entity.path.multiple">Meerdere paths bij een {{selected.entity.single.toLowerCase()}}</label></div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-sm-1 form-control-label">Weergave</label>
+                                                            <label class="col-sm-1 form-control-label">Lijstweergave</label>
                                                             <label class="col-sm-1 form-control-label">primair:</label>
                                                             <div class="col-sm-10">
                                                                 <select class="form-control" ng-model="selected.entity.views[0]">
@@ -108,6 +127,34 @@
                                                                 <input type="text" class="form-control" ng-model="selected.entity.custom">
                                                             </div>
                                                         </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Dataweergave</label>
+                                                            <div class="col-sm-10" ng-if="!selected.entity.dataview">
+                                                                <strong>Standaard</strong>
+                                                                <br/><a ng-click="addDataview(selected.entity)"><span class="text-muted">Custom weergave activeren</span></a>
+                                                            </div>
+                                                            <div class="col-sm-10" ng-if="selected.entity.dataview">
+                                                                <input type="text" class="form-control" ng-model="selected.entity.dataview">
+                                                                URL voor custom view
+                                                                <br/><a ng-click="deleteDataview(selected.entity)"><span class="text-muted">Custom weergave deactiveren</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Toegang beperken</label>
+                                                            <div class="col-sm-10" ng-if="!selected.entity.restricted">
+                                                                <strong>Geen toegangsbeperking</strong>
+                                                                <br/><a ng-click="selected.entity.restricted = []"><span class="text-muted">Toegangsbeperking activeren</span></a>
+                                                            </div>
+                                                            <div class="col-sm-10" ng-if="selected.entity.restricted">
+                                                                <div class='m-b-sm' ng-repeat="optie in ['unauthenticated','contributor','editor','admin'] track by $index">
+                                                                    <add-toggle2 label="optie" arr="selected.entity.restricted"></add-toggle2>
+                                                                </div>
+                                                                <br/><a ng-click="selected.entity.restricted = null"><span class="text-muted">Toegangsbeperking deactiveren</span></a>
+                                                            </div>
+                                                        </div>
+
+
+
                                                         <div class="row">
                                                             <label class="col-sm-2">Facet search<br/><small class="text-muted">Selectie in linkerkolom</small></label>
                                                             <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.entity.facet.default">Standaard aan</label><br/><label><input type="checkbox" ng-model="selected.entity.facet.optional">Optioneel</label></div>
@@ -162,6 +209,7 @@
                                                                     <div class="col-sm-8">
                                                                         <select class="form-control" ng-model="item.type">
                                                                             <option value="text">Tekst</option>
+                                                                            <option value="textarea">Tekstveld (meerdere regels)</option>
                                                                             <option value="url">URL</option>
                                                                             <option value="enum">Meerkeuze</option>
                                                                             <option value="custom">Aangepast</option>
@@ -182,9 +230,32 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                <div class="form-group row">
                                                                     <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="item.required">Verplicht</label></div>
                                                                     <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="item.facet">Facet</label></div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-2 col-sm-offset-2 form-control-label">Speciale weergave</label>
+                                                                    <div class="col-sm-8"  ng-if="item.templates">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 form-control-label">Invoer</label>
+                                                                            <div class="col-sm-9">
+                                                                                <input class="form-control"  type="text" ng-model="item.templates.input">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 form-control-label">Weergave</label>
+                                                                            <div class="col-sm-9">
+                                                                                <input class="form-control"  type="text" ng-model="item.templates.view">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <a class="form-control-label" ng-click="deleteTemplates(item)">Speciale weergave deactiveren</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-8 form-control-label"  ng-if="!item.templates">
+                                                                        <a ng-click="addTemplates(item)">Speciale weergave activeren</a>
+                                                                    </div>
                                                                 </div>
 
                                                             </div>
@@ -258,9 +329,20 @@
                                                                             <input class="form-control" type="number" min="0" max="100" ng-model="relation.max">
                                                                         </div>
                                                                     </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 col-sm-offset-2 form-control-label">Positie in weergave</label>
+                                                                        <div class="col-sm-8">
+                                                                            <select class="form-control" ng-model="relation.position">
+                                                                                <option value="left">Links</option>
+                                                                                <option value="right">In de rechterkolom</option>
+                                                                                <option value="bottom">Onderaan over de volle breedte</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="row">
                                                                         <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="relation.facet">Opnemen als waarde in facet-selectie</label></div>
                                                                     </div>
+                                                                    <!--
                                                                     <div class="form-group row" ng-if="selected.entity.views[0]=='set'">
                                                                         <label class="col-sm-2 col-sm-offset-2 form-control-label">Kolommen</label>
                                                                         <div class="col-sm-8">
@@ -279,7 +361,8 @@
                                                                             <input class="form-control"  type="text" ng-model="relation.custom" ng-show="relation.view=='custom'">
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group row" ng-if="selected.entity.views[0] !='set'">
+                                                                    -->
+                                                                    <div class="form-group row" ng-if="true || selected.entity.views[0] !='set'">
                                                                         <label class="col-sm-2 col-sm-offset-2 form-control-label">Custom view</label>
                                                                         <div class="col-sm-8">
                                                                             <input class="form-control"  type="text" ng-model="relation.view">
@@ -307,7 +390,7 @@
                                                             <label class="col-sm-3 form-control-label">Relatie met:</label>
                                                             <div class="col-sm-9">
                                                                 <select ng-model='newrelationtype'>
-                                                                    <option ng-repeat="entity in settings.content.entities" ng-value="entity.key">{{entity.plural}}</option>
+                                                                    <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -383,6 +466,16 @@
                                                                             <input class="form-control" type="number" min="0" max="100" ng-model="relation.max">
                                                                         </div>
                                                                     </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 col-sm-offset-2 form-control-label">Positie in weergave</label>
+                                                                        <div class="col-sm-8">
+                                                                            <select class="form-control" ng-model="relation.position">
+                                                                                <option value="left">Links</option>
+                                                                                <option value="right">In de rechterkolom</option>
+                                                                                <option value="bottom">Onderaan over de volle breedte</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="row">
                                                                         <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="relation.facet">Opnemen als waarde in facet-selectie</label></div>
                                                                     </div>
@@ -427,8 +520,7 @@
                                                     <div ng-repeat-end="" class="box-divider"></div>
                                                     <div class="box-body">
                                                         <h5>Afhankelijkheid toevoegen</h5>
-
-                                                        <div class="form-group row" ng-show="selected.entity.dependencies.length > 0">
+                                                        <div class="form-group row" ng-show="selected.potentialDependencies.length > 0">
                                                             De volgende afhankelijkheden kunnen worden toegevoegd:
                                                             <table class="table">
                                                                 <thead>
@@ -449,7 +541,7 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <div class="form-group row" ng-hide="selected.entity.dependencies.length > 0">
+                                                        <div class="form-group row" ng-hide="selected.potentialDependencies.length > 0">
                                                             <smal class="text-muted">Er zijn geen relaties die als afhankelijkheid toegevoegd kunnen worden.</smal>
                                                         </div>
                                                     </div>

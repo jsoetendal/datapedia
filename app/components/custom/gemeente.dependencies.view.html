@@ -1,0 +1,39 @@
+<div>
+    <div class="box" ng-init="current.regio = current.regio ? current.regio : 'Noord-Holland & Flevoland'">
+        <div class="box-header primary">
+            <h3>Status wegbeheerders</h3>
+        </div>
+        <div class="box-divider"></div>
+        <div class="box-body p-a-0">
+            <div class="p-l p-t-sm">
+                <small class="text-muted">Regio</small><br/>
+                <div ng-click="showRegios =! showRegios" class="pointer"><i ng-show="showRegios" class="fa fa-chevron-up pull-right"></i><i ng-hide="showRegios" class="fa fa-chevron-down pull-right"></i>
+                    <strong style="font-size: 120%; font-weight: 500" ng-show="current.regio">{{current.regio}}</strong>
+                    <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
+                </div>
+                <ul ng-show="showRegios">
+                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent();">Zuid-Nederland</li>
+                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent();">Zuidwest-Nederland</li>
+                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent();">Oost-Nederland</li>
+                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent();">Noord-Nederland</li>
+                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();">Noord-Holland & Flevoland</li>
+                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent();">Utrecht</li>
+                </ul>
+            </div>
+            <ul class="list no-border p-b">
+                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['-datarelation.status', 'title'] | filter: {$: current.regio} | limitTo: 10">
+                    <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
+                        <span class="w-40">
+                            <img src="{{related.imgUrl}}" style="width: 100%">
+                        </span>
+                    </a>
+                    <div class="list-body">
+                        <div><a ui-sref="module.node({'nodeId': related.nodeId})"><strong>{{related.title}}</strong></a></div>
+                        <small class="text-muted text-ellipsis">{{related.datarelation.status}}</small>
+                    </div>
+                </li>
+            </ul>
+            <a ng-click="current.item={'title': node.title, 'nodeId': node.nodeId}; saveCurrent();" ui-sref="module.nodes({type: 'gemeente'})">Meer &gt;&gt;</a>
+        </div>
+    </div>
+</div>

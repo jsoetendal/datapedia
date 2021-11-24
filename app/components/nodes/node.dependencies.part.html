@@ -1,0 +1,19 @@
+<div> <!-- 1 element for template -->
+    <div ng-if="dependency.view && dependency.view.indexOf('.') > -1" ui-include="'{{dependency.view}}'"></div>
+    <div class='box donker' ng-if="(!dependency.view || dependency.view.indexOf('.') == -1) && node.dependencies[dependency.key] && node.dependencies[dependency.key].length > 0">
+        <div class="box-header">
+            <h3>{{dependency.label}}</h3>
+            <small ng-show="dependency.description" class="text-muted"><i>{{dependency.description}}</i></small>
+        </div>
+        <div class="box-body">
+            <ul>
+                <li ng-repeat="dependent in node.dependencies[dependency.key]"><a ui-sref="module.node({'modulename': module.name, nodeId: dependent.nodeId})">{{dependent.title}}</a></li>
+                <dl ng-if="dependency.data.length > 0" class="table">
+                    <dt ng-repeat-start="row in dependency.data" ng-if="dependent.datarelation[row.key]">{{row.label}}</dt>
+                    <dd ng-repeat-end>{{dependent.datarelation[row.key]}}</dd>
+                </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

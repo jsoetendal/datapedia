@@ -37,14 +37,19 @@
     <link rel="stylesheet" href="themes/assets/styles/app.css" type="text/css" />
     <!-- endbuild -->
     <link rel="stylesheet" href="themes/assets/styles/font.css" type="text/css" />
+      <!-- Leaflet CSS (Bij Leaflet altijd eerst CSS laden) -->
+      <link rel="stylesheet" href="libs/leaflet/leaflet.css">
+      <!-- Leaflet JS (Bij Leaflet altijd als tweede pas JS laden) -->
+      <script src="libs/leaflet/leaflet.js"></script>
+      <script src="libs/wicket.js"></script>
 
     <link rel="stylesheet" href="themes/specific.css"/>
   </head>
   <body>
   <!--
   <div id="warningMsg" class="extradonker" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; z-index: 9999"><i class="fa fa-exclamation-triangle"></i> Help jij mee de Datapedia compleet te maken? Voeg (zonder inloggen) een suggestie toe, of <a ui-sref="signup">maak een account aan</a>!</div>
-  -->
   <div id="warningMsg" class="extradonker" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; z-index: 9999"><i class="fa fa-exclamation-triangle"></i> Wegbeheerder in Noord-Holland en Flevoland en op zoek naar hulp bij de digitaliseringsopgave? Neem contact op met het <a ui-sref="node({'nodeId': 1220})">Regionaal Datateam</a>!</div>
+  -->
   <div class="app" id="app">
 
       <div ui-view>
@@ -147,13 +152,13 @@
     <script src="app/components/import/import.controller.js"></script>
     <script src="app/components/import/dataoverheid.controller.js"></script>
     <script src="app/settings/diverse.controllers.js"></script>
-    <script src="app/components/custom/datatop15.controller.js"></script>
     <script src="app/settings/user.js"></script>
     <script src="app/settings/setup.js"></script>
     <script src="app/ui-include.js"></script>
 
     <!-- Custom controllers -->
-    <script src="app/components/custom/intake.controller.js"></script>
+    <!--<script src="app/components/custom/intake.controller.js"></script>-->
+    <script src="app/components/custom/datatop15.controller.js"></script>
 
 
 <!-- endbuild -->

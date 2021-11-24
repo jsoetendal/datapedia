@@ -2,44 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/components/admin/admin.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/admin.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/content.changes.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/content.deletes.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/content.suggestions.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/main/header.part.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/main/start.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/main/start.template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/module/module.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/module/module.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/contactpersonen.dependencies.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/datatop15items.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/documenten.relations.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/gemeente.dependencies.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/gemeentes.template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/custom/voorzieningen.relations.view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/nodes/node.dependencies.part.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/nodes/node.relations.part.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.ctrl.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.ctrl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.module.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/content.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/content.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/content.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/content.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/classes/NodesMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/classes/NodesMapper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/admin/settings.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/agenda.list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/agenda.list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.dependencies.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.dependencies.view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.list.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.list.view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.rows.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.rows.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/intake.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/intake.view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/nodes.simpletree.accordion.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/nodes.simpletree.accordion.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/onderwerp.kolommen.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/onderwerp.kolommen.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/relation.dataset.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/relation.dataset.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/gemeente_datatop15.relations.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/gemeente_datatop15.relations.view.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/main/main.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/main.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/start.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/start.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/node.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/node.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/users/users.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/users/users.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/settings/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/settings/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/themes/specific.css" beforeDir="false" afterPath="$PROJECT_DIR$/themes/specific.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +115,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JQL" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/custom" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
@@ -135,11 +123,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\app\components\custom" />
+      <recent name="C:\www\datapedia\app\components\nodes" />
       <recent name="C:\www\datapedia\app\components\admin" />
       <recent name="C:\www\datapedia\app\components\module" />
       <recent name="C:\www\datapedia\app\components\main" />
-      <recent name="C:\www\datapedia\app\components\custom" />
-      <recent name="C:\www\datapedia\app\settings" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\www\datapedia\app\components\admin" />
@@ -345,7 +333,20 @@
       <workItem from="1635933544986" duration="13881000" />
       <workItem from="1636015796330" duration="240000" />
       <workItem from="1636098724844" duration="7296000" />
-      <workItem from="1636456806576" duration="4578000" />
+      <workItem from="1636456806576" duration="5909000" />
+      <workItem from="1636530584704" duration="320000" />
+      <workItem from="1636557190212" duration="5108000" />
+      <workItem from="1636616927967" duration="604000" />
+      <workItem from="1636623500173" duration="17407000" />
+      <workItem from="1636702254519" duration="8112000" />
+      <workItem from="1636961659505" duration="11257000" />
+      <workItem from="1637069646197" duration="334000" />
+      <workItem from="1637133695702" duration="19770000" />
+      <workItem from="1637238972364" duration="17000" />
+      <workItem from="1637248054229" duration="4174000" />
+      <workItem from="1637320919640" duration="1450000" />
+      <workItem from="1637570089224" duration="6679000" />
+      <workItem from="1637599739589" duration="13000" />
     </task>
     <servers />
   </component>
