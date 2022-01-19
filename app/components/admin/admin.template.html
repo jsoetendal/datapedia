@@ -1,0 +1,111 @@
+<header ui-include="'app/components/main/header.part.template.html'">
+</header>
+<div id="aside" class="app-aside modal fade nav-dropdown">
+	<div class="left navside dark dk" layout="column">
+		<div class="navbar no-radius">
+			<a class="navbar-brand ng-scope">
+				<span class="hidden-folded inline ng-binding">Datapedia Admin</span>
+			</a>
+		</div>
+		<div flex="" class="hide-scroll">
+			<nav class="scroll">
+				<ul class="nav" ui-nav>
+					<li class="nav-header hidden-folded"><small class="text-muted">Contentbeheer</small></li>
+					<li ui-sref-active="active">
+						<a ui-sref="admin.content.tab({'tab': 'suggestions'})">
+                        <span class="nav-icon">
+                            <i class='fa fa-lightbulb-o'></i>
+                        </span>
+							<span class="nav-text">Suggesties</span>
+						</a>
+					</li>
+					<li ui-sref-active="active">
+						<a ui-sref="admin.content.tab({'tab': 'changes'})">
+                        <span class="nav-icon">
+                            <i class='fa fa-edit'></i>
+                        </span>
+							<span class="nav-text">Wijzigingen</span>
+						</a>
+					</li>
+					<li ui-sref-active="active">
+						<a ui-sref="admin.content.tab({'tab': 'deletes'})">
+                        <span class="nav-icon">
+                            <i class='fa fa-trash'></i>
+                        </span>
+							<span class="nav-text">Verwijderd</span>
+						</a>
+					</li>
+
+					<li class="nav-header hidden-folded"><small class="text-muted">Gebruikersbeheer</small></li>
+					<li ui-sref-active="active">
+						<a ui-sref="admin.users">
+                        <span class="nav-icon">
+                            <i class='fa fa-group'></i>
+                        </span>
+							<span class="nav-text">Gebruikers</span>
+						</a>
+					</li>
+					<li class="nav-header hidden-folded"><small class="text-muted">Contentstructuur</small></li>
+					<li ui-sref-active="active">
+						<a ui-sref="admin.settings.tab({'tab': 'entities'})" ng-click="setAdminTab('entities')">
+                        <span class="nav-icon">
+                            <i class='fa fa-cube'></i>
+                        </span>
+							<span class="nav-text">Entiteiten</span>
+						</a>
+					</li>
+					<li ui-sref-active="active">
+						<a ui-sref="admin.settings.tab({'tab': 'navigation'})" ng-click="setAdminTab('navigation')">
+                        <span class="nav-icon">
+                            <i class='fa fa-sitemap'></i>
+                        </span>
+							<span class="nav-text">Modules & navigatie</span>
+						</a>
+					</li>
+					<!--
+					<li ui-sref-active="active">
+						<a ui-sref="wensen">
+                    <span class="nav-caret">
+                      <i class="fa fa-caret-down"></i>
+                    </span>
+							<span class="nav-icon">
+                        <i class='fa fa-list-ol'></i>
+                    </span>
+							<span class="nav-text">Entiteiten</span>
+						</a>
+						<ul class="nav-sub">
+							<li ui-sref-active="active">
+								<a ui-sref="wensen.persoonlijk"><span class="nav-text" translate="MENU.WENSEN.PERSOONLIJK">Persoonlijk</span></a>
+							</li>
+							<li ui-sref-active="active">
+								<a ui-sref="wensen.financieel"><span class="nav-text" translate="MENU.WENSEN.FINANCIEEL">Financieel</span></a>
+							</li>
+							<li ui-sref-active="active">
+								<a ui-sref="wensen.locatie"><span class="nav-text" translate="MENU.WENSEN.LOCATIE">Locatie</span></a>
+							</li>
+							<li ui-sref-active="active">
+								<a ui-sref="wensen.huis"><span class="nav-text" translate="MENU.WENSEN.HUIS">Huis</span></a>
+							</li>
+							<li ui-sref-active="active">
+								<a ui-sref="wensen.voorzieningen"><span class="nav-text" translate="MENU.WENSEN.VOORZIENINGEN">Voorzieningen</span></a>
+							</li>
+							<li ui-sref-active="active">
+								<a ui-sref="wensen.prioriteiten"><span class="nav-text" translate="MENU.WENSEN.PRIORITEITEN">Prioriteiten</span></a>
+							</li>
+						</ul>
+					</li>
+					-->
+				</ul>
+				<div ui-sref="start" class="btn btn-danger btn-sm m-l m-t"><i class="fa fa-chevron-left"></i> Homepage</div>
+			</nav>
+		</div>
+	</div>
+</div>
+
+<!-- content -->
+<div id="admincontent" role="main" style="padding-top: 5rem">
+    <div class="app-body" id="view" ui-view>
+        <!-- ############ PAGE START-->
+    </div>
+
+</div> <!-- content -->

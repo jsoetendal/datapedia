@@ -1,0 +1,19 @@
+<div> <!-- 1 element for template -->
+    <div ng-if="relatie.view && relatie.view.indexOf('.') > -1" ui-include="'{{relatie.view}}'"></div>
+    <div class='box donker' ng-if="(!relatie.view || relatie.view.indexOf('.') == -1) && node.relations[relatie.key] && node.relations[relatie.key].length > 0">
+        <div class="box-header">
+            <h3>{{relatie.label}}</h3>
+            <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
+        </div>
+        <div class="box-body">
+            <ul>
+                <li ng-repeat="related in node.relations[relatie.key]"><a ui-sref="module.node({'modulename': module.name, nodeId: related.nodeId})">{{related.title}}</a></li>
+                <dl ng-if="relatie.data.length > 0" class="table">
+                    <dt ng-repeat-start="row in relatie.data" ng-if="related.datarelation[row.key]">{{row.label}}</dt>
+                    <dd ng-repeat-end>{{related.datarelation[row.key]}}</dd>
+                </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

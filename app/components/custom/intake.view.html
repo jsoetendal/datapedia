@@ -29,7 +29,7 @@
         <div class="box">
             <div class="box-header">
                 <h2>{{item.title}}</h2>
-                <small><a ui-sref="node({nodeId: item.nodeId})" target="_blank">Meer informatie over dit onderdeel</a></small>
+                <small><a ui-sref="module.node({'modulename': module.name, nodeId: item.nodeId})" target="_blank">Meer informatie over dit onderdeel</a></small>
             </div>
             <div class="box-divider"></div>
             <div class="box-body">

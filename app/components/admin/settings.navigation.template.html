@@ -1,0 +1,210 @@
+<div class="row-col ng-scope">
+    <div class="col-sm w w-auto-xs light lt bg-auto">
+        <div class="pos-rlt">
+            <div class="btn btn-sm btn-primary m-b m-t m-l-sm" ng-click="saveSettings()"><i class="fa fa-save"></i> Alles opslaan</div>
+            <div class="m-b" ng-repeat="module in settings.modules">
+                <strong class="m-l-sm text-primary" style="font-size: 120%; cursor:pointer" ng-click="selectNav(module,null)">{{module.title}}</strong><br/>
+                <ul class="list-group light lt my">
+                    <li  class="list-group-item" ng-repeat="nav in module.navigation" style="cursor: pointer" ng-click="selectNav(module, nav)">
+                        <span class="block _500">{{nav.label}}</span>
+                        <ul ng-if="nav.sub.length > 0">
+                            <li ng-repeat="sub in nav.sub">
+                                {{sub.label}}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="btn btn-sm btn-primary m-t m-l-sm" ng-click="addNav(module);" ng-show="selected.module == module"><i class="fa fa-plus"></i> Menu-item toevoegen</div>
+            </div>
+            <div class="box-footer">
+                <div class="btn btn-sm btn-primary" ng-click="addModule(module);"><i class="fa fa-plus"></i> Module toevoegen</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="padding" style="">
+            <div class="row m-t" ng-if="selected.module && !selected.nav">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="btn btn-primary pull-right" ng-click="selectNav(null)">&lt; Terug</div>
+                            <div class="btn btn-primary pull-right m-r-3" ng-click="arrUp(settings.modules, selected.module)"><i class="fa fa-caret-down"></i></div>
+                            <div class="btn btn-primary pull-right m-r-sm" ng-click="arrDown(settings.modules, selected.module)"><i class="fa fa-caret-up"></i></div>
+                            <h1>{{selected.module.name}}</h1>
+                        </div>
+                        <div class="box-body">
+                            <form role="form" class="ng-pristine ng-valid">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Naam</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.module.name">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Titel</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.module.title">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Beschrijving</label>
+                                    <div class="col-sm-10"><textarea class="form-control" rows="2" ng-model="selected.module.introduction"></textarea></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Image URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.module.image">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Background URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.module.background">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-t" ng-if="selected.nav">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="btn btn-primary pull-right" ng-click="selectNav(null)">&lt; Terug</div>
+                            <div class="btn btn-primary pull-right m-r-3" ng-click="arrUp(selected.module.navigation, selected.nav)"><i class="fa fa-caret-down"></i></div>
+                            <div class="btn btn-primary pull-right m-r-sm" ng-click="arrDown(selected.module.navigation, selected.nav)"><i class="fa fa-caret-up"></i></div>
+                            <h1>{{selected.nav.label}}</h1>
+                        </div>
+                        <div class="box-body">
+                            <form role="form" class="ng-pristine ng-valid">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Label</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.nav.label">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Weergave</label>
+                                    <div class="col-sm-10">
+                                        <select ng-model="selected.nav.state" class="form-control">
+                                            <option value="module.nodes">Type entiteit</option>
+                                            <option value="module.node">Specifieke node</option>
+                                            <option ng-repeat="state in states" ng-value="state.name">{{state.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row" ng-show="selected.nav.state == 'module.nodes'">
+                                    <label class="col-sm-2 form-control-label">Entiteit</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" ng-model="selectedType" ng-init="selectedType = selected.nav.details.type" ng-change="setNavDetailsType(selected.nav, selectedType)">
+                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
+                                            <option ng-value="zoeken">zoeken</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Details</label>
+                                    <div class="col-sm-10">
+                                        {{selected.nav.details}}
+                                        <!--<input type="text" class="form-control" ng-model="selected.nav.details">-->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">URL (voor SEO)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.nav.url">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Zichtbaar voor:</label>
+                                    <div class="col-sm-10 p-t">
+                                        <div class='m-b-sm' ng-repeat="optie in ['unauthenticated','contributor','editor','admin'] track by $index">
+                                            <add-toggle2 label="optie" arr="selected.nav.roles"></add-toggle2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Subitems</label>
+                                    <div class="col-sm-10">
+                                        <div ng-repeat="sub in selected.nav.sub">
+                                            <div class="box-body">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label"><i class="fa fa-caret-right"></i> Label</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" ng-model="sub.label">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label">Weergave</label>
+                                                    <div class="col-sm-10">
+                                                        <select ng-model="sub.state" class="form-control">
+                                                            <option value="module.nodes">Type entiteit</option>
+                                                            <option value="module.node">Specifieke node</option>
+                                                            <option ng-repeat="state in states" ng-value="state.name">{{state.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" ng-show="sub.state == 'module.nodes'">
+                                                    <label class="col-sm-2 form-control-label">Entiteit</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-control" ng-model="selectedType" ng-change="setNavDetailsType(sub, selectedType)">
+                                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" ng-show="sub.state == 'module.node'">
+                                                    <label class="col-sm-2 form-control-label">NodeId</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="number" ng-model="sub.details.nodeId" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label">Details</label>
+                                                    <div class="col-sm-10">
+                                                        {{sub.details}}
+                                                        <!--<input type="text" class="form-control" ng-model="sub.details">-->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label">URL (voor SEO)</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" ng-model="sub.url">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label"></label>
+                                                    <div class="col-sm-10">
+                                                        <div class="btn btn-primary btn-sm" ng-click="arrDown(selected.nav.sub, sub)"><i class="fa fa-caret-up"></i></div>
+                                                        <div class="btn btn-primary btn-sm" ng-click="arrUp(selected.nav.sub, sub)"><i class="fa fa-caret-down"></i></div>
+                                                        <a class="text-danger pull-right" ng-click="deleteSubNav(selected.nav, sub);"><i class="fa fa-times"></i> verwijderen</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn btn-sm btn-primary" ng-click="addSubNav(selected.nav);"><i class="fa fa-plus"></i> Sub-item toevoegen</div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="btn btn-sm btn-danger" ng-click="deleteNav(selected.module, selected.nav);"><i class="fa fa-times"></i> Verwijderen</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-t" ng-hide="selected.module">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    <div class="row ng-scope">
+        <div class="col-sm-3 col-lg-2 light lt">
+        </div>
+
+    </div>

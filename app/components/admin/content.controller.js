@@ -20,7 +20,16 @@ component('contentbeheer', {
                 })
             }
 
+
+            $scope.setContentTab = function(tab){
+                $scope.tab = tab;
+                if(!$scope.tab) $scope.tab = "suggestions";
+            }
+
+            $scope.selected = {"entity": null };
             this.loadContent();
+            $scope.setContentTab($stateParams.tab);
+
         }
     ]
 });

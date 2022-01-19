@@ -60,6 +60,10 @@ header .navbar{
     margin: 0px auto;
 }
 
+#admincontent{
+    margin-left: 200px;
+}
+
 .background{
     background-image: url("app/images/fietsfile.jpg");
     background-repeat: no-repeat;
@@ -202,6 +206,14 @@ ul.relatie li{
     border: 1px solid silver;
     border-radius: 5px;
 }
+.status-scorel{
+    float: left;
+    padding: 2px 10px;
+    width: 2rem;
+    margin: 0px 10px 0px 0px;
+    border: 1px solid silver;
+    border-radius: 5px;
+}
 
 .status-blokje{
     float: left;
@@ -231,31 +243,41 @@ ul.relatie li{
 .YlGnBu{
     color: white;
 }
-.YlGnBu.q-1-5{
+.YlGnBu.q-1-5, .YlGnBu.s-0-5{
     fill:rgb(244,244,244);
     background-color:rgb(244,244,244);
 }
-.YlGnBu.q0-5{
+.YlGnBu.q0-5, .YlGnBu.s1-5{
     fill:rgb(255,255,204);
     background-color:rgb(255,255,204);
 }
-.YlGnBu.q1-5{
+.YlGnBu.q1-5, .YlGnBu.s2-5{
     fill:rgb(161,218,180);
     background-color:rgb(161,218,180);
 }
-.YlGnBu.q2-5{
+.YlGnBu.q2-5, .YlGnBu.s3-5{
     fill:rgb(65,182,196);
     background-color:rgb(65,182,196);
 }
-.YlGnBu.q3-5{
+.YlGnBu.q3-5, .YlGnBu.s4-5{
     fill:rgb(44,127,184);
     background-color:rgb(44,127,184);
 }
-.YlGnBu.q4-5{
+.YlGnBu.q4-5, .YlGnBu.s5-5{
     fill:rgb(37,52,148);
     background-color:rgb(37,52,148);
 }
 
+.nodegeo{
+    fill: #FFF;
+}
+
+.nodegeo.status1{ fill:rgb(255,255,204); }
+.nodegeo.status2{ fill:rgb(161,218,180); }
+.nodegeo.status3{ fill:rgb(65,182,196); }
+.nodegeo.status4{ fill:rgb(44,127,184); }
+.nodegeo.status5{ fill:rgb(37,52,148); }
+.nodegeo.statusN{ fill:rgb(244,244,244); }
 
 ul.frontpage{
     padding: 0px;
@@ -300,3 +322,9 @@ ul.intakenav li.active {
     color: var(--primary);
     font-weight: bold;
 }
+
+ul.nostyle, ul.nostyle li{
+    list-style: none;
+    padding: 0px;
+}
+

@@ -1,8 +1,8 @@
 <script type="text/ng-template" id="nodeAgenda">
-    <div class="col-xs-1 node pointer" ui-sref="node({nodeId: node.nodeId})">
+    <div class="col-xs-1 node pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
         <span class="label label-lg primary">{{node.date | dag}}</span>
     </div>
-    <div class="col-xs-11 node pointer" ui-sref="node({nodeId: node.nodeId})">
+    <div class="col-xs-11 node pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
         <div class="p-b-md">
             <div ng-hide="!node.imgUrl || node.imgUrl.length == 0" style='margin-left: 20px; float:right; width: 250px; height: 150px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
@@ -42,7 +42,7 @@
 
     <div class="m-t-3">Eerdere sessies:</div>
     <ul>
-        <li ng-repeat="node in nodes | orderBy:['-data.date'] | filter: {'visible': true, 'dateHistoric': true} | filter: zoeken.searchText as results2 track by $index" ui-sref="node({nodeId: node.nodeId})" class="pointer">
+        <li ng-repeat="node in nodes | orderBy:['-data.date'] | filter: {'visible': true, 'dateHistoric': true} | filter: zoeken.searchText as results2 track by $index" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})" class="pointer">
             <div ui-include="'nodeAgendaHistoric'"></div>
         </li>
     </ul>

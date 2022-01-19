@@ -6,7 +6,7 @@
     </div>
     <div class="box-body" ng-show="chapter.open">
         <ul class="tree accordion">
-            <li ng-repeat='article in chapter.nodes'><a ui-sref="node({'nodeId': article.nodeId})" ng-class="{'strong': article.nodeId == node.nodeId}">{{article.title}}</a></li>
+            <li ng-repeat='article in chapter.nodes'><a ui-sref="module.node({'modulename': module.name, 'nodeId': article.nodeId})" ng-class="{'strong': article.nodeId == node.nodeId}">{{article.title}}</a></li>
         </ul>
     </div>
 </div>

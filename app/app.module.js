@@ -20,8 +20,66 @@ angular.
       //
       // Now set up the states
       $stateProvider
-          .state('main', {
+          .state('start', {
               url: "/",
+              template: "<start class='controllermodule'></start>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('admin', {
+              url: "/admin",
+              template: "<admin class='controllermodule'></admin>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('admin.users', {
+              url: "/users",
+              template: "<users class='controllermodule'></users>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('admin.content', {
+              url: "/content",
+              template: "<contentbeheer class='controllermodule'></contentbeheer>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('admin.content.tab', {
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setContentTab($stateParams.tab)
+              }]
+          })
+          .state('admin.settings', {
+              url: "/settings",
+              template: "<settings class='controllermodule'></settings>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('admin.settings.tab', {
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setAdminTab($stateParams.tab)
+              }]
+          })
+          .state('admin.node', {
+              url: '/node/{title}/{nodeId}',
+              template: "<node class='controllermodule'></node>"
+          })
+          .state('admin.node.tab', {
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setTab($stateParams.tab)
+              }]
+          })
+          .state('module', {
+              url: "/{modulename}",
+              template: "<module></module>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('module.main', {
+              url: "/intro",
               template: "<main class='controllermodule'></main>",
               controller: ['$scope', function($scope) {
               }]
@@ -56,37 +114,37 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('nodes', {
+          .state('module.nodes', {
               url: "/nodes/{type}",
               template: "<nodes class='controllermodule'></nodes>",
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('nodes.tab', {
+          .state('module.nodes.tab', {
               url:"/tab/{tab}",
               controller: ['$scope','$stateParams', function($scope, $stateParams){
               }]
           })
-          .state('add', {
+          .state('module.add', {
               url: '/add/{table}/{nodeId}',
               template: "<node class='controllermodule'></node>"
           })
-          .state('node', {
+          .state('module.node', {
               url: '/node/{title}/{nodeId}',
               template: "<node class='controllermodule'></node>"
           })
-          .state('node.tab', {
+          .state('module.node.tab', {
             url:"/tab/{tab}",
             controller: ['$scope','$stateParams', function($scope, $stateParams){
                 $scope.setTab($stateParams.tab)
             }]
         })
-          .state('node.new', {
+          .state('module.node.new', {
               url:"/new/{type}",
               controller: ['$scope','$stateParams', function($scope, $stateParams){
               }]
           })
-          .state('node.newrelated', {
+          .state('module.node.newrelated', {
               url:"/newrelated/{relation}/{type}",
               controller: ['$scope','$stateParams', function($scope, $stateParams){
               }]
@@ -99,45 +157,27 @@ angular.
               }]
           })
           */
-          .state('import', {
+          .state('module.import', {
               url: "/import/{type}",
               template: "<import class='controllermodule'></import>",
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('dataoverheid', {
+          .state('module.dataoverheid', {
               url: "/dataoverheid",
               template: "<dataoverheid class='controllermodule'></dataoverheid>",
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('datatop15', {
+          .state('module.datatop15', {
               url: "/datatop15",
               template: "<datatop15 class='controllermodule'></datatop15>",
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('nodes.query', {
+          .state('module.nodes.query', {
               url: "/{q}",
               template: "",
-              controller: ['$scope', function($scope) {
-              }]
-          })
-          .state('users', {
-              url: "/users",
-              template: "<users class='controllermodule'></users>",
-              controller: ['$scope', function($scope) {
-              }]
-          })
-          .state('content', {
-              url: "/admin/content",
-              template: "<contentbeheer class='controllermodule'></contentbeheer>",
-              controller: ['$scope', function($scope) {
-              }]
-          })
-          .state('settings', {
-              url: "/admin/settings",
-              template: "<settings class='controllermodule'></settings>",
               controller: ['$scope', function($scope) {
               }]
           })

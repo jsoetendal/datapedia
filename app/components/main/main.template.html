@@ -35,8 +35,8 @@
                 <div class="box-body licht" style="min-height: 12em">
                     <h5>Waarom?</h5>
                     <ul class="frontpage">
-                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de video <a class="text-primary" ui-sref="node({nodeId: 530})">"Wat is data en waarom is het zo belangrijk"</a></li>
-                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Zie de vele  <a class="text-primary" ui-sref="nodes({type: 'project'})">voorbeelden</a> van hoe data mobiliteit slimmer kan maken</li>
+                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de video <a class="text-primary" ui-sref="module.node({nodeId: 530})">"Wat is data en waarom is het zo belangrijk"</a></li>
+                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Zie de vele  <a class="text-primary" ui-sref="module.nodes({type: 'project'})">voorbeelden</a> van hoe data mobiliteit slimmer kan maken</li>
                     </ul>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                 <div class="box-body licht" style="min-height: 12em">
                     <h5>Wat en hoe?</h5>
                     <ul class="frontpage">
-                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Lees het <a class="text-primary" ui-sref="nodes({type: 'article'})">Handboek Data Top 15</a></li>
-                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de <a class="text-primary" ui-sref="nodes({type: 'onderwerp'})">verschillende onderwerpen en bijbehorende beschikbare datasets</a> en  <a class="text-primary" ui-sref="nodes({'type': 'datatop15'})">Data Top 15</a></li>
+                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Lees het <a class="text-primary" ui-sref="module.nodes({type: 'article'})">Datakookboek Smart Mobility</a></li>
+                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de <a class="text-primary" ui-sref="module.nodes({type: 'onderwerp'})">verschillende onderwerpen en bijbehorende beschikbare datasets</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,19 +57,8 @@
             <div class="box">
                 <img src="uploads/main-aandeslag.jpg" style="width: 100%">
                 <div class="box-body licht" style="min-height: 12em">
-                    <h5>Aan de slag!</h5>
-                    <ul class="frontpage">
-                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Bekijk de  <a class="text-primary" ui-sref="nodes({'type': 'datatop15'})">Data Top 15</a> met een <a class="text-primary" ui-sref="node({nodeId: 571})">aanpak</a> voor ieder data-item</li>
-                        <li><div class="pull-left"><i class="fa fa-chevron-right"></i></div>Doe de <a class="text-primary" ui-sref="nodes({'type': 'gemeente'})">'intake' voor jouw gemeente</a> of vul deze verder aan.</li>
-                    </ul>
-                    <!--
-                    <div class="form-group" style="min-height: 3em">
-                        <div class="checkbox"><label class="ui-check ui-check-md"><input type="checkbox"> <i class="dark-white"></i> <a ui-sref="datatop15()">Bekijk de Data Top 15, de bijbehorende onderwerpen en beschikbare datasets.</a></label></div>
-                    </div>
-                    <div class="form-group" style="min-height: 3em">
-                        <div class="checkbox"><label class="ui-check ui-check-md"><input type="checkbox"> <i class="dark-white"></i> <a ui-sref="nodes({type: 'organisatie'})">Voeg de datasets toe voor jouw gemeente</a></label></div>
-                    </div>
-                    -->
+                    <h5>Datapedia Data Top 15</h5>
+                    Ben je wegbeheerder en doe je mee of wil je meedoen aan het ontsluiten van data uit de Data Top 15 in het project ‘Digitalisering Overheden’?<br/>Bekijk dan ook de  <a ui-sref="module.nodes({'modulename': 'datatop15', 'type': 'datatop15'})" class="text-primary"><strong>Datapedia Data Top 15</strong></a>
                 </div>
             </div>
         </div>
@@ -95,7 +84,7 @@
         </div>
     </div>
 
-    <div class="box m-t pointer" ui-sref="nodes({'type': 'project'})">
+    <div class="box m-t pointer" ui-sref="module.nodes({'type': 'project'})">
         <div class="box-header extragroot">
             <h2>Voorbeelden</h2>
             <small>3 voorbeelden van Smart mobility oplossingen. Bekijk <span class="text-info">alle voorbeelden</span></small>
@@ -104,7 +93,7 @@
     <div class="row">
         <div ng-repeat="node in voorbeelden track by $index">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 node">
-                <div class="box pointer licht" ui-sref="node({nodeId: node.nodeId})">
+                <div class="box pointer licht" ui-sref="module.node({nodeId: node.nodeId})">
                     <div class="item dark" style='height: 220px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
                         <a class="item-overlay w-full">
                             <span class="bottom text-md primary" style='padding: 10px; font-weight: bold'><i class="fa fa-plus"></i> Klik voor meer info</span>
@@ -138,7 +127,7 @@
 
     <div ui-include="'app/components/custom/onderwerp.kolommen.html'"></div>
 
-    <div class="extradonker box m-t pointer" ui-sref="nodes({'type': 'project'})">
+    <div class="extradonker box m-t pointer" ui-sref="module.nodes({'type': 'project'})">
         <div class="box-header">
             <h2>Aan de slag!</h2>
         </div>
@@ -151,7 +140,7 @@
                 <div class="p-a">
                     <div class="node-tile-text">
                         <h5>Smart Mobility Platform MRA</h5>
-                        <p>Deze Datapedia is een initiatief van het <a href="http://smartmobilitymra.nl/" target="_blank" class="text-primary">MRA Platform Smart Mobility</a> in samenwerking met het <a ui-sref="node({'nodeId':639})" class="text-primary">Regionaal Datateam Provincie Noord-Holland en Flevoland</a>. Met de Datapedia willen we ambtenaren en andere professionals in het mobiliteitsdomein zo concreet mogelijke hulp geven om aan de slag te kunnen gaan met data en smart mobility.</p>
+                        <p>Deze Datapedia is een initiatief van het <a href="http://smartmobilitymra.nl/" target="_blank" class="text-primary">MRA Platform Smart Mobility</a> in samenwerking met het <a ui-sref="module.node({'nodeId':639})" class="text-primary">Regionaal Datateam Provincie Noord-Holland en Flevoland</a>. Met de Datapedia willen we ambtenaren en andere professionals in het mobiliteitsdomein zo concreet mogelijke hulp geven om aan de slag te kunnen gaan met data en smart mobility.</p>
                     </div>
                 </div>
             </div>

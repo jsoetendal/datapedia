@@ -1,6 +1,6 @@
 <div class="row" ng-repeat="node in nodes">
     <div class="col-md-5">
-        <a  ui-sref="node({nodeId: node.nodeId})">{{node.title}}</a>
+        <a  ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">{{node.title}}</a>
     </div>
     <div class="col-md-7" ng-if="node.data.details.beschikbaar=='true'">
         <div class='floatblok' ng-show="node.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>

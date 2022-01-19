@@ -24,11 +24,13 @@
         $rootScope.GoogleMapsKey = window.__env.GoogleMapsKey;
         $rootScope.topHeader = "Smart Mobility";
 
+        $rootScope.currentModule = parseInt(localStorage.getItem("currentModule"));
         $rootScope.backgroundImgUrl = "https://smartmobilitymra.nl/wp-content/uploads/2019/07/Fietsfiles_Amsterdam_Centrum_3758.jpg";
         $rootScope.setup = Setup;
         $rootScope.setup.initialize();
 
         $scope.user = $rootScope.setup.user;
+
 
         $scope.doLogin = function(){
           $rootScope.setup.doLogin($scope);
@@ -53,14 +55,6 @@
           }
           $('html,body').scrollTop(0); //Scroll to top of new page
         });
-
-
-        //JS: hide modal-backdrop on click
-        $(document).on('click', '#aside', function (e) {
-          //console.log(e);
-          hideOpenMenu();
-        });
-
 
           //ui-nav.js:
         $(document).on('click', '[ui-nav] a', function (e) {

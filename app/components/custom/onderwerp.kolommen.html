@@ -12,7 +12,7 @@
     </script>
 
     <script type="text/ng-template" id="nodeLeaf">
-        <a ui-sref="node({nodeId: node.nodeId})" class="pointer" ng-class="{ 'text-muted': !node.dataset || node.dataset.length == 0}">{{node.title}}</a>
+        <a ui-sref="module.node({modulename: module.name, nodeId: node.nodeId})" class="pointer" ng-class="{ 'text-muted': !node.dataset || node.dataset.length == 0}">{{node.title}}</a>
         <span ng-if="node.dataset.length > 0" class="label rounded extradonker">{{node.dataset.length}}</span>
     </script>
 

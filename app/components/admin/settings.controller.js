@@ -4,7 +4,7 @@ module('app').
 component('settings', {
     templateUrl: 'app/components/admin/settings.template.html',
     controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Settings', '$location',
-        function UsersController($http, $rootScope, $scope, $state, $stateParams, $window, Settings, $location) {
+        function SettingsController($http, $rootScope, $scope, $state, $stateParams, $window, Settings, $location) {
             var self = this;
             this.user = $rootScope.setup.user;
 
@@ -19,14 +19,30 @@ component('settings', {
                         }
                     })
                 });
+
+                $scope.states = $state.get();
             }
 
             $scope.saveSettings = function(){
                 Settings.saveSettings($scope.settings);
             }
 
+            $scope.selectNav = function(module, nav){
+                $scope.selected.module = module;
+                $scope.selected.nav = nav;
+                $scope.selectedType = null;
+                if(nav && nav.details && nav.details.type) $scope.selectedType = nav.details.type;
+                if(nav != null) $scope.selectEntity(null); //Die leegmaken
+            }
+
+            $scope.setNavDetailsType = function(nav, type){
+                nav.details = {'type': type};
+                console.log(nav.details);
+            }
+
             $scope.selectEntity = function(entity){
                 $scope.selected.entity = entity;
+                if(entity != null) $scope.selectNav(null); //Die leegmaken
 
                 //Bereken mogelijke dependencies voor deze entity = relatie van een ander type naar dit type, die nog niet in de dependencies is opgenomen
                 if(entity){
@@ -77,8 +93,9 @@ component('settings', {
                 $scope.settings.content.entities.push(newEntity);
             }
 
-            $scope.addData = function(){
-                $scope.selected.entity.data.push(
+            $scope.addData = function(arr){
+                //$scope.selected.entity.data.push(
+                arr.push(
                     {
                         "key": "",
                         "type": "text",
@@ -97,8 +114,9 @@ component('settings', {
                 }
             }
 
-            $scope.deleteData = function (index){
-                $scope.selected.entity.data.splice(index, 1);
+            $scope.deleteData = function (arr, index){
+                //$scope.selected.entity.data.splice(index, 1);
+                arr.splice(index,1);
             }
 
             $scope.deleteOption = function(item, index){
@@ -151,8 +169,83 @@ component('settings', {
                 $scope.selectEntity($scope.selected.entity); //reselect to update potential dependencies
             }
 
+            $scope.addModule = function(){
+                $scope.settings.modules.push({
+                    "name": "Nieuwe module",
+                    "navigation": []
+                })
+            }
+
+            $scope.addNav = function(module){
+                $scope.selected.module.navigation.push(        {
+                    "label": "Nieuwe link",
+                    "url": "",
+                    "roles": [
+                        "unauthenticated",
+                        "contributor",
+                        "editor",
+                        "admin"
+                    ]
+                })
+            }
+
+            $scope.deleteNav = function(module, nav){
+                $scope.selected.module.navigation.splice( $scope.selected.module.navigation.indexOf(nav),1);
+                $scope.selectNav(null);
+            }
+
+            $scope.addSubNav = function(nav){
+                if(!nav.sub) nav.sub = [];
+                nav.sub.push({
+                        "label": "Nieuwe sublink",
+                        "url": ""
+                    }
+                )
+            }
+
+            $scope.deleteSubNav = function(nav, sub){
+                nav.sub.splice(nav.sub.indexOf(sub), 1);
+            }
+
+            $scope.arrUp = function(arr, element){
+                let pos = arr.indexOf(element);
+                if(pos + 1 < arr.length){
+                    arr.splice(pos+1, 0, arr.splice(pos, 1)[0]);
+                }
+            }
+
+            $scope.arrDown = function(arr, element){
+                let pos = arr.indexOf(element);
+                if(pos > 0){
+                    arr.splice(pos-1, 0, arr.splice(pos, 1)[0]);
+                }
+            }
+
+            $scope.addTemplates = function(item){
+                if(!item.templates) item.templates = {'input': '', view:''}
+            }
+
+            $scope.deleteTemplates = function(item){
+                delete item.templates;
+            }
+
+            $scope.addDataview = function(entity){
+                console.log(entity);
+                if(!entity.dataview) entity.dataview = "...";
+            }
+
+            $scope.deleteDataview = function(entity){
+                delete entity.dataview;
+            }
+
+            $scope.setAdminTab = function(tab){
+                $scope.tab = tab;
+                if(!$scope.tab) $scope.tab = "entities";
+            }
+
             $scope.selected = {"entity": null };
             this.loadSettings();
+            $scope.setAdminTab($stateParams.tab);
         }
     ]
 });

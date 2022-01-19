@@ -11,7 +11,7 @@
         </div>-->
         <div class="col-md-3 text-md">
             <div class="pull-left m-r text-primary"><i class="fa fa-chevron-right"></i></div>
-            <a  ui-sref="node({nodeId: related.nodeId})" style="color: black;">{{related.title}}</a>
+            <a  ui-sref="module.node({'modulename': module.name, nodeId: related.nodeId})" style="color: black;">{{related.title}}</a>
         </div>
         <div class="col-md-3" ng-if="related.data.details.beschikbaar=='true'">
             <div class='floatblok' ng-show="related.data.details.beschikbaar=='true'"><i class="blok fa fa-check groen" title="De data is beschikbaar"></i></div>

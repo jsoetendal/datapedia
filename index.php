@@ -37,192 +37,23 @@
     <link rel="stylesheet" href="themes/assets/styles/app.css" type="text/css" />
     <!-- endbuild -->
     <link rel="stylesheet" href="themes/assets/styles/font.css" type="text/css" />
+      <!-- Leaflet CSS (Bij Leaflet altijd eerst CSS laden) -->
+      <link rel="stylesheet" href="libs/leaflet/leaflet.css">
+      <!-- Leaflet JS (Bij Leaflet altijd als tweede pas JS laden) -->
+      <script src="libs/leaflet/leaflet.js"></script>
+      <script src="libs/wicket.js"></script>
 
     <link rel="stylesheet" href="themes/specific.css"/>
   </head>
   <body>
   <!--
   <div id="warningMsg" class="extradonker" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; z-index: 9999"><i class="fa fa-exclamation-triangle"></i> Help jij mee de Datapedia compleet te maken? Voeg (zonder inloggen) een suggestie toe, of <a ui-sref="signup">maak een account aan</a>!</div>
-  -->
   <div id="warningMsg" class="extradonker" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; z-index: 9999"><i class="fa fa-exclamation-triangle"></i> Wegbeheerder in Noord-Holland en Flevoland en op zoek naar hulp bij de digitaliseringsopgave? Neem contact op met het <a ui-sref="node({'nodeId': 1220})">Regionaal Datateam</a>!</div>
+  -->
   <div class="app" id="app">
 
-  <!-- ############ LAYOUT START-->
-      <!-- Header -->
-      <header class="app-header white box-shadow">
-          <div class="navbar">
-            <!--<a href=""#/">
-              <img src="themes/assets/images/logoSmartMob.png" style="height: 100px;" ng-hide="scrolledDown">
-            </a>-->
-            <a data-toggle="collapse" data-target="#navbar-1" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
-              <i class="material-icons"></i>
-            </a>
-            <a class="navbar-brand" href=".">
-              <span class="hidden-folded inline ng-binding">Datapedia <span class="text-primary">Smart Mobility</span></span>
-            </a>
-            <ul class="nav navbar-nav pull-right">
-            </ul>
-            <div class="collapse navbar-toggleable-sm" id="navbar-1">
-              <ul class="nav navbar-nav nav-active-border b-primary pull-right">
-                <li ng-repeat-start="link in settings.navigation" class="nav-item" ng-if="!link.sub  && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
-                  <a ng-href="{{link.url}}" class="nav-link" ng-class="{'text-primary': state.name == link.state && state.params.type == link.params.type}">
-                    <span class="nav-text">{{link.label}}</span>
-                  </a>
-                </li>
-                <li ng-repeat-end class="nav-item dropdown dropdown-submenu"  ng-class="{'text-primary': state.name == link.state && state.params.type == link.params.type}" ng-if="link.sub && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
-                  <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">
-                    <span class="nav-text">{{link.label}}</span>
-                  </a>
-                  <ul ng-if="link.sub" class="dropdown-menu pull-down text-color ng-scope" role="menu">
-                    <li ng-repeat="sub in link.sub" class="dropdown-item">
-                      <a ng-href="{{sub.url}}">
-                        <span class="dropdown-item">{{sub.label}}</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Inloggen -->
-                <li class="nav-item dropdown"  ng-hide="user.auth.authenticated">
-                  <a class="nav-link" href="" data-toggle="dropdown">
-                    <span class="nav-text">Login</span>
-                  </a>
-                  <div class="dropdown-menu w-xl animated fadeInUp pull-right p-a-0 ng-scope">
-                    <div class="box-color m-a-0">
-                      <div class="box-header b-b p-y-sm">
-                        <strong>Inloggen</strong>
-                      </div>
-                      <div class="box-body">
-                        <form role="form" ng-submit="doLogin()">
-                          <div class="form-group">
-                            <label>E-mailadres</label>
-                            <input type="email" class="form-control" placeholder="Vul je e-mailadres in" ng-model="email" required autocomplete="off">
-                          </div>
-                          <div class="form-group">
-                            <label>Wachtwoord</label>
-                            <input type="password" class="form-control" placeholder="Geef wachtwoord" ng-model="password" required autocomplete="off">
-                          </div>
-                          <div class="checkbox">
-                            <label class="md-check"><input type="checkbox" ng-model="refresh" ng-init="refresh = false"><i></i> Ingelogd blijven</label>
-                          </div>
-                            <div class="m-t m-b-xs">
-                            <button type="submit" class="btn btn-sm primary text-u-c p-x _600">Inloggen</button>
-                            </div>
-                            <div class="m-t m-b-xs text-center">
-                                <div class="m-b"><a ui-sref="passwordforgot" class="text-primary _600">Wachtwoord vergeten?</a></div>
-                            </div>
-                            <div class="m-t m-b-xs">
-                                <p class="text-muted m-t">Alle gegevens op de Datapedia zijn beschikbaar voor iedereen. Iedereen kan ook zonder inloggen reacties of suggesties geven.<br/>Inloggen is alleen nodig voor het beheren en redigeren van de Datapedia.</p>
-                                <p><strong>Nog geen account?</strong></p>
-                                <div class="btn primary" ui-sref="signup">Account aanmaken</div>
-                            </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-
-                <!-- Als ingelogd -->
-                <li class="nav-item dropdown dropdown-submenu" ng-if="user.auth.authenticated">
-                  <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">
-                    <span>Ingelogd</span>
-                  </a>
-                  <ul class="dropdown-menu pull-down text-color ng-scope" role="menu">
-                    <li class="dropdown-item">
-                      <a>
-                        <span class="dropdown-item nav-text m-l-sm text-left"><span class="_500">{{user.auth.email}}</span> <small class="text-muted">{{user.auth.role}}</small></span>
-                      </a>
-                    </li>
-                    <li class="dropdown-item">
-                      <a ui-sref="settings" ng-show="user.isAdmin">
-                        <span class="dropdown-item">Admin</span>
-                      </a>
-                    </li>
-                    <li class="dropdown-item">
-                      <a ui-sref="content" ng-show="user.isEditorOrUp">
-                        <span class="dropdown-item">Contentbeheer</span>
-                      </a>
-                    </li>
-                    <li class="dropdown-item">
-                      <a ui-sref="users" ng-show="user.isEditorOrUp">
-                        <span class="dropdown-item">Users</span>
-                      </a>
-                    </li>
-                    <li class="dropdown-item">
-                      <a ui-sref="logoff">
-                        <span class="dropdown-item">Uitloggen</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-
-
-            <!-- Page title - Bind to $state's title -->
-            <!--
-              <div class="navbar-item pull-left navbar-brand" id="pageTitle">{{topHeader}}</div>
-
-              <ul class="nav navbar-nav pull-right">
-                <li class="nav-item" ng-hide="user.auth && user.auth.authenticated">
-                  <a class="nav-link" ui-sref="login"><i class="fa fa-user text-muted"></i> <span>Inloggen</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link clear" ng-show="user.auth && user.auth.authenticated" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-user text-muted"></i> <span>{{user.auth.email}}</span></a>
-                  <div class="dropdown-menu pull-right dropdown-menu-scale ng-scope">
-                    <a class="dropdown-item" ng-show="user.isAdmin" ui-sref="admin"><span>Admin</span></a>
-                    <a class="dropdown-item" ng-show="user.isEditorOrUp" ui-sref="users"><span>Users</span></a>
-                    <div class="dropdown-divider" ng-show="user.isEditorOrUp"></div>
-                    <a class="dropdown-item" ui-sref="logoff">Uitloggen</a>
-                  </div>
-                </li>
-              </ul>
-              -->
-          </div>
-      </header>
-      <div class="background" style="background-image: url('{{backgroundImgUrl}}');"></div>
-
-    <!-- content -->
-    <div id="content" role="main">
-
-      <div class="app-body" id="view" ui-view>
-  <!-- ############ PAGE START-->
+      <div ui-view>
       </div>
-
-    </div> <!-- content -->
-
-    <footer id="main-footer">
-      <div id="footer-widgets" class="row">
-        <div class="footer-widget">
-          <div id="text-4" class="col-xs-12 col-md-4">
-            <h4 class="title">Over de Data Top 15</h4>
-            <div class="textwidget"><p>In het programma 'Digitalisering Overheden' werken 5 landsdelen samen om in 2023 'digitaal capabel in mobiliteit' te zijn. Aan de hand van de Data Top 15 wordt data van de wegbeheerders gepubliceerd.</p>
-              <!--<p><a href="//smartmobilitymra.nl/wat-is-smart-mobility/"><strong>Lees meer</strong></a></p>-->
-            </div>
-          </div> <!-- end .fwidget -->
-        </div> <!-- end .footer-widget -->
-
-        <div class="footer-widget">
-          <div id="text-3" class="col-xs-12 col-md-4">
-            <h4 class="title">Over het Regionaal Data Team (RDT)</h4>
-            <div class="textwidget"><p>In het landsdeel Noord-Holland/Flevoland is het Regionaal Datateam (RDT) actief om wegbeheerders te ondersteunen in de digitaliserings-opgave.</p>
-              <!--<p><a href="//smartmobilitymra.nl/wat-is-smart-mobility/"><strong>Lees meer</strong></a></p>-->
-            </div>
-          </div> <!-- end .fwidget -->
-        </div> <!-- end .footer-widget -->
-
-        <div class="footer-widget">
-          <div id="text-2" class="col-xs-12 col-md-4">
-            <h4 class="title">Over MRA Smart Mobility</h4>
-            <div class="textwidget"><p>Het MRA-platform Smart Mobility richt zich concreet op innovaties op datagebied in combinatie met het optimaal benutten van slimme techniek.</p>
-              <p><a href="//smartmobilitymra.nl/wat-is-smart-mobility/"><strong>Lees meer</strong></a></p>
-            </div>
-          </div> <!-- end .fwidget -->
-        </div> <!-- end .footer-widget -->
-      </div> <!-- #footer-widgets -->
-    </footer>
-
-
 
       <div id="melding" class="modal" data-backdrop="true">
         <div class="modal-dialog">
@@ -302,9 +133,11 @@
     <script src="app/standard.js"></script>
     <script src="app/core.module.js"></script>
     <script src="app/components/main/main.controller.js"></script>
+    <script src="app/components/main/start.controller.js"></script>
     <script src="app/components/main/login.controller.js"></script>
     <script src="app/components/main/signup.controller.js"></script>
     <script src="app/components/main/logoff.controller.js"></script>
+    <script src="app/components/module/module.controller.js"></script>
     <script src="app/components/nodes/node.model.js"></script>
     <script src="app/components/nodes/nodes.model.js"></script>
     <script src="app/components/nodes/nodes.controller.js"></script>
@@ -312,19 +145,20 @@
     <script src="app/components/users/user.model.js"></script>
     <script src="app/components/users/users.model.js"></script>
     <script src="app/components/users/users.controller.js"></script>
+    <script src="app/components/admin/admin.controller.js"></script>
     <script src="app/components/admin/content.controller.js"></script>
     <script src="app/components/admin/settings.model.js"></script>
     <script src="app/components/admin/settings.controller.js"></script>
     <script src="app/components/import/import.controller.js"></script>
     <script src="app/components/import/dataoverheid.controller.js"></script>
     <script src="app/settings/diverse.controllers.js"></script>
-    <script src="app/components/custom/datatop15.controller.js"></script>
     <script src="app/settings/user.js"></script>
     <script src="app/settings/setup.js"></script>
     <script src="app/ui-include.js"></script>
 
     <!-- Custom controllers -->
-    <script src="app/components/custom/intake.controller.js"></script>
+    <!--<script src="app/components/custom/intake.controller.js"></script>-->
+    <script src="app/components/custom/datatop15.controller.js"></script>
 
 
 <!-- endbuild -->
