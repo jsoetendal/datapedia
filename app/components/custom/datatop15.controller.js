@@ -105,6 +105,10 @@ angular.
               $scope.current.item = {title: '01. Geplande wegwerkzaamheden', nodeId: 555}
           }
 
+          if(!$scope.current.region) {
+              $scope.setRegio("Noord-Holland & Flevoland");
+          }
+
           $scope.updateMap = function(force){
               $scope.pdokMap = $scope.$parent.$parent.pdokMap
               if(!$scope.pdokMap){
