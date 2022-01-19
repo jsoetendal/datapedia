@@ -95,8 +95,8 @@
 <head>
     <meta charset="utf-8" />
     <title><?php echo($HTMLTitle);?></title>
-    <!--<base href="https://www.datapedia.nl/">-->
-    <base href="http://localhost/datapedia/">
+    <base href="https://www.datapedia.nl/">
+    <!--<base href="http://localhost/datapedia/">-->
     <meta name="description" content="<?php echo($HTMLDescription); ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
