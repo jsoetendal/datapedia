@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/app/components/custom/agenda.list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/smartmobilitydata.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/smartmobilitydata.iml" afterDir="false" />
@@ -10,11 +11,35 @@
       <change beforePath="$PROJECT_DIR$/app/components/admin/settings.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.dependencies.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.dependencies.view.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/dataset.relations.view.html" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/public/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/classes/NodesMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/classes/NodesMapper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/contactpersonen.dependencies.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/contactpersonen.dependencies.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/gemeente.dependencies.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/gemeente.dependencies.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/gemeente_datatop15.relations.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/gemeente_datatop15.relations.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/header.part.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/header.part.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/main.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/main.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/start.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/start.template.html" afterDir="false" />
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/app/components/nodes/node.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/node.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/core.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/core.module.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/settings/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/settings.json" afterDir="false" />
+<<<<<<< Updated upstream
+=======
+      <change beforePath="$PROJECT_DIR$/app/settings/setup.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/setup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seo/seo.php" beforeDir="false" afterPath="$PROJECT_DIR$/seo/seo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/themes/specific.css" beforeDir="false" afterPath="$PROJECT_DIR$/themes/specific.css" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +117,7 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -303,6 +329,61 @@
       <workItem from="1624441649616" duration="1887000" />
       <workItem from="1624517816946" duration="35000" />
       <workItem from="1624863849698" duration="12871000" />
+<<<<<<< Updated upstream
+=======
+      <workItem from="1624954250466" duration="2550000" />
+      <workItem from="1631015243295" duration="4813000" />
+      <workItem from="1631608681189" duration="16475000" />
+      <workItem from="1631687316085" duration="186000" />
+      <workItem from="1631718632215" duration="971000" />
+      <workItem from="1634713837959" duration="1997000" />
+      <workItem from="1634716418189" duration="10000" />
+      <workItem from="1635336060475" duration="6354000" />
+      <workItem from="1635412386768" duration="185000" />
+      <workItem from="1635756838803" duration="5412000" />
+      <workItem from="1635764747849" duration="5249000" />
+      <workItem from="1635841307496" duration="141000" />
+      <workItem from="1635847753642" duration="46000" />
+      <workItem from="1635933544986" duration="13881000" />
+      <workItem from="1636015796330" duration="240000" />
+      <workItem from="1636098724844" duration="7296000" />
+      <workItem from="1636456806576" duration="5909000" />
+      <workItem from="1636530584704" duration="320000" />
+      <workItem from="1636557190212" duration="5108000" />
+      <workItem from="1636616927967" duration="604000" />
+      <workItem from="1636623500173" duration="17407000" />
+      <workItem from="1636702254519" duration="8112000" />
+      <workItem from="1636961659505" duration="11257000" />
+      <workItem from="1637069646197" duration="334000" />
+      <workItem from="1637133695702" duration="19770000" />
+      <workItem from="1637238972364" duration="17000" />
+      <workItem from="1637248054229" duration="4174000" />
+      <workItem from="1637320919640" duration="1450000" />
+      <workItem from="1637570089224" duration="6679000" />
+      <workItem from="1637599739589" duration="13000" />
+      <workItem from="1637740394666" duration="6122000" />
+      <workItem from="1637769519970" duration="8000" />
+      <workItem from="1637829151034" duration="128000" />
+      <workItem from="1638179613190" duration="3532000" />
+      <workItem from="1638214424806" duration="8000" />
+      <workItem from="1638263383552" duration="10249000" />
+      <workItem from="1638350652372" duration="5841000" />
+      <workItem from="1638377570598" duration="8000" />
+      <workItem from="1638435396011" duration="79000" />
+      <workItem from="1638793279661" duration="3535000" />
+      <workItem from="1638862772845" duration="6730000" />
+      <workItem from="1638979926201" duration="1773000" />
+      <workItem from="1639037102952" duration="600000" />
+      <workItem from="1639565743472" duration="5549000" />
+      <workItem from="1639727862851" duration="9375000" />
+      <workItem from="1640033993097" duration="98000" />
+      <workItem from="1640071753823" duration="7096000" />
+      <workItem from="1640174400396" duration="88000" />
+      <workItem from="1642083367189" duration="1239000" />
+      <workItem from="1642493136211" duration="2981000" />
+      <workItem from="1642517572447" duration="5373000" />
+      <workItem from="1642578684762" duration="1871000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
