@@ -24,7 +24,6 @@
         $type = $parts[2];
         foreach($settings->content->entities as $e) {
             if (strtolower(trim($e->type)) == strtolower(trim($type))) {
-                print("Location: https://www.datapedia.nl/". $e->module . $url); exit();
                 header("Location: https://www.datapedia.nl/". $e->module . $url, true, 301); exit();
             }
         }
@@ -34,7 +33,6 @@
         $type = $node->type;
         foreach($settings->content->entities as $e) {
             if (strtolower(trim($e->type)) == strtolower(trim($type))) {
-                print("Location: https://www.datapedia.nl". $e->module . $url); exit();
                 header("Location: https://www.datapedia.nl/". $e->module . $url, true, 301); exit();
             }
         }
