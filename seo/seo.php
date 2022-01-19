@@ -198,6 +198,7 @@
                                 echo "</ul>";
                             }
                         }
+                        print_r($entit->dependencies);
                         if($entity->depedencies) {
                             foreach ($entity->depedencies as $relation) {
                                 $key = $relation->key;
