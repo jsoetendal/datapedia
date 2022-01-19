@@ -100,8 +100,6 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
                         }
                     }
                 }
-
-                console.log($rootScope.settings);
             }
         });
 

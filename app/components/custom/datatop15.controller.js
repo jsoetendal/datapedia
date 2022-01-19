@@ -8,10 +8,6 @@ angular.
         var self = this;
         this.facetsCreated = false;
 
-          $scope.zoeken = $scope.$parent.$parent.zoeken;
-          $scope.current = $scope.$parent.$parent.current;
-          $scope.loadPDOK = $scope.$parent.$parent.loadPDOK;
-
           $scope.geoShow =  function(node){
               //node is hier een gemeente. vertalen naar de desbetreffende node
               for(let i in $scope.nodes){
@@ -219,11 +215,16 @@ angular.
               }
           }
 
+
+          $scope.zoeken = $scope.$parent.$parent.zoeken;
+          $scope.current = $scope.$parent.$parent.current;
+          $scope.loadPDOK = $scope.$parent.$parent.loadPDOK;
+
           if(!$scope.current.item){
               $scope.current.item = {title: '01. Geplande wegwerkzaamheden', nodeId: 555}
           }
 
-          if(!$scope.current.region) {
+          if(!$scope.current.regio) {
               $scope.setRegio("Noord-Holland & Flevoland");
           }
 
