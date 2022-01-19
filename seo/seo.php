@@ -202,7 +202,7 @@
                             foreach ($entity->dependencies as $relation) {
                                 $key = $relation->key;
                                 echo "<h4>" . $relation->label . "</h4><ul>";
-                                foreach ($node->relations->$key as $rel) {
+                                foreach ($node->dependencies->$key as $rel) {
                                     echo "<li><a href='". $module ."/node/" . linkname($rel->title) . "/" . $rel->sourceId . "'>" . $rel->title . "</li>";
                                 }
                                 echo "</ul>";
