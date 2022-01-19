@@ -198,7 +198,9 @@
                                 echo "</ul>";
                             }
                         }
-                        print_r($entit->dependencies);
+                        print("\n\n<!---ENTITY-->\n\n");
+                        print_r($entity);
+                        print("\n\n<!---/ENTITY-->\n\n");
                         if($entity->depedencies) {
                             foreach ($entity->depedencies as $relation) {
                                 $key = $relation->key;
