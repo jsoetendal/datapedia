@@ -198,11 +198,8 @@
                                 echo "</ul>";
                             }
                         }
-                        print("\n\n<!---ENTITY-->\n\n");
-                        print_r($entity);
-                        print("\n\n<!---/ENTITY-->\n\n");
-                        if($entity->depedencies) {
-                            foreach ($entity->depedencies as $relation) {
+                        if($entity->dependencies) {
+                            foreach ($entity->dependencies as $relation) {
                                 $key = $relation->key;
                                 echo "<h4>" . $relation->label . "</h4><ul>";
                                 foreach ($node->relations->$key as $rel) {
