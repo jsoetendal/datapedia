@@ -29,6 +29,9 @@
     <div ng-if="related.datarelation['status'] == 'Aan de slag' || related.datarelation['status'] == '3 - Aan de slag'"  class="status-scorel YlGnBu q2-5">3</div>
     <div ng-if="related.datarelation['status'] == 'Goed bezig' || related.datarelation['status'] == '4 - Goed bezig'"  class="status-scorel YlGnBu q3-5">4</div>
     <div ng-if="related.datarelation['status'] == 'Compleet' || related.datarelation['status'] == '5 - Compleet'"  class="status-scorel YlGnBu q4-5">5</div>
-    <strong ng-hide="related.datarelation['status'] == 'Niet van toepassing'">{{related.datarelation["status"]|substr:3}}</strong>
+    <strong ng-hide="related.datarelation['status'] == 'Niet van toepassing'">{{related.datarelation["status"] | substr:3}}</strong>
     <strong ng-show="related.datarelation['status'] == 'Niet van toepassing'">{{related.datarelation["status"]}}</strong>
+    <div ng-show="related.datarelation['toelichting']">
+        <small class="text-muted"><i>{{related.datarelation["toelichting"]}}</i></small>
+    </div>
 </div>

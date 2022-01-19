@@ -20,6 +20,20 @@ class NodesMapper extends Mapper
         return false;
     }
 
+    function canCreate($type, $role){
+        $settings = json_decode(file_get_contents( getenv('CONFIG_SETTINGS_PATH')));
+        foreach($settings->content->entities as $entity){
+            if($entity->type === $type){
+                if(!$entity->creation){
+                    return true;
+                } else {
+                    return in_array($role, $entity->creation);
+                }
+            }
+        }
+        return false;
+    }
+
     function hasAccessNodeId($nodeId, $role){
         return $this->hasAccess($this->db->returnQuery("SELECT type as result FROM nodes WHERE nodeId = ". $nodeId), $role);
     }

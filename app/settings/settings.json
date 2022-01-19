@@ -87,7 +87,8 @@
                         "label": "Relevante datasets",
                         "facet": false
                     }
-                ]
+                ],
+                "module": "smartmobility"
             },
             {
                 "type": "organisatie",
@@ -142,7 +143,9 @@
                         "description": "Deze organisatie is betrokken bij de volgende voorbeelden:",
                         "add": true
                     }
-                ]
+                ],
+                "module": "smartmobility",
+                "restricted": null
             },
             {
                 "type": "onderwerp",
@@ -227,7 +230,8 @@
                         "description": "Deze voorbeelden maken gebruik van dit onderwerp:",
                         "facet": false
                     }
-                ]
+                ],
+                "module": "smartmobility"
             },
             {
                 "type": "dataset",
@@ -279,7 +283,8 @@
                         "facet": true,
                         "add": true
                     }
-                ]
+                ],
+                "module": "smartmobility"
             },
             {
                 "type": "article",
@@ -314,7 +319,13 @@
                     }
                 ],
                 "relations": [],
-                "dependencies": []
+                "dependencies": [],
+                "module": "smartmobility",
+                "creation": [
+                    "contributor",
+                    "editor",
+                    "admin"
+                ]
             },
             {
                 "type": "datatop15",
@@ -427,17 +438,9 @@
                         "descriptionInput": "Geef de contactpersonen op die bij dit data-item zijn betrokken",
                         "facet": false,
                         "min": 0,
-                        "data": [
-                            {
-                                "key": "rol",
-                                "type": "text",
-                                "label": "Rol",
-                                "descriptionInput": "Beschrijving van de rol bij dit data-item",
-                                "required": false
-                            }
-                        ],
                         "position": "right",
-                        "view": "app/components/custom/contactpersonen.dependencies.view.html"
+                        "view": "app/components/custom/contactpersonen.dependencies.view.html",
+                        "editShort": true
                     },
                     {
                         "key": "gemeente_datatop15",
@@ -448,25 +451,8 @@
                         "facet": false,
                         "min": 0,
                         "view": "app/components/custom/gemeente.dependencies.view.html",
-                        "data": [
-                            {
-                                "key": "status",
-                                "type": "enum",
-                                "options": [
-                                    "0 - Onbekend",
-                                    "1 - Nog niet gestart",
-                                    "2 - Orienterend",
-                                    "3 - Aan de slag",
-                                    "4 - Goed bezig",
-                                    "5 - Compleet",
-                                    "Niet van toepassing"
-                                ],
-                                "label": "Status",
-                                "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
-                                "required": false
-                            }
-                        ],
-                        "position": "right"
+                        "position": "right",
+                        "editShort": true
                     },
                     {
                         "key": "sessie_datatop15",
@@ -480,7 +466,12 @@
                     }
                 ],
                 "dataview": "app/components/custom/datatop15item.data.view.html",
-                "custom": "app/components/custom/datatop15items.view.html"
+                "custom": "app/components/custom/datatop15items.view.html",
+                "module": "datatop15",
+                "creation": [
+                    "editor",
+                    "admin"
+                ]
             },
             {
                 "type": "gemeente",
@@ -566,12 +557,26 @@
                                 "label": "Status",
                                 "descriptionInput": "De status van dit Data Top 15 voor deze gemeente",
                                 "required": false
+                            },
+                            {
+                                "key": "toelichting",
+                                "type": "text",
+                                "label": "Toelichting",
+                                "descriptionInput": "Geef een optionele toelichting bij de huidige status",
+                                "required": false,
+                                "facet": false
                             }
-                        ]
+                        ],
+                        "editShort": true
                     }
                 ],
                 "dependencies": [],
-                "custom": "app/components/custom/gemeentes.template.html"
+                "custom": "app/components/custom/gemeentes.template.html",
+                "module": "datatop15",
+                "creation": [
+                    "editor",
+                    "admin"
+                ]
             },
             {
                 "type": "sessie",
@@ -607,11 +612,18 @@
                         "description": "Deze Data Top 15-items staan op de agenda",
                         "descriptionInput": "Selecteer de Data Top 15-item(s) die in deze sessie aan bod komen",
                         "facet": true,
-                        "min": 0
+                        "min": 0,
+                        "position": "right"
                     }
                 ],
                 "dependencies": [],
-                "introduction": "Het Regionaal Datateam organiseert regelmatig kennissessies waarbij één of meerdere items uit de Data Top 15 centraal staan. We nodigen hier relevante sprekers voor uit. Deze kennissessies zijn toegankelijk voor alle geïnteresseerden, gericht op wegbeheerders in de provincies Noord-Holland en Flevoland."
+                "introduction": "Het Regionaal Datateam organiseert regelmatig kennissessies waarbij één of meerdere items uit de Data Top 15 centraal staan. We nodigen hier relevante sprekers voor uit. Deze kennissessies zijn toegankelijk voor alle geïnteresseerden, gericht op wegbeheerders in de provincies Noord-Holland en Flevoland.",
+                "module": "datatop15",
+                "creation": [
+                    "contributor",
+                    "editor",
+                    "admin"
+                ]
             },
             {
                 "type": "voorziening",
@@ -666,7 +678,8 @@
                         "position": "right"
                     }
                 ],
-                "attachments": true
+                "attachments": true,
+                "module": "datatop15"
             },
             {
                 "type": "document",
@@ -698,7 +711,8 @@
                     }
                 ],
                 "attachments": true,
-                "attachmentsPrimary": true
+                "attachmentsPrimary": true,
+                "module": "datatop15"
             },
             {
                 "type": "personen",
@@ -760,17 +774,43 @@
                                 "required": false
                             }
                         ],
-                        "position": "right"
+                        "position": "right",
+                        "editShort": true
                     }
                 ],
-                "dependencies": []
+                "dependencies": [],
+                "module": "datatop15"
+            },
+            {
+                "type": "page",
+                "single": "Pagina",
+                "plural": "Informatie",
+                "image": true,
+                "path": false,
+                "background": "",
+                "views": [
+                    "list"
+                ],
+                "facet": {
+                    "optional": false,
+                    "default": false
+                },
+                "data": [],
+                "relations": [],
+                "dependencies": [],
+                "attachments": true,
+                "creation": [
+                    "contributor",
+                    "editor",
+                    "admin"
+                ]
             }
         ]
     },
     "modules": [
         {
             "name": "datatop15",
-            "introduction": "Klik hier voor de Data Top 15",
+            "introduction": "Voor de wegbeheerders die aan de slag zijn of gaan met het ontsluiten van de mobiliteitsdata uit de Data Top 15 in het project ‘Digitalisering Overheden’, samen met het Regionaal Datateam. \n<br/><br/>Met o.a:<br/><UL><LI>De Data Top 15 en een stappenplan voor alle items</LI><LI>Actuele status van de wegbeheerders in de Data Top 15</LI></UL>",
             "title": "Data Top 15",
             "image": "uploads/paulus_west.jpg",
             "background": "uploads/paulus_west.jpg",
@@ -797,7 +837,7 @@
                 },
                 {
                     "label": "Wegbeheerders",
-                    "url": "",
+                    "url": "nodes/gemeente",
                     "roles": [
                         "unauthenticated",
                         "contributor",
@@ -810,8 +850,8 @@
                     }
                 },
                 {
-                    "label": "Kennissessies",
-                    "url": "",
+                    "label": "Contact",
+                    "url": "nodes/sessie",
                     "roles": [
                         "unauthenticated",
                         "contributor",
@@ -819,6 +859,32 @@
                         "admin"
                     ],
                     "state": "module.nodes",
+                    "sub": [
+                        {
+                            "label": "Kennissessies",
+                            "url": "nodes/sessie",
+                            "state": "module.nodes",
+                            "details": {
+                                "type": "sessie"
+                            }
+                        },
+                        {
+                            "label": "Contactgegevens",
+                            "url": "node/contactgegevens/1891",
+                            "state": "module.node",
+                            "details": {
+                                "nodeId": 1891
+                            }
+                        },
+                        {
+                            "label": "Nieuwsbrieven",
+                            "url": "node/nieuwsbrieven/1892",
+                            "state": "module.node",
+                            "details": {
+                                "nodeId": 1892
+                            }
+                        }
+                    ],
                     "details": {
                         "type": "sessie"
                     }
@@ -827,10 +893,10 @@
         },
         {
             "name": "smartmobility",
-            "introduction": "Klik hier voor smart Mobility",
+            "introduction": "Voor iedereen die meer wilt weten over slimme toepassingen in mobiliteit en welke rol data daar bij speelt. Van wegbeheerder tot beleidsambtenaar en wethouder mobiliteit.<br/><br/>Met o.a:<br/><ul><li>Het Datakookboek Smart Mobility</li><li>Voorbeelden van data & smart mobility in de praktijk</li></ul>",
             "title": "Smart Mobility",
-            "image": "uploads/Fietsfiles_Amsterdam_Centrum_3758.jpg",
-            "background": "uploads/Fietsfiles_Amsterdam_Centrum_3758.jpg",
+            "image": "uploads/Fietsfiles_Amsterdam_Centrum_3758-klein.jpg",
+            "background": "uploads/Fietsfiles_Amsterdam_Centrum_3758-breed.jpg",
             "start": {
                 "state": "module.main",
                 "details": []
@@ -858,7 +924,8 @@
                     "sub": [],
                     "details": {
                         "type": "article"
-                    }
+                    },
+                    "url": "nodes/article"
                 },
                 {
                     "label": "Voorbeelden",
@@ -871,7 +938,8 @@
                     ],
                     "details": {
                         "type": "project"
-                    }
+                    },
+                    "url": "nodes/project"
                 },
                 {
                     "label": "Data",
@@ -902,17 +970,22 @@
                     ],
                     "details": {
                         "type": "onderwerp"
-                    }
+                    },
+                    "url": "nodes/onderwerp"
                 },
                 {
                     "label": "Zoeken",
-                    "state": "module.nodes.query",
+                    "state": "module.nodes",
                     "roles": [
                         "unauthenticated",
                         "contributor",
                         "editor",
                         "admin"
-                    ]
+                    ],
+                    "details": {
+                        "type": "zoeken"
+                    },
+                    "url": "nodes/zoeken"
                 }
             ]
         }

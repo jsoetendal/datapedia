@@ -51,6 +51,12 @@
                                     <div class="col-sm-10"><textarea class="form-control" rows="2" ng-model="selected.module.introduction"></textarea></div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Image URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.module.image">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-sm-2 form-control-label">Background URL</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" ng-model="selected.module.background">
@@ -94,6 +100,7 @@
                                     <div class="col-sm-10">
                                         <select class="form-control" ng-model="selectedType" ng-init="selectedType = selected.nav.details.type" ng-change="setNavDetailsType(selected.nav, selectedType)">
                                             <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
+                                            <option ng-value="zoeken">zoeken</option>
                                         </select>
                                     </div>
                                 </div>
@@ -102,6 +109,12 @@
                                     <div class="col-sm-10">
                                         {{selected.nav.details}}
                                         <!--<input type="text" class="form-control" ng-model="selected.nav.details">-->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">URL (voor SEO)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="selected.nav.url">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -141,11 +154,23 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="form-group row" ng-show="sub.state == 'module.node'">
+                                                    <label class="col-sm-2 form-control-label">NodeId</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="number" ng-model="sub.details.nodeId" class="form-control">
+                                                    </div>
+                                                </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 form-control-label">Details</label>
                                                     <div class="col-sm-10">
                                                         {{sub.details}}
                                                         <!--<input type="text" class="form-control" ng-model="sub.details">-->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 form-control-label">URL (voor SEO)</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" ng-model="sub.url">
                                                     </div>
                                                 </div>
 

@@ -12,16 +12,19 @@
                     <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
                 </div>
                 <ul ng-show="showRegios">
-                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent();">Zuid-Nederland</li>
-                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent();">Zuidwest-Nederland</li>
-                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent();">Oost-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent();">Noord-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();">Noord-Holland & Flevoland</li>
-                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent();">Utrecht</li>
+                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Zuid-Nederland</li>
+                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Zuidwest-Nederland</li>
+                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Oost-Nederland</li>
+                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Noord-Nederland</li>
+                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Noord-Holland & Flevoland</li>
+                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Utrecht</li>
                 </ul>
             </div>
-            <ul class="list no-border p-b">
-                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['-datarelation.status', 'title'] | filter: {$: current.regio} | limitTo: 10">
+            <div id="mapPDOK" style="width: 100%; height: 40vh; margin: 20px 0px;" ng-init="loadMap('mapPDOK', node.dependencies[dependency.key])" ng-show="current.regio == 'Noord-Holland & Flevoland'">
+            </div>
+            <ul class="list no-border p-b" ng-show="current.regio == 'Noord-Holland & Flevoland'">
+                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['-datarelation.status', 'title'] | filter: {$: current.regio}" ng-if="!related.data.geometry || related.data.geometry.length < 5">
+                    <div class="status-score pull-right YlGnBu s{{related.datarelation.status | truncate:1}}-5">{{related.datarelation.status | truncate:1}}</div>
                     <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
                         <span class="w-40">
                             <img src="{{related.imgUrl}}" style="width: 100%">
@@ -33,7 +36,8 @@
                     </div>
                 </li>
             </ul>
-            <a ng-click="current.item={'title': node.title, 'nodeId': node.nodeId}; saveCurrent();" ui-sref="module.nodes({type: 'gemeente'})">Meer &gt;&gt;</a>
+            <a ng-show="current.regio == 'Noord-Holland & Flevoland'" ng-click="current.item={'title': node.title, 'nodeId': node.nodeId}; saveCurrent();" ui-sref="module.nodes({type: 'gemeente'})">Meer &gt;&gt;</a>
+            <div class="p-a" ng-hide="current.regio == 'Noord-Holland & Flevoland'">Op dit moment is de Datapedia alleen actief in <a ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Noord-Holland & Flevoland</a></div>
         </div>
     </div>
 </div>

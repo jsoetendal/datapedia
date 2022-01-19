@@ -293,9 +293,9 @@
                                         </div>
                                         <div class="box-divider m-a-0"></div>
                                         <div class="box-body">
-                                            <form role="form" ng-submit="addRelatie(relatie, this);">
+                                            <form role="form" n-g-submit="addRelatie(relatie, this);">
                                                 <div class="form-group relatie">
-                                                    <ul class="relatie">
+                                                    <ul class="relatie" ng-if="!relatie.editShort">
                                                         <li ng-repeat="related in node.relations[relatie.key]">
                                                             <div class="title p-a-sm licht">{{related.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteRelatie(related)"></i></div>
                                                             <div ng-if="relatie.data.length > 0" class="p-a">
@@ -313,7 +313,8 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                                                    <div ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}">
+
+                                                    <div  ng-if="!relatie.editShort" ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}">
                                                         <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Voeg {{relatie.label|lowercase}} toe">
                                                         <div class="autosuggest" ng-show="searchText[relatie.key] && results.length > 0">
                                                             <strong>Selecteer een bestaande {{relatie.type}}:</strong>
@@ -327,6 +328,99 @@
                                                             <br/><button type="submit" class="btn primary">Toevoegen</button>
                                                         </div>
                                                     </div>
+
+                                                    <table ng-if="relatie.editShort">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th ng-repeat="row in relatie.data">
+                                                                <label>{{row.label}}
+                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                </label>
+                                                            </th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tr ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
+                                                            <td>{{related.title}}  <small><a ui-sref="module.node.tab({nodeId: related.nodeId, tab: 'edit'})" target="_blank" class="text-muted"><i class="fa fa-external-link"></i></a></small></td>
+                                                            <td ng-repeat="row in relatie.data" class="input-group-sm">
+                                                                <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]" style="width: auto">
+                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="related.datarelation[row.key]" style="width: auto">
+                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="related.datarelation[row.key]"></textarea>
+                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="related.datarelation[row.key]" style="width: auto">
+                                                                <select ng-if="row.type == 'enum'"  ng-model="related.datarelation[row.key]" class="form-control"  style="width: auto">
+                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                                </select>
+                                                            </td>
+                                                            <td ng-if="user.isContributorOrUp"><i class="text-danger text-md fa fa-times pointer pull-right"  ng-click="deleteRelatie(related)"></i></td>
+                                                        </tr>
+                                                    </table>
+
+                                                    <div ng-if="relatie.editShort" ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}; showExisting = false;" class="box">
+                                                        <div class="box-header">
+                                                            <div class="input-group input-group-sm pull-right" ng-show="showExisting">
+                                                                <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Zoek {{relatie.label|lowercase}}">
+                                                            </div>
+                                                            <strong ng-click="showExisting = !showExisting" class="pointer"><i class="fa fa-plus" ng-hide="showExisting"></i><i class="fa fa-minus" ng-show="showExisting"></i> Bestaande {{relatie.type}} toevoegen</strong>
+                                                        </div>
+                                                        <div ng-show="showExisting" class="box-body">
+                                                            <div class="autosuggest">
+                                                                <table>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <th ng-repeat="row in relatie.data">
+                                                                            <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]"> {{row.label}}
+                                                                                <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                            </label>
+                                                                        </th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr ng-repeat="option in relations[relatie.type]| orderBy: ['title'] | filter: searchText[relatie.key] | nodeIdNotIn: node.relations[relatie.key] as results track by option.nodeId">
+                                                                        <td><span style="white-space: nowrap;">{{option.title}}</span></td>
+                                                                        <td ng-repeat="row in relatie.data" class="input-group input-group-sm">
+                                                                            <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="option.datarelation[row.key]">
+                                                                            <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="option.datarelation[row.key]">
+                                                                            <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="option.datarelation[row.key]"></textarea>
+                                                                            <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="option.datarelation[row.key]">
+                                                                            <select ng-if="row.type == 'enum'"  ng-model="option.datarelation[row.key]" class="form-control" >
+                                                                                <option ng-repeat="o in row.options" ng-value="o">{{o}}</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td><i class="text-danger text-md fa fa-plus pointer pull-right"   ng-click="addRelatieAndData(relatie,option);"></i></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="box-header">
+                                                            <strong ng-click="showNew = !showNew" class="pointer"><i class="fa fa-plus" ng-hide="showNew"></i><i class="fa fa-minus" ng-show="showNew"></i> Nieuwe {{relatie.type}} toevoegen</strong>
+                                                        </div>
+                                                        <div class='box-body' ng-show="showNew" ng-init="newItem={'title': '', 'datarelation': {}}">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" ng-model="newItem.title">
+                                                            </div>
+                                                            <div ng-repeat="row in relatie.data" class="form-group">
+                                                                <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="newItem.datarelation[row.key]"> {{row.label}}
+                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                </label>
+                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="newItem.datarelation[row.key]">
+                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="newItem.datarelation[row.key]"></textarea>
+                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="newItem.datarelation[row.key]">
+                                                                <select ng-if="row.type == 'enum'"  ng-model="newItem.datarelation[row.key]" class="form-control" >
+                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <button ng-click="addNewItemRelatieAndData(relatie,newItem); newItem={'title': '', 'datarelation': {}}" class="btn primary m-b">Toevoegen</button>
+                                                            <p class="m-t">
+                                                                <small class="text-muted">Liever uitgebreid invoeren? Klik <a ui-sref="module.node.new({'nodeId': null, 'type': relatie.type})">hier om uitgebreid nieuwe {{relatie.type}} toe te voegen.</a></small>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+
                                                 </div>
                                             </form>
                                         </div>
@@ -338,9 +432,9 @@
                                         </div>
                                         <div class="box-divider m-a-0"></div>
                                         <div class="box-body">
-                                            <form role="form" ng-submit="addDependency(dependency, this);">
+                                            <form role="form" n-g-submit="addDependency(dependency, this);">
                                                 <div class="form-group relatie">
-                                                    <ul class="relatie">
+                                                    <ul class="relatie" ng-if="!dependency.editShort">
                                                         <li ng-repeat="dependent in node.dependencies[dependency.key]">
                                                             <div class="title p-a-sm licht">{{dependent.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteDependency(dependent)"></i></div>
                                                             <div ng-if="dependency.data.length > 0" class="p-a">
@@ -350,7 +444,7 @@
                                                                     </label><br/>
                                                                     <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="dependent.datarelation[row.key]">
                                                                     <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="dependent.datarelation[row.key]"></textarea>
-                                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="dependent.data[row.key]">
+                                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="dependent.datarelation[row.key]">
                                                                     <select ng-if="row.type == 'enum'"  ng-model="dependent.datarelation[row.key]" class="form-control" >
                                                                         <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
                                                                     </select>
@@ -358,7 +452,7 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                                                    <div ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}">
+                                                    <div ng-if="!dependency.editShort" ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}">
                                                         <input type="text" class="form-control" ng-model="searchText[dependency.key]" placeholder="Voeg {{dependency.label|lowercase}} toe">
                                                         <div class="autosuggest" ng-show="searchText[dependency.key] && results.length > 0">
                                                             <strong>Selecteer een bestaande {{dependency.type}}:</strong>
@@ -369,6 +463,97 @@
                                                         <div class='m-t' ng-show="searchText[dependency.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[dependency.key].toLowerCase())">
                                                             <strong>Geen {{dependency.type}} gevonden</strong><br/>
                                                             Je kan hierboven alleen een bestaande {{dependency.type}} toevoegen. <a ui-sref="module.node.new({'nodeId': null, 'type': dependency.type})">Nieuw {{dependency.type}} toevoegen.</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <table ng-if="dependency.editShort">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th ng-repeat="row in dependency.data">
+                                                                    <label>{{row.label}}
+                                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                    </label>
+                                                                </th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tr ng-repeat="dependent in node.dependencies[dependency.key] | orderBy: ['title']">
+                                                            <td>{{dependent.title}}  <small><a ui-sref="module.node.tab({nodeId: dependent.nodeId, tab: 'edit'})" target="_blank" class="text-muted"><i class="fa fa-external-link"></i></a></small></td>
+                                                            <td ng-repeat="row in dependency.data" class="input-group-sm">
+                                                                <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]" style="width: auto">
+                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="dependent.datarelation[row.key]" style="width: auto">
+                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="dependent.datarelation[row.key]"></textarea>
+                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="dependent.datarelation[row.key]" style="width: auto">
+                                                                <select ng-if="row.type == 'enum'"  ng-model="dependent.datarelation[row.key]" class="form-control"  style="width: auto">
+                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                                </select>
+                                                            </td>
+                                                            <td ng-if="user.isContributorOrUp"><i class="text-danger text-md fa fa-times pointer pull-right"  ng-click="deleteDependency(dependent)"></i></td>
+                                                        </tr>
+                                                    </table>
+
+                                                    <div ng-if="dependency.editShort" ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}; showExisting = false; showNew" class="box">
+                                                        <div class="box-header">
+                                                            <div class="input-group input-group-sm pull-right" ng-show="showExisting">
+                                                                <input type="text" class="form-control" ng-model="searchText[dependency.key]" placeholder="Zoek {{dependency.label|lowercase}}">
+                                                            </div>
+                                                            <strong ng-click="showExisting = !showExisting" class="pointer"><i class="fa fa-plus" ng-hide="showExisting"></i><i class="fa fa-minus" ng-show="showExisting"></i> Bestaande {{dependency.type}} toevoegen</strong>
+                                                        </div>
+                                                        <div ng-show="showExisting" class="box-body">
+                                                            <div class="autosuggest">
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th ng-repeat="row in dependency.data">
+                                                                                <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}
+                                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                                </label>
+                                                                            </th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="option in relations[dependency.type] | orderBy: ['title'] | filter: searchText[dependency.key] | nodeIdNotIn: node.dependencies[dependency.key]  as results track by option.nodeId">
+                                                                            <td><span style="white-space: nowrap;">{{option.title}}</span></td>
+                                                                            <td ng-repeat="row in dependency.data" class="input-group input-group-sm">
+                                                                                <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="option.datarelation[row.key]">
+                                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="option.datarelation[row.key]">
+                                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="option.datarelation[row.key]"></textarea>
+                                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="option.datarelation[row.key]">
+                                                                                <select ng-if="row.type == 'enum'"  ng-model="option.datarelation[row.key]" class="form-control" >
+                                                                                    <option ng-repeat="o in row.options" ng-value="o">{{o}}</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td><i class="text-danger text-md fa fa-plus pointer pull-right"   ng-click="addDependencyAndData(dependency,option);"></i></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="box-header">
+                                                            <strong ng-click="showNew = !showNew" class="pointer"><i class="fa fa-plus" ng-hide="showNew"></i><i class="fa fa-minus" ng-show="showNew"></i> Nieuwe {{dependency.type}} toevoegen</strong>
+                                                        </div>
+                                                        <div class='box-body' ng-show="showNew" ng-init="newItem={'title': '', 'datarelation': {}}">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" ng-model="newItem.title">
+                                                            </div>
+                                                            <div ng-repeat="row in dependency.data" class="form-group">
+                                                                <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}
+                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
+                                                                </label>
+                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="newItem.datarelation[row.key]">
+                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="newItem.datarelation[row.key]"></textarea>
+                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="newItem.datarelation[row.key]">
+                                                                <select ng-if="row.type == 'enum'"  ng-model="newItem.datarelation[row.key]" class="form-control" >
+                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <button ng-click="addNewItemDependencyAndData(dependency,newItem); newItem={'title': '', 'datarelation': {}}" class="btn primary m-b">Toevoegen</button>
+                                                            <p class="m-t">
+                                                                <small class="text-muted">Liever uitgebreid invoeren? Klik <a ui-sref="module.node.new({'nodeId': null, 'type': dependency.type})">hier om uitgebreid nieuwe {{dependency.type}} toe te voegen.</a></small>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>

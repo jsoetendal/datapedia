@@ -20,9 +20,11 @@ angular.
                       if($scope.entity.background) {
                           $rootScope.backgroundImgUrl = $scope.entity.background;
                       }
+                      $scope.canCreate = false;
+                      if(!$scope.entity.creation || $scope.entity.creation.indexOf($scope.user.auth.role) > -1) $scope.canCreate = true;
                   }
               }
-              if($scope.entity.views[0] == "set" || $scope.entity.getNodesExtended){
+              if($scope.entity && ($scope.entity.views[0] == "set" || $scope.entity.getNodesExtended)){
                 var extended = true;
               } else {
                 var extended = false;
@@ -139,11 +141,13 @@ angular.
 
             //Type toevoegen als facet, indien meer dan 1:
             if($scope.multipleTypes){
+                var facet2 = {'key': 'module', 'label': "Onderdeel", 'options': [], 'show': 5};
                 var facet = {'key': 'type', 'label': "Type", 'options': [], 'show': 5};
                 for(var i in $scope.nodes) {
                     if($scope.nodes[i].visible) {
                         for (var j in $rootScope.settings.content.entities) {
                             if ($scope.nodes[i].type == $rootScope.settings.content.entities[j].type) {
+                                //EntityType toewijzen en aan face toevoegen
                                 var found = false;
                                 $scope.nodes[i].typeSingle = $rootScope.settings.content.entities[j].single;
                                 for (var k in facet.options) {
@@ -159,10 +163,33 @@ angular.
                                         'count': 1
                                     });
                                 }
+
+                                //Bijbehorende module toewijzen en aan facet toevoegen
+                                var found = false;
+                                $scope.nodes[i].module = $rootScope.settings.content.entities[j].module;
+                                for(let l in $rootScope.settings.modules){
+                                    if($rootScope.settings.modules[l].name == $scope.nodes[i].module) $scope.nodes[i].moduleTitle = $rootScope.settings.modules[l].title;
+                                }
+                                for (var m in facet2.options) {
+                                    if (facet2.options[m].value == $scope.nodes[i].module) {
+                                        found = true;
+                                        facet2.options[m].count += 1;
+                                    }
+                                }
+                                if(!found){
+                                    facet2.options.push({
+                                        'label': $scope.nodes[i].moduleTitle,
+                                        'value': $scope.nodes[i].module,
+                                        'count': 1
+                                    });
+                                }
                             }
                         }
+
+
                     }
                 }
+                $scope.facets.push(facet2);
                 $scope.facets.push(facet);
             }
 
@@ -419,7 +446,7 @@ angular.
         }
 
           $scope.onSearch = function(){
-              $state.go("nodes.query",{"type": "zoeken", "q": $scope.zoeken.q});
+              $state.go("module.nodes.query",{"type": "zoeken", "q": $scope.zoeken.q});
               self.doSearch($scope.zoeken.q);
           }
 
@@ -598,6 +625,9 @@ angular.
                       var all = new L.featureGroup(allLayers);
                       $scope.pdokMap.fitBounds(all.getBounds());
                   }
+                  $timeout(function(){
+                      $scope.pdokMap.invalidateSize(false);
+                      }, 500);
               }
           }
 

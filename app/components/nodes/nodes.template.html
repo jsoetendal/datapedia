@@ -58,7 +58,7 @@
                             <li ng-hide="entity.views.indexOf('geo') == -1"><a ng-click="setView('geo')"><i class="fa fa-globe text-md m-r"></i> Kaart</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" ng-show="canCreate">
                         <a class="nav-link dropdown-toggle clear" href="" data-toggle="dropdown" aria-expanded="false">
                             <span>Toevoegen</span>
                         </a>

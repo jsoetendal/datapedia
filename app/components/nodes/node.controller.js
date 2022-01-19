@@ -3,8 +3,8 @@ angular.
   module('app').
   component('node', {
     templateUrl: 'app/components/nodes/node.template.html',
-    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location', '$filter', '$sanitize', '$sce',
-      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location, $filter, $sanitize, $sce) {
+    controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', '$timeout', 'Nodes', '$location', '$filter', '$sanitize', '$sce',
+      function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, $timeout, Nodes, $location, $filter, $sanitize, $sce) {
         var self = this;
         $scope.user = $rootScope.setup.user;
         $scope.history = null;
@@ -15,8 +15,6 @@ angular.
             Nodes.loadNode(nodeId, function(){
                 $scope.node = Nodes.getNode();
                 if(!$scope.node.data || $scope.node.data == []) $scope.node.data = {};
-                //console.log($scope.node);
-                //console.log($rootScope.settings);
                 for(var i in $rootScope.settings.content.entities){
                     if($rootScope.settings.content.entities[i].type == $scope.node.type){
                         $scope.entity = $rootScope.settings.content.entities[i];
@@ -296,6 +294,29 @@ angular.
               return false;
           }
 
+          $scope.addRelatieAndData = function(relatie, option){
+              Nodes.addRelation(self.nodeId, relatie.key, option.nodeId, function(relatedNode){
+                  relatedNode.sourceId = self.nodeId;
+                  relatedNode.targetId = relatedNode.nodeId;
+                  relatedNode.key = relatie.key;
+                  relatedNode.datarelation = option.datarelation;
+                  $scope.node.addRelatedNode(relatedNode, relatie.key);
+              });
+          }
+
+          $scope.addNewItemRelatieAndData = function(relatie,newItem){
+              let newNode = {
+                  type: relatie.type,
+                  title: newItem.title,
+              }
+              newNode.type = relatie.type;
+              Nodes.addNode(newNode, function(newId){
+                  newNode.nodeId = newId;
+                  newNode.datarelation = angular.copy(newItem.datarelation);
+                  $scope.addRelatieAndData(relatie, newNode);
+              })
+          }
+
           /**
            * addDependency, doet hetzelfde als een relatie toevoegen, maar dan is de node de targetId en niet de sourceId
            * @param relatie
@@ -309,6 +330,30 @@ angular.
                   $scope.node.addDependentNode(relatedNode, relatie.key);
                   $scope.searchText[relatie.key] = null; //Reset text input field
               });
+          }
+
+          $scope.addDependencyAndData = function(relatie, option){
+              Nodes.addDependency(option.nodeId, relatie.key, self.nodeId, function(relatedNode){
+                  relatedNode.sourceId = relatedNode.nodeId;
+                  relatedNode.targetId = self.nodeId;
+                  relatedNode.key = relatie.key;
+                  relatedNode.datarelation = option.datarelation;
+                  $scope.node.addDependentNode(relatedNode, relatie.key);
+                  $scope.searchText[relatie.key] = null; //Reset text input field
+              });
+          }
+
+          $scope.addNewItemDependencyAndData = function(relatie,newItem){
+              let newNode = {
+                  type: relatie.type,
+                  title: newItem.title,
+              }
+              newNode.type = relatie.type;
+              Nodes.addNode(newNode, function(newId){
+                  newNode.nodeId = newId;
+                  newNode.datarelation = angular.copy(newItem.datarelation);
+                  $scope.addDependencyAndData(relatie, newNode);
+              })
           }
 
           $scope.deleteRelatie = function(relatie){
@@ -397,7 +442,7 @@ angular.
         $scope.deleteNode = function(){
             var type = $scope.node.type;
             Nodes.deleteNode($scope.node.nodeId, function(){
-                    $state.go("nodes", {"type": type});
+                    $state.go("module.nodes", {"type": type});
                 }
             );
         }
@@ -412,6 +457,126 @@ angular.
                 $scope.token = tokenStr;
                 $scope.tokenlink = $scope.simplelink + "?token=" + $scope.token;
             });
+        }
+
+        $scope.loadMap = function(div, nodes, force){
+            if((force || !$scope.pdokMap) && document.getElementById(div)){
+                // Achtergrond lagen
+                var backgroundLayer = L.tileLayer('https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png', {
+                    attribution: '<a href="https://creativecommons.org/licenses/by/3.0/nl/">CC BY 3.0</a> Kadaster', // Attributie van kaartmateriaal
+                    maxZoom: 19, // Maximale zoom niveau van deze getegelde kaart service
+                    minZoom: 8, // Minimale zoom niveau van deze getegelde kaart service
+                    tileSize: 256, // Grootte van de tegels die opgehaald worden
+                    zoomOffset: 0 // Zoom offset (meestal 0)
+                });
+
+                // Kaart aanmaken
+                if($scope.pdokMap) $scope.pdokMap.remove(); // Forced, so set-up again
+
+                $scope.pdokMap = L.map('mapPDOK', {
+                    center: [52.2, 5.3], // Coordinaten van het startpunt van de kaart
+                    zoom: 8, // Zoomniveau van het startpunt van de kaart
+                    layers: [backgroundLayer] // Ingeschakelde kaartlagen
+                });
+
+                // Voeg een schaal control toe aan kaart object
+                L.control.scale().addTo($scope.pdokMap);
+                $scope.pdokMap.invalidateSize(false);
+            } else {
+                if(!document.getElementById(div)){
+                    $timeout(function(){
+                        $scope.loadMap(div, nodes, force);
+                    }, 500);
+                }
+            }
+            if($scope.pdokMap) $scope.updateMap(nodes);
+        }
+
+        $scope.updateMap = function(nodes){
+            if(!$scope.pdokMap){
+                $timeout(function(){ $scope.updateMap();}, 500); //If no map, try again...
+            } else {
+                //Clear map, for filtering
+                if($scope.maplayers && $scope.maplayers.length > 0)
+                for(let i in $scope.maplayers){
+                    $scope.pdokMap.removeLayer($scope.maplayers[i]);
+                }
+                $scope.maplayers = [];
+
+                if(nodes && nodes.length > 0) {
+                    let entity = {data: []};
+                    for (var i in $rootScope.settings.content.entities) {
+                        if ($rootScope.settings.content.entities[i].type == nodes[0].type) {
+                            entity = $rootScope.settings.content.entities[i];
+                        }
+                    }
+
+                    for (let i in nodes) {
+                        if (nodes[i].data.geometry) {
+                            let add = true;
+                            var json = JSON.parse(nodes[i].data.geometry.replace(/&#34;/g, "\""));
+                            let tooltip = " <div class=\"details\">\n" +
+                                "<strong>" + nodes[i].title + "</strong>";
+                            for (let j in entity.data) {
+                                if (nodes[i].data[entity.data[j].key] && entity.data[j].type != "geometry") {
+                                    tooltip += "<br/>" + entity.data[j].label + ": " + nodes[i].data[entity.data[j].key];
+                                }
+                                if ($scope.current[entity.data[j].key] && $scope.current[entity.data[j].key] != nodes[i].data[entity.data[j].key]) add = false;
+                            }
+                            let className = "nodegeo";
+                            for (let j in nodes[i].datarelation) {
+                                tooltip += "<br/>" + j + ": " + nodes[i].datarelation[j];
+                                className += " "+ j + nodes[i].datarelation[j].substring(0,1); //Bijv. status0 om kleuren toe te voegen
+                            }
+                            tooltip += " </div>";
+                            if (add) {
+                                //nodes[i].layer = L.geoJSON(json).bindTooltip(tooltip, {
+                                let layer = L.geoJSON(json, {
+                                    style: function style(feature) {
+                                        return {
+                                            className: className,
+                                            weight: 1,
+                                            opacity: 1,
+                                            color: '#777',
+                                            stroke: true,
+                                            fillOpacity: 0.7
+                                        };
+                                    }
+                                }).bindTooltip(tooltip, {
+                                    permanent: false,
+                                    sticky: true,
+                                    offset: [10, 0],
+                                    opacity: 0.75,
+                                    className: 'leaflet-tooltip-own'
+                                }).addTo($scope.pdokMap);
+                                layer.on("click", function (e) {
+                                    $state.go("module.node", {"nodeId": nodes[i].nodeId});
+                                });
+                                $scope.maplayers.push(layer);
+                            }
+                        }
+                    }
+                }
+
+                $timeout(function(){
+                    $scope.pdokMap.invalidateSize(false);
+                }, 0);
+
+                //Set bounds:
+                const allLayers = [];
+                $scope.pdokMap.eachLayer(function (layer) {
+                    if (layer.feature) { //If it is a feature
+                        allLayers.push(layer);
+                    }
+                });
+                if (allLayers.length > 0) {
+                    var all = new L.featureGroup(allLayers);
+                    $scope.pdokMap.fitBounds(all.getBounds());
+                } else {
+                    $scope.pdokMap.setView([52.2, 5.3], 8)
+                }
+
+            }
         }
 
         $scope.setTab = function(tab){
@@ -477,6 +642,8 @@ angular.
           } else {
               $scope.current = {};
           }
+
+        $scope.orderProp = ["path","title"];
 
         if(this.nodeId && $state.current.name != "module.node.newrelated") {
             this.loadNode(this.nodeId);

@@ -82,6 +82,26 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
         $http.get(fname).then(function(response) {
             if(response.data){
                 $rootScope.settings = response.data;
+
+                //Dependencies data vullen met data uit oorspronkelijke relation:
+                for(let e in $rootScope.settings.content.entities){
+                    for(let d in $rootScope.settings.content.entities[e].dependencies){
+                        //
+                        let relationkey = $rootScope.settings.content.entities[e].dependencies[d].key;
+                        let type = $rootScope.settings.content.entities[e].dependencies[d].type;
+                        for(let e2 in $rootScope.settings.content.entities){
+                            if($rootScope.settings.content.entities[e2].type == type){
+                                for(let r in $rootScope.settings.content.entities[e2].relations){
+                                    if($rootScope.settings.content.entities[e2].relations[r].key == relationkey){
+                                        $rootScope.settings.content.entities[e].dependencies[d].data = $rootScope.settings.content.entities[e2].relations[r].data;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                console.log($rootScope.settings);
             }
         });
 

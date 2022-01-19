@@ -46,7 +46,7 @@ angular.
 
 
         $scope.naarZoeken = function(q){
-          $state.go("nodes.query",{"type": "zoeken", "q": q});
+          $state.go("module.nodes.query",{"type": "zoeken", "q": q});
         }
 
 

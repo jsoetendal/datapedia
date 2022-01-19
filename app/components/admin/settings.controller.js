@@ -93,8 +93,9 @@ component('settings', {
                 $scope.settings.content.entities.push(newEntity);
             }
 
-            $scope.addData = function(){
-                $scope.selected.entity.data.push(
+            $scope.addData = function(arr){
+                //$scope.selected.entity.data.push(
+                arr.push(
                     {
                         "key": "",
                         "type": "text",
@@ -113,8 +114,9 @@ component('settings', {
                 }
             }
 
-            $scope.deleteData = function (index){
-                $scope.selected.entity.data.splice(index, 1);
+            $scope.deleteData = function (arr, index){
+                //$scope.selected.entity.data.splice(index, 1);
+                arr.splice(index,1);
             }
 
             $scope.deleteOption = function(item, index){

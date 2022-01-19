@@ -9,36 +9,45 @@
         </div>
     </div>
     <div class="box incontent" style="margin-left: -1rem">
-        <div class="box-header" ng-init="currentNiveau = 5">
-            <div class="niveaublokje pull-right pointer" ng-class="{'YlGnBu q4-5': currentNiveau == 5}" ng-click="currentNiveau = 5">5</div>
-            <div class="niveaublokje pull-right pointer" ng-class="{'YlGnBu q3-5': currentNiveau == 4}" ng-click="currentNiveau = 4">4</div>
-            <div class="niveaublokje pull-right pointer" ng-class="{'YlGnBu q2-5': currentNiveau == 3}" ng-click="currentNiveau = 3">3</div>
-            <div class="niveaublokje pull-right pointer" ng-class="{'YlGnBu q1-5': currentNiveau == 2}" ng-click="currentNiveau = 2">2</div>
-            <div class="niveaublokje pull-right pointer" ng-class="{'YlGnBu q0-5': currentNiveau == 1}" ng-click="currentNiveau = 1">1</div>
-            <h3 class="text-primary">Niveau</h3>
-            <div style="clear:both"></div>
+        <div class="box-header">
+            <h3 class="text-primary">Niveau's</h3>
         </div>
         <div class="box-divider"></div>
         <div class="box-body">
-            <div ng-show="currentNiveau == 1">
-                <strong>Niveau 1: Nog niet gestart</strong>
-                <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau1'])"></p>
+            <div style="clear:both">
+                <div class="niveaublokje YlGnBu q0-5 pull-left">1</div>
+                <div style="margin: 0em 0em 1em 3em">
+                    <strong>Nog niet gestart</strong>
+                    <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau1'])"></p>
+                </div>
             </div>
-            <div ng-show="currentNiveau == 2">
-                <strong>Niveau 2: Oriënterend</strong>
-                <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau2'])"></p>
+            <div style="clear:both">
+                <div class="niveaublokje YlGnBu q1-5 pull-left">2</div>
+                <div style="margin: 0em 0em 1em 3em">
+                    <strong>Oriënterend</strong>
+                    <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau2'])"></p>
+                </div>
             </div>
-            <div ng-show="currentNiveau == 3">
-                <strong>Niveau 3: Aan de slag</strong>
-                <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau3'])"></p>
+            <div style="clear:both">
+                <div class="niveaublokje YlGnBu q2-5 pull-left">3</div>
+                <div style="margin: 0em 0em 1em 3em">
+                    <strong>Aan de slag</strong>
+                    <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau3'])"></p>
+                </div>
             </div>
-            <div ng-show="currentNiveau == 4">
-                <strong>Niveau 4: Goed bezig</strong>
-                <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau4'])"></p>
+            <div style="clear:both">
+                <div class="niveaublokje YlGnBu q3-5 pull-left">4</div>
+                <div style="margin: 0em 0em 1em 3em">
+                    <strong>Goed bezig</strong>
+                    <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau4'])"></p>
+                </div>
             </div>
-            <div ng-show="currentNiveau == 5">
-                <strong>Niveau 5: Compleet</strong>
-                <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau5'])"></p>
+            <div style="clear:both">
+                <div class="niveaublokje YlGnBu q4-5 pull-left">5</div>
+                <div style="margin: 0em 0em 1em 3em">
+                    <strong>Compleet</strong>
+                    <p class="m-t-sm" ng-bind-html="trustAsHtml(node.data['Niveau5'])"></p>
+                </div>
             </div>
         </div>
     </div>

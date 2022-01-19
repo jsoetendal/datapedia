@@ -36,15 +36,15 @@
                     <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
                 </div>
                 <ul ng-show="showRegios">
-                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent();">Zuid-Nederland</li>
-                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent();">Zuidwest-Nederland</li>
-                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent();">Oost-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent();">Noord-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();">Noord-Holland & Flevoland</li>
-                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent();">Utrecht</li>
+                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent();" class="pointer">Zuid-Nederland</li>
+                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent();" class="pointer">Zuidwest-Nederland</li>
+                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent();" class="pointer">Oost-Nederland</li>
+                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent();" class="pointer">Noord-Nederland</li>
+                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();" class="pointer">Noord-Holland & Flevoland</li>
+                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent();" class="pointer">Utrecht</li>
                 </ul>
             </div>
-            <ul class="list no-border p-b">
+            <ul class="list no-border p-b" ng-show="current.regio == 'Noord-Holland & Flevoland'">
                 <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['title']" ng-if="related.data.regio == current.regio">
                     <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
                         <span class="w-40 avatar"ng-if="related.imgUrl">
@@ -60,6 +60,7 @@
                     </div>
                 </li>
             </ul>
+            <div class="p-a" ng-hide="current.regio == 'Noord-Holland & Flevoland'">Op dit moment is de Datapedia alleen actief in <a ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();" class="pointer">Noord-Holland & Flevoland</a></div>
         </div>
     </div>
 </div>

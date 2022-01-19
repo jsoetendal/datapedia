@@ -159,12 +159,12 @@
 </script>
 
 <script type="text/ng-template" id="nodeList">
-    <div class="col-xs-12 node pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+    <div class="col-xs-12 node pointer" ui-sref="module.node({'modulename': node.module ? node.module : module.name, nodeId: node.nodeId})">
         <div class="p-b-md m-b-md b-b">
             <div ng-hide="!node.imgUrl || node.imgUrl.length == 0" style='margin-left: 20px; float:right; width: 250px; height: 150px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
             <div style="margin-right: 270px">
-                <small ng-if="multipleTypes" class="text-primary _500">{{node.typeSingle}}</small>
+                <small ng-if="multipleTypes" class="text-primary _500">{{node.moduleTitle}} - {{node.typeSingle}}</small>
                 <h6>{{node.title}}</h6>
                 <div ng-bind-html="node.text | plain:200"></div>
                 <div class="text-muted text-sm">

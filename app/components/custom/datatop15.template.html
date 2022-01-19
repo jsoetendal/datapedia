@@ -10,7 +10,7 @@
                         <small class="text-muted">Regio</small><br/>
                         <a ng-click="showRegios =! showRegios"><i ng-show="showRegios" class="fa fa-chevron-up pull-right"></i><i ng-hide="showRegios" class="fa fa-chevron-down pull-right"></i>
                             <strong style="font-size: 120%; font-weight: 500" ng-show="current.regio">{{current.regio}}</strong>
-                            <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
+                            <!--<strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>-->
                         </a>
                         <ul ng-show="showRegios">
                             <li ng-click="setRegio('Zuid-Nederland'); showRegios=false;" class="pointer">Zuid-Nederland</li>
@@ -19,45 +19,59 @@
                             <li ng-click="setRegio('Noord-Nederland'); showRegios=false;" class="pointer">Noord-Nederland</li>
                             <li ng-click="setRegio('Noord-Holland & Flevoland'); showRegios=false;" class="pointer">Noord-Holland & Flevoland</li>
                             <li ng-click="setRegio('Utrecht'); showRegios=false;" class="pointer">Utrecht</li>
-                            <li ng-click="setRegio(null); showRegios=false;" class="pointer">Heel Nederland</li>
+                            <!--<li ng-click="setRegio(null); showRegios=false;" class="pointer">Heel Nederland</li>-->
                         </ul>
                     </div>
                     <div class="p-y-sm b-b">
                         <small class="text-muted">Data Top 15-item</small><br/>
                         <a ng-click="showDataItems =! showDataItems"><i ng-show="showDataItems" class="fa fa-chevron-up pull-right"></i><i ng-hide="showDataItems" class="fa fa-chevron-down pull-right"></i>
-                            <strong style="font-size: 120%; font-weight: 500">{{current.item.title}}</strong>
+                            <img src="uploads/icoon{{current.item.title|truncate:2}}.png" style="height: 32px; max-width: 50px; float: left;">
+                            <div style="font-size: 120%; font-weight: 500; line-height: 32px; padding-top: 2px; margin-left: 60px;">
+                                {{current.item.title}}
+                            </div>
                         </a>
-                        <ul ng-show="showDataItems">
-                            <li ng-repeat="item in dataitems" ng-click="setItem(item); $parent.showDataItems=false;" class="pointer">{{item.title}}</li>
-                            <li ng-click="$parent.showCompleteStatus = true; $parent.showDataItems=false;" class="pointer">Alle Data Top 15-items</li>
+                        <ul ng-show="showDataItems" class="nostyle m-t">
+                            <li ng-repeat="item in dataitems" ng-click="setItem(item); $parent.showDataItems=false;" class="pointer" style="clear: both; margin-bottom: 10px;">
+                                <img src="uploads/icoon{{item.title|truncate:2}}.png" style="height: 32px; max-width: 50px; float: left;">
+                                <div style="font-size: 120%; font-weight: 500; line-height: 32px; padding-top: 2px; margin-left: 60px;">
+                                    {{item.title}}
+                                </div>
+                            </li>
+                            <li ng-click="$parent.showCompleteStatus = true; $parent.showDataItems=false;" class="pointer"><i class="fa fa-list-ol"></i> Bekijk het complete overzicht met alle Data Top 15-items <i class="fa  fa-angle-double-right"></i></li>
                         </ul>
                     </div>
-                    <div class="p-y-sm">
-                        <div style="margin-left: 60px;">
-                            <div class="pull-right">
-                                <small>Niveau</small> <i class="fa fa-caret-up pointer" ng-click="orderProp = ['currentScore', 'title']"></i><i class="fa fa-caret-down pointer" ng-click="orderProp = ['-currentScore', 'title']"></i>
+                    <div ng-show="current.regio == 'Noord-Holland & Flevoland'">
+                        <div class="p-y-sm">
+                            <div style="margin-left: 60px;">
+                                <div class="pull-right">
+                                    <small>Niveau</small> <i class="fa fa-caret-up pointer" ng-click="orderProp = ['currentScore', 'title']"></i><i class="fa fa-caret-down pointer" ng-click="orderProp = ['-currentScore', 'title']"></i>
+                                </div>
+                                <small>Wegbeheerder</small> <i class="fa fa-caret-up pointer" ng-click="orderProp = ['title']"></i><i class="fa fa-caret-down pointer" ng-click="orderProp = ['-title']"></i>
                             </div>
-                            <small>Wegbeheerder</small> <i class="fa fa-caret-up pointer" ng-click="orderProp = ['title']"></i><i class="fa fa-caret-down pointer" ng-click="orderProp = ['-title']"></i>
+                        </div>
+                        <div class="node m-b" ng-repeat="node in gemeentes| orderBy:orderProp | filter: zoeken.searchText | filter: {'visible': true} as results track by $index" ng-if="!current.regio || node.data.regio == current.regio" ng-mouseenter="geoShow(node)" ng-mouseleave="geoHide(node)">
+                            <div class="pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+                                <div class="item" style='float: left; width: 40px; height: 40px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
+                                </div>
+                                <div style="margin-left: 60px; min-height: 40px">
+                                    <div ng-hide="!current.item || !matrix[node.nodeId][current.item.nodeId].score">
+                                        <div class="status-score pull-right YlGnBu q{{matrix[node.nodeId][current.item.nodeId].score - 1}}-5">{{matrix[node.nodeId][current.item.nodeId].score}}</div>
+                                    </div>
+                                    <strong>{{node.title}}</strong>
+                                    <div ng-show="!current.item">
+                                        <small class="text-muted">{{node.data['regio']}}</small>
+                                    </div>
+                                    <div ng-hide="!current.item">
+                                        <span ng-show="matrix[node.nodeId][current.item.nodeId].label">{{matrix[node.nodeId][current.item.nodeId].label}}</span>
+                                        <span ng-hide="matrix[node.nodeId][current.item.nodeId].label">Onbekend</span>
+                                        <small ng-if="matrix[node.nodeId][current.item.nodeId].toelichting" class="text-muted"><br/>{{matrix[node.nodeId][current.item.nodeId].toelichting | maxlength:50}}</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="node m-b" ng-repeat="node in gemeentes| orderBy:orderProp | filter: zoeken.searchText | filter: {'visible': true} as results track by $index" ng-if="!current.regio || node.data.regio == current.regio" ng-mouseenter="geoShow(node)" ng-mouseleave="geoHide(node)">
-                        <div class="pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
-                            <div class="item" style='float: left; width: 40px; height: 40px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
-                            </div>
-                            <div style="margin-left: 60px; min-height: 40px">
-                                <div ng-hide="!current.item || !matrix[node.nodeId][current.item.nodeId].score">
-                                    <div class="status-score pull-right YlGnBu q{{matrix[node.nodeId][current.item.nodeId].score - 1}}-5">{{matrix[node.nodeId][current.item.nodeId].score}}</div>
-                                </div>
-                                <strong>{{node.title}}</strong>
-                                <div ng-show="!current.item">
-                                    <small class="text-muted">{{node.data['regio']}}</small>
-                                </div>
-                                <div ng-hide="!current.item">
-                                    <span ng-show="matrix[node.nodeId][current.item.nodeId].label">{{matrix[node.nodeId][current.item.nodeId].label}}</span>
-                                    <span ng-hide="matrix[node.nodeId][current.item.nodeId].label">Onbekend</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div ng-hide="current.regio == 'Noord-Holland & Flevoland'" class="p-y">
+                        Op dit moment is de Datapedia alleen actief in <a ng-click="setRegio('Noord-Holland & Flevoland'); showRegios=false;" class="pointer text-blue">Noord-Holland & Flevoland</a>
                     </div>
                 </div>
             </div>
@@ -71,9 +85,32 @@
                     </div>
                     <h3>Op de kaart</h3>
                 </div>
-                <div class="box-body p-x-0">
-                    <div id="mapPDOK" style="width: 100%; height: 60vh; margin-bottom: 20px;" ng-init="loadPDOK()">
+                <div class="box-body p-x-0" ng-show="current.regio == 'Noord-Holland & Flevoland'">
+                    <div id="mapPDOK" style="width: 100%; height: 60vh; margin-bottom: 20px;"  ng-init="loadPDOK()">
                     </div>
+                    <p>Wegbeheerders die niet op de kaart getoond worden:</p>
+                    <table>
+                        <tbody>
+                            <tr ng-repeat="node in gemeentes| orderBy:orderProp | filter: zoeken.searchText | filter: {'visible': true} as results track by $index" ng-if="(!current.regio || node.data.regio == current.regio) && (!node.data.geometry || node.data.geometry.length < 5)">
+                                <td class="pointer p-a-sm" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})"><strong>{{node.title}}</strong></td>
+                                <td class="p-a-sm" ng-show="!current.item">
+                                    <small class="text-muted">{{node.data['regio']}}</small>
+                                </td>
+                                <td class="p-a-sm" ng-hide="!current.item">
+                                    <div ng-show="matrix[node.nodeId][current.item.nodeId].score" class="status-score pull-right YlGnBu q{{matrix[node.nodeId][current.item.nodeId].score - 1}}-5">{{matrix[node.nodeId][current.item.nodeId].score}}</div>
+                                </td>
+                                <td class="p-a-sm" ng-hide="!current.item">
+                                    <span ng-show="matrix[node.nodeId][current.item.nodeId].label">{{matrix[node.nodeId][current.item.nodeId].label}}</span>
+                                    <span ng-hide="matrix[node.nodeId][current.item.nodeId].label">Onbekend</span>
+                                    <small ng-if="matrix[node.nodeId][current.item.nodeId].toelichting" class="text-muted"><br/>{{matrix[node.nodeId][current.item.nodeId].toelichting | maxlength:50}}</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="m-t-2">
+                        <a class="btn primary" ng-click="$parent.showCompleteStatus = true" class="m-l"> <i class="fa fa-list-ol"></i> Bekijk het complete overzicht met alle data-items</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -93,7 +130,7 @@
             <small class="text-muted">Regio</small><br/>
             <a ng-click="showRegios =! showRegios"><i ng-show="showRegios" class="fa fa-chevron-up pull-right"></i><i ng-hide="showRegios" class="fa fa-chevron-down pull-right"></i>
                 <strong style="font-size: 120%; font-weight: 500" ng-show="current.regio">{{current.regio}}</strong>
-                <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
+               <!-- <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong> -->
             </a>
             <ul ng-show="showRegios">
                 <li ng-click="setRegio('Zuid-Nederland'); showRegios=false;" class="pointer">Zuid-Nederland</li>
@@ -102,12 +139,12 @@
                 <li ng-click="setRegio('Noord-Nederland'); showRegios=false;" class="pointer">Noord-Nederland</li>
                 <li ng-click="setRegio('Noord-Holland & Flevoland'); showRegios=false;" class="pointer">Noord-Holland & Flevoland</li>
                 <li ng-click="setRegio('Utrecht'); showRegios=false;" class="pointer">Utrecht</li>
-                <li ng-click="setRegio(null); showRegios=false;" class="pointer">Heel Nederland</li>
+                <!-- <li ng-click="setRegio(null); showRegios=false;" class="pointer">Heel Nederland</li> -->
             </ul>
         </div>
     </div>
     <div class="box-body p-a-0 col-sm-12 row">
-        <table class="table table-striped">
+        <table class="table table-striped" ng-show="current.regio == 'Noord-Holland & Flevoland'">
             <thead>
             <tr>
                 <th>Gemeente</th>
@@ -118,11 +155,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="gemeente in gemeentes| orderBy:['title'] | filter: {'visible': true} | filter: zoeken.searchText as results track by $index" ng-if="!current.regio || gemeente.data.regio == current.regio">
+            <tr ng-repeat-start="gemeente in gemeentes| orderBy:['data.regio', 'title'] | filter: {'visible': true} | filter: zoeken.searchText as results track by $index" ng-if="!current.regio && ($index == 0 || gemeente.data.regio != results[$index-1].data.regio)">
+                <td colspan="16" class="primary"><strong>Regio: {{gemeente.data.regio}}</strong></td>
+            </tr>
+            <tr ng-repeat-end ng-if="!current.regio || gemeente.data.regio == current.regio">
                 <td ui-sref="module.node({'modulename': module.name, nodeId: gemeente.nodeId})">{{gemeente.title}}</td>
                 <td ng-repeat="item in dataitems" style="text-align: center">
                     <span ng-show="matrix[gemeente.nodeId][item.nodeId] && matrix[gemeente.nodeId][item.nodeId].label == 'Niet van toepassing'">-</span>
-                    <div ng-show="matrix[gemeente.nodeId][item.nodeId] && matrix[gemeente.nodeId][item.nodeId].label != 'Niet van toepassing'" title="{{matrix[gemeente.nodeId][item.nodeId].label}}" class="status-score YlGnBu q{{matrix[gemeente.nodeId][item.nodeId].score - 1}}-5">
+                    <div ng-show="matrix[gemeente.nodeId][item.nodeId] && matrix[gemeente.nodeId][item.nodeId].label != 'Niet van toepassing'" title="{{matrix[gemeente.nodeId][item.nodeId].label}} {{matrix[gemeente.nodeId][item.nodeId].toelichting}}" class="status-score YlGnBu q{{matrix[gemeente.nodeId][item.nodeId].score - 1}}-5">
                         {{matrix[gemeente.nodeId][item.nodeId].score}}
                     </div>
                     <div ng-hide="matrix[gemeente.nodeId][item.nodeId]" title="Onbekend" class="status-score YlGnBu q-1-5">
@@ -131,8 +171,10 @@
                 </td>
             </tr>
             </tbody>
-
         </table>
+        <div ng-hide="current.regio == 'Noord-Holland & Flevoland'" class="p-a">
+            Op dit moment is de Datapedia alleen actief in <a ng-click="setRegio('Noord-Holland & Flevoland'); showRegios=false;" class="pointer text-blue">Noord-Holland & Flevoland</a>
+        </div>
     </div>
     <div class="box-divider"></div>
     <div class="box-footer">

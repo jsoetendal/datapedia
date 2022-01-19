@@ -54,7 +54,8 @@ angular.
                               $scope.matrix[$scope.gemeentes[i].nodeId][$scope.gemeentes[i].gemeente_datatop15[j].nodeId] =
                                   {
                                       'score': self.getScore($scope.gemeentes[i].gemeente_datatop15[j].datarelation.status),
-                                      'label': $scope.gemeentes[i].gemeente_datatop15[j].datarelation.status
+                                      'label': $scope.gemeentes[i].gemeente_datatop15[j].datarelation.status,
+                                      'toelichting': $scope.gemeentes[i].gemeente_datatop15[j].datarelation.toelichting
                                   }
                           }
                       }
@@ -216,6 +217,9 @@ angular.
                       var all = new L.featureGroup(allLayers);
                       $scope.pdokMap.fitBounds(all.getBounds());
                   }
+                  $timeout(function(){
+                      $scope.pdokMap.invalidateSize(false);
+                  }, 500);
               }
           }
 
