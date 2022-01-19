@@ -1,7 +1,6 @@
 <?php
     error_reporting(E_ALL ^E_NOTICE ^E_WARNING);
     $url = $_SERVER['REQUEST_URI'];
-    //$url = '/node//505';
     if($_SERVER["SERVER_NAME"] == "localhost") {
         $parts = explode("/", strtolower($url));
         array_splice($parts, 0,1);
@@ -17,6 +16,8 @@
     foreach($settings->modules as $m){
         $modules[] = $m->name;
     }
+
+    print_r($parts); exit();
 
 
     if(strtolower($parts[1] == "nodes")){
