@@ -56,11 +56,16 @@
                 }
             }
             if ($node) {
-                $HTMLTitle = $node->title . " (" . $entity->single . ") | Datapedia Smart Mobility";
+                $HTMLTitle = $node->title . " (" . $entity->single . ")";
                 $HTMLDescription = max_length($node->text, 255);
             } else {
-                $HTMLTitle = $entity->plural . " | Datapedia Smart Mobility";
+                $HTMLTitle = $entity->plural;
                 $HTMLDescription = $entity->introduction;
+            }
+            if($module == "datatop15"){
+                $HTMLTitle .= " | Datapedia Data Top 15";
+            } else {
+                $HTMLTitle .= " | Datapedia Smart Mobility";
             }
         } else {
             if($module == "datatop15"){
