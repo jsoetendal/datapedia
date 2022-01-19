@@ -17,7 +17,7 @@
         $modules[] = $m->name;
     }
 
-    print_r($parts); exit();
+    //print_r($parts); exit();
 
 
     if(strtolower($parts[1] == "nodes")){
