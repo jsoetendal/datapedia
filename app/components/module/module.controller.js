@@ -24,10 +24,12 @@ component('module', {
             }
 
             let modulename = $stateParams.modulename;
-            for(var i in $rootScope.settings.modules){
-                if($rootScope.settings.modules[i].name == modulename){
-                    $scope.module = $rootScope.settings.modules[i];
-                    $rootScope.module = $rootScope.settings.modules[i];
+            if($rootScope.settings && $rootScope.settings.modules) {
+                for (var i in $rootScope.settings.modules) {
+                    if ($rootScope.settings.modules[i].name == modulename) {
+                        $scope.module = $rootScope.settings.modules[i];
+                        $rootScope.module = $rootScope.settings.modules[i];
+                    }
                 }
             }
 
