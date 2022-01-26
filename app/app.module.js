@@ -72,12 +72,6 @@ angular.
                   $scope.setTab($stateParams.tab)
               }]
           })
-          .state('module', {
-              url: "/{modulename}",
-              template: "<module></module>",
-              controller: ['$scope', function($scope) {
-              }]
-          })
           .state('module.main', {
               url: "/intro",
               template: "<main class='controllermodule'></main>",
@@ -178,6 +172,12 @@ angular.
           .state('module.nodes.query', {
               url: "/{q}",
               template: "",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('module', { //Let op! Achteraan, omdat 'ie anders de andere afvangt...
+              url: "/{modulename}",
+              template: "<module></module>",
               controller: ['$scope', function($scope) {
               }]
           })

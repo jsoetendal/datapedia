@@ -1,4 +1,8 @@
-  <div ng-hide="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
+<header ui-include="'app/components/main/header.part.template.html'">
+</header>
+<div class="background" style="background-image: url('app/images/pexels-karol-d-409701.jpg');"></div>
+
+<div ng-hide="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
     <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
       <div class="m-b text-sm">
         <strong>Wachtwoord vergeten</strong><br/>
@@ -24,6 +28,4 @@
       <div>Je bent al ingelogd als {{user.auth.email}}!</div>    
       <div class="m-b"><a ui-sref="signout" class="text-primary _600">Uitloggen?</a></div>
     </div>
-  </div>  
-  
-  <helpsuggestie suggestie='Wachtwoord vergeten'/>
+  </div>
