@@ -372,7 +372,7 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', '$location','$sta
                         if(response.status == 200){
                             msg_element.text = "Wachtwoord succesvol gewijzigd! Je wordt nu automatisch ingelogd.";
                             //console.log({email: values.email, password: values.new_password1, region: $rootScope.settings.getCurrentRegion().kantoorId});
-                            $state.go("main");
+                            $state.go("start");
                             $rootScope.setup.doLogin({email: values.email, password: values.new_password1});
                         }
                     }).catch(function(fallback) {
