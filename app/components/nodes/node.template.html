@@ -35,6 +35,13 @@
                             <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
                             <h1>{{node.title}}</h1>
                             <div ng-if="node.date">{{node.date | compleetDateTime}}</div>
+                            <div ng-if="showNextPrev" class="pull-right">
+                                <small style="white-space: nowrap">
+                                <span ui-sref="module.node({'modulename': module.name, nodeId: siblings.previous.nodeId})" class="text-muted pointer" ng-show="siblings.previous"><i class="fa fa-angle-double-left"></i> {{siblings.previous.title}}</span>
+                                <span ng-show="siblings.next && siblings.previous" style="padding: 0em 1em">|</span>
+                                <span ui-sref="module.node({'modulename': module.name, nodeId: siblings.next.nodeId})" class="text-muted pointer" ng-show="siblings.next">{{siblings.next.title}} <i class="fa fa-angle-double-right"></i></span>
+                                </small>
+                            </div>
                         </div>
                         <div class="col-md-5 col-lg-4 v-b">
                             <ul class="nav nav-tabs pull-right" style="margin-top: 2.5rem">

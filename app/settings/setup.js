@@ -19,8 +19,11 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
                     }
                 }
             } else {
-                //$state.go("main");
-                $window.location.reload();
+                if($state.current.name == "login"){
+                    $state.go("start");
+                } else {
+                    $window.location.reload();
+                }
             }
         });
     }

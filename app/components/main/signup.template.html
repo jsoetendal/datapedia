@@ -2,35 +2,26 @@
 </header>
 <div class="background" style="background-image: url('app/images/pexels-karol-d-409701.jpg');"></div>
 
-<div class="p-a">
-    <div class="white lt box-shadow">
-        <div class="row">
-            <div class="col-sm-12">
-                <h4 class="p-a m-b-0 _300 pointer">Account aanmaken</h4>
-            </div>
-        </div>
-    </div>
-
-    <div class="app-body" id="view">
-        <div class="center-block w-xxl w-auto-xs p-y-md">
-            <div ng-hide="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
-                <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
-                    <div class="m-b text-sm">
-                        <strong>Welkom bij de Datapedia Smart Mobility</strong>
-                    </div>
-                    <form name="form" ng-submit="doSignup()">
-                        <div class="md-form-group float-label">
-                            <input type="text" class="md-input" ng-model="name" required>
-                            <label>Naam</label>
-                        </div>
-                        <div class="md-form-group float-label">
-                            <input type="email" class="md-input" ng-model="email" required>
-                            <label>E-mailadres</label>
-                        </div>
-                        <button type="submit" class="btn primary btn-block p-x-md">Account aanmaken</button>
-                    </form>
-                    <p class="text-muted m-t">Alle gegevens op de Datapedia zijn beschikbaar voor iedereen. Iedereen kan ook zonder inloggen reacties of suggesties geven.<br/>Een account aanmaken is alleen nodig voor het beheren en redigeren van de Datapedia, of het invoeren of aanpassen van een intake van een gemeente.</p>
+        <div ng-hide="user.auth.authenticated" class="center-block w-xxl w-auto-xs p-y-md">
+            <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+                <div class="m-b text-sm">
+                    <strong>Welkom bij de Datapedia Smart Mobility</strong>
                 </div>
+                <form name="form" ng-submit="doSignup()">
+                    <div class="md-form-group float-label">
+                        <input type="text" class="md-input" ng-model="name" required>
+                        <label>Naam</label>
+                    </div>
+                    <div class="md-form-group float-label">
+                        <input type="email" class="md-input" ng-model="email" required>
+                        <label>E-mailadres</label>
+                    </div>
+                    <button type="submit" class="btn primary btn-block p-x-md">Account aanmaken</button>
+                </form>
+                <p class="text-muted m-t">Alle gegevens op de Datapedia zijn beschikbaar voor iedereen. Iedereen kan ook zonder inloggen reacties of suggesties geven.<br/>Een account aanmaken is alleen nodig voor het beheren en redigeren van de Datapedia, of het invoeren of aanpassen van een intake van een gemeente.</p>
+            </div>
+            <div class="p-v-lg text-center">
+                <div class="m-b"><a ui-sref="login" class="text-primary _600">Inloggen?</a></div>
             </div>
         </div>
 
@@ -40,5 +31,3 @@
                 <div class="m-b"><a ui-sref="signout" class="text-primary _600">Uitloggen</a></div>
             </div>
         </div>
-    </div>
-</div>

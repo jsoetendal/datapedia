@@ -26,9 +26,14 @@ angular.
                 if($scope.view.tab == "version") $scope.startVersion();
                 if($scope.node.data.geometry) $scope.prepareGeo();
 
-                if($scope.entity && $scope.entity.views[0] == 'chapters'){
+                if($scope.entity && ($scope.entity.views[0] == 'chapters' || $scope.entity.showNextPrev)){
                     self.loadTree(nodeId);
-                    $scope.showChapter = true;
+                    if($scope.entity.views[0] == 'chapters') {
+                        $scope.showChapter = true;
+                    } else {
+                        $scope.showNextPrev = true;
+                        $scope.showChapter = false;
+                    }
                 } else {
                     $scope.showChapter = false;
                 }
@@ -95,7 +100,6 @@ angular.
 
             Nodes.loadNodes($scope.entity.type, false, null, function (type) {
                 $scope.nodes = Nodes.getNodes();
-
                 //load Tree
                 Nodes.createTree(function (tree) {
                     $scope.tree = tree;
@@ -115,18 +119,30 @@ angular.
                         }
                     }
                     //Vind volgende en vorige
-                    $scope.siblings = {'previous': null, 'next': null, 'nodes': tree.subs[treePos]}
-                    //Vorige
-                    if(subPos > 0){
-                        $scope.siblings.previous = $scope.tree.subs[treePos].nodes[subPos - 1];
-                    }else if(treePos > 0){
-                        $scope.siblings.previous = $scope.tree.subs[treePos - 1].nodes[$scope.tree.subs[treePos - 1].nodes.length - 1];
-                    }
-                    //Volgende\
-                    if(subPos < $scope.tree.subs[treePos].nodes.length - 1){
-                        $scope.siblings.next = $scope.tree.subs[treePos].nodes[subPos + 1];
-                    }else if(treePos < $scope.tree.subs.length - 1){
-                        $scope.siblings.next = $scope.tree.subs[treePos + 1].nodes[0];
+                    if(treePos || treePos === 0) {
+                        $scope.siblings = {'previous': null, 'next': null, 'nodes': tree.subs[treePos]}
+                        //Vorige
+                        if (subPos > 0) {
+                            $scope.siblings.previous = $scope.tree.subs[treePos].nodes[subPos - 1];
+                        } else if (treePos > 0) {
+                            $scope.siblings.previous = $scope.tree.subs[treePos - 1].nodes[$scope.tree.subs[treePos - 1].nodes.length - 1];
+                        }
+
+                        if ($scope.tree.subs[treePos] && subPos < $scope.tree.subs[treePos].nodes.length - 1) {
+                            $scope.siblings.next = $scope.tree.subs[treePos].nodes[subPos + 1];
+                        } else if ($scope.tree.subs[treePos] && treePos < $scope.tree.subs.length - 1) {
+                            $scope.siblings.next = $scope.tree.subs[treePos + 1].nodes[0];
+                        }
+                    } else {
+                        //Geen subs, alles zit in de nodes
+                        $scope.siblings = {'previous': null, 'next': null, 'nodes': tree.nodes}
+                        for (var j in $scope.siblings.nodes) {
+                            if ($scope.siblings.nodes[j].nodeId == $scope.node.nodeId) {
+                                subPos = parseInt(j);
+                            }
+                        }
+                        if (subPos > 0) $scope.siblings.previous = $scope.siblings.nodes[subPos - 1];
+                        if ($scope.siblings.nodes[subPos + 1]) $scope.siblings.next = $scope.siblings.nodes[subPos + 1];
                     }
                 });
             });
