@@ -40,7 +40,7 @@ angular.
                 self.setDate();
                 self.setAttachments();
 
-                $scope.simplelink = $rootScope.wwwBase + $scope.module.name +"/" + "node/" + $scope.node.getLinkTitle() + "/" + nodeId;
+                if($scope.module.name) $scope.simplelink = $rootScope.wwwBase + $scope.module.name +"/" + "node/" + $scope.node.getLinkTitle() + "/" + nodeId;
             });
         }
 
