@@ -592,17 +592,18 @@ return function(input) {
             scope : {
                 key : "@",
                 msg: "@",
-                node : "="
+                node : "=",
+                max: "@"
             },
             template : 	'<input class="fileUpload" type="file" multiple />'+
                 '<div class="preview clearfix" ng-if="previewData.src">'+
                 '<div class="previewData clearfix">'+
                 '<img src={{previewData.src}}></img>'+
                 '<div class="previewDetails">'+
-                '{{previewData.name}}, {{previewData.type}}, {{previewData.size}}'+
+                '{{previewData.name}}, {{previewData.type}}'+
                 '<span ng-click="remove(data)" class="circle remove">'+
                 '<i class="fa fa-close"></i>'+
-                '</span>'+
+                '</span><span ng-show="previewData.resized" class="text-warning"><br/>De afbeelding is automatisch verkleind naar max. {{max}} pixels.</span>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
@@ -617,17 +618,73 @@ return function(input) {
                     var reader = new FileReader();
                     var obj = new FormData().append('file',file);
                     reader.onload=function(data){
+                        //NIEUW::
+                        var img = document.createElement("img");
+                        img.onload = function (event) {
+                            // Dynamically create a canvas element
+                            var MAX_WIDTH = scope.max;
+                            var MAX_HEIGHT = scope.max;
+
+                            var width = img.width;
+                            var height = img.height;
+
+                            if(scope.max && (width > MAX_WIDTH || height > MAX_HEIGHT)) {
+                                // Change the resizing logic
+                                if (width > height) {
+                                    if (width > MAX_WIDTH) {
+                                        height = height * (MAX_WIDTH / width);
+                                        width = MAX_WIDTH;
+                                    }
+                                } else {
+                                    if (height > MAX_HEIGHT) {
+                                        width = width * (MAX_HEIGHT / height);
+                                        height = MAX_HEIGHT;
+                                    }
+                                }
+
+                                var canvas = document.createElement("canvas");
+                                canvas.width = width;
+                                canvas.height = height;
+                                var ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0, width, height);
+
+                                // Show resized image in preview element
+                                var dataurl = canvas.toDataURL(file.type);
+                                var resized = true;
+                            } else {
+                                //
+                                var dataurl = data.target.result;
+                                var resized = false;
+                            }
+                            //document.getElementById("preview").src = dataurl;
+                            var size = ((file.size/(1024*1024)) > 1)? Math.round(10 *(file.size/(1024*1024)))/10 + ' MB' : Math.round(10* (file.size/		1024))/10+' KB';
+                            scope.$apply(function(){
+                                scope.previewData = {'name':file.name,'size':size, 'resized': resized, 'type':file.type,
+                                    'src':dataurl,'data':obj, 'originalValue': scope.previewData.originalValue};
+                                if(scope.node[scope.key] && typeof scope.node[scope.key] == "string"){
+                                    scope.previewData.originalValue = scope.node[scope.key];
+                                }
+                                scope.node[scope.key] = scope.previewData; //Was eerder pushen naar previewData om meerdere toe te staan
+                                //console.log(scope.node);
+                            });
+                        }
+                        img.src = data.target.result;
+
+
+                        //BESTAAND:
+                        /*
                         var src = data.target.result;
-                        var size = ((file.size/(1024*1024)) > 1)? (file.size/(1024*1024)) + ' mB' : (file.size/		1024)+' kB';
+                        var size = ((file.size/(1024*1024)) > 1)? Math.round(10 *(file.size/(1024*1024)))/10 + ' MB' : Math.round(10* (file.size/		1024))/10+' KB';
                         scope.$apply(function(){
-                            scope.previewData = {'name':file.name,'size':size,'type':file.type,
+                            scope.previewData = {'name':file.name,'size':size, 'width': reader.width, 'height': reader.height, 'type':file.type,
                                 'src':src,'data':obj, 'originalValue': scope.previewData.originalValue};
                             if(scope.node[scope.key] && typeof scope.node[scope.key] == "string"){
                                 scope.previewData.originalValue = scope.node[scope.key];
                             }
                             scope.node[scope.key] = scope.previewData; //Was eerder pushen naar previewData om meerdere toe te staan
-                            console.log(scope.node);
+                            //console.log(scope.node);
                         });
+                         */
                     }
                     reader.readAsDataURL(file);
                 }
@@ -671,7 +728,7 @@ return function(input) {
                     } else {
                         scope.node[scope.key] = null;
                     }
-                    scope.previewData = null;
+                    scope.previewData = [];
                 }
             }
         }

@@ -77,6 +77,7 @@ component('settings', {
                         "single": "Nieuwe entiteit",
                         "plural": "Nieuwe entiteiten",
                         "image": false,
+                        "maximagesize": 1024,
                         "path": false,
                         "background": "",
                         "views": [

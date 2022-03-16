@@ -264,7 +264,7 @@
                                                 <div class="form-group" ng-if="entity.image">
                                                     <label>Afbeelding</label>
                                                     <img ng-src="{{node.imgUrl}}" style='width: 100%' ng-hide="!node.imgUrl || node.imgUrl.src" class="m-b">
-                                                    <div img-upload node="node" key="imgUrl" msg="Klik hier om een afbeelding toe te voegen, of sleep een afbeelding hier naar toe"></div>
+                                                    <div img-upload node="node" max="{{entity.maximagesize}}" key="imgUrl" msg="Klik hier om een afbeelding toe te voegen, of sleep een afbeelding hier naar toe"></div>
                                                     <!--
                                                     <label for="file">Afbeelding</label>
                                                     <input type="file" id="file" class="form-control">
