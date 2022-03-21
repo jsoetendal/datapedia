@@ -40,7 +40,7 @@
         <div ui-include="'nodeAgenda'"></div>
     </div>
 
-    <div class="m-t-3">Eerdere sessies:</div>
+    <div class="m-t-3">Bekijk eerdere sessies terug:</div>
     <ul>
         <li ng-repeat="node in nodes | orderBy:['-data.date'] | filter: {'visible': true, 'dateHistoric': true} | filter: zoeken.searchText as results2 track by $index" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})" class="pointer">
             <div ui-include="'nodeAgendaHistoric'"></div>

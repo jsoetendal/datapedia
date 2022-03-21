@@ -457,10 +457,6 @@ angular.
               });
           }
 
-          this.addImage = function(nodeId, data, func){
-
-          }
-
           this.getTokenLink = function(nodeId, func){
               var self = this;
 

@@ -262,6 +262,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group" ng-if="entity.image">
+                                                    <a class="pull-right text-warning" ng-hide="!node.imgUrl || node.imgUrl.src" ng-click="deleteImage()"><small><i class="fa fa-times"></i> afbeelding verwijderen</small></a>
                                                     <label>Afbeelding</label>
                                                     <img ng-src="{{node.imgUrl}}" style='width: 100%' ng-hide="!node.imgUrl || node.imgUrl.src" class="m-b">
                                                     <div img-upload node="node" max="{{entity.maximagesize}}" key="imgUrl" msg="Klik hier om een afbeelding toe te voegen, of sleep een afbeelding hier naar toe"></div>

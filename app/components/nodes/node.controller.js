@@ -410,28 +410,14 @@ angular.
             }
         }
 
-          /**
-           * Let op! Wordt niet gebruik. Upload gaat via directive in core.module.js
-           * @param data
-           */
-        $scope.doUpload =  function(data){
-            var fd = new FormData();
-            var files = document.getElementById('file').files[0];
-            fd.append('file',files);
 
-            //console.log(fd);
-            //console.log(files);
-
-            Nodes.addImage(self.nodeId, fd, function(src){
-                $scope.node.imgUrl = src;
-            });
-            // AJAX request
-            // headers: {'Content-Type': undefined},
+        $scope.deleteImage = function(){
+            $scope.node.imgUrl = null;
         }
 
         $scope.deleteAttachment = function(num){
-            $scope.node.data.attachments.splice(num,1);
-        }
+        $scope.node.data.attachments.splice(num,1);
+    }
 
     $scope.deletePath = function(path){
             var paths = $scope.node.path.split(";");
