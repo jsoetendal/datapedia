@@ -45,7 +45,7 @@
                 </ul>
             </div>
             <ul class="list no-border p-b" ng-show="current.regio == 'Noord-Holland & Flevoland'">
-                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['title']" ng-if="related.data.regio == current.regio">
+                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['title']" ng-if="related.data.regio == current.regio || !related.data.regio">
                     <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
                         <span class="w-40 avatar"ng-if="related.imgUrl">
                             <img src="{{related.imgUrl}}" alt="" >
