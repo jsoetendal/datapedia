@@ -12,12 +12,7 @@
                     <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
                 </div>
                 <ul ng-show="showRegios">
-                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Zuid-Nederland</li>
-                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Zuidwest-Nederland</li>
-                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Oost-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Noord-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Noord-Holland & Flevoland</li>
-                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Utrecht</li>
+                    <li ng-repeat="regio in regios" ng-click="current.regio = regio; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">{{regio}}</li>
                 </ul>
             </div>
             <div id="mapPDOK" style="width: 100%; height: 40vh; margin: 20px 0px;" ng-init="loadMap('mapPDOK', node.dependencies[dependency.key])" ng-show="current.regio == 'Noord-Holland & Flevoland'">

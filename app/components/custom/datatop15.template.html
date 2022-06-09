@@ -13,12 +13,7 @@
                             <!--<strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>-->
                         </a>
                         <ul ng-show="showRegios">
-                            <li ng-click="setRegio('Zuid-Nederland'); showRegios=false;" class="pointer">Zuid-Nederland</li>
-                            <li ng-click="setRegio('Zuidwest-Nederland'); showRegios=false;" class="pointer">Zuidwest-Nederland</li>
-                            <li ng-click="setRegio('Oost-Nederland'); showRegios=false;" class="pointer">Oost-Nederland</li>
-                            <li ng-click="setRegio('Noord-Nederland'); showRegios=false;" class="pointer">Noord-Nederland</li>
-                            <li ng-click="setRegio('Noord-Holland & Flevoland'); showRegios=false;" class="pointer">Noord-Holland & Flevoland</li>
-                            <li ng-click="setRegio('Utrecht'); showRegios=false;" class="pointer">Utrecht</li>
+                            <li ng-repeat="regio in regios" ng-click="setRegio(regio); showRegios=false;" class="pointer">{{regio}}</li>
                             <!--<li ng-click="setRegio(null); showRegios=false;" class="pointer">Heel Nederland</li>-->
                         </ul>
                     </div>
@@ -133,12 +128,7 @@
                <!-- <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong> -->
             </a>
             <ul ng-show="showRegios">
-                <li ng-click="setRegio('Zuid-Nederland'); showRegios=false;" class="pointer">Zuid-Nederland</li>
-                <li ng-click="setRegio('Zuidwest-Nederland'); showRegios=false;" class="pointer">Zuidwest-Nederland</li>
-                <li ng-click="setRegio('Oost-Nederland'); showRegios=false;" class="pointer">Oost-Nederland</li>
-                <li ng-click="setRegio('Noord-Nederland'); showRegios=false;" class="pointer">Noord-Nederland</li>
-                <li ng-click="setRegio('Noord-Holland & Flevoland'); showRegios=false;" class="pointer">Noord-Holland & Flevoland</li>
-                <li ng-click="setRegio('Utrecht'); showRegios=false;" class="pointer">Utrecht</li>
+                <li ng-repeat="regio in regios" ng-click="setRegio(regio); showRegios=false;" class="pointer">{{regio}}</li>
                 <!-- <li ng-click="setRegio(null); showRegios=false;" class="pointer">Heel Nederland</li> -->
             </ul>
         </div>

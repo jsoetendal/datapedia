@@ -36,12 +36,7 @@
                     <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
                 </div>
                 <ul ng-show="showRegios">
-                    <li ng-click="current.regio = 'Zuid-Nederland'; showRegios=false; saveCurrent();" class="pointer">Zuid-Nederland</li>
-                    <li ng-click="current.regio = 'Zuidwest-Nederland'; showRegios=false; saveCurrent();" class="pointer">Zuidwest-Nederland</li>
-                    <li ng-click="current.regio = 'Oost-Nederland'; showRegios=false; saveCurrent();" class="pointer">Oost-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Nederland'; showRegios=false; saveCurrent();" class="pointer">Noord-Nederland</li>
-                    <li ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();" class="pointer">Noord-Holland & Flevoland</li>
-                    <li ng-click="current.regio = 'Utrecht'; showRegios=false; saveCurrent();" class="pointer">Utrecht</li>
+                    <li ng-repeat="regio in regios" ng-click="current.regio = regio; showRegios=false; saveCurrent();" class="pointer">{{regio}}</li>
                 </ul>
             </div>
             <ul class="list no-border p-b" ng-show="current.regio == 'Noord-Holland & Flevoland'">

@@ -29,6 +29,8 @@
         $rootScope.setup = Setup;
         $rootScope.setup.initialize();
 
+        $rootScope.regios = ['Noord', 'Noord-Holland & Flevoland', 'Oost', 'Utrecht', 'Zuid-Holland', 'Zeeland', 'Noord-Brabant', 'Limburg'];
+
         $scope.user = $rootScope.setup.user;
 
 

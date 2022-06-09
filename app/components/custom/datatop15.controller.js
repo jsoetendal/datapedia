@@ -8,6 +8,8 @@ angular.
         var self = this;
         this.facetsCreated = false;
 
+        $scope.regios = $rootScope.regios;
+
           $scope.geoShow =  function(node){
               //node is hier een gemeente. vertalen naar de desbetreffende node
               for(let i in $scope.nodes){

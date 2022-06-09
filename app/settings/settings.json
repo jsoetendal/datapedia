@@ -471,7 +471,9 @@
                 "creation": [
                     "editor",
                     "admin"
-                ]
+                ],
+                "showNextPrev": true,
+                "maximagesize": 1024
             },
             {
                 "type": "gemeente",
@@ -718,7 +720,7 @@
                 "type": "personen",
                 "single": "Contactpersoon",
                 "plural": "Contactpersonen",
-                "image": true,
+                "image": "right",
                 "path": false,
                 "background": "",
                 "views": [

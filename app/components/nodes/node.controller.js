@@ -7,6 +7,8 @@ angular.
       function NodeController($http, $rootScope, $scope, $state, $stateParams, $window, $timeout, Nodes, $location, $filter, $sanitize, $sce) {
         var self = this;
         $scope.user = $rootScope.setup.user;
+        $scope.regios = $rootScope.regios;
+
         $scope.history = null;
 
         this.loadNode = function(nodeId){
