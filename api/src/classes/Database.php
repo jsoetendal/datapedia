@@ -106,7 +106,7 @@ class Database
         $values = "";
         foreach($insertArray as $name => $value){
             $names .= $split ."`". $name ."`";
-            $values .= $split . "'". mysqli_real_escape_string($this->db, $value) ."'";
+            $values .= $split . "'". $this->escape($value) ."'";
             $split = ",";
         } 
         $SQL = "INSERT INTO ". $table ."(". $names .") VALUES (". $values .");";
@@ -126,14 +126,14 @@ class Database
         $split = "";
         $set = "";
         foreach($updateArray as $name => $value){
-            $set .= $split ."`". $name ."` = '". mysqli_real_escape_string($this->db, $value) ."'";
+            $set .= $split ."`". $name ."` = '". $this->escape($value) ."'";
             $split = ",";
         } 
         
         $split = "";
         $where = "";
         foreach($selectArray as $name => $value){
-            $where .= $split ."`". $name ."` = '". mysqli_real_escape_string($this->db, $value) ."'";
+            $where .= $split ."`". $name ."` = '". $this->escape($value) ."'";
             $split = " AND ";
         } 
         

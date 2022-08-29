@@ -344,25 +344,20 @@ class NodesMapper extends Mapper
             $this->db->doSQL("UPDATE nodes_versions SET status='previous' WHERE nodeId = '". $data["nodeId"]. "' AND (status = 'current' OR status = '". $status."')"); //Laatste indien huidige status suggested is
             $arr["status"] = "current";
             $this->db->doInsert("nodes_versions", $arr);
+            $current_relations = $this->db->getArray("SELECT * FROM relations WHERE sourceId = '". $data["nodeId"] ."' OR targetId = '". $data["nodeId"]. "'");
             foreach($relations as $key => $rels){
                 foreach($rels as $relation){
-                    if($relation["datarelation"]){
-                        $json = json_encode($relation["datarelation"]);
-                        $this->db->doSQL("UPDATE relations SET data = '". $this->db->escape($json) ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
-                    }
+                    $this->updateRelation($key, $relation, $current_relations, $token);
                 }
             }
             foreach($dependencies as $key => $rels){
                 foreach($rels as $relation){
-                    if($relation["datarelation"]){
-                        $json = json_encode($relation["datarelation"]);
-                        $this->db->doSQL("UPDATE relations SET data = '". $this->db->escape($json) ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
-                    }
+                    $this->updateRelation($key, $relation, $current_relations, $token);
                 }
             }
         } else {
             $arr["status"] = "suggested";
-            $record["userData"] = json_encode($this->getUserData());
+            $arr["userData"] = json_encode($this->getUserData());
             $this->db->doInsert("nodes_versions", $arr);
         }
     }
@@ -410,6 +405,34 @@ class NodesMapper extends Mapper
         return $this->getNodeSimple($sourceId);
     }
 
+    function updateRelation($key, $relation, $current_relations, $token){
+        $current_relation = null;
+        foreach($current_relations as $r){
+            if($r->sourceId == $relation["sourceId"] && $r->targetId == $relation["targetId"] && $r->key == $key){
+                $current_relation = $r;
+            }
+        }
+
+        if(!$current_relation){
+            //Should not happen since relation is added first before saved. Still, just to be sure, add it:
+            $this->addRelationOrDependency($relation, $token);
+            $current_data = null;
+        } else {
+            $current_data = $current_relation->data; //= json encoded
+        }
+
+        if($relation["datarelation"] && $current_data != json_encode($relation["datarelation"])){
+            $json = json_encode($relation["datarelation"]);
+            $this->db->doSQL("UPDATE relations SET data = '". $this->db->escape($json) ."' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."'");
+
+            //Set current relations_version to previous
+            $this->db->doSQL("UPDATE relations_versions SET status = 'previous' WHERE sourceId = ". $relation["sourceId"] ." AND targetId = ". $relation["targetId"] ." AND `key` = '". $key ."' AND status = 'current'");
+            //Insert new current relations_version
+            $arr = ["sourceId" => $relation["sourceId"], "targetId" => $relation["targetId"], "key" => $key, "data" => $json, "status" => "current", "datetime" => date("Y-m-d H:i:s"), "creatorId" => $token->getUserId()];
+            $this->db->doInsert("relations_versions", $arr);
+        }
+    }
+
     function setRelation($data, $token){
         $sourceId = intval($data["sourceId"]);
         $targetId = intval($data["targetId"]);
@@ -420,6 +443,7 @@ class NodesMapper extends Mapper
 
         if($token->isContributorOrUp($sourceId)) {
             $this->db->doUpsert("relations", ["data" => $data, "sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "datetime" => date("Y-m-d H:i:s")]);
+            $this->db->doSQL("UPDATE relations_versions SET status = 'previous' WHERE sourceId = ". $sourceId ." AND targetId = ". $targetId ." AND `key` = '". $key ."' AND status = 'current'");
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "current"]);
         } else {
             $this->db->doInsert("relations_versions", ["sourceId" => $sourceId, "targetId" => $targetId, "key" => $key, "data" => $data, "datetime" => date("Y-m-d H:i:s"), "creatorId" => $creatorId, "status" => "suggested"]);
@@ -432,6 +456,7 @@ class NodesMapper extends Mapper
         $key = escape_string($data["key"]);
 
         $this->db->doSQL("DELETE FROM relations WHERE sourceId = ". $sourceId ." AND targetId = ". $targetId ." AND `key` = '". $key ."'");
+        $this->db->doSQL("UPDATE relations_versions SET status = 'deleted' WHERE sourceId = ". $sourceId ." AND targetId = ". $targetId ." AND `key` = '". $key ."' AND status = 'current'");
     }
 
     /**
