@@ -201,7 +201,13 @@ class NodesMapper extends Mapper
         foreach($rows as $key => $row){
             $rows[$key]->userData = json_decode($row->userData);
         }
-        return $rows;
+        $result = new stdClass();
+        $result->nodes = $rows;
+
+        $result->relations = $this->db->getArray("SELECT relations_versions.*, nodes.title as title, creator.name as creatorName, creator.role as creatorRole FROM relations_versions LEFT JOIN nodes ON (nodes.nodeId = relations_versions.targetId) LEFT JOIN users as creator ON (relations_versions.creatorId = creator.id) WHERE relations_versions.sourceId = '". $nodeId ."' ORDER BY relations_versions.targetId, relations_versions.datetime");
+        $result->dependencies = $this->db->getArray("SELECT relations_versions.*, nodes.title as title, creator.name as creatorName, creator.role as creatorRole FROM relations_versions LEFT JOIN nodes ON (nodes.nodeId = relations_versions.sourceId) LEFT JOIN users as creator ON (relations_versions.creatorId = creator.id) WHERE relations_versions.targetId = '". $nodeId ."' ORDER BY relations_versions.sourceId, relations_versions.datetime");
+
+        return $result;
     }
 
 
@@ -627,6 +633,29 @@ class NodesMapper extends Mapper
 
     function historyDelete($nodeVersionId){
         $this->db->doSQL("DELETE FROM nodes_versions WHERE nodeVersionId = ". $nodeVersionId ." AND status != 'current'");
+    }
+
+    function historyRelationApprove($relationVersionId){
+        $relationVersion = $this->db->returnFirst("SELECT * FROM relations_versions WHERE relationVersionId = ". $relationVersionId);
+        if($relationVersion){
+            $arr = (array) $relationVersion;
+            unset($arr["relationVersionId"]);
+            unset($arr["status"]);
+            unset($arr["creatorId"]);
+
+            $this->db->doUpsert("relations", $arr);
+
+            $this->db->doSQL("UPDATE relations_versions SET status = 'previous' WHERE sourceId = ". $relationVersion->sourceId ." AND targetId = ". $relationVersion->targetId ." AND `key` = '". $relationVersion->key ."' AND status = 'current'");
+            $this->db->doSQL("UPDATE relations_versions SET status = 'current' WHERE relationVersionId = ". $relationVersionId);
+        }
+    }
+
+    function historyRelationRevert($relationVersionId){
+        $this->historyRelationApprove($relationVersionId);
+    }
+
+    function historyRelationDelete($relationVersionId){
+        $this->db->doSQL("DELETE FROM relations_versions WHERE relationVersionId = ". $relationVersionId ." AND status != 'current'");
     }
 
     function getEntityCount(){

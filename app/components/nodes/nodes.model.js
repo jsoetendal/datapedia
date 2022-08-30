@@ -196,12 +196,46 @@ angular.
                   var nodes = [];
                   if(response.data){
                       var data = response.data;
-                      for(var i in data){
-                          var h = data[i];
-                          nodes.push(new Node(h));
+                      let history = {'nodes': [], 'relations': {}};
+
+                      for(let i in data.nodes){
+                          history.nodes.push(new Node(data.nodes[i]));
+                          if(data.nodes[i].status == 'current'){
+                              history.currentNode = nodes[i];
+                          }
                       }
+
+                      for(let i in data.relations){
+                          if(!history.relations[data.relations[i].key]) {
+                              history.relations[data.relations[i].key] = {
+                                  'key': data.relations[i].key,
+                                  'nodes': {}
+                              }
+                          }
+                          if(!history.relations[data.relations[i].key].nodes[data.relations[i].targetId]){
+                              history.relations[data.relations[i].key].nodes[data.relations[i].targetId] = [];
+                          }
+                          data.relations[i].data = JSON.parse(data.relations[i].data);
+                          history.relations[data.relations[i].key].nodes[data.relations[i].targetId].push(data.relations[i]);
+                      }
+
+                      for(let i in data.dependencies){
+                          if(!history.relations[data.dependencies[i].key]){
+                              history.relations[data.dependencies[i].key] = {
+                                  'key': data.dependencies[i].key,
+                                  'nodes': {}
+                              }
+                          }
+                          if(!history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId]){
+                              history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId] = [];
+                          }
+                          data.dependencies[i].data = JSON.parse(data.dependencies[i].data);
+                          history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId].push(data.dependencies[i]);
+                      }
+
+
+                      if(func) func(history);
                   }
-                  if(func) func(nodes);
               } else {
                   log(response);
               }
@@ -696,8 +730,7 @@ angular.
               });
           }
 
-          this.historyApprove = function(nodeVersion, func){
-              var url = $rootScope.APIBase + "history/approve/" + nodeVersion.nodeVersionId;
+          this.callURL = function(url, func){
               $http({
                   method: 'GET',
                   url: url,
@@ -716,69 +749,36 @@ angular.
                   if(fallback.status == 401){
                       //Refresh needed
                       $rootScope.setup.user.refreshUser(function(){
-                          self.historyApprove(nodeVersion, func);
+                          self.callURL(url, func);
                       });
                   } else {
-                      alert("Mislukt om suggesties goed te keuren");
+                      console.log("Failed URL request: " +url);
                   }
               });
+          }
+
+          this.historyApprove = function(nodeVersion, func){
+              this.callURL($rootScope.APIBase + "history/revert/" + nodeVersion.nodeVersionId, func);
           }
 
           this.historyRevert = function(nodeVersion, func){
-              var url = $rootScope.APIBase + "history/revert/" + nodeVersion.nodeVersionId;
-              $http({
-                  method: 'GET',
-                  url: url,
-                  headers: {
-                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
-                  }
-              }).then(function(response) {
-                  log(response);
-                  if(response.status == 200){
-                      if(func) func(response.data);
-                  } else {
-                      log(response);
-                  }
-              }).catch(function(fallback) {
-                  log(fallback);
-                  if(fallback.status == 401){
-                      //Refresh needed
-                      $rootScope.setup.user.refreshUser(function(){
-                          self.historyRevert(nodeVersion, func);
-                      });
-                  } else {
-                      alert("Mislukt om wijziging terug te zetten");
-                  }
-              });
-
+              this.callURL($rootScope.APIBase + "history/revert/" + nodeVersion.nodeVersionId, func);
           }
 
-          this.historyDelete = function(nodeVersion, func){
-              var url = $rootScope.APIBase + "history/delete/" + nodeVersion.nodeVersionId;
-              $http({
-                  method: 'GET',
-                  url: url,
-                  headers: {
-                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
-                  }
-              }).then(function(response) {
-                  log(response);
-                  if(response.status == 200){
-                      if(func) func(response.data);
-                  } else {
-                      log(response);
-                  }
-              }).catch(function(fallback) {
-                  log(fallback);
-                  if(fallback.status == 401){
-                      //Refresh needed
-                      $rootScope.setup.user.refreshUser(function(){
-                          self.historyDelete(nodeVersion, func);
-                      });
-                  } else {
-                      alert("Mislukt om versie te verwijderen");
-                  }
-              });
+          this.historyDelete = function(nodeVersion, func) {
+              this.callURL($rootScope.APIBase + "history/delete/" + nodeVersion.nodeVersionId, func);
+          }
+
+          this.historyRelationApprove = function(relationVersion, func){
+              this.callURL($rootScope.APIBase + "historyrelation/revert/" + relationVersion.relationVersionId, func);
+          }
+
+          this.historyRelationRevert = function(relationVersion, func){
+              this.callURL($rootScope.APIBase + "historyrelation/revert/" + relationVersion.relationVersionId, func);
+          }
+
+          this.historyRelationDelete = function(relationVersion, func) {
+              this.callURL($rootScope.APIBase + "historyrelation/delete/" + relationVersion.relationVersionId, func);
           }
       }]
 );

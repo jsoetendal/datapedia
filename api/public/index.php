@@ -131,7 +131,7 @@ $app->get('/node/history/{id}', function (Slim\Http\Request $request, Slim\Http\
     if($token->isEditorOrUp()) {
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->getNodeHistory($id);
-        if(!$nodesMapper->hasAccess($result[0]->type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+        if(!$nodesMapper->hasAccess($result->nodes[0]->type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
         return $response->withStatus(200)->withJSON($result);
     } else {
         return $response->withStatus(403);
@@ -592,6 +592,50 @@ $app->get('/history/delete/{nodeVersionId}', function (Slim\Http\Request $reques
         return $response->withStatus(403);
     }
 });
+
+
+$app->get('/historyrelation/approve/{relationVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $relationVersionId = intval($request->getAttribute('relationVersionId'));
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->historyRelationApprove($relationVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->get('/historyrelation/revert/{relationVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $relationVersionId = intval($request->getAttribute('relationVersionId'));
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->historyRelationRevert($relationVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->get('/historyrelation/delete/{relationVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $relationVersionId = intval($request->getAttribute('relationVersionId'));
+
+    if($token->isExpired()) return $response->withStatus(401);
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->historyRelationDelete($relationVersionId);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
 
 $app->get('/settings/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);

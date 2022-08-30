@@ -197,15 +197,9 @@ angular.
 
         $scope.startVersion = function(){
             if(!$scope.history){
-                Nodes.loadNodeHistory(self.nodeId, function(nodes) {
-                    $scope.history = {'nodes': []};
-                    for(i in nodes){
-                        $scope.history.nodes.push(nodes[i]);
-                        if(nodes[i].status == 'current'){
-                            $scope.history.currentNode = nodes[i];
-                        }
-                    }
-                    $scope.historySelect(nodes[i]); //Select last node as selected one
+                Nodes.loadNodeHistory(self.nodeId, function(history) {
+                    $scope.history = history;
+                    $scope.historySelect($scope.history.nodes[$scope.history.nodes.length - 1]); //Select last node as selected one
                 });
             }
         }
@@ -218,6 +212,10 @@ angular.
                     $scope.historyCompare($scope.history.nodes[Math.max(0,i - 1)]);
                 }
             }
+        }
+
+        $scope.historySelectRelation = function(relation){
+            $scope.history.selectedRelation = relation;
         }
 
         $scope.historyCompare = function(node){
@@ -255,6 +253,24 @@ angular.
 
           $scope.historyDelete = function(node){
               Nodes.historyDelete(node, function(){
+                  $window.location.reload();
+              })
+          }
+
+          $scope.historyRelationApprove = function(relation){
+              Nodes.historyRelationApprove(relation, function(){
+                  $window.location.reload();
+              })
+          }
+
+          $scope.historyRelationRevert = function(relation){
+              Nodes.historyRelationRevert(relation, function(){
+                  $window.location.reload();
+              })
+          }
+
+          $scope.historyRelationDelete = function(relation){
+              Nodes.historyRelationDelete(relation, function(){
                   $window.location.reload();
               })
           }
