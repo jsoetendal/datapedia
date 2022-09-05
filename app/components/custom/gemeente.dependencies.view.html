@@ -18,7 +18,7 @@
             <div id="mapPDOK" style="width: 100%; height: 40vh; margin: 20px 0px;" ng-init="loadMap('mapPDOK', node.dependencies[dependency.key])">
             </div>
             <ul class="list no-border p-b">
-                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['-datarelation.status', 'title'] | filter: {$: current.regio}" ng-if="!related.data.geometry || related.data.geometry.length < 5">
+                <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['-datarelation.status', 'title'] | filter: {$: current.regio}" ng-if="(!related.data.geometry || related.data.geometry.length < 5) && related.data.regio == current.regio">
                     <div class="status-score pull-right YlGnBu s{{related.datarelation.status | truncate:1}}-5">{{related.datarelation.status | truncate:1}}</div>
                     <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
                         <span class="w-40">
