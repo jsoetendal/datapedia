@@ -39,7 +39,7 @@
                     <li ng-repeat="regio in regios" ng-click="current.regio = regio; showRegios=false; saveCurrent();" class="pointer">{{regio}}</li>
                 </ul>
             </div>
-            <ul class="list no-border p-b" ng-show="current.regio == 'Noord-Holland & Flevoland'">
+            <ul class="list no-border p-b">
                 <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['title']" ng-if="related.data.regio == current.regio || !related.data.regio">
                     <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
                         <span class="w-40 avatar"ng-if="related.imgUrl">
@@ -55,7 +55,6 @@
                     </div>
                 </li>
             </ul>
-            <div class="p-a" ng-hide="current.regio == 'Noord-Holland & Flevoland'">Op dit moment is de Datapedia alleen actief in <a ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent();" class="pointer">Noord-Holland & Flevoland</a></div>
         </div>
     </div>
 </div>

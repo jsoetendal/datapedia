@@ -15,9 +15,9 @@
                     <li ng-repeat="regio in regios" ng-click="current.regio = regio; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">{{regio}}</li>
                 </ul>
             </div>
-            <div id="mapPDOK" style="width: 100%; height: 40vh; margin: 20px 0px;" ng-init="loadMap('mapPDOK', node.dependencies[dependency.key])" ng-show="current.regio == 'Noord-Holland & Flevoland'">
+            <div id="mapPDOK" style="width: 100%; height: 40vh; margin: 20px 0px;" ng-init="loadMap('mapPDOK', node.dependencies[dependency.key])">
             </div>
-            <ul class="list no-border p-b" ng-show="current.regio == 'Noord-Holland & Flevoland'">
+            <ul class="list no-border p-b">
                 <li class="list-item" ng-repeat="related in node.dependencies[dependency.key] | orderBy: ['-datarelation.status', 'title'] | filter: {$: current.regio}" ng-if="!related.data.geometry || related.data.geometry.length < 5">
                     <div class="status-score pull-right YlGnBu s{{related.datarelation.status | truncate:1}}-5">{{related.datarelation.status | truncate:1}}</div>
                     <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
@@ -31,8 +31,7 @@
                     </div>
                 </li>
             </ul>
-            <a ng-show="current.regio == 'Noord-Holland & Flevoland'" ng-click="current.item={'title': node.title, 'nodeId': node.nodeId}; saveCurrent();" ui-sref="module.nodes({type: 'gemeente'})">Meer &gt;&gt;</a>
-            <div class="p-a" ng-hide="current.regio == 'Noord-Holland & Flevoland'">Op dit moment is de Datapedia alleen actief in <a ng-click="current.regio = 'Noord-Holland & Flevoland'; showRegios=false; saveCurrent(); updateMap(node.dependencies[dependency.key]);" class="pointer">Noord-Holland & Flevoland</a></div>
+            <a ng-click="current.item={'title': node.title, 'nodeId': node.nodeId}; saveCurrent();" ui-sref="module.nodes({type: 'gemeente'})">Meer &gt;&gt;</a>
         </div>
     </div>
 </div>
