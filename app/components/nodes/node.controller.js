@@ -281,6 +281,7 @@ angular.
               var latlngbounds = new google.maps.LatLngBounds();
 
               var json = JSON.parse($scope.node.data.geometry.replace(/&#34;/g, "\""));
+              if(json.type == "Polygon") json.coordinates = [json.coordinates]; //Create single MultiPolygon from Polygon
               for(var j in json.coordinates){
                   var paths = [];
                   for(var k in json.coordinates[j][0]){
