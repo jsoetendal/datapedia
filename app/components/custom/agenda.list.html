@@ -8,6 +8,7 @@
             </div>
             <div style="margin-right: 270px">
                 <strong>{{node.date | compleetDateTime}}</strong>
+                <br/><span class="text-primary">{{node.data.regio}}</span>
                 <h4>{{node.title}}</h4>
                 <div ng-bind-html="node.text | plain:200"></div>
                 <div class="node-facet-labels">
