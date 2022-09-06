@@ -232,10 +232,11 @@
                                                     <label>{{entity.single}}</label>
                                                     <input type="text" class="form-control" ng-model="node.title" autocomplete="off">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" ng-hide="entity.hideDescription">
                                                     <!--<br/><small class="text-muted pull-right pointer" ng-hide="wysiwyg" ng-click="wysiwyg = true">Toon teksteditor</small>
                                                     <small class="text-muted pull-right pointer" ng-show="wysiwyg" ng-click="wysiwyg = false">Toon platte tekst</small>-->
-                                                    <label>Tekst/toelichting</label>
+                                                    <label ng-hide="entity.descriptionLabel && entity.descriptionLabel.length > 1">Tekst/toelichting</label>
+                                                    <label ng-show="entity.descriptionLabel && entity.descriptionLabel.length > 1">{{entity.descriptionLabel}}</label>
                                                     <!--<div ng-if="wysiwyg">-->
                                                     <textarea ui-tinymce="tinymceOptions" ng-model="node.text"></textarea>
                                                     <!--

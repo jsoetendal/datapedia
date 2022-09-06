@@ -106,6 +106,21 @@
                                                                 <br/><small class="text-muted">Een bijlage is primair voor een entiteit, als het bestand of bijlage het belangrijkste onderdeel van de entiteit is. Bijv. een entiteit 'Bestand' of 'Document'.<br/>In alle andere gevallen betreft het een normale 'bijlage' en hoeft deze optie niet aangevinkt te worden.</small>
                                                             </div>
                                                         </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Label bij 'Tekst/toelichting'</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" ng-model="selected.entity.descriptionLabel" placeholder="Tekst/toelichting">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label"></label>
+                                                            <div class="col-sm-10">
+                                                                <label><input type="checkbox" ng-model="selected.entity.hideDescription">Tekst/toelichting verbergen</label>
+                                                            </div>
+                                                        </div>
+
+
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 form-control-label">Achtergrond (url)</label>
                                                             <div class="col-sm-10">

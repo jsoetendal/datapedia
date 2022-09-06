@@ -1,0 +1,41 @@
+<div>
+    <div class="box incontent">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Aanleiding</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <p ng-bind-html="trustAsHtml(node.data['aanleiding'])"></p>
+        </div>
+    </div>
+
+    <div class="box incontent">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Toepassing</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <p ng-bind-html="trustAsHtml(node.data['toepassing'])"></p>
+        </div>
+    </div>
+
+    <div class="box incontent">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Aanpak</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <p ng-bind-html="trustAsHtml(node.data['aanpak'])"></p>
+        </div>
+    </div>
+
+    <div class="box incontent">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Resultaat</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <p ng-bind-html="trustAsHtml(node.data['resultaat'])"></p>
+        </div>
+    </div>
+</div>

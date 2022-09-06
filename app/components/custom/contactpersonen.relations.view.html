@@ -1,0 +1,26 @@
+<div>
+    <div class="box">
+        <div class="box-header">
+            <h3>{{relatie.label}}</h3>
+            <small ng-show="relatie.description" class="text-muted"><i>{{relatie.description}}</i></small>
+        </div>
+        <div class="box-divider"></div>
+        <div class="box-body p-a-0">
+            <ul class="list no-border p-b">
+                <li class="list-item" ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
+                    <a ui-sref="module.node({'nodeId': related.nodeId})" class="list-left">
+                        <span class="w-40 avatar"ng-if="related.imgUrl">
+                            <img src="{{related.imgUrl}}" alt="" >
+                        </span>
+                        <span class="w-40 rounded light" ng-if="!related.imgUrl">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </a>
+                    <div class="list-body">
+                        <div style="font-size: 120%; font-weight: 500"><a ui-sref="module.node({'nodeId': related.nodeId})">{{related.title}}</a> <a href="{{related.data.url}}" ng-show="related.data.url"><i class="fa fa-linkedin-square text-info"></i></a></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
