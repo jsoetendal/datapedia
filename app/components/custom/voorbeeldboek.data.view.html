@@ -1,5 +1,5 @@
 <div>
-    <div class="box incontent">
+    <div class="box incontent" ng-show="node.data['aanleiding'] && node.data['aanleiding'].length > 2">
         <div class="box-header smaller">
             <h3 class="text-primary">Aanleiding</h3>
         </div>
@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="box incontent">
+    <div class="box incontent" ng-show="node.data['toepassing'] && node.data['toepassing'].length > 2">
         <div class="box-header smaller">
             <h3 class="text-primary">Toepassing</h3>
         </div>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="box incontent">
+    <div class="box incontent" ng-show="node.data['aanpak'] && node.data['aanpak'].length > 2">
         <div class="box-header smaller">
             <h3 class="text-primary">Aanpak</h3>
         </div>
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="box incontent">
+    <div class="box incontent" ng-show="node.data['resultaat'] && node.data['resultaat'].length > 2">
         <div class="box-header smaller">
             <h3 class="text-primary">Resultaat</h3>
         </div>
