@@ -94,18 +94,22 @@ component('settings', {
                 $scope.settings.content.entities.push(newEntity);
             }
 
-            $scope.addData = function(arr){
+            $scope.addData = function(arr, relation){
                 //$scope.selected.entity.data.push(
-                arr.push(
-                    {
-                        "key": "",
-                        "type": "text",
-                        "label": "Nieuw",
-                        "descriptionInput": "",
-                        "required": false,
-                        "facet": false
-                    }
-                );
+                let newitem = {
+                    "key": "",
+                    "type": "text",
+                    "label": "Nieuw",
+                    "descriptionInput": "",
+                    "required": false,
+                    "facet": false
+                }
+
+                if(!arr){
+                    relation.data = [newitem];
+                } else {
+                    arr.push(newitem);
+                }
             }
 
             $scope.makeKey = function(item){

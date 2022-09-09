@@ -209,15 +209,23 @@ angular.
                           if(!history.relations[data.relations[i].key]) {
                               history.relations[data.relations[i].key] = {
                                   'key': data.relations[i].key,
-                                  'nodes': {}
+                                  'nodes': {},
                               }
                           }
                           if(!history.relations[data.relations[i].key].nodes[data.relations[i].targetId]){
-                              history.relations[data.relations[i].key].nodes[data.relations[i].targetId] = [];
+                              history.relations[data.relations[i].key].nodes[data.relations[i].targetId] = {
+                                  "title": data.relations[i].title,
+                                  'suggestions': 0,
+                                  'laststatus': "",
+                                  'versions': []
+                              };
                           }
                           data.relations[i].data = JSON.parse(data.relations[i].data);
-                          history.relations[data.relations[i].key].nodes[data.relations[i].targetId].push(data.relations[i]);
+                          history.relations[data.relations[i].key].nodes[data.relations[i].targetId].versions.push(data.relations[i]);
+                          if(data.relations[i].status == "suggested") history.relations[data.relations[i].key].nodes[data.relations[i].targetId].suggestions += 1;
+                          history.relations[data.relations[i].key].nodes[data.relations[i].targetId].laststatus = data.relations[i].status;
                       }
+                      console.log(history);
 
                       for(let i in data.dependencies){
                           if(!history.relations[data.dependencies[i].key]){
@@ -343,8 +351,15 @@ angular.
               });
           }
 
-          this.addRelation = function(sourceId, key, targetId, func){
+          this.addRelationAndData = function(sourceId, key, targetId, data, func){
               var url = $rootScope.APIBase + "relation/add/";
+              let postData = {
+                  "sourceId": sourceId,
+                  "key": key,
+                  "targetId": targetId
+              }
+              if(data) postData.data = data;
+
               $http({
                   method: 'POST',
                   url: url,
@@ -353,11 +368,7 @@ angular.
                       'Accept': 'application/json',
                       'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
-                  data: {
-                      "sourceId": sourceId,
-                      "key": key,
-                      "targetId": targetId
-                  }
+                  data: postData
               }).then(function(response) {
                   if(response.status == 200){
                       if(response.data){
@@ -372,7 +383,7 @@ angular.
                   if(fallback.status == 401){
                       //Refresh needed
                       $rootScope.setup.user.refreshUser(function(){
-                          self.addRelation(sourceId, key, targetId, func);
+                          self.addRelationAndData(sourceId, key, targetId,data, func);
                       });
                   } else {
                       alert("Mislukt om node toe te voegen");
@@ -380,9 +391,21 @@ angular.
               });
           }
 
-          //Does exactly the same as addRelation, only difference is the node that is returned...
-          this.addDependency = function(sourceId, key, targetId, func){
+          this.addRelation = function(sourceId, key, targetId, func) {
+              this.addRelationAndData(sourceId, key, targetId, null, func)
+          }
+
+
+              //Does exactly the same as addRelation, only difference is the node that is returned...
+          this.addDependencyAndData = function(sourceId, key, targetId, data, func){
               var url = $rootScope.APIBase + "dependency/add/";
+              let postData = {
+                  "sourceId": sourceId,
+                  "key": key,
+                  "targetId": targetId
+              }
+              if(data) postData.data = data;
+
               $http({
                   method: 'POST',
                   url: url,
@@ -391,11 +414,7 @@ angular.
                       'Accept': 'application/json',
                       'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
                   },
-                  data: {
-                      "sourceId": sourceId,
-                      "key": key,
-                      "targetId": targetId
-                  }
+                  data: postData
               }).then(function(response) {
                   if(response.status == 200){
                       if(response.data){
@@ -410,12 +429,16 @@ angular.
                   if(fallback.status == 401){
                       //Refresh needed
                       $rootScope.setup.user.refreshUser(function(){
-                          self.addDependency(sourceId, key, targetId, func);
+                          self.addDependencyAndData(sourceId, key, targetId, data, func);
                       });
                   } else {
                       alert("Mislukt om node toe te voegen");
                   }
               });
+          }
+
+          this.addDependency = function(sourceId, key, targetId, func){
+              this.addDependencyAndData(sourceId, key, targetId, null, func);
           }
 
           this.setRelationData = function(sourceId, key, targetId, data, func){

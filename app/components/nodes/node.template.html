@@ -639,7 +639,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr ng-repeat="node in history.nodes" class="p-a pointer" ng-class="{'st-selected': node == history.selectedNode}">
+                                                <tr ng-repeat="node in history.nodes" class="p-a pointer" ng-class="{'st-selected strong': node == history.selectedNode}">
                                                     <td ng-click="historySelect(node)">{{node.title}}</td>
                                                     <td ng-click="historySelect(node)">
                                                         <span ng-hide="node.updated">{{node.created}}</span>
@@ -651,8 +651,8 @@
                                                     </td>
                                                     <td ng-click="historySelect(node)">{{node.status}}</td>
                                                     <td>
-                                                        <span ng-if="history.selectedNode" ng-show="history.comparedNode == node"><strong><i class="fa fa-arrow-left"></i></strong></span>
-                                                        <span ng-if="history.selectedNode" ng-hide="history.comparedNode == node" class="text-muted" ng-click="historyCompare(node)"><i class="fa fa-arrow-circle-o-left"></i></span>
+                                                        <span ng-if="history.selectedNode" ng-show="history.comparedNode == node"><strong><i class="fa fa-arrow-left" title="Wordt met deze versie vergeleken"></i></strong></span>
+                                                        <span ng-if="history.selectedNode" ng-hide="history.comparedNode == node" class="text-muted" ng-click="historyCompare(node)"><i class="fa fa-arrow-circle-o-left" title="Vergelijk met deze versie"></i></span>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -672,6 +672,13 @@
                                             <span ng-show="history.selectedNode.userdata">Bezoeker</span>
                                         </div>
                                         <div class="box-body">
+                                            <span class="text-success" ng-show="history.selectedNode.diff.unchanged">Er zijn geen wijzigingen in de tekst en data t.o.v. de gekozen versie</span>
+                                            <div ng-hide="history.selectedNode.diff.unchanged">Wijzigen t.o.v. de gekozen versie in:
+                                                <ul>
+                                                    <li ng-repeat="change in history.selectedNode.diff.changes">{{change}}</li>
+                                                </ul>
+                                            </div>
+
                                             <div class="b-a p-a m-a">
                                                 <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
                                                 <span ng-if="history.selectedNode != history.comparedNode" ng-bind-html="history.selectedNode.diff.complete"></span>
@@ -680,7 +687,7 @@
                                             <table class="table table-striped">
                                                 <tr ng-repeat="(key, value) in history.selectedNode.data">
                                                     <td><strong>{{key}}</strong></td>
-                                                    <td>{{value}}</td>
+                                                    <td ng-class="{'diff1': history.selectedNode.diff.changes && history.selectedNode.diff.changes.indexOf(key) > -1}">{{value}}</td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -709,6 +716,7 @@
                                                     <tr>
                                                         <td></td>
                                                         <td>Titel</td>
+                                                        <td>Status</td>
                                                         <td>Aantal wijzigingen</td>
                                                         <td>Laatste wijziging</td>
                                                         <td></td>
@@ -716,14 +724,15 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr ng-repeat-start="type in history.relations">
-                                                        <td colspan="5"><strong>{{type.key}}</strong></td>
+                                                        <td colspan="6"><strong>{{type.key}}</strong><br/></td>
                                                     </tr>
                                                     <tr ng-repeat="relation in type.nodes" ng-repeat-end class="p-a pointer" ng-click="historySelectRelation(relation)">
                                                         <td></td>
-                                                        <td>{{relation[0].title}}</td>
-                                                        <td>{{relation.length}}</td>
+                                                        <td>{{relation.title}}<strong ng-if="relation.suggestions > 0" class="text-danger"><br/>Suggestie<span ng-show="relation.suggestions > 1">s</span></strong></td>
+                                                        <td>{{relation.laststatus}}</td>
+                                                        <td>{{relation.versions.length}}</td>
                                                         <td>
-                                                            <span>{{relation[relation.length - 1].datetime}}</span>
+                                                            <span>{{relation.versions[relation.versions.length - 1].datetime}}</span>
                                                         </td>
                                                         <td>
                                                             <i class="fa fa-info-circle"></i>
@@ -751,7 +760,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tr><td colspan="4"></td></tr> <!-- to change color -->
-                                                    <tr ng-repeat-start="change in history.selectedRelation">
+                                                    <tr ng-repeat-start="change in history.selectedRelation.versions">
                                                         <td>{{change.datetime}}</td>
                                                         <td>{{change.creatorName}}</td>
                                                         <td>{{change.status}}</td>

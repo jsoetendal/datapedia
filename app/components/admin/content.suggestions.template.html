@@ -4,7 +4,7 @@
                 <div class="box-header">
                     <h3>Suggesties</h3>
                 </div>
-                <div class="box-body" ng-show="suggestions.length > 0">
+                <div class="box-body" ng-show="suggestions.nodes.length > 0">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -16,7 +16,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="suggestion in suggestions" class="pointer" ui-sref="admin.node.tab({'nodeId': suggestion.nodeId, 'tab': 'version'})">
+                        <tr ng-repeat="suggestion in suggestions.nodes" class="pointer" ui-sref="admin.node.tab({'nodeId': suggestion.nodeId, 'tab': 'version'})">
                             <td>{{suggestion.nodeId}}</td>
                             <td>{{suggestion.title}}</td>
                             <td>{{suggestion.created|geleden}}</td>
@@ -26,7 +26,32 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="m-x" ng-hide="suggestions.length > 0">
+                <div class="box-header">
+                    <h3>Suggestie relaties</h3>
+                </div>
+                <div class="box-body" ng-show="suggestions.relations.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titel</th>
+                            <th>Gerelateerd aan</th>
+                            <th>Suggestie</th>
+                            <!--<th>Door</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="suggestion in suggestions.relations" class="pointer" ui-sref="admin.node.tab({'nodeId': suggestion.sourceId, 'tab': 'version'})">
+                            <td>{{suggestion.sourceId}}</td>
+                            <td>{{suggestion.source}}</td>
+                            <td>{{suggestion.target}}</td>
+                            <td>{{suggestion.datetime|geleden}}</td>
+                            <!--<td>{{suggestion.userData}}</td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="m-x" ng-hide="suggestions.nodes.length > 0 || suggestions.relations.length > 0 ">
                     <div class="p-a">
                         Er zijn op dit moment geen nieuwe suggesties.
                     </div>

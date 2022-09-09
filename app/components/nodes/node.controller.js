@@ -237,6 +237,21 @@ angular.
                     $scope.history.selectedNode.diff.complete += "<span class='diff" + diff[i][0] +"'>" + diff[i][1] + "</span>";
                 }
             }
+
+            if(JSON.stringify($scope.history.selectedNode.data) == JSON.stringify($scope.history.comparedNode.data) && $scope.history.selectedNode.text == $scope.history.comparedNode.text  && $scope.history.selectedNode.title == $scope.history.comparedNode.title){
+                $scope.history.selectedNode.diff.unchanged = true;
+            } else {
+                $scope.history.selectedNode.diff.unchanged = false;
+                $scope.history.selectedNode.diff.changes = [];
+                if($scope.history.selectedNode.title != $scope.history.comparedNode.title) $scope.history.selectedNode.diff.changes.push('Title');
+                if($scope.history.selectedNode.text != $scope.history.comparedNode.text) $scope.history.selectedNode.diff.changes.push('Text');
+                for(let i in $scope.history.selectedNode.data){
+                    if(!$scope.history.comparedNode.data[i] || $scope.history.selectedNode.data[i] != $scope.history.comparedNode.data[i]) $scope.history.selectedNode.diff.changes.push(i);
+                }
+                for(let i in $scope.history.comparedNode.data){
+                    if(!$scope.history.selectedNode.data[i]) $scope.history.selectedNode.diff.changes.push(i);
+                }
+            }
         }
 
           $scope.historyApprove = function(node){
@@ -330,7 +345,7 @@ angular.
           }
 
           $scope.addRelatieAndData = function(relatie, option){
-              Nodes.addRelation(self.nodeId, relatie.key, option.nodeId, function(relatedNode){
+              Nodes.addRelationAndData(self.nodeId, relatie.key, option.nodeId, option.datarelation, function(relatedNode){
                   relatedNode.sourceId = self.nodeId;
                   relatedNode.targetId = relatedNode.nodeId;
                   relatedNode.key = relatie.key;
@@ -368,7 +383,7 @@ angular.
           }
 
           $scope.addDependencyAndData = function(relatie, option){
-              Nodes.addDependency(option.nodeId, relatie.key, self.nodeId, function(relatedNode){
+              Nodes.addDependencyAndData(option.nodeId, relatie.key, self.nodeId, option.datarelation, function(relatedNode){
                   relatedNode.sourceId = relatedNode.nodeId;
                   relatedNode.targetId = self.nodeId;
                   relatedNode.key = relatie.key;
