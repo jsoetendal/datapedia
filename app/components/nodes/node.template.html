@@ -667,9 +667,10 @@
                                             <div class="pull-right mralabel">{{history.selectedNode.status}}</div>
                                             <h3>{{history.selectedNode.title}}</h3>
                                             {{history.selectedNode.created}},
-                                            <span ng-show="!history.selectedNode.updaterName && !history.selectedNode.userdata">{{history.selectedNode.creatorName}}</span>
+                                            <span ng-show="!history.selectedNode.updated">{{history.selectedNode.creatorName}}</span>
                                             <span ng-show="history.selectedNode.updaterName">{{history.selectedNode.updaterName}}</span>
-                                            <span ng-show="history.selectedNode.userdata">Bezoeker</span>
+                                            <span ng-show="history.selectedNode.updaterId == 0">Bezoeker</span>
+                                            <small class='text-muted' ng-show="history.selectedNode.userData">{{history.selectedNode.userData.ip}} / {{history.selectedNode.userData.useragent}}</small>
                                         </div>
                                         <div class="box-body">
                                             <span class="text-success" ng-show="history.selectedNode.diff.unchanged">Er zijn geen wijzigingen in de tekst en data t.o.v. de gekozen versie</span>

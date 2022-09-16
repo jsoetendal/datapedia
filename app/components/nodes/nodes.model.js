@@ -225,7 +225,6 @@ angular.
                           if(data.relations[i].status == "suggested") history.relations[data.relations[i].key].nodes[data.relations[i].targetId].suggestions += 1;
                           history.relations[data.relations[i].key].nodes[data.relations[i].targetId].laststatus = data.relations[i].status;
                       }
-                      console.log(history);
 
                       for(let i in data.dependencies){
                           if(!history.relations[data.dependencies[i].key]){
