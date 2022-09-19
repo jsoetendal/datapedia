@@ -666,7 +666,7 @@
                                         <div class="box-header">
                                             <div class="pull-right mralabel">{{history.selectedNode.status}}</div>
                                             <h3>{{history.selectedNode.title}}</h3>
-                                            {{history.selectedNode.created}},
+                                            <span ng-hide="history.selectedNode.updated">{{history.selectedNode.created}}</span>{{history.selectedNode.updated}}
                                             <span ng-show="!history.selectedNode.updated">{{history.selectedNode.creatorName}}</span>
                                             <span ng-show="history.selectedNode.updaterName">{{history.selectedNode.updaterName}}</span>
                                             <span ng-show="history.selectedNode.updaterId == 0">Bezoeker</span>
