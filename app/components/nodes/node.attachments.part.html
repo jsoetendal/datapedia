@@ -1,0 +1,20 @@
+<div class="box" ng-class="{'incontent': entity.attachmentPosition != 'right'}">
+    <div class="box-header" ng-class="{'primary': entity.attachmentPosition == 'right'}">
+        <h3 ng-show="entity.attachmentLabel" ng-class="{'text-primary': entity.attachmentPosition != 'right'}">{{entity.attachmentLabel}}</h3>
+        <h3 ng-hide="entity.attachmentLabel" ng-class="{'text-primary': entity.attachmentPosition != 'right'}">Bijlage<span ng-show="node.data.attachments.length > 1">n</span></h3>
+    </div>
+    <div class="box-divider" ng-hide="entity.attachmentPosition == 'right'"></div>
+    <div class="box-body">
+        <ul class="list inset" ng-repeat="att in node.data.attachments">
+            <li class="list-item">
+                <a ng-if="att.url" href="{{att.url}}" target="_blank" class="list-left"><span class="w-40 r-2x _600 text-lg primary"><i class="fa fa-file"></i></span></a>
+                <div class="list-body">
+                    <div><a href="{{att.url}}" target="_blank">{{att.title}}</a></div>
+                    <div class="text-sm">
+                        <span class="text-muted">{{att.name}}, {{att.size | bytes}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

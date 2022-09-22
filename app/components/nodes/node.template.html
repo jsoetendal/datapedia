@@ -120,26 +120,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0">
-                                        <div class="box">
-                                            <div class="box-header">
-                                                <h3>Bijlage<span ng-show="node.data.attachments.length > 1">n</span></h3>
-                                            </div>
-                                            <div class="box-body">
-                                                <ul class="list inset" ng-repeat="att in node.data.attachments">
-                                                    <li class="list-item">
-                                                        <a ng-if="att.url" href="{{att.url}}" target="_blank" class="list-left"><span class="w-40 r-2x _600 text-lg primary"><i class="fa fa-file"></i></span></a>
-                                                        <div class="list-body">
-                                                            <div><a href="{{att.url}}" target="_blank">{{att.title}}</a></div>
-                                                            <div class="text-sm">
-                                                                <span class="text-muted">{{att.name}}, {{att.size | bytes}}</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0 && entity.attachmentPosition != 'right'" ui-include="'app/components/nodes/node.attachments.part.html'"></div>
 
                                     <div class="m-t" ng-if="showChapter">
                                         <div ng-if="siblings.next" ui-sref="module.node({'modulename': module.name, nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
@@ -154,6 +135,7 @@
 
                                 </div>
                                 <div class="col-xs-12 col-md-5 col-lg-4">
+                                    <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0 && entity.attachmentPosition == 'right'" ui-include="'app/components/nodes/node.attachments.part.html'"></div>
                                     <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position !='left' && dependency.position !='bottom'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
                                     <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='right'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
                                 </div>
@@ -209,7 +191,8 @@
                                 <div class="col-xs-12 col-md-6">
                                     <div class="box" ng-show="entity.attachments && entity.attachmentsPrimary" ng-if="user.auth.authenticated">
                                         <div class="box-header">
-                                            <h2>Bestand(en)</h2>
+                                            <h2 ng-show="entity.attachmentLabel">{{entity.attachmentLabel}}</h2>
+                                            <h2 ng-hide="entity.attachmentLabel">Bestand(en)</h2>
                                             <small>Voeg een of meerdere bestanden toe</small>
                                         </div>
                                         <div class="box-divider m-a-0"></div>
@@ -295,6 +278,21 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6" ng-if="node.nodeId">
+                                    <div class="box" ng-show="entity.attachments &&  !entity.attachmentsPrimary" ng-if="user.auth.authenticated">
+                                        <div class="box-header">
+                                            <h2 ng-show="entity.attachmentLabel">{{entity.attachmentLabel}}</h2>
+                                            <h2 ng-hide="entity.attachmentLabel">Bijlage(n)</h2>
+                                            <small>Voeg een of meerdere bijlagen toe</small>
+                                        </div>
+                                        <div class="box-divider m-a-0"></div>
+                                        <div class="box-body">
+                                            <div ng-repeat="(key, att) in node.data.attachments" class="form-group">
+                                                <input class="form-control" type="text" ng-model="node.data.attachments[key].title"><br/>
+                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}}) <a ng-click="deleteAttachment($index)" class="pull-right"><i class="fa fa-times text-danger"></i> verwijderen</a>
+                                            </div>
+                                            <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
+                                        </div>
+                                    </div>
                                     <div class="box" ng-repeat="relatie in entity.relations">
                                         <div class="box-header">
                                             <h2>{{relatie.label}}</h2>
@@ -572,20 +570,6 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="box" ng-show="entity.attachments &&  !entity.attachmentsPrimary" ng-if="user.auth.authenticated">
-                                        <div class="box-header">
-                                            <h2>Bijlage(n)</h2>
-                                            <small>Voeg een of meerdere bijlagen toe</small>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <div ng-repeat="(key, att) in node.data.attachments" class="form-group">
-                                                <input class="form-control" type="text" ng-model="node.data.attachments[key].title"><br/>
-                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}}) <a ng-click="deleteAttachment($index)" class="pull-right"><i class="fa fa-times text-danger"></i> verwijderen</a>
-                                            </div>
-                                            <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6" ng-if="node.nodeId" ng-hide="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))">
                                     <div class="box">
@@ -666,7 +650,7 @@
                                         <div class="box-header">
                                             <div class="pull-right mralabel">{{history.selectedNode.status}}</div>
                                             <h3>{{history.selectedNode.title}}</h3>
-                                            <span ng-hide="history.selectedNode.updated">{{history.selectedNode.created}}</span>{{history.selectedNode.updated}}
+                                            <span ng-hide="history.selectedNode.updated">{{history.selectedNode.created}}</span>{{history.selectedNode.updated}},
                                             <span ng-show="!history.selectedNode.updated">{{history.selectedNode.creatorName}}</span>
                                             <span ng-show="history.selectedNode.updaterName">{{history.selectedNode.updaterName}}</span>
                                             <span ng-show="history.selectedNode.updaterId == 0">Bezoeker</span>
