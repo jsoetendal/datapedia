@@ -234,10 +234,17 @@ angular.
                               }
                           }
                           if(!history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId]){
-                              history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId] = [];
+                              history.relations[data.dependencies[i].key].nodes[data.relations[i].sourceId] = {
+                                  "title": data.dependencies[i].title,
+                                  'suggestions': 0,
+                                  'laststatus': "",
+                                  'versions': []
+                              };
                           }
                           data.dependencies[i].data = JSON.parse(data.dependencies[i].data);
-                          history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId].push(data.dependencies[i]);
+                          history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId].versions.push(data.dependencies[i]);
+                          if(data.relations[i].status == "suggested") history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId].suggestions += 1;
+                          history.relations[data.dependencies[i].key].nodes[data.dependencies[i].sourceId].laststatus = data.relations[i].status;
                       }
 
 
