@@ -238,21 +238,20 @@ angular.
                 }
             }
 
-            if(JSON.stringify($scope.history.selectedNode.data) == JSON.stringify($scope.history.comparedNode.data) && $scope.history.selectedNode.text == $scope.history.comparedNode.text  && $scope.history.selectedNode.title == $scope.history.comparedNode.title){
-                $scope.history.selectedNode.diff.unchanged = true;
-            } else {
+            $scope.history.selectedNode.diff.unchanged = true;
+            $scope.history.selectedNode.diff.changes = [];
+            if($scope.history.selectedNode.title != $scope.history.comparedNode.title) $scope.history.selectedNode.diff.changes.push('Title');
+            if($scope.history.selectedNode.text != $scope.history.comparedNode.text) $scope.history.selectedNode.diff.changes.push('Text');
+            if($scope.history.selectedNode.imgUrl != $scope.history.comparedNode.imgUrl) $scope.history.selectedNode.diff.changes.push('Image');
+            if($scope.history.selectedNode.path != $scope.history.comparedNode.path) $scope.history.selectedNode.diff.changes.push('Path/location');
+            for(let i in $scope.history.selectedNode.data){
+                if(!$scope.history.comparedNode.data[i] || $scope.history.selectedNode.data[i] != $scope.history.comparedNode.data[i]) $scope.history.selectedNode.diff.changes.push(i);
+            }
+            for(let i in $scope.history.comparedNode.data){
+                if(!$scope.history.selectedNode.data[i]) $scope.history.selectedNode.diff.changes.push(i);
+            }
+            if($scope.history.selectedNode.diff.changes.length > 0) {
                 $scope.history.selectedNode.diff.unchanged = false;
-                $scope.history.selectedNode.diff.changes = [];
-                if($scope.history.selectedNode.title != $scope.history.comparedNode.title) $scope.history.selectedNode.diff.changes.push('Title');
-                if($scope.history.selectedNode.text != $scope.history.comparedNode.text) $scope.history.selectedNode.diff.changes.push('Text');
-                if($scope.history.selectedNode.imgUrl != $scope.history.comparedNode.imgUrl) $scope.history.selectedNode.diff.changes.push('Image');
-                if($scope.history.selectedNode.path != $scope.history.comparedNode.path) $scope.history.selectedNode.diff.changes.push('Path/location');
-                for(let i in $scope.history.selectedNode.data){
-                    if(!$scope.history.comparedNode.data[i] || $scope.history.selectedNode.data[i] != $scope.history.comparedNode.data[i]) $scope.history.selectedNode.diff.changes.push(i);
-                }
-                for(let i in $scope.history.comparedNode.data){
-                    if(!$scope.history.selectedNode.data[i]) $scope.history.selectedNode.diff.changes.push(i);
-                }
             }
         }
 
