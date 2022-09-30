@@ -46,7 +46,7 @@ class NodesMapper extends Mapper
     }
 
     function getNodesExtendedWithLabels($type, $path = null){
-        $SQL = "SELECT * FROM nodes WHERE type = '". $type ."'";
+        $SQL = "SELECT nodeId, type, path, title, text, imgUrl, data, created, creatorId, updated, updaterId FROM nodes WHERE type = '". $type ."'"; //All columns except userData
         if($path) $SQL .= " AND path LIKE '%". $path ."%'";
         $rows = $this->db->getArray($SQL); //" ORDER BY `path`,`title`");
 

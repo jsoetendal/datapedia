@@ -4,11 +4,11 @@ angular.
   component('main', {
     templateUrl: 'app/components/main/main.template.html',
     controller: ['$http', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'Nodes', '$location',
-      function MainController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location) {
+      function ImportController($http, $rootScope, $scope, $state, $stateParams, $window, Nodes, $location) {
         var self = this;
 
         this.start = function() {
-          $rootScope.backgroundImgUrl = "uploads/paulus_west.jpg";
+          $rootScope.backgroundImgUrl = "app/images/fietsfile.jpg";
 
           if (window.localStorage.getItem("visited")) {
             $scope.meerinfo = false;
@@ -17,10 +17,11 @@ angular.
             $scope.meerinfo = true;
           }
           this.laadVoorbeelden();
+          this.laadData();
         }
 
         this.laadVoorbeelden = function(){
-          Nodes.loadNodes("voorbeeldboek", false, null, function () {
+          Nodes.loadNodes("project", false, null, function () {
             var nodes = Nodes.getNodes();
             $scope.voorbeelden = [];
             while($scope.voorbeelden.length < 3){
@@ -32,9 +33,26 @@ angular.
           });
         }
 
+        this.laadData = function(){
+          Nodes.loadNodes("onderwerp", false, null, function () {
+            $scope.nodes = Nodes.getNodes();
+            Nodes.createTree(function(tree){
+              $scope.tree = tree;
+            });
+            $scope.nodesLoaded = true;
+          });
+          $scope.view = "tree";
+        }
+
+
         $scope.naarZoeken = function(q){
           $state.go("module.nodes.query",{"type": "zoeken", "q": q});
         }
+
+
+
+
+
 
         this.start();
       }
