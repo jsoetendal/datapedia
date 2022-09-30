@@ -15,11 +15,22 @@ angular.
             $scope.settings = $rootScope.settings;
 
             //Module naam goed zetten in start-url
+            let count = 0;
+            let redirectState = null;
+            let redirectDetails = null;
             for(let i in $scope.settings.modules){
               if($scope.settings.modules[i].start && $scope.settings.modules[i].start.details){
                 if(Array.isArray($scope.settings.modules[i].start.details)) $scope.settings.modules[i].start.details = {};
                 $scope.settings.modules[i].start.details.modulename = $scope.settings.modules[i].name;
+                if(!$scope.settings.modules[i].deactivated){
+                  count += 1;
+                  redirectState = $scope.settings.modules[i].start.state;
+                  redirectDetails =$scope.settings.modules[i].start.details;
+                }
               }
+            }
+            if(count == 1){ //Redirect if there is only one active module
+                $state.go(redirectState, redirectDetails);
             }
           });
         }

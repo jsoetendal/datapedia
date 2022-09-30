@@ -73,6 +73,9 @@
                 $HTMLDescription = "Voor wegbeheerders die meedoen of mee willen doen aan het ontsluiten van data uit de Data Top 15 in het project ‘Digitalisering Overheden’, samen met het Regionaal Datateam. Met o.a: De Data Top 15 en een stappenplan voor alle items Actuele status van de wegbeheerders in de Data Top 15";
                 $type = "datatop15";
                 $nodes= json_decode(file_get_contents("https://www.datapedia.nl/api/public/nodes/". $type ."/"));
+            } elseif($module == "smartmobility"){
+                header($_SERVER["SERVER_PROTOCOL"] . " 410 Gone");
+                exit();
             } else {
                 $HTMLTitle = "Datapedia Smart Mobility";
                 $HTMLDescription = "Voor iedereen die meer wilt weten over slimme toepassingen in mobiliteit en welke rol data daar bij speelt. Van wegbeheerder tot beleidsambtenaar en wethouder mobiliteit. Met o.a: Het Datakookboek Smart Mobility, Voorbeelden van data & smart mobility in de praktijk";

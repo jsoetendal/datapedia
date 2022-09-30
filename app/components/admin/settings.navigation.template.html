@@ -62,6 +62,42 @@
                                         <input type="text" class="form-control" ng-model="selected.module.background">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Start</label>
+                                    <div class="col-sm-10">
+                                        <select ng-model="selected.module.start.state" class="form-control">
+                                            <option value="module.nodes">Type entiteit</option>
+                                            <option value="module.node">Specifieke node</option>
+                                            <option ng-repeat="state in states" ng-value="state.name">{{state.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row" ng-show="selected.module.start.state == 'module.nodes'">
+                                    <label class="col-sm-2 form-control-label">Entiteit</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" ng-model="selectedType" ng-init="selectedType = selected.module.start.details.type" ng-change="setNavDetailsType(selected.module.start, selectedType)">
+                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
+                                            <option ng-value="zoeken">zoeken</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row" ng-show="selected.module.start.state == 'module.node'">
+                                    <label class="col-sm-2 form-control-label">NodeId</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" ng-model="selected.module.start.details.nodeId" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Details</label>
+                                    <div class="col-sm-10">
+                                        {{selected.module.start.details}}
+                                        <!--<input type="text" class="form-control" ng-model="selected.nav.details">-->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 form-control-label">Deactiveren</label>
+                                    <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.module.deactivated"> Gedeactiveerde module</label></div>
+                                </div>
                             </form>
                         </div>
                     </div>
