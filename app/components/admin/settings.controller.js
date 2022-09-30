@@ -235,12 +235,19 @@ component('settings', {
             }
 
             $scope.addDataview = function(entity){
-                console.log(entity);
                 if(!entity.dataview) entity.dataview = "...";
             }
 
             $scope.deleteDataview = function(entity){
                 delete entity.dataview;
+            }
+
+            $scope.addToprightview = function(entity){
+                if(!entity.toprightview) entity.toprightview = "...";
+            }
+
+            $scope.deleteToprightview = function(entity){
+                delete entity.toprightview;
             }
 
             $scope.setAdminTab = function(tab){

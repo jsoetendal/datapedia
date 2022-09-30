@@ -1,0 +1,10 @@
+<div class="box" ng-if="node.data['handreikingurl']">
+    <div class="box-header primary">
+        <h3>Handreiking</h3>
+    </div>
+    <iframe  ng-src="{{node.data['handreikingurl']}}" style="width: 100%; height: 400px"></iframe>
+    <div class="box-body">
+        <a href="{{node.data['handreikingurl']}}" target="_blank"><i class="fa fa-external-link"></i> Bekijk de handreiking in een volledig scherm</a><br/>
+        <small class="text-muted">Dit is de landelijke handreiking voor dit data-item</small>
+    </div>
+</div>

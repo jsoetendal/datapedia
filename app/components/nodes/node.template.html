@@ -69,7 +69,7 @@
                     <div class="tab-content p-y m-b-md">
                         <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}">
                             <div class="row">
-                                <div class="col-xs-12" ng-class="{'col-md-7 col-lg-8': entity.dependencies.length > 0 || entity.relations.length > 0,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 }">
+                                <div class="col-xs-12" ng-class="{'col-md-7 col-lg-8': entity.dependencies.length > 0 || entity.relations.length > 0 || entity.toprightview,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 && !entity.toprightview }">
                                     <div class="row">
                                         <div class="col-md-4" ng-if="entity.image == 'left'">
                                             <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
@@ -135,6 +135,7 @@
 
                                 </div>
                                 <div class="col-xs-12 col-md-5 col-lg-4">
+                                    <div ng-if="entity.toprightview" ui-include="'{{entity.toprightview}}'"></div>
                                     <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0 && entity.attachmentPosition == 'right'" ui-include="'app/components/nodes/node.attachments.part.html'"></div>
                                     <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position !='left' && dependency.position !='bottom'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
                                     <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='right'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
@@ -143,34 +144,6 @@
                             <div class="row">
                                 <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position =='bottom'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
                                 <div ng-repeat="relatie in entity.relations" ng-if="relatie.position !='left' && relatie.position !='right'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
-                                <!--
-                                <div ng-repeat="relatie in combined = entity.relations.concat(entity.dependencies)" ng-if="relatie.view">
-                                    <div style="clear: both" ng-if="relatie.clear"></div>
-                                    <div class="col-xs-12" ng-if="!relatie.cols && relatie.view.indexOf('.html') > 0" ui-include="'{{relatie.view}}'">
-                                    </div>
-                                    <div class="col-xs-{{relatie.cols}}" ng-if="relatie.cols && relatie.view == 'custom'">
-                                        <div class="box">
-                                            <div class="box-header primary">
-                                                <h3>{{relatie.label}}</h3>
-                                            </div>
-                                            <div class="box-body">
-                                                <div ng-if="node.relations[relatie.key]" ng-init="nodes = node.relations[relatie.key]"  ui-include="'{{relatie.custom}}'"></div>
-                                                <div ng-if="node.dependencies[relatie.key]" ng-init="nodes = node.dependencies[relatie.key]"  ui-include="'{{relatie.custom}}'"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-{{relatie.cols}}" ng-if="relatie.cols && relatie.view != 'custom'">
-                                        <div class="box">
-                                            <div class="box-header primary">
-                                                <h3>{{relatie.label}}</h3>
-                                            </div>
-                                            <div class="box-body">
-                                                <div ng-if="node.relations[relatie.key]" ng-init="nodes = node.relations[relatie.key]; view=relatie.view; faceted=false" ui-include="'app/components/nodes/nodes.views.template.html'"></div>
-                                                <div ng-if="node.dependencies[relatie.key]" ng-init="nodes = node.dependencies[relatie.key]; view=relatie.view; faceted=false" ui-include="'app/components/nodes/nodes.views.template.html'"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
                             </div>
                         </div>
 

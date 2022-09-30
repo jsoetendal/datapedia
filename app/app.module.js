@@ -11,7 +11,8 @@ angular.
         // Allow loading from outer templates domain.
         'https://*.proloco.nl/**',
         'https://*.copaan.nl/**',
-        'https://media.nvm.nl/**'
+        'https://media.nvm.nl/**',
+        'https://indd.adobe.com/**',
       ]); 
 
       //
