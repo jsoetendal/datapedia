@@ -260,12 +260,16 @@
                                         <div class="tab-pane animated fadeIn text-muted" id="tab2" aria-expanded="false">
                                             <div class="box">
                                                 <form role="form" class="ng-pristine ng-valid">
-                                                    <div class="box-body" ng-repeat-start="item in selected.entity.data">
+                                                    <div class="box-body" ng-repeat-start="item in selected.entity.data track by $index">
                                                         <div class="row">
                                                             <div class="col-xs-12 p-t">
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-2 form-control-label"><strong>{{item.label}}</strong>
                                                                         <br/><a ng-click="showDelete = !showDelete" class="text-muted text-sm"><i class="fa fa-times text-danger"></i> verwijderen</a>
+                                                                        <div ng-if="selected.entity.data.length > 1">
+                                                                            <i ng-click="arrUp(selected.entity.data, item)" ng-hide="$index == selected.entity.data.length - 1" class="fa fa-caret-down pointer"></i>
+                                                                            <i ng-click="arrDown(selected.entity.data, item)" ng-hide="$index == 0" class="fa fa-caret-up pointer"></i>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-sm-10 p-b-2" ng-show="showDelete">
                                                                         <strong class="text-danger">Weet je zeker dat je het veld '{{item.label}}' wilt verwijderen?</strong>
