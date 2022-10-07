@@ -8,6 +8,7 @@ angular.
 
         var self = this;
         $scope.zoeken = {};
+        $scope.stateparams = $stateParams;
         this.facetsCreated = false;
 
           this.loadNodes = function(type) {

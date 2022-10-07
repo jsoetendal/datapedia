@@ -36,7 +36,7 @@
                     <strong style="font-size: 120%; font-weight: 500" ng-hide="current.regio">Heel Nederland</strong>
                 </div>
                 <ul ng-show="showRegios">
-                    <li ng-repeat="regio in regios" ng-click="current.regio = regio; showRegios=false; saveCurrent();" class="pointer">{{regio}}</li>
+                    <li ng-repeat="regio in regios" ng-click="current.regio = regio; showRegios=false; saveCurrent(); updateMap(node.dependencies['gemeente_datatop15']);" class="pointer">{{regio}}</li>
                 </ul>
             </div>
             <ul class="list no-border p-b">

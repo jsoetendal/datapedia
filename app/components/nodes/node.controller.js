@@ -20,6 +20,8 @@ angular.
                 for(var i in $rootScope.settings.content.entities){
                     if($rootScope.settings.content.entities[i].type == $scope.node.type){
                         $scope.entity = $rootScope.settings.content.entities[i];
+                        $rootScope.entity = $rootScope.settings.content.entities[i];
+                        $scope.$emit("SetNodeEntity", {'node': $scope.node, 'entity': $scope.entity}); //Emit to module.controller
                     }
                 }
                 $scope.loaded = true;

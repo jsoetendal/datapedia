@@ -217,7 +217,7 @@ angular.
               }
           }
 
-
+          $scope.module = $rootScope.module;
           $scope.zoeken = $scope.$parent.$parent.zoeken;
           $scope.current = $scope.$parent.$parent.current;
           $scope.loadPDOK = $scope.$parent.$parent.loadPDOK;

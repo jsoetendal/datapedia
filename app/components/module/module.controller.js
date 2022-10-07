@@ -23,6 +23,30 @@ component('module', {
                 $rootScope.setup.doLogin($scope);
             }
 
+            $scope.setNavigation = function(nav){
+                for(let i in nav){
+                    if(nav[i].details && nav[i].details.type && !nav[i].details.customview){
+                        nav[i].details.customview = null;
+                    } else if(nav[i].details && nav[i].details.type && nav[i].details.customview){
+                        nav[i].details.title = nav[i].label;
+                    }
+                    if(nav[i].sub){
+                        $scope.setNavigation(nav[i].sub);
+                    }
+                }
+            }
+
+            $scope.getEntity = function(){
+                $scope.node = null;
+                $scope.entity = null;
+            }
+
+            $scope.$on("SetNodeEntity", function(evt,data) {
+                // handler code here });
+                $scope.entity = data.entity;
+                $scope.node = data.node;
+            })
+
             let modulename = $stateParams.modulename;
             if($rootScope.settings && $rootScope.settings.modules) {
                 for (var i in $rootScope.settings.modules) {
@@ -32,6 +56,8 @@ component('module', {
                     }
                 }
             }
+
+
 
             if(!$scope.module){
                 $scope.module = {
@@ -43,6 +69,9 @@ component('module', {
                         details: {}
                     }
                 }
+            } else {
+                $scope.setNavigation($scope.module.navigation);
+                $scope.getEntity();
             }
         }
     ]

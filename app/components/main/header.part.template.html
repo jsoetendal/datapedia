@@ -16,7 +16,11 @@
         <div class="collapse navbar-toggleable-sm" id="navbar-1">
             <ul class="nav navbar-nav nav-active-border b-primary pull-right">
                 <li ng-repeat-start="link in module.navigation" class="nav-item" ng-if="module && (!link.sub || link.sub.length == 0) && ((!user.auth.authenticated && link.roles.indexOf('unauthenticated') > -1) || (user.auth.authenticated && link.roles.indexOf(user.auth.role) > -1))">
-                    <a ui-sref="{{link.state}}({{link.details}})" class="nav-link" ng-class="{'text-primary': state.name == link.state && state.params.type == link.details.type}">
+                    <a ui-sref="{{link.state}}({{link.details}})" class="nav-link"
+                       ng-class="{
+                       'text-primary':  (state.name == link.state && state.params.type == link.details.type && state.params.customview == link.details.customview && !link.details.nodeId)
+                       || (node && link.details && link.details.nodeId && link.details.nodeId == node.nodeId)
+                       || (entity && entity.type && link.details && link.details.type && link.details.type == entity.type && state.params.customview == link.details.customview)}">
                         <span class="nav-text">{{link.label}}</span>
                     </a>
                 </li>

@@ -13,7 +13,8 @@ angular.
         'https://*.copaan.nl/**',
         'https://media.nvm.nl/**',
         'https://indd.adobe.com/**',
-      ]); 
+        'https://www.youtube.com/**',
+      ]);
 
       //
       // For any unmatched url, redirect to /state1
@@ -112,7 +113,12 @@ angular.
           .state('module.nodes', {
               url: "/nodes/{type}",
               template: "<nodes class='controllermodule'></nodes>",
+              params: {
+                  customview: null,
+                  title: null
+              },
               controller: ['$scope', function($scope) {
+                  $scope.$emit("SetNodeEntity", {'node': null, 'entity': null}); //Emit reset to module.controller
               }]
           })
           .state('module.nodes.tab', {

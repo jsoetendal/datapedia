@@ -250,6 +250,10 @@ component('settings', {
                 delete entity.toprightview;
             }
 
+            $scope.deleteField = function(obj, field){
+                delete obj[field];
+            }
+
             $scope.setAdminTab = function(tab){
                 $scope.tab = tab;
                 if(!$scope.tab) $scope.tab = "entities";

@@ -8,3 +8,9 @@
         <small class="text-muted">Dit is de landelijke handreiking voor dit data-item, opgesteld in samenwerking met alle RDT’s.</small>
     </div>
 </div>
+<div class="box" ng-if="node.data['video']">
+    <div class="box-header primary">
+        <h3>Video</h3>
+    </div>
+    <iframe ng-src="{{node.data['video']}}" style="width: 100%; height: 315px" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>

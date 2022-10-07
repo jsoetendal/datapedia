@@ -636,18 +636,21 @@
                                                     <li ng-repeat="change in history.selectedNode.diff.changes">{{change}}</li>
                                                 </ul>
                                             </div>
-
-                                            <div class="b-a p-a m-a">
+                                            <div class="b-a p-a m-a" ng-show="showVersionDetails">
                                                 <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
                                                 <span ng-if="history.selectedNode != history.comparedNode" ng-bind-html="history.selectedNode.diff.complete"></span>
                                             </div>
-                                            <h5 class="m-t">Data</h5>
-                                            <table class="table table-striped">
+                                            <h5 class="m-t" ng-show="showVersionDetails">Data</h5>
+                                            <table class="table table-striped" ng-show="showVersionDetails">
                                                 <tr ng-repeat="(key, value) in history.selectedNode.data">
                                                     <td><strong>{{key}}</strong></td>
                                                     <td ng-class="{'diff1': history.selectedNode.diff.changes && history.selectedNode.diff.changes.indexOf(key) > -1}">{{value}}</td>
                                                 </tr>
                                             </table>
+                                            <div class="m-y">
+                                                <span ng-click="showVersionDetails = !showVersionDetails" ng-hide="showVersionDetails" class="pointer">Toon details</span>
+                                                <span ng-click="showVersionDetails = !showVersionDetails" ng-show="showVersionDetails" class="pointer">Verberg details</span>
+                                            </div>
                                         </div>
                                         <div class="box-footer m-y">
                                             <div class="btn btn-fwd danger pull-right" ng-if="history.selectedNode.status != 'current'" ng-click="historyDelete(history.selectedNode)">Verwijderen</div>
