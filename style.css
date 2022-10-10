@@ -756,3 +756,7 @@ footer{
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
+
+a.link{
+    color: var(--primary);
+}
