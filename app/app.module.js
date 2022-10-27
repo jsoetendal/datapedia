@@ -113,10 +113,13 @@ angular.
           .state('module.nodes', {
               url: "/nodes/{type}",
               template: "<nodes class='controllermodule'></nodes>",
-              params: {
-                  customview: null,
-                  title: null
-              },
+              controller: ['$scope', function($scope) {
+                  $scope.$emit("SetNodeEntity", {'node': null, 'entity': null}); //Emit reset to module.controller
+              }]
+          })
+          .state('module.nodescustomview', {
+              url: "/custom/{type}/{customview}",
+              template: "<nodes class='controllermodule'></nodes>",
               controller: ['$scope', function($scope) {
                   $scope.$emit("SetNodeEntity", {'node': null, 'entity': null}); //Emit reset to module.controller
               }]

@@ -243,7 +243,52 @@
                                                             <label class="col-sm-2">Uitgebreid<br/></label>
                                                             <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.entity.getNodesExtended">Uitgebreide nodes ophalen. (GetNodesExtended)</label></div>
                                                         </div>
-
+                                                        <div class="row m-b">
+                                                            <label class="col-sm-2">Custom views<br/><small class="text-muted"></small></label>
+                                                            <div class="col-sm-10">
+                                                                <table class="table table-striped" ng-show="selected.entity.customviews">
+                                                                    <thead>
+                                                                        <tr><td>Key</td><td>Titel</td><TD>view-URL</TD></tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="customview in selected.entity.customviews track by $index">
+                                                                            <td>{{customview.key}}</td>
+                                                                            <td>{{customview.title}}</td>
+                                                                            <td>{{customview.url}}</td>
+                                                                            <td><i class="fa fa-times text-danger pointer" ng-click="deleteCustomView($index)"></i></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div ng-init="newCustomView = {}" ng-show="selected.entity.customviews">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 form-control-label">Key</label>
+                                                                        <div class="col-sm-10">
+                                                                            <input type="text" class="form-control" ng-model="newCustomView.key">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 form-control-label">Titel</label>
+                                                                        <div class="col-sm-10">
+                                                                            <input type="text" class="form-control" ng-model="newCustomView.title">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 form-control-label">URL</label>
+                                                                        <div class="col-sm-10">
+                                                                            <input type="text" class="form-control" ng-model="newCustomView.url">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 form-control-label"></label>
+                                                                        <div class="col-sm-10">
+                                                                            <div class="btn btn-primary" ng-click="addCustomView(newCustomView)">Toevoegen</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <small class="text-muted" ng-click="selected.entity.customviews = []" ng-hide="selected.entity.customviews">Custom view(s) toevoegen</small>
+                                                                <small class="text-muted" ng-click="selected.entity.customviews = null" ng-show="selected.entity.customviews">Custom view(s) verwijderen</small>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group row" ng-if="settings.modules.length > 1">
                                                             <label class="col-sm-2 form-control-label">Primaire module</label>
                                                             <div class="col-sm-10">

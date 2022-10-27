@@ -174,7 +174,16 @@ component('settings', {
                 $scope.selectEntity($scope.selected.entity); //reselect to update potential dependencies
             }
 
-            $scope.addModule = function(){
+            $scope.addCustomView = function(customview){
+                $scope.selected.entity.customviews.push(angular.copy(customview));
+            }
+
+            $scope.deleteCustomView = function(index){
+                $scope.selected.entity.customviews.splice(index, 1);
+            }
+
+
+                $scope.addModule = function(){
                 $scope.settings.modules.push({
                     "name": "Nieuwe module",
                     "navigation": []
