@@ -1,4 +1,4 @@
-<div class="box" ng-if="node.data['handreikingurl']">
+<div class="box" ng-if="node.data['handreikingurl'] && node.text.length >= 10">
     <div class="box-header primary">
         <h3>Handreiking</h3>
     </div>
@@ -8,7 +8,7 @@
         <small class="text-muted">Dit is de landelijke handreiking voor dit data-item, opgesteld in samenwerking met alle RDT’s.</small>
     </div>
 </div>
-<div class="box" ng-if="node.data['video']">
+<div class="box" ng-if="node.data['video'] && node.text.length >= 10">
     <div class="box-header primary">
         <h3>Video</h3>
     </div>

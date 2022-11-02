@@ -1,5 +1,47 @@
 <div>
-    <div class="box incontent m-t-2">
+    <div class="box incontent" ng-if="node.text.length < 10 && node.data['handreikingurl']">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Handreiking</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <iframe class='m-b-2' ng-src="{{node.data['handreikingurl']}}" style="width: 100%; height: 40vh; background-color: #2c2c2c"></iframe>
+            <a href="{{node.data['handreikingurl']}}" target="_blank"><i class="fa fa-external-link"></i> Bekijk de handreiking in een volledig scherm</a><br/>
+            <small class="text-muted">Dit is de landelijke handreiking voor dit data-item, opgesteld in samenwerking met alle RDT’s.</small>
+        </div>
+    </div>
+    <div class="box incontent m-t-2" ng-if="node.text.length < 10 && node.data['video']">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Video</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <iframe ng-src="{{node.data['video']}}" style="width: 100%; height: 40vh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="box incontent m-t-2" ng-if="node.text.length < 10 && node.data['dashboard']">
+        <div class="box-header smaller">
+            <h3 class="text-primary">Dashboard</h3>
+        </div>
+        <div class="box-divider smaller"></div>
+        <div class="box-body">
+            <ul class="list-group m-b">
+                <li class="list-group-item" style="border: none">
+                    <a href="" class="pull-left w-40 m-r">
+                        <i class="fa fa-bar-chart" style="font-size: 200%"></i>
+                    </a>
+                    <div class="clear">
+                        <span class="_500 block"><i class="fa fa-check text-success"></i> <strong>Dashboard beschikbaar</strong></span>
+                        Voor dit data-item is een dashboard beschikbaar op <a href="{{node.data['dashboard']}}" class="link" target="_blank">{{node.data['dashboard']}}</a>
+                        <br/><span class="text-muted">Lees de <a ui-sref="module.node({'nodeId': 1953})" class="link">gebruikshandleiding</a> voor het aanvragen van toegang en gebruik van het dashboard</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="box incontent m-t-2" ng-hide="node.text.length < 10">
         <div class="box-header smaller">
             <h3 class="text-primary">Inventarisatie</h3>
         </div>
@@ -8,7 +50,7 @@
             <p ng-bind-html="trustAsHtml(node.data['Inventarisatie'])"></p>
         </div>
     </div>
-    <div class="box incontent">
+    <div class="box incontent" ng-hide="node.text.length < 10">
         <div class="box-header smaller">
             <h3 class="text-primary">Acties</h3>
         </div>
