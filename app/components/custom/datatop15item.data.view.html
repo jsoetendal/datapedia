@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="box incontent m-t-2" ng-if="node.text.length < 10 && node.data['dashboard']">
+    <div class="box incontent m-t-2" ng-if="node.text.length < 10 && node.data['dashboard'] && user.isEditorOrUp">
         <div class="box-header smaller">
             <h3 class="text-primary">Dashboard</h3>
         </div>

@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.module.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.entities.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/custom/toolbox.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/toolbox.view.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -303,7 +300,10 @@
       <workItem from="1665644252462" duration="1799000" />
       <workItem from="1665659445267" duration="11000" />
       <workItem from="1666162698909" duration="1323000" />
-      <workItem from="1666852508963" duration="9765000" />
+      <workItem from="1666852508963" duration="11298000" />
+      <workItem from="1666941403801" duration="209000" />
+      <workItem from="1667375101588" duration="2628000" />
+      <workItem from="1668153268740" duration="694000" />
     </task>
     <servers />
   </component>

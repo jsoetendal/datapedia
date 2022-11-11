@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="col-xs-12">
-            <ul class="list-group m-b" ng-if="node.data['dashboard']">
+            <ul class="list-group m-b" ng-if="node.data['dashboard'] && user.isEditorOrUp">
                 <li class="list-group-item" style="border: none">
                     <a href="" class="pull-left w-40 m-r">
                         <i class="fa fa-bar-chart" style="font-size: 200%"></i>
