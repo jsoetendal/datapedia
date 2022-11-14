@@ -217,6 +217,57 @@ angular.
               }
           }
 
+          this.outputDownload = function(blobData, filename, type){
+              var blob = new Blob([blobData], { type: type });
+              if (navigator.msSaveBlob) { // IE 10+
+                  navigator.msSaveBlob(blob, filename);
+              } else {
+                  var link = document.createElement("a");
+                  if (link.download !== undefined) { // feature detection
+                      // Browsers that support HTML5 download attribute
+                      var url = URL.createObjectURL(blob);
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", filename);
+                      link.style.visibility = 'hidden';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                  }
+              }
+          }
+
+          $scope.downloadGeoJSON = function(){
+            let geoJSON =
+                {
+                    "type": "FeatureCollection",
+                    "features": []
+                };
+            for(let i in $scope.gemeentes){
+                if($scope.gemeentes[i].data && $scope.gemeentes[i].data.geometry) {
+                    console.log($scope.gemeentes[i].data.geometry);
+                    let feature = {
+                        "type": "Feature",
+                        "geometry": JSON.parse($scope.gemeentes[i].data.geometry.replace(/&#34;/g, "\"")),
+                        "properties": {
+                            "title": $scope.gemeentes[i].title,
+                            "regio": $scope.gemeentes[i].data.regio
+                        }
+                    }
+                    if($scope.gemeentes[i].gemeente_datatop15){
+                        for(let j in $scope.gemeentes[i].gemeente_datatop15){
+                            if($scope.gemeentes[i].gemeente_datatop15[j].title && $scope.gemeentes[i].gemeente_datatop15[j].datarelation && $scope.gemeentes[i].gemeente_datatop15[j].datarelation.status) {
+                                feature.properties[$scope.gemeentes[i].gemeente_datatop15[j].title] = $scope.gemeentes[i].gemeente_datatop15[j].datarelation.status;
+                            }
+                        }
+                    }
+                    geoJSON.features.push(feature);
+                }
+            }
+            var utc = new Date().toJSON();
+            var filename = "Datapedia Wegbeheerders Statusoverzicht " + utc + ".json";
+            self.outputDownload(JSON.stringify(geoJSON), filename,"text/json;charset=utf-8;'");
+          }
+
           $scope.module = $rootScope.module;
           $scope.zoeken = $scope.$parent.$parent.zoeken;
           $scope.current = $scope.$parent.$parent.current;
