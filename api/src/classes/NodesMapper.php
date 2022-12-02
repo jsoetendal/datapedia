@@ -682,10 +682,12 @@ class NodesMapper extends Mapper
             $temp->status = [];
             if($node->gemeente_datatop15){
                 foreach($node->gemeente_datatop15 as $item){
-                    $s = new stdClass();
-                    $s->name = $item->title;
-                    $s->status = $item->datarelation->status;
-                    $temp->status[] = $s;
+                    if($item->datarelation->status){
+                        $s = new stdClass();
+                        $s->name = $item->title;
+                        $s->status = $item->datarelation->status;
+                        $temp->status[] = $s;
+                    }
                 }
             }
             $result[] = $temp;
