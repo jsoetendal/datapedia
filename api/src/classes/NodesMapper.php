@@ -669,5 +669,28 @@ class NodesMapper extends Mapper
     function getEntityCount(){
         return $this->db->getArray("SELECT type , count(*) AS count FROM nodes WHERE type IS NOT NULL GROUP BY type");
     }
+
+    function dataTop15Status(){
+        $nodes = $this->getNodesExtended('gemeente');
+        $result = [];
+
+        foreach($nodes as $node){
+            $temp = new stdClass();
+            $title = $node->title;
+            //$title = html_entity_decode(preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $title)); //OM utf8 karakters er goed in te krijgen: https://stackoverflow.com/questions/7061339/how-to-convert-u00e9-into-a-utf8-char-in-mysql-or-php
+            $temp->name = $title;
+            $temp->status = [];
+            if($node->gemeente_datatop15){
+                foreach($node->gemeente_datatop15 as $item){
+                    $s = new stdClass();
+                    $s->name = $item->title;
+                    $s->status = $item->datarelation->status;
+                    $temp->status[] = $s;
+                }
+            }
+            $result[] = $temp;
+        }
+        return $result;
+    }
 }
 ?>

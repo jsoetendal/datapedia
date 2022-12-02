@@ -689,5 +689,11 @@ $app->get('/data/overheidset/{id}', function (Slim\Http\Request $request, Slim\H
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->get('/datatop15/status', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $nodesMapper = new NodesMapper($this->db, $this->media);
+    $result = $nodesMapper->dataTop15Status();
+    return $response->withStatus(200)->withJSON($result);
+});
+
 // Run app
 $app->run();
