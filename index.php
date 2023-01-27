@@ -9,9 +9,10 @@
   <div class="app" id="app">
 
 
-      <header><?php require_once(getenv('localfolder')."header.part.template.html"); ?></header>
+      <?php require_once(getenv('localfolder')."header.part.template.html"); ?>
       <div ui-view>
       </div>
+      <?php require_once(getenv('localfolder')."footer.part.template.html"); ?>
 
       <div id="melding" class="modal" data-backdrop="true">
         <div class="modal-dialog">
