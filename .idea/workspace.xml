@@ -4,8 +4,24 @@
     <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/datatop15item.data.view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/custom/toolbox.view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/custom/toolbox.view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/import/dataoverheid.controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/import/dataoverheid.template.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main-smartmobility.controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main-smartmobility.template.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main.controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/main/main.template.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/cs.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/fietsfile.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/koken.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/library.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logoMRA.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/pexels-karol-d-409701.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/zoeken.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/settings/setup.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/setup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redirect.php" beforeDir="false" afterPath="$PROJECT_DIR$/redirect.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seo/seo.php" beforeDir="false" afterPath="$PROJECT_DIR$/seo/seo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +60,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -108,9 +124,11 @@
       <recent name="C:\www\datapedia\app\components\admin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\local" />
+      <recent name="C:\www\datapedia\local\import" />
+      <recent name="C:\www\datapedia\app\components" />
+      <recent name="C:\www\datapedia\local\main" />
       <recent name="C:\www\datapedia\app\components\admin" />
-      <recent name="C:\www\datapedia\app\settings" />
-      <recent name="C:\www\smartmobilitydata\app" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -304,6 +322,14 @@
       <workItem from="1666941403801" duration="209000" />
       <workItem from="1667375101588" duration="2628000" />
       <workItem from="1668153268740" duration="694000" />
+      <workItem from="1668161075341" duration="11000" />
+      <workItem from="1668172468685" duration="394000" />
+      <workItem from="1668283771969" duration="477000" />
+      <workItem from="1668414083066" duration="2268000" />
+      <workItem from="1669974566518" duration="2457000" />
+      <workItem from="1670067035148" duration="12000" />
+      <workItem from="1670258202548" duration="655000" />
+      <workItem from="1674806687925" duration="3718000" />
     </task>
     <servers />
   </component>

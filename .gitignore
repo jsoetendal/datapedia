@@ -9,3 +9,4 @@ app/settings/settings.json
 app/settings/settings-backup.json
 .idea/workspace.xml
 .idea/workspace.xml
+/local/

@@ -7,7 +7,7 @@
     } else {
         $parts = explode("/", strtolower($url));
     }
-    $settings = json_decode(file_get_contents("app/settings/settings.json"));
+    $settings = json_decode(file_get_contents("local/settings.json"));
     $module = null;
     $node = null;
     $nodes = null;
