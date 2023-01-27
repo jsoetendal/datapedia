@@ -81,7 +81,7 @@ service('Setup', ['$rootScope', '$window', '$location', '$state', '$http', 'User
     this.initialize = function (regionTxt){
         var self = this;
 
-        var fname = "local/settings.json";
+        var fname =  window.__env.localfolder + "settings.json";
         $http.get(fname).then(function(response) {
             if(response.data){
                 $rootScope.settings = response.data;

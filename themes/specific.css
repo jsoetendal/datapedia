@@ -1,26 +1,3 @@
-body {
-    --primary: #e04952;
-    --primary-lighter:#e04952;
-    --primary-darker: #e04952;
-    background-color: white;
-    font-family:Roboto, Helvetica, Arial, Lucida, sans-serif;
-}
-
-.licht{
-    background: #e2eeee !important;
-    color: black;
-}
-
-.donker{
-    background-color:  var(--primary);
-    color: white;
-}
-
-.extradonker{
-    background-color: #1B9B93;
-    color: white;
-}
-
 .box-header.ypadding, .box-body.ypadding{
     padding: 1rem 0px;
 }
@@ -62,16 +39,6 @@ header .navbar{
 
 #admincontent{
     margin-left: 200px;
-}
-
-.background{
-    background-image: url("app/images/fietsfile.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 250px;
-    margin-top: 50px;
-    margin-bottom: -50px;
 }
 
 .primary {
@@ -199,85 +166,6 @@ ul.relatie li{
     margin-bottom: 10px;
 }
 
-.status-score{
-    padding: 2px 10px;
-    width: 2rem;
-    margin: 0px auto;
-    border: 1px solid silver;
-    border-radius: 5px;
-}
-.status-scorel{
-    float: left;
-    padding: 2px 10px;
-    width: 2rem;
-    margin: 0px 10px 0px 0px;
-    border: 1px solid silver;
-    border-radius: 5px;
-}
-
-.status-blokje{
-    float: left;
-    height: 10px;
-    width: 10px;
-    margin: 5px 2px;
-    border: 1px solid silver;
-}
-
-.status-handboek.q1-5{
-    border-left: 10px solid rgb(161,218,180);
-    padding-left: 10px;
-}
-.status-handboek.q2-5{
-    border-left: 10px solid rgb(65,182,196);
-    padding-left: 10px;
-}
-.status-handboek.q3-5{
-    border-left: 10px solid rgb(44,127,184);
-    padding-left: 10px;
-}
-.status-handboek.q4-5{
-    border-left: 10px solid rgb(37,52,148);
-    padding-left: 10px;
-}
-
-.YlGnBu{
-    color: white;
-}
-.YlGnBu.q-1-5, .YlGnBu.s-0-5{
-    fill:rgb(244,244,244);
-    background-color:rgb(244,244,244);
-}
-.YlGnBu.q0-5, .YlGnBu.s1-5{
-    fill:rgb(255,255,204);
-    background-color:rgb(255,255,204);
-}
-.YlGnBu.q1-5, .YlGnBu.s2-5{
-    fill:rgb(161,218,180);
-    background-color:rgb(161,218,180);
-}
-.YlGnBu.q2-5, .YlGnBu.s3-5{
-    fill:rgb(65,182,196);
-    background-color:rgb(65,182,196);
-}
-.YlGnBu.q3-5, .YlGnBu.s4-5{
-    fill:rgb(44,127,184);
-    background-color:rgb(44,127,184);
-}
-.YlGnBu.q4-5, .YlGnBu.s5-5{
-    fill:rgb(37,52,148);
-    background-color:rgb(37,52,148);
-}
-
-.nodegeo{
-    fill: #FFF;
-}
-
-.nodegeo.status1{ fill:rgb(255,255,204); }
-.nodegeo.status2{ fill:rgb(161,218,180); }
-.nodegeo.status3{ fill:rgb(65,182,196); }
-.nodegeo.status4{ fill:rgb(44,127,184); }
-.nodegeo.status5{ fill:rgb(37,52,148); }
-.nodegeo.statusN{ fill:rgb(244,244,244); }
 
 ul.frontpage{
     padding: 0px;
