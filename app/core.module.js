@@ -175,7 +175,8 @@ filter('last', function(){
     .filter('path', function(){
         return function(input){
             if(!input) return null
-            return input.replace(";","").replace("\\"," > ").trim();
+            if(input.charAt(0) === ";") input = input.substr(1);
+            return input.replaceAll(";",", ").replaceAll("\\"," > ").trim();
         }
     })
     .filter('dag', function() {

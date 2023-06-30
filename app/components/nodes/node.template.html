@@ -108,7 +108,8 @@
                                                     <td>
                                                         <a ng-if="row.type=='url'" href="{{node.data[row.key]}}">{{node.data[row.key]}}</a>
                                                         <span ng-if="row.type=='datetime'">{{node.data[row.key] | compleetDateTime}}</span>
-                                                        <span ng-hide="row.type=='url' || row.type=='datetime'" ng-if="node.data[row.key]">{{node.data[row.key]}}</span>
+                                                        <span ng-if="row.type=='textarea'" ng-bind-html="node.data[row.key]"></span>
+                                                        <span ng-hide="row.type=='url' || row.type=='datetime' || row.type=='textarea'" ng-if="node.data[row.key]">{{node.data[row.key]}}</span>
                                                     </td>
                                                 </tr>
                                             </table>

@@ -3,18 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="511a1947-56ee-49d4-b284-5419eac8410f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/admin/admin.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/admin.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/forgot.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/forgot.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/header.part.template.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/login.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/login.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/logoff.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/logoff.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/reset.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/reset.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/signup.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/signup.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/main/start.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/main/start.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/module/module.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/module/module.template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/settings/setup.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/setup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/themes/specific.css" beforeDir="false" afterPath="$PROJECT_DIR$/themes/specific.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.module.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/settings.navigation.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/node.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/node.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/nodes/nodes.views.template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/core.module.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +95,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JQL" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/local/weetmeer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/components/module" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
@@ -110,18 +103,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\app\components\module" />
       <recent name="C:\www\datapedia\local\weetmeer" />
       <recent name="C:\www\datapedia\app\components\custom" />
       <recent name="C:\www\datapedia\app\settings" />
       <recent name="C:\www\datapedia\api\src\classes" />
-      <recent name="C:\www\datapedia\app\components\nodes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\datapedia\local\puzzxl\main" />
       <recent name="C:\www\datapedia\local\mra" />
       <recent name="C:\www\datapedia\local" />
       <recent name="C:\www\datapedia\local\import" />
       <recent name="C:\www\datapedia\app\components" />
-      <recent name="C:\www\datapedia\local\main" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -322,7 +315,16 @@
       <workItem from="1669974566518" duration="2457000" />
       <workItem from="1670067035148" duration="12000" />
       <workItem from="1670258202548" duration="655000" />
-      <workItem from="1674806687925" duration="11732000" />
+      <workItem from="1674806687925" duration="18907000" />
+      <workItem from="1674910817439" duration="696000" />
+      <workItem from="1675084611938" duration="2342000" />
+      <workItem from="1675169146413" duration="14743000" />
+      <workItem from="1675236435197" duration="2810000" />
+      <workItem from="1675422007863" duration="72000" />
+      <workItem from="1678897749227" duration="158000" />
+      <workItem from="1682325621769" duration="519000" />
+      <workItem from="1683656825804" duration="1651000" />
+      <workItem from="1683810949476" duration="92000" />
     </task>
     <servers />
   </component>

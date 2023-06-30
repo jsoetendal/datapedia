@@ -5,17 +5,11 @@ angular.
 
     $locationProvider.html5Mode(true); //prevent using #
 
-    $sceDelegateProvider.resourceUrlWhitelist([
-        // Allow same origin resource loads.
-        'self',
-        // Allow loading from outer templates domain.
-        'https://*.proloco.nl/**',
-        'https://*.copaan.nl/**',
-        'https://media.nvm.nl/**',
-        'https://indd.adobe.com/**',
-        'https://www.youtube.com/**',
-      ]);
-
+    let whitelist = ['self','https://indd.adobe.com/**','https://www.youtube.com/**'];
+    if(window.__env.whitelistDomain){
+        whitelist.push(window.__env.whitelistDomain);
+    }
+    $sceDelegateProvider.resourceUrlWhitelist(whitelist);
       //
       // For any unmatched url, redirect to /state1
       $urlRouterProvider.otherwise("/");
@@ -167,12 +161,6 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
-          .state('module.dataoverheid', {
-              url: "/dataoverheid",
-              template: "<dataoverheid class='controllermodule'></dataoverheid>",
-              controller: ['$scope', function($scope) {
-              }]
-          })
           .state('module.datatop15', {
               url: "/datatop15",
               template: "<datatop15 class='controllermodule'></datatop15>",
@@ -182,6 +170,14 @@ angular.
           .state('module.nodes.query', {
               url: "/{q}",
               template: "",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+          .state('module.custom', {
+              url: "/custom/{name}",
+              template: function ($stateParams){
+                  return '<' + $stateParams.name + '></' + $stateParams.name + '>';
+              },
               controller: ['$scope', function($scope) {
               }]
           })

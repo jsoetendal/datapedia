@@ -305,7 +305,7 @@
         </div>
 
         <div ng-if="view == 'chapters' && nodesLoaded" class="row">
-            <div class="col-xs-12 col-md-3 col-xl-2" ng-init="chapters = tree">
+            <div class="hidden-sm-down col-md-3 col-xl-2" ng-init="chapters = tree">
                 <div class="box">
                     <div class="box-body nopadding">
                         <div ui-include="'app/components/custom/nodes.simpletree.accordion.template.html'"></div>
