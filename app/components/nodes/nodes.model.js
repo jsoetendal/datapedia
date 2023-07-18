@@ -763,6 +763,72 @@ angular.
               });
           }
 
+          this.loadLinks = function(func){
+              var self = this;
+
+              var url = $rootScope.APIBase + "links/";
+              $http({
+                  method: 'GET',
+                  url: url,
+                  headers: {
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  }
+              }).then(function(response) {
+                  log(response);
+                  if(response.status == 200){
+                      var suggestions = [];
+                      if(func) func(response.data);
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.loadLinks(func);
+                      });
+                  } else {
+                      alert("Mislukt om links op te halen");
+                  }
+              });
+          }
+
+          this.checkLink = function(url, func){
+              $http({
+                  method: 'POST',
+                  url: $rootScope.APIBase + "link/check/",
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                      'X-Authorization': 'Bearer ' + $rootScope.setup.user.auth.accesstoken
+                  },
+                  data: {
+                      url: url
+                  }
+              }).then(function(response) {
+                  if(response.status == 200){
+                      if(response.data){
+                          var result = response.data;
+                          if(func) func(result);
+                      }
+                  } else {
+                      log(response);
+                  }
+              }).catch(function(fallback) {
+                  log(fallback);
+                  if(fallback.status == 401){
+                      //Refresh needed
+                      $rootScope.setup.user.refreshUser(function(){
+                          self.checkLink(url, func);
+                      });
+                  } else {
+                      alert("Mislukt om link te checken");
+                  }
+              });
+          }
+
+
           this.callURL = function(url, func){
               $http({
                   method: 'GET',

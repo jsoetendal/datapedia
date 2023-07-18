@@ -20,12 +20,37 @@ component('contentbeheer', {
                 })
             }
 
+            this.loadLinks = function(){
+                if(!$scope.links && !$scope.loading){
+                    $scope.loading = true;
+                    Nodes.loadLinks(function (data){
+                        $scope.links = data;
+                        $scope.loading = false;
+                        for(let i in $scope.links){
+                            for(let j in $scope.links[i].links) {
+                                $scope.links[i].links[j] = {
+                                    'url': $scope.links[i].links[j],
+                                    'code': 0,
+                                    'description': 'wordt gecheckt...'
+                                }
+                                Nodes.checkLink($scope.links[i].links[j].url, function(data){
+                                    $scope.links[i].links[j] = data;
+                                });
+                            }
+                        }
+                    });
+                }
+            }
 
             $scope.setContentTab = function(tab){
                 $scope.tab = tab;
                 if(!$scope.tab) $scope.tab = "suggestions";
+                if(tab == "linkcheck"){
+                    self.loadLinks();
+                }
             }
 
+            $scope.loading = false;
             $scope.selected = {"entity": null };
             this.loadContent();
             $scope.setContentTab($stateParams.tab);

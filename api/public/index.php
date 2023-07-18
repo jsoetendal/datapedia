@@ -551,6 +551,34 @@ $app->get('/deleted/', function (Slim\Http\Request $request, Slim\Http\Response 
     }
 });
 
+$app->get('/links/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->getLinks();
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
+$app->post('/link/check/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    $data = $request->getParsedBody();
+    $url = escape_string($data['url']);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isEditorOrUp()){
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->getLinkHeaders($url);
+        return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+
 $app->get('/history/approve/{nodeVersionId}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     $nodeVersionId = intval($request->getAttribute('nodeVersionId'));

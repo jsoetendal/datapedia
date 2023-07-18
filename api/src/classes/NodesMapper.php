@@ -605,6 +605,65 @@ class NodesMapper extends Mapper
         return $rows;
     }
 
+    function getLinksFromObject($obj){
+        $result = [];
+        $pattern = '~[a-z]+://\S+~';
+        foreach($obj as $key => $value){
+            if(is_object($value) || is_array($value)){
+                $links = $this->getLinksFromObject($value);
+                $result = array_merge($result, $links ?? []);
+            } else {
+                if (preg_match($pattern, $value) || strtolower(substr($value, 0, 4)) == "http" || strtolower(substr($value, 0, 4)) == "www") {
+                    $result[] = $value;
+                }
+            }
+        }
+        return $result;
+    }
+
+    function getLinkHeaders($url){
+        $result = new stdClass();
+        $result->url = $url;
+        $result->headers = get_headers($url);
+        $result->code = intval(substr($result->headers[0], 9, 3));
+        $result->description = substr($result->headers[0], 13);
+        if($result->code >= 300 && $result->code < 400){
+            foreach($result->headers as $header){
+                list($key, $value) = explode(":", $header,2);
+                if(strtolower($key) == "location"){
+                    $result->location = trim($value);
+                }
+            }
+        }
+        return $result;
+    }
+
+    function getLinks(){
+        $result = [];
+        $rows = $this->db->getArray("SELECT nodeId, type, title, text, data FROM nodes WHERE text LIKE '%href%' OR DATA LIKE '%http%' OR DATA LIKE '%www%' ORDER BY nodeId DESC");
+        foreach($rows as $row){
+            $row->links = [];
+            $pattern = '/<a href=\"([^\"]*)\">(.*)<\/a>/iU';
+            if($num_found = preg_match_all($pattern, $row->text, $out))
+            {
+                foreach($out[1] as $link){
+                    if(substr($link,0,1) != "/" && strtolower(substr($link,0,6)) != "mailto") { //Filter internal links
+                        $row->links[] = $link;
+                    }
+                }
+                $data = json_decode($row->data);
+                $links = $this->getLinksFromObject($data);
+                $row->links = array_merge($row->links, $links ?? []);
+            }
+            unset($row->text);
+            unset($row->data);
+            if(count($row->links) > 0) {
+                $result[] = $row;
+            }
+        }
+        return $result;
+    }
+
     function historyApprove($nodeVersionId){
         $nodeVersion = $this->db->returnFirst("SELECT * FROM nodes_versions WHERE nodeVersionId = ". $nodeVersionId);
         if($nodeVersion){

@@ -1,0 +1,46 @@
+    <div class="row m-t">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3>Linkcheck</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titel</th>
+                            <th></th>
+                            <!--<th>Door</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat-start="node in links">
+                            <td><a ui-sref="admin.node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" target="_blank">{{node.nodeId}}</a></td>
+                            <td><a ui-sref="admin.node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" target="_blank"><strong>{{node.title}}</strong> ({{node.type}})</a></td>
+                            <td><a ui-sref="admin.node.tab({'nodeId': node.nodeId, 'tab': 'edit'})" target="_blank"><i class="fa fa-edit"></i> Aanpassen</a></td>
+                        </tr>
+                        <tr ng-repeat-end ng-repeat="link in node.links track by $index">
+                            <td></td>
+                            <td style="padding-left: 50px">
+                                <i class="fa fa-link"></i> <a href="{{link.url}}" target="_blank">{{link.url}}</a>
+                                <div ng-show="link.location"><br/>Nieuwe locatie: {{link.location}}</div>
+                            </td>
+                            <td>
+                                <div class="label" ng-hide="link.code == 0" ng-class="{'success': link.code < 300, 'warn': link.code >= 300 && link.code < 400, 'danger': link.code >= 400}">{{link.code}}</div>
+                                {{link.description}}
+                                <div ng-hide="link.code > 0 || link.description.length > 0"><span class="label danger">FOUT</span> De url kan niet gevonden worden</div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="m-x" ng-hide="links.length > 0">
+                    <div class="p-a">
+                        Er zijn op dit moment geen links gevonden.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
