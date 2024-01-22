@@ -268,6 +268,47 @@ angular.
             self.outputDownload(JSON.stringify(geoJSON), filename,"text/json;charset=utf-8;'");
           }
 
+
+          $scope.downloadCSV = function(){
+              let data = [];
+
+              for(let i in $scope.gemeentes){
+                  if($scope.gemeentes[i].data) {
+                      let item = {
+                          "Wegbeheerder": $scope.gemeentes[i].title,
+                          "Regio": $scope.gemeentes[i].data.regio
+                      }
+
+                      for(let j in $scope.dataitems){
+                          item[$scope.dataitems[j].title] = 0;
+                          if($scope.gemeentes[i].gemeente_datatop15){
+                              for(let k in $scope.gemeentes[i].gemeente_datatop15){
+                                  if($scope.gemeentes[i].gemeente_datatop15[k].nodeId == $scope.dataitems[j].nodeId && $scope.gemeentes[i].gemeente_datatop15[k].datarelation){
+                                      item[$scope.dataitems[j].title] = $scope.gemeentes[i].gemeente_datatop15[k].datarelation.status;
+                                  }
+                              }
+                          }
+                      }
+                      data.push(item);
+                  }
+              }
+
+              const titleKeys = Object.keys(data[0])
+              const refinedData = []
+              refinedData.push(titleKeys)
+              data.forEach(item => {
+                  refinedData.push(Object.values(item))
+              });
+              let csvContent = ''
+              refinedData.forEach(row => {
+                  csvContent += row.join(';') + '\n'
+              });
+
+              var utc = new Date().toJSON();
+              var filename = "Datapedia Wegbeheerders Statusoverzicht " + utc + ".csv";
+              self.outputDownload(csvContent, filename,"text/csv;charset=utf-8;'");
+          }
+
           $scope.module = $rootScope.module;
           $scope.zoeken = $scope.$parent.$parent.zoeken;
           $scope.current = $scope.$parent.$parent.current;

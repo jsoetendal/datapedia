@@ -66,6 +66,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="box-footer" ng-if="user.isEditorOrUp">
+                    <ul>
+                        <li><a ng-click="downloadCSV()" class="pointer"><i class="fa fa-download"></i> Download de status voor heel Nederland als CSV-bestand</a></li>
+                        <li><a ng-click="downloadGeoJSON()" class="pointer"><i class="fa fa-download"></i> Download de status voor heel Nederland als GeoJSON</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-8">
@@ -180,7 +186,11 @@
                 <td>Niet van toepassing</td>
             </tr>
         </table>
-        <p ng-if="user.isEditorOrUp"><a ng-click="downloadGeoJSON()" class="pointer"><i class="fa fa-download"></i> Download de status voor heel Nederland als GeoJSON</a></p>
+        <p ng-if="user.isEditorOrUp">
+        <ul>
+        <li><a ng-click="downloadCSV()" class="pointer"><i class="fa fa-download"></i> Download de status voor heel Nederland als CSV-bestand</a></li>
+        <li><a ng-click="downloadGeoJSON()" class="pointer"><i class="fa fa-download"></i> Download de status voor heel Nederland als GeoJSON</a></li>
+        </ul></p>
     </div>
 </div>
 
