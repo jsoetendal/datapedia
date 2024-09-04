@@ -69,11 +69,13 @@
                     <div class="tab-content p-y m-b-md">
                         <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}">
                             <div class="row">
-                                <div class="col-xs-12" ng-class="{'col-md-7 col-lg-8': entity.dependencies.length > 0 || entity.relations.length > 0 || entity.toprightview,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 && !entity.toprightview }">
+                                <div class="col-xs-12" ng-class="{'col-md-7 col-lg-8': (entity.dependencies.length > 0 && entity.dependencies[0].position != 'left')  || (entity.relations.length > 0 && entity.dependencies[0].position != 'left')  || entity.toprightview,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 && !entity.toprightview }">
                                     <div class="row">
                                         <div class="col-md-4" ng-if="entity.image == 'left'">
-                                            <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
-                                            <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
+                                            <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%" class="m-b-2">
+                                            <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%" class="m-b-2">
+                                            <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='left'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
+                                            <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position =='left'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
                                         </div>
                                         <div class="col-xs-12" ng-class="{'col-md-8': entity.image == 'right' || entity.image=='left'}">
                                             <div ng-if="node.data.geometry">
@@ -130,10 +132,6 @@
                                     </div>
 
                                     <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
-
-                                    <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='left'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
-                                    <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position =='left'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
-
                                 </div>
                                 <div class="col-xs-12 col-md-5 col-lg-4">
                                     <div ng-if="entity.toprightview" ui-include="'{{entity.toprightview}}'"></div>

@@ -1,4 +1,4 @@
-<div> <!-- 1 element for template -->
+<div class="m-b-2"> <!-- 1 element for template -->
     <div ng-if="dependency.view && dependency.view.indexOf('.') > -1" ui-include="'{{dependency.view}}'"></div>
     <div class='box donker' ng-if="(!dependency.view || dependency.view.indexOf('.') == -1) && node.dependencies[dependency.key] && node.dependencies[dependency.key].length > 0">
         <div class="box-header">

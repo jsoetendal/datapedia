@@ -1,4 +1,4 @@
-<div> <!-- 1 element for template -->
+<div class="m-b-2"> <!-- 1 element for template -->
     <div ng-if="relatie.view && relatie.view.indexOf('.') > -1" ui-include="'{{relatie.view}}'"></div>
     <div class='box donker' ng-if="(!relatie.view || relatie.view.indexOf('.') == -1) && node.relations[relatie.key] && node.relations[relatie.key].length > 0">
         <div class="box-header">
