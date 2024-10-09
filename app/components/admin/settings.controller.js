@@ -251,6 +251,14 @@ component('settings', {
                 delete entity.dataview;
             }
 
+            $scope.addSidebar = function(entity){
+                if(!entity.sidebar) entity.sidebar = "...";
+            }
+
+            $scope.deleteSidebar = function(entity){
+                delete entity.sidebar;
+            }
+
             $scope.addToprightview = function(entity){
                 if(!entity.toprightview) entity.toprightview = "...";
             }

@@ -30,16 +30,18 @@ angular.
                 if($scope.view.tab == "version") $scope.startVersion();
                 if($scope.node.data.geometry) $scope.prepareGeo();
 
-                if($scope.entity && ($scope.entity.views[0] == 'chapters' || $scope.entity.showNextPrev)){
+                if($scope.entity && ($scope.entity.views[0] == 'chapters' || $scope.entity.sidebar || $scope.entity.showNextPrev)){
                     self.loadTree(nodeId);
                     if($scope.entity.views[0] == 'chapters') {
-                        $scope.showChapter = true;
+                        $scope.showSidebar = true;
+                    } else if($scope.entity.sidebar) {
+                        $scope.showSidebar = true;
                     } else {
                         $scope.showNextPrev = true;
-                        $scope.showChapter = false;
+                        $scope.showSidebar = false;
                     }
                 } else {
-                    $scope.showChapter = false;
+                    $scope.showSidebar = false;
                 }
                 self.setDate();
                 self.setAttachments();

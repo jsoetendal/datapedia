@@ -18,14 +18,7 @@
     </div>
 
     <div class="row m-t">
-        <div class="col-xs-12 col-md-3 col-xl-2" ng-show="showChapter &&  view.tab == 'details'">
-            <div class="box">
-                <div class="box-body nopadding">
-                    <div ui-include="'app/components/custom/nodes.simpletree.accordion.template.html'"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12" ng-class="{'col-md-9': showChapter &&  view.tab == 'details', 'col-xl-10': showChapter &&  view.tab == 'details'}">
+        <div class="col-xs-12">
             <div class="box ypadding">
                 <div class="box-header ypadding">
                     <div class="b-b nav-active-bg row">
@@ -69,15 +62,25 @@
                     <div class="tab-content p-y m-b-md">
                         <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}">
                             <div class="row">
-                                <div class="col-xs-12" ng-class="{'col-md-7 col-lg-8': (entity.dependencies.length > 0 && entity.dependencies[0].position != 'left')  || (entity.relations.length > 0 && entity.dependencies[0].position != 'left')  || entity.toprightview,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 && !entity.toprightview }">
+                                <div class="col-xs-12 col-md-3" ng-show="showSidebar && entity.views[0] == 'chapters'">
+                                    <div class="box">
+                                        <div class="box-body nopadding">
+                                            <div ng-if="entity.views[0] == 'chapters'" ui-include="'app/components/custom/nodes.simpletree.accordion.template.html'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12" ng-class="{'col-md-9': showSidebar && entity.views[0] == 'chapters', 'col-md-7 col-lg-8': (entity.dependencies.length > 0 && entity.dependencies[0].position != 'left')  || (entity.relations.length > 0 && entity.dependencies[0].position != 'left')  || entity.toprightview,'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 && !entity.toprightview }">
                                     <div class="row">
-                                        <div class="col-md-4" ng-if="entity.image == 'left'">
-                                            <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%" class="m-b-2">
-                                            <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%" class="m-b-2">
+                                        <div class="col-md-4" ng-if="entity.image == 'left' || relatie.position =='left' || dependency.position =='left' || entity.sidebar">
+                                            <div ng-if="entity.sidebar" class="m-b-2">
+                                                <div ui-include="'{{entity.sidebar}}'"></div>
+                                            </div>
+                                            <img ng-if="entity.image == 'left'  && node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%" class="m-b-2">
+                                            <img ng-if="entity.image == 'left'  && node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%" class="m-b-2">
                                             <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='left'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
                                             <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position =='left'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
                                         </div>
-                                        <div class="col-xs-12" ng-class="{'col-md-8': entity.image == 'right' || entity.image=='left'}">
+                                        <div class="col-xs-12" ng-class="{'col-md-8': entity.image == 'right' || entity.image=='left' || relatie.position =='left' || dependency.position =='left' || entity.sidebar}">
                                             <div ng-if="node.data.geometry">
                                                 <div map-lazy-load="https://maps.google.com/maps/api/js"
                                                      map-lazy-load-params="{{googleMapsUrl}}"
