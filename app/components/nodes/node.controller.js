@@ -14,6 +14,7 @@ angular.
         this.loadNode = function(nodeId){
             $scope.node = null;
             $scope.loaded = false;
+            $scope.hideWiki = true;
             Nodes.loadNode(nodeId, function(){
                 $scope.node = Nodes.getNode();
                 if(!$scope.node.data || $scope.node.data == []) $scope.node.data = {};
@@ -47,6 +48,8 @@ angular.
                 self.setAttachments();
 
                 if($scope.module) $scope.simplelink = $rootScope.wwwBase + $scope.module.name +"/" + "node/" + $scope.node.getLinkTitle() + "/" + nodeId;
+                if(!$scope.entity.restrictedwiki || $scope.entity.restrictedwiki.indexOf($scope.user.auth.role) > -1) $scope.hideWiki = false;
+
             });
         }
 
