@@ -271,7 +271,6 @@ class NodesMapper extends Mapper
                 foreach($jsonData["attachments"] as $key => $att){
                     if($att["src"]) {
                         $jsonData["attachments"][$key]["hash"] = $this->uploadFileData($newId, $att);
-                        $jsonData["attachments"][$key]["url"] = $this->media['www'] . $jsonData["attachments"][$key]["hash"];
                         unset($jsonData["attachments"][$key]["src"]);
                     }
                 }
@@ -312,7 +311,6 @@ class NodesMapper extends Mapper
             foreach($data["data"]["attachments"] as $key => $att){
                 if($att["src"]) {
                     $data["data"]["attachments"][$key]["hash"] = $this->uploadFileData($data["nodeId"], $att);
-                    $data["data"]["attachments"][$key]["url"] = $this->media['www'] . $data["data"]["attachments"][$key]["hash"] = $this->uploadFileData($data["nodeId"], $att);
                     unset($data["data"]["attachments"][$key]["src"]);
                 }
             }
