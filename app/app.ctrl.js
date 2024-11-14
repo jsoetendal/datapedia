@@ -25,7 +25,7 @@
         $rootScope.topHeader = "Smart Mobility";
 
         $rootScope.currentModule = parseInt(localStorage.getItem("currentModule"));
-        $rootScope.backgroundImgUrl = "https://smartmobilitymra.nl/wp-content/uploads/2019/07/Fietsfiles_Amsterdam_Centrum_3758.jpg";
+        $rootScope.backgroundImgUrl = "local/background.jpg";
         $rootScope.setup = Setup;
         $rootScope.setup.initialize();
 

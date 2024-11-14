@@ -271,6 +271,7 @@ class NodesMapper extends Mapper
                 foreach($jsonData["attachments"] as $key => $att){
                     if($att["src"]) {
                         $jsonData["attachments"][$key]["hash"] = $this->uploadFileData($newId, $att);
+                        //in node.controller->setAttachments() wordt de url automatisch gezet
                         unset($jsonData["attachments"][$key]["src"]);
                     }
                 }
