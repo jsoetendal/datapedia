@@ -9,7 +9,7 @@ component('module', {
 
             $scope.user = $rootScope.setup.user;
             $scope.settings = $rootScope.settings;
-            $scope.backgroundImgUrl = "https://smartmobilitymra.nl/wp-content/uploads/2019/07/Fietsfiles_Amsterdam_Centrum_3758.jpg";
+            $scope.backgroundImgUrl = "local/background.jpg";
             $scope.state = $rootScope.state;
 
             $scope.$on('$stateChangeSuccess', function(event, state, params){
@@ -63,7 +63,7 @@ component('module', {
                 $scope.module = {
                     name: 'none',
                     title: '',
-                    background: "https://smartmobilitymra.nl/wp-content/uploads/2019/07/Fietsfiles_Amsterdam_Centrum_3758.jpg",
+                    background: "local/background.jpg",
                     start:{
                         state: "module.main",
                         details: {}
