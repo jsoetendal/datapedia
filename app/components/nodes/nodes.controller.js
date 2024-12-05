@@ -8,7 +8,22 @@ component('nodes', {
 
             var self = this;
             $scope.zoeken = {};
+            $scope.filterNodes = null;
             $scope.stateparams = $stateParams;
+            $scope.parentObjects = $state.current.name.indexOf(".parent") > 0;
+            if($scope.parentObjects){
+                if($state.current.name.indexOf(".parents") > 0) {
+                    //Het gaat om parents, en dus een doorverwijzing naar een parentObject
+                    $scope.redirectTo = "parent";
+                    $scope.nodeStateName = "module.parent";
+                } else {
+                    //Het gaat om een node die binnen de context van een parentObject getoond moet worden
+                    $scope.redirectTo = "node";
+                    $scope.nodeStateName = "module.parent.node";
+                }
+            } else {
+                $scope.nodeStateName = "module.node";
+            }
             this.facetsCreated = false;
 
             this.loadNodes = function(type) {
@@ -30,7 +45,8 @@ component('nodes', {
                 } else {
                     var extended = false;
                 }
-                Nodes.loadNodes(type, extended, null, function () {
+
+                const funcOnSuccess = function () {
                     self.setNodes();
                     if ($scope.entity.facet.default) {
                         $scope.setFacet($scope.entity.facet.default);
@@ -38,8 +54,13 @@ component('nodes', {
                         $scope.setFacet(false);
                     }
                     self.setCustomView();
-                });
+                }
 
+                if($stateParams.parentkey){
+                    Nodes.loadNodesParent(type, $stateParams.parentkey, funcOnSuccess);
+                } else {
+                    Nodes.loadNodes(type, extended, null, funcOnSuccess);
+                }
             }
 
             this.loadRelation = function(key) {
@@ -103,6 +124,7 @@ component('nodes', {
                 $scope.loaded = true;
                 //console.log($scope.nodes);
 
+                this.setNodesStateParams();
                 this.setDates();
 
                 Nodes.createTree(function(tree){
@@ -112,6 +134,30 @@ component('nodes', {
 
                 $scope.setView($scope.entity.views[0]);
                 if (!$scope.view) $scope.setView('tile');
+            }
+
+            this.setNodesStateParams = function(){
+                for(let i in $scope.nodes){
+                    if($stateParams.parentkey && $stateParams.parententity) {
+                        //Keep current parent, show this node:
+                        $scope.nodes[i].stateParams = {
+                            'modulename': $scope.module.name,
+                            'nodeId': $scope.nodes[i].nodeId,
+                            'parententity': $stateParams.parententity,
+                            'parentkey': $stateParams.parentkey,
+                            'title': $scope.nodes[i].title.replace(/[\W_-]+/g,"")
+                        }
+                    } else {
+                        //Show this node as a parent:
+                        $scope.nodes[i].stateParams = {
+                            'modulename': $scope.module.name,
+                            'nodeId': $scope.nodes[i].nodeId,
+                            'parententity': $scope.nodes[i].type,
+                            'parentkey': $scope.nodes[i].key,
+                            'title': $scope.nodes[i].title.replace(/[\W_-]+/g,"")
+                        }
+                    }
+                }
             }
 
             this.setDates = function(){
@@ -450,17 +496,11 @@ component('nodes', {
             }
 
             $scope.addNode = function(){
-                $state.go("module.node.new", {"type": $stateParams.type});
-                /*
-                Nodes.addNode({
-                    "type": $stateParams.type,
-                    "path": "",
-                    "title": "Nieuw "+ $scope.entity.single
-                }, function(newId){
-                    console.log(newId);
-                    $state.go("node.tab",{"nodeId": newId, "tab": "edit"});
-                });
-                 */
+                if($stateParams.parentkey){
+                    $state.go("module.parent.nodes.node.new", {"type": $stateParams.type});
+                } else {
+                    $state.go("module.node.new", {"type": $stateParams.type});
+                }
             }
 
             $scope.onSearch = function(){

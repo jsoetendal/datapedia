@@ -201,6 +201,28 @@ filter('last', function(){
             return d.toLocaleDateString("default", {timeZone: 'Europe/Amsterdam', month:'long', year:'numeric'});
         };
     })
+    .filter('date', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input instanceof Date){
+                var d = input;
+            } else {
+                var d = new Date(input);
+            }
+            return d.toLocaleDateString("default", {timeZone: 'Europe/Amsterdam', day: "numeric", month:'long', year:'numeric'});
+        };
+    })
+    .filter('jaar', function() {
+        return function(input) {
+            if(!input) return input;
+            if(input instanceof Date){
+                var d = input;
+            } else {
+                var d = new Date(input);
+            }
+            return d.toLocaleDateString("default", {timeZone: 'Europe/Amsterdam', year:'numeric'});
+        };
+    })
     .filter('tijd', function() {
         return function(input) {
             if(!input) return input;

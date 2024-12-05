@@ -67,16 +67,17 @@
                                     <div class="col-sm-10">
                                         <select ng-model="selected.module.start.state" class="form-control">
                                             <option value="module.nodes">Type entiteit</option>
+                                            <option value="module.parents">Parent nodes</option>
                                             <option value="module.node">Specifieke node</option>
                                             <option ng-repeat="state in states" ng-value="state.name">{{state.name}}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row" ng-show="selected.module.start.state == 'module.nodes'">
+                                <div class="form-group row" ng-show="selected.module.start.state == 'module.nodes' || selected.module.start.state == 'module.parents'">
                                     <label class="col-sm-2 form-control-label">Entiteit</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" ng-model="selectedType" ng-init="selectedType = selected.module.start.details.type" ng-change="setNavDetailsType(selected.module.start, selectedType)">
-                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
+                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type" ng-show="selected.module.start.state == 'module.nodes' || entity.isParentObject">{{entity.plural}}</option>
                                             <option ng-value="zoeken">zoeken</option>
                                         </select>
                                     </div>
@@ -127,16 +128,17 @@
                                         <select ng-model="selected.nav.state" class="form-control">
                                             <option value="module.nodes">Type entiteit</option>
                                             <option value="module.node">Specifieke node</option>
+                                            <option value="module.parents">Parent nodes</option>
                                             <option value="url">URL</option>
                                             <option ng-repeat="state in states" ng-value="state.name">{{state.name}}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row" ng-show="selected.nav.state == 'module.nodes'">
+                                <div class="form-group row" ng-show="selected.nav.state == 'module.nodes' || selected.nav.state == 'module.parents'">
                                     <label class="col-sm-2 form-control-label">Entiteit</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" ng-model="selectedType" ng-init="selectedType = selected.nav.details.type" ng-change="setNavDetailsType(selected.nav, selectedType)">
-                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type">{{entity.plural}}</option>
+                                            <option ng-repeat="entity in settings.content.entities" ng-value="entity.type" ng-show="selected.nav.state == 'module.nodes' || entity.isParentObject">{{entity.plural}}</option>
                                             <option ng-value="zoeken">zoeken</option>
                                         </select>
                                     </div>

@@ -1,5 +1,5 @@
 <script type="text/ng-template" id="nodeTooltip">
-     <div class="pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+     <div class="pointer" ui-sref="{{nodeStateName}}({{node.stateParams}})">
         <strong>{{node.title}}</strong>
      </div>
      <table class="table table-striped">
@@ -13,7 +13,7 @@
 
 <script type="text/ng-template" id="nodeTileText">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 node">
-        <div class="box pointer licht" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="box pointer licht" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <div class="item dark" style='height: 220px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
                 <a class="item-overlay w-full">
                     <span class="bottom text-md primary" style='padding: 10px; font-weight: bold'><i class="fa fa-plus"></i> Klik voor meer info</span>
@@ -38,7 +38,7 @@
 
 <script type="text/ng-template" id="nodeMiniTile">
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-2 node">
-        <div class="box pointer licht" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="box pointer licht" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <div class="item dark" style='height: 120px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
                 <a class="item-overlay w-full">
                     <span class="bottom text-md primary" style='padding: 10px; font-weight: bold'><i class="fa fa-plus"></i> Klik voor meer info</span>
@@ -56,7 +56,7 @@
 
 <script type="text/ng-template" id="nodeRowTile">
     <div class="col-xs-12 col-sm-12 col-md-12 node m-b">
-        <div class="pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="pointer" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <div class="item dark" style='float: left; width: 105px; height: 60px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
             <div class="p-a" style="margin-left: 115px; min-height: 60px">
@@ -70,7 +70,7 @@
 
 <script type="text/ng-template" id="nodeRowTileSmall">
     <div class="col-xs-12 col-sm-12 col-md-12 node m-b">
-        <div class="pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="pointer" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <div class="item dark" style='float: left; width: 40px; height: 40px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
             <div style="margin-left: 60px; min-height: 40px">
@@ -84,7 +84,7 @@
 
 <script type="text/ng-template" id="nodeTinyTile">
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-2 node m-b">
-        <div class="pointer licht" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="pointer licht" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <div class="item dark" style='float: left; width: 60px; height: 60px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
             <div class="p-a" style="margin-left: 70px; min-height: 60px">
@@ -100,7 +100,7 @@
 
 <script type="text/ng-template" id="nodeTile">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 node">
-        <div class="box pointer" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="box pointer" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <div class="item dark" style='height: 220px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
                 <div class="item-overlay active p-a">
                     <a href="" class="pull-left text-u-c label label-md info p-a-sm m-r-sm" ng-repeat="tag in node.path.split(';')">{{tag}}</a>
@@ -120,7 +120,7 @@
     <div class="col-xs-12 node pointer">
         <div class="box">
             <div class="box-header primary">
-                <a id="node{{node.nodeId}}" ui-sref="module.node({'modulename': module.name, 'nodeId': node.nodeId})"><h3>{{node.title}}</h3></a>
+                <a id="node{{node.nodeId}}" ui-sref="{{nodeStateName}}({{node.stateParams}})"><h3>{{node.title}}</h3></a>
             </div>
             <div class="box-body">
                 <span ng-bind-html="node.text | plain:500"></span>
@@ -147,7 +147,7 @@
 
 <script type="text/ng-template" id="nodePolaroid">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 node">
-        <div class="box p-a-xs" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})">
+        <div class="box p-a-xs" ui-sref="{{nodeStateName}}({{node.stateParams}})">
             <img src="{{node.imgUrl}}" alt="" class="img-responsive" style='min-height: 100px; max-height: 250px; overflow: hidden'></a>
             <div class="p-a-sm">
                 <div class="text-ellipsis text-md strong">{{node.title}}</div>
@@ -159,7 +159,7 @@
 </script>
 
 <script type="text/ng-template" id="nodeList">
-    <div class="col-xs-12 node pointer" ui-sref="module.node({'modulename': node.module ? node.module : module.name, nodeId: node.nodeId})">
+    <div class="col-xs-12 node pointer" ui-sref="{{nodeStateName}}({{node.stateParams}})">
         <div class="p-b-md m-b-md b-b">
             <div ng-hide="!node.imgUrl || node.imgUrl.length == 0" style='margin-left: 20px; float:right; width: 250px; height: 150px; background-image: url("{{node.imgUrl}}"); background-repeat: no-repeat; background-position: center; background-size: cover;'>
             </div>
@@ -225,7 +225,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} |filter: zoeken.searchText as results" ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})" class="pointer">
+            <tr ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} |filter: zoeken.searchText as results" ui-sref="{{nodeStateName}}({{node.stateParams}})" class="pointer">
                 <td><span href="" class="label info p-a-sm m-r-sm" ng-repeat="tag in node.path.split(';')">{{tag}}</span></td>
                 <td>{{node.title}}</td>
                 <td ng-repeat="d in entity.data | limitTo: 3">{{node.data[d.key]}}</td>
@@ -245,7 +245,7 @@
         <div ng-if="view == 'simple'">
             <div class="col-sm-12">
                 <ul>
-                    <li ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results track by $index" ui-sref="module.node({'modulename': module.name, 'nodeId': node.nodeId})" class="pointer">
+                    <li ng-repeat="node in nodes | orderBy:orderProp | filter: {'visible': true} | filter: zoeken.searchText as results track by $index" ui-sref="{{nodeStateName}}({{node.stateParams}})" class="pointer">
                         <div ng-if="$index == 0 || list[$index-1].path != node.path" ng-class="{'m-t-sm': $index > 0}" class="text-sm _600">
                             {{node.path | path}}
                         </div>
@@ -269,7 +269,7 @@
             </script>
 
             <script type="text/ng-template" id="nodeLeaf">
-                <a ui-sref="module.node({'modulename': module.name, nodeId: node.nodeId})" class="pointer">{{node.title}}</a>
+                <a ui-sref="module.node({{nodeStateName}}({{node.stateParams}}))" class="pointer">{{node.title}}</a>
             </script>
 
             <div class="col-xs-12 columns3">

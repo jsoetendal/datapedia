@@ -8,6 +8,7 @@ if (PHP_SAPI == 'cli-server') {
         return false;
     }
 }
+error_reporting(E_ALL ^E_NOTICE ^E_WARNING ^E_DEPRECATED);
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -40,7 +41,6 @@ $container['media'] = function($c){
     return $s;
 };
 
-error_reporting(E_ALL ^E_NOTICE ^E_WARNING);
 //error_reporting(E_ALL ^E_NOTICE);
 
 
@@ -89,6 +89,19 @@ $app->get('/nodes/{type}/path/{path}', function (Slim\Http\Request $request, Sli
     return $response->withStatus(200)->withJSON($result);
 });
 
+$app->get('/nodes/{type}/parentkey/{parentkey}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    $nodesMapper = new NodesMapper($this->db);
+    $type = escape_string($request->getAttribute('type'));
+    $parentkey = escape_string($request->getAttribute('parentkey'));
+    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+
+    $result = $nodesMapper->getNodes($type, null, $parentkey);
+    return $response->withStatus(200)->withJSON($result);
+});
+
 $app->get('/nodes/relation/{key}/', function (Slim\Http\Request $request, Slim\Http\Response $response) {
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
@@ -119,6 +132,18 @@ $app->get('/node/get/{id}', function (Slim\Http\Request $request, Slim\Http\Resp
     $nodesMapper = new NodesMapper($this->db);
     $result = $nodesMapper->getNode($id);
     if(!$nodesMapper->hasAccess($result->type, $token->getRole()) && !$token->hasSingleAccess($id)) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+
+    return $response->withStatus(200)->withJSON($result);
+});
+
+$app->get('/node/getByKey/{key}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $key =  escape_string($request->getAttribute('key'));
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    $nodesMapper = new NodesMapper($this->db);
+    $result = $nodesMapper->getNodeByKey($key);
+    if(!$nodesMapper->hasAccess($result->type, $token->getRole()) && !$token->hasSingleAccess($result->id)) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
 
     return $response->withStatus(200)->withJSON($result);
 });
@@ -252,6 +277,20 @@ $app->post("/relation/delete/", function (Slim\Http\Request $request, Slim\Http\
         $nodesMapper = new NodesMapper($this->db);
         $result = $nodesMapper->deleteRelation($data, $token);
         return $response->withStatus(200)->withJSON($result);
+    } else {
+        return $response->withStatus(403);
+    }
+});
+$app->get('/key/check/{id}/{key}', function (Slim\Http\Request $request, Slim\Http\Response $response) {
+    $id = intVal($request->getAttribute('id'));
+    $key = escape_string($request->getAttribute('key'));
+    $token = new Token($request);
+    if($token->isExpired()) return $response->withStatus(401);
+
+    if($token->isContributorOrUp()) {
+        $nodesMapper = new NodesMapper($this->db);
+        $result = $nodesMapper->checkKey($id, $key);
+        return $response->withStatus($result["code"])->withJSON($result["data"]);
     } else {
         return $response->withStatus(403);
     }

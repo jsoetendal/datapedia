@@ -143,6 +143,10 @@
                                                                 <input type="text" class="form-control" ng-model="selected.entity.background">
                                                             </div>
                                                         </div>
+                                                        <div class="row">
+                                                            <label class="col-sm-2">Parentobject<br/></label>
+                                                            <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.entity.isParentObject">De items van deze entitieit zijn parent objects</label></div>
+                                                        </div>
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 form-control-label">Path label</label>
                                                             <div class="col-sm-10">
@@ -188,6 +192,18 @@
                                                                 <input type="text" class="form-control" ng-model="selected.entity.sidebar">
                                                                 URL voor custom view
                                                                 <br/><a ng-click="deleteSidebar(selected.entity)"><span class="text-muted">Custom weergave deactiveren</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Custom itemweergave</label>
+                                                            <div class="col-sm-10" ng-if="!selected.entity.itemview">
+                                                                <strong>Standaard</strong>
+                                                                <br/><a ng-click="addItemview(selected.entity)"><span class="text-muted">Custom weergave activeren</span></a>
+                                                            </div>
+                                                            <div class="col-sm-10" ng-if="selected.entity.itemview">
+                                                                <input type="text" class="form-control" ng-model="selected.entity.itemview">
+                                                                URL voor custom view
+                                                                <br/><a ng-click="deleteItemview(selected.entity)"><span class="text-muted">Custom weergave deactiveren</span></a>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -375,6 +391,7 @@
                                                                             <option value="textarea">Tekstveld (meerdere regels)</option>
                                                                             <option value="url">URL</option>
                                                                             <option value="enum">Meerkeuze</option>
+                                                                            <option value="datetime">Datumtijd</option>
                                                                             <option value="custom">Aangepast</option>
                                                                         </select>
                                                                         <div class="form-group row m-t" ng-show="item.type == 'enum'">

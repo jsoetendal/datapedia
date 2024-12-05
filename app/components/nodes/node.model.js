@@ -24,6 +24,10 @@ Node = function(data) {
         }
     }
     this.visible = true;
+    if(this['data'] && this['data']['modules']){
+        this['modules'] = JSON.parse(JSON.stringify((this['data']['modules']))); //Copy from modules
+        delete this['data']['modules'];
+    }
     //this.relations = {};
 }
 

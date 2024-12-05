@@ -1,5 +1,5 @@
 <div class="p-a">
-    <div class="box licht lt">
+    <div class="box licht lt" ng-if="!isParentObject && !state.current.run">
         <div class="row">
             <div class="col-xs-6">
                 <h4 class="p-a m-b-0 datapedia" ui-sref="module.nodes({'modulename': module.name, 'type': node.type})">{{entity.plural}}</h4>
@@ -16,11 +16,55 @@
             </div>
         </div>
     </div>
-
-    <div class="row m-t">
-        <div class="col-xs-12">
-            <div class="box ypadding">
-                <div class="box-header ypadding">
+    <div class="box licht lt m-b" ng-if="isParentObject">
+        <div class="row p-l p-r p-t">
+            <div class="col-md-3" style="text-align: center">
+                <div style="max-height: 250px; margin: -100px auto 20px auto;">
+                    <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="max-height: 250px;" class="m-b-2">
+                    <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%" class="m-b-2">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right" style="font-size: 80%" ng-show="user.auth.role=='admin'">
+                    <a class="nav-link" ui-sref="^.parent.tab({'parententity': node.type, 'key': node.key, 'tab': 'edit'})" href="" data-toggle="tab" data-target="#tab2" ng-hide="view.tab == 'edit'">Wijzig</a>
+                    <a class="nav-link" ui-sref="^.parent.tab({'parententity': node.type, 'key': node.key, 'tab': 'details'})" href="" data-toggle="tab" data-target="#tab1" ng-hide="view.tab == 'details'">Terug</a>
+                </div>
+                <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
+                <h1>{{node.title}}</h1>
+                <div ng-bind-html="node.text"></div>
+                <div ng-if="node.date">{{node.date | compleetDateTime}}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <div ng-repeat="module in node.modules" ng-if="module.button">
+                        <a ng-if="!module.nodeId" class="btn btn-primary m-b-sm" ui-sref="^.parent.nodes({'type': module.type})" style="text-align: left; min-width: 150px">
+                            <i class="bi me-2 fa {{module.icon}}" ng-if="module.icon"></i>
+                            {{module.buttonlabel}}
+                        </a>
+                        <a ng-if="module.nodeId" class="btn btn-primary m-b-sm" ui-sref="^.parent.node({'nodeId': module.nodeId})" style="text-align: left; min-width: 150px">
+                            <i class="bi me-2 fa {{module.icon}}" ng-if="module.icon"></i>
+                            {{module.buttonlabel}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-x">
+        <div class="col-xs-12 col-md-4 col-lg-3 col-xl-2" ng-if="isParentObject">
+            <!-- TODO: Modules laden uit parentObject -->
+            <ul class="list-group m-t">
+                <li class="list-group-item" ng-repeat='module in node.modules' ng-class="{'active': (!currentChildId && !module.nodeId && currentParentModule == module.type) || (module.nodeId && currentChildId && currentChildId == module.nodeId)}">
+                    <a ng-if='!module.nodeId' ui-sref="^.parent.nodes({'type': module.type})">{{module.label}}</a>
+                    <a ng-if='module.nodeId' ui-sref="^.parent.node({'nodeId': module.nodeId, 'title': module.label, 'type': module.type})">{{module.label}}</a>
+                </li>
+            </ul>
+        </div>
+        <!-- ParentObject: {{isParentObject}} / Current run: {{state.current.run}} / Current ChildId: {{currentChildId}} / Current Parent Id: {{currentParentId}} / Node.NodeId: {{node.nodeId}} / view.tab: {{view.tab}} -->
+        <div class='col-xs-12' ng-class="{'col-xs-12 col-md-8 col-lg-9 col-xl-10': isParentObject}" ng-if="!isParentObject || view.tab != 'details'"> <!-- Let op: view.tab wordt hier niet upgedate, blijft van de node -->
+            <div ng-if="entity.itemview && view.tab == 'details'" ui-include="'{{entity.itemview}}'"></div>
+            <div class="box" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-hide="entity.itemview && (user.auth.role != 'admin')">
+                <div class="box-header" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-if="!isParentObject">
                     <div class="b-b nav-active-bg row">
                         <div class="col-md-7 col-lg-8">
                             <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
@@ -60,696 +104,19 @@
                 </div>
                 <div class="box-body ypadding itemcontent">
                     <div class="tab-content p-y m-b-md">
-                        <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-3" ng-show="showSidebar && entity.views[0] == 'chapters'">
-                                    <div class="box">
-                                        <div class="box-body nopadding">
-                                            <div ng-if="entity.views[0] == 'chapters'" ui-include="'app/components/custom/nodes.simpletree.accordion.template.html'"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12" ng-class="{'col-md-12': entity.dependencies.length == 0 && entity.relations.length == 0 && !entity.toprightview, 'col-md-9': showSidebar && entity.views[0] == 'chapters', 'col-md-7 col-lg-8': (entity.dependencies.length > 0 && entity.dependencies[0].position != 'left')  || (entity.relations.length > 0 && entity.dependencies[0].position != 'left')  || entity.toprightview}">
-                                    <div class="row">
-                                        <div class="col-md-4" ng-if="entity.image == 'left' || relatie.position =='left' || dependency.position =='left' || entity.sidebar">
-                                            <div ng-if="entity.sidebar" class="m-b-2">
-                                                <div ui-include="'{{entity.sidebar}}'"></div>
-                                            </div>
-                                            <img ng-if="entity.image == 'left'  && node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%" class="m-b-2">
-                                            <img ng-if="entity.image == 'left'  && node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%" class="m-b-2">
-                                            <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='left'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
-                                            <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position =='left'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
-                                        </div>
-                                        <div class="col-xs-12" ng-class="{'col-md-8': entity.image == 'right' || entity.image=='left' || relatie.position =='left' || dependency.position =='left' || entity.sidebar}">
-                                            <div ng-if="node.data.geometry">
-                                                <div map-lazy-load="https://maps.google.com/maps/api/js"
-                                                     map-lazy-load-params="{{googleMapsUrl}}"
-                                                     style="width: 100%; height: 30vh">
-                                                    <ng-map center="{{node.geo.center}}" zoom="8" style="display: block; height: 100%; border: 1px solid black; width: 100%;">
-                                                        <shape ng-repeat="path in node.geo.paths"
-                                                               name="polygon"
-                                                               paths="{{path}}"
-                                                               stroke-color="#FF0000"
-                                                               stroke-opacity="0.5"
-                                                               stroke-weight="2"
-                                                               fill-color="#000000"
-                                                               fill-opacity="0.15"
-                                                        >
-                                                        </shape>
-                                                    </ng-map>
-                                                </div>
-                                            </div>
-                                            <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl}}" style="width: 100%">
-                                            <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'photo'" src="{{node.imgUrl.src}}" style="width: 100%">
-                                            <div ng-if="node.status == 'suggested'" class="m-t">
-                                                <div class="label info">Suggestie</div> <span class="text-muted"><i>Let op, dit is een suggestie, nog niet voor iedereen zichtbaar.</i></span>
-                                            </div>
-                                            <p ng-class='{"m-t": entity.image == "photo"}' ng-bind-html="trustAsHtml(node.text)"></p>
-                                            <table class="table table-striped" ng-if="!entity.dataview">
-                                                <tr ng-repeat="row in entity.data" ng-if="node.data[row.key] && row.type !='custom' && row.type !='geometry'">
-                                                    <td>
-                                                        <strong>{{row.label}}</strong>
-                                                    </td>
-                                                    <td>
-                                                        <a ng-if="row.type=='url'" href="{{node.data[row.key]}}">{{node.data[row.key]}}</a>
-                                                        <span ng-if="row.type=='datetime'">{{node.data[row.key] | compleetDateTime}}</span>
-                                                        <span ng-if="row.type=='textarea'" ng-bind-html="node.data[row.key]"></span>
-                                                        <span ng-hide="row.type=='url' || row.type=='datetime' || row.type=='textarea'" ng-if="node.data[row.key]">{{node.data[row.key]}}</span>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <div ng-if="entity.dataview" ui-include="'{{entity.dataview}}'"></div>
-                                        </div>
-                                        <div class="col-md-4" ng-if="entity.image=='right'">
-                                            <img ng-if="node.imgUrl && !node.imgUrl.src" src="{{node.imgUrl}}" style="width: 100%">
-                                            <img ng-if="node.imgUrl && node.imgUrl.src" src="{{node.imgUrl.src}}" style="width: 100%">
-                                        </div>
-                                    </div>
-
-                                    <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0 && entity.attachmentPosition != 'right'" ui-include="'app/components/nodes/node.attachments.part.html'"></div>
-
-                                    <div class="m-t" ng-if="showChapter">
-                                        <div ng-if="siblings.next" ui-sref="module.node({'modulename': module.name, nodeId: siblings.next.nodeId})" class="btn primary pull-right">{{siblings.next.title}} <i class="fa fa-arrow-right"></i></div>
-                                        <div ng-if="siblings.previous" ui-sref="module.node({'modulename': module.name, nodeId: siblings.previous.nodeId})" class="btn primary pull-left"><i class="fa fa-arrow-left"></i> {{siblings.previous.title}}</div>
-                                        <div class="clearfix"></div>
-                                    </div>
-
-                                    <div ng-repeat="row in entity.data" ng-if="row.type == 'custom'" ui-include="'{{row.templates.view}}'"></div>
-                                </div>
-                                <div class="col-xs-12 col-md-5 col-lg-4">
-                                    <div ng-if="entity.toprightview" ui-include="'{{entity.toprightview}}'"></div>
-                                    <div class="m-t" ng-if="node.data.attachments && node.data.attachments.length > 0 && entity.attachmentPosition == 'right'" ui-include="'app/components/nodes/node.attachments.part.html'"></div>
-                                    <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position !='left' && dependency.position !='bottom'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
-                                    <div ng-repeat="relatie in entity.relations" ng-if="relatie.position =='right'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div ng-repeat="dependency in entity.dependencies" ng-if="dependency.position =='bottom'" ui-include="'app/components/nodes/node.dependencies.part.html'"></div>
-                                <div ng-repeat="relatie in entity.relations" ng-if="relatie.position !='left' && relatie.position !='right'" ui-include="'app/components/nodes/node.relations.part.html'"></div>
-                            </div>
+                        <div class="tab-pane animated fadeIn text-muted" id="tab1"  ng-class="{'active': view.tab == 'details'}" ng-if="!isParentObject">
+                            <div ui-include="'app/components/nodes/node.details.part.html'"/>
                         </div>
-
                         <!--- EDIT -------------------------------------------------->
-
                         <div class="tab-pane animated fadeIn text-muted" id="tab2"  ng-class="{'active': view.tab == 'edit'}">
-                            <div class="row">
-                                <div ng-if="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))" class="m-b p-a info lt">
-                                    <strong>Je bent niet ingelogd</strong><br/>Dat betekent dat je wel <span ng-hide="node.nodeId > 0">nieuwe items kan invoeren</span><span ng-show="node.nodeId > 0">wijzigingen kunt opgeven</span>, maar dat deze niet automatisch verwerkt zullen worden, maar als suggestie worden aangeboden.<br/>Wil je wel direct kunnen invoeren en wijzigen? <a ui-sref="login">Log dan in</a> of <a ui-sref="signup">maak een account aan</a>.
-                                    <!--TODO: Link opnemen naar inloggen en nieuw account -->
-                                </div>
-                                <div ng-if="user.isEditorOrUp && node.status == 'suggested'" class="m-b p-a info lt box-shadow">
-                                    <strong>Dit is een suggestie</strong><br/>Je kan dit item aanpassen (indien gewenst/nodig) en vervolgens op 'Goedkeuren & Opslaan' klikken om de suggestie te accepteren.
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="box" ng-show="entity.attachments && entity.attachmentsPrimary" ng-if="user.auth.authenticated">
-                                        <div class="box-header">
-                                            <h2 ng-show="entity.attachmentLabel">{{entity.attachmentLabel}}</h2>
-                                            <h2 ng-hide="entity.attachmentLabel">Bestand(en)</h2>
-                                            <small>Voeg een of meerdere bestanden toe</small>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <div ng-repeat="(key, att) in node.data.attachments" class="form-group">
-                                                <input class="form-control" type="text" ng-model="node.data.attachments[key].title"><br/>
-                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}}) <a ng-click="deleteAttachment($index)" class="pull-right"><i class="fa fa-times text-danger"></i> verwijderen</a>
-                                            </div>
-                                            <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
-                                        </div>
-                                    </div>
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h2>Details</h2>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <form role="form" ng-submit="save(this);">
-                                                <div class="form-group">
-                                                    <label>{{entity.single}}</label>
-                                                    <input type="text" class="form-control" ng-model="node.title" autocomplete="off">
-                                                </div>
-                                                <div class="form-group" ng-hide="entity.hideDescription">
-                                                    <!--<br/><small class="text-muted pull-right pointer" ng-hide="wysiwyg" ng-click="wysiwyg = true">Toon teksteditor</small>
-                                                    <small class="text-muted pull-right pointer" ng-show="wysiwyg" ng-click="wysiwyg = false">Toon platte tekst</small>-->
-                                                    <label ng-hide="entity.descriptionLabel && entity.descriptionLabel.length > 1">Tekst/toelichting</label>
-                                                    <label ng-show="entity.descriptionLabel && entity.descriptionLabel.length > 1">{{entity.descriptionLabel}}</label>
-                                                    <!--<div ng-if="wysiwyg">-->
-                                                    <textarea ui-tinymce="tinymceOptions" ng-model="node.text"></textarea>
-                                                    <!--
-                                                    </div>
-                                                    <textarea ng-if='!wysiwyg' ng-model="node.text" class="form-control" rows="4"></textarea>
-                                                    -->
-                                                </div>
-                                                <div class="form-group" ng-if="entity.path">
-                                                    <label>{{entity.path.label}}</label>
-                                                    <ul style="margin: 10px 0px; padding: 0px">
-                                                        <li ng-show="path" ng-repeat="path in node.path.split(';');" class="pull-left label label-md info p-a-sm m-r-sm">{{path}} <i class="pointer fa fa-times" ng-click="deletePath(path)"></i></li>
-                                                        <div style="clear: both"></div>
-                                                    </ul>
-                                                    <input type="text" class="form-control" ng-model="searchPath" ng-focus='searchPathFocus = true'  placeholder="Voeg {{entity.path.label|lowercase}} toe">
-                                                    <div class="autosuggest m-t" ng-show="(searchPath || searchPathFocus) && results.length > 0">
-                                                        <strong>Selecteer bestaande {{entity.path.label|lowercase}}:</strong>
-                                                        <ul>
-                                                            <li ng-repeat="option in paths | filter: searchPath | limitTo: 10 as results track by $index" ng-click="addPath(option);" class="pointer">{{option}}</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div ng-show="searchPath && (!results || results.length < 1 || results[0].toLowerCase() != searchPath.toLowerCase())" class="m-t">
-                                                        <strong>Voeg nieuwe {{entity.path.label|lowercase}} toe:</strong><br/>
-                                                        <a ng-click="addPath(searchPath)"><i class="fa fa-plus"></i> {{searchPath}}</a>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" ng-if="entity.image">
-                                                    <a class="pull-right text-warning" ng-hide="!node.imgUrl || node.imgUrl.src" ng-click="deleteImage()"><small><i class="fa fa-times"></i> afbeelding verwijderen</small></a>
-                                                    <label>Afbeelding</label>
-                                                    <img ng-src="{{node.imgUrl}}" style='width: 100%' ng-hide="!node.imgUrl || node.imgUrl.src" class="m-b">
-                                                    <div img-upload node="node" max="{{entity.maximagesize}}" key="imgUrl" msg="Klik hier om een afbeelding toe te voegen, of sleep een afbeelding hier naar toe"></div>
-                                                    <!--
-                                                    <label for="file">Afbeelding</label>
-                                                    <input type="file" id="file" class="form-control">
-                                                    <input type="button" ng-click="doUpload()" class="btn primary" value="Toevoegen">
-                                                    -->
-                                                </div>
-                                                <div ng-repeat="row in entity.data" class="form-group">
-
-                                                    <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="node.data[row.key]"> {{row.label}}
-                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                    </label><br/>
-                                                    <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="node.data[row.key]">
-                                                    <input ng-if="row.type == 'datetime'" type="datetime-local" class="form-control" ng-model="node.data[row.key]">
-                                                    <textarea ui-tinymce="tinymceOptionsSmall" ng-if="row.type == 'textarea'" class="form-control" ng-model="node.data[row.key]"></textarea>
-                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="node.data[row.key]">
-                                                    <select ng-if="row.type == 'enum'"  ng-model="node.data[row.key]" class="form-control" >
-                                                        <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                    </select>
-                                                    <div ng-if="row.type == 'custom'" ui-include="'{{row.templates.input}}'"></div>
-                                                </div>
-
-                                                <button type="submit" class="btn primary m-b"><span ng-if="user.isEditorOrUp && node.status == 'suggested'">Goedkeuren & </span>Opslaan</button>
-                                                <a ng-if="user.isEditorOrUp && node.status == 'suggested'" ng-click="deleteSuggestedNode()">TODO: Deze suggestie verwijderen</a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-md-6" ng-if="node.nodeId">
-                                    <div class="box" ng-show="entity.attachments &&  !entity.attachmentsPrimary" ng-if="user.auth.authenticated">
-                                        <div class="box-header">
-                                            <h2 ng-show="entity.attachmentLabel">{{entity.attachmentLabel}}</h2>
-                                            <h2 ng-hide="entity.attachmentLabel">Bijlage(n)</h2>
-                                            <small>Voeg een of meerdere bijlagen toe</small>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <div ng-repeat="(key, att) in node.data.attachments" class="form-group">
-                                                <input class="form-control" type="text" ng-model="node.data.attachments[key].title"><br/>
-                                                <a href="{{att.url}}" target="_blank" ng-show="att.url">{{att.name}}</a><span ng-hide="att.url">{{att.name}}</span> ({{att.type}}, {{att.size | bytes}}) <a ng-click="deleteAttachment($index)" class="pull-right"><i class="fa fa-times text-danger"></i> verwijderen</a>
-                                            </div>
-                                            <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
-                                        </div>
-                                    </div>
-                                    <div class="box" ng-repeat="relatie in entity.relations">
-                                        <div class="box-header">
-                                            <h2>{{relatie.label}}</h2>
-                                            <small>{{relatie.descriptionInput}}</small>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <form role="form" ng-submit="addRelatie(relatie, this);">
-                                                <div class="form-group relatie">
-                                                    <ul class="relatie" ng-if="!relatie.editShort">
-                                                        <li ng-repeat="related in node.relations[relatie.key]">
-                                                            <div class="title p-a-sm licht">{{related.title}}
-                                                                <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteRelatie(related)"></i>
-                                                                <a class="pointer pull-right m-r" ui-sref="module.node.tab({nodeId: related.nodeId, tab: 'edit'})" target="_blank" class="text-muted"><i class="fa fa-external-link"></i></a>
-                                                            </div>
-                                                            <div ng-if="relatie.data.length > 0" class="p-a">
-                                                                <div ng-repeat="row in relatie.data" class="form-group">
-                                                                    <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]"> {{row.label}}
-                                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                    </label><br/>
-                                                                    <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="related.datarelation[row.key]">
-                                                                    <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="related.datarelation[row.key]"></textarea>
-                                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="related.data[row.key]">
-                                                                    <select ng-if="row.type == 'enum'"  ng-model="related.datarelation[row.key]" class="form-control" >
-                                                                        <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-
-                                                    <div  ng-if="!relatie.editShort" ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}">
-                                                        <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Voeg {{relatie.label|lowercase}} toe">
-                                                        <div class="autosuggest" ng-show="searchText[relatie.key] && results.length > 0">
-                                                            <strong>Selecteer een bestaande {{relatie.type}}:</strong>
-                                                            <ul>
-                                                                <li ng-repeat="option in relations[relatie.type] | filter: searchText[relatie.key] | nodeIdNotIn: node.relations[relatie.key] | limitTo: 10 as results track by option.nodeId" ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div ng-show="searchText[relatie.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[relatie.key].toLowerCase())">
-                                                            <strong>Voeg een nieuwe {{relatie.type}} toe:</strong>
-                                                            {{searchText[relatie.key]}}
-                                                            <br/><button type="submit" class="btn primary">Toevoegen</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <table ng-if="relatie.editShort">
-                                                        <thead>
-                                                        <tr>
-                                                            <th></th>
-                                                            <th ng-repeat="row in relatie.data">
-                                                                <label>{{row.label}}
-                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                </label>
-                                                            </th>
-                                                            <th></th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tr ng-repeat="related in node.relations[relatie.key] | orderBy: ['title']">
-                                                            <td>{{related.title}}  <small><a ui-sref="module.node.tab({nodeId: related.nodeId, tab: 'edit'})" target="_blank" class="text-muted"><i class="fa fa-external-link"></i></a></small></td>
-                                                            <td ng-repeat="row in relatie.data" class="input-group-sm">
-                                                                <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]" style="width: auto">
-                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="related.datarelation[row.key]" style="width: auto">
-                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="related.datarelation[row.key]"></textarea>
-                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="related.datarelation[row.key]" style="width: auto">
-                                                                <select ng-if="row.type == 'enum'"  ng-model="related.datarelation[row.key]" class="form-control"  style="width: auto">
-                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                                </select>
-                                                            </td>
-                                                            <td ng-if="user.isContributorOrUp"><i class="text-danger text-md fa fa-times pointer pull-right"  ng-click="deleteRelatie(related)"></i></td>
-                                                        </tr>
-                                                    </table>
-
-                                                    <div ng-if="relatie.editShort" ng-hide="node.relations[relatie.key].length >= relatie.max" ng-init="results = {}; showExisting = false;" class="box">
-                                                        <div class="box-header">
-                                                            <div class="input-group input-group-sm pull-right" ng-show="showExisting">
-                                                                <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Zoek {{relatie.label|lowercase}}">
-                                                            </div>
-                                                            <strong ng-click="showExisting = !showExisting" class="pointer"><i class="fa fa-plus" ng-hide="showExisting"></i><i class="fa fa-minus" ng-show="showExisting"></i> Bestaande {{relatie.type}} toevoegen</strong>
-                                                        </div>
-                                                        <div ng-show="showExisting" class="box-body">
-                                                            <div class="autosuggest">
-                                                                <table>
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th ng-repeat="row in relatie.data">
-                                                                            <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="related.datarelation[row.key]"> {{row.label}}
-                                                                                <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                            </label>
-                                                                        </th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr ng-repeat="option in relations[relatie.type]| orderBy: ['title'] | filter: searchText[relatie.key] | nodeIdNotIn: node.relations[relatie.key] as results track by option.nodeId">
-                                                                        <td><span style="white-space: nowrap;">{{option.title}}</span></td>
-                                                                        <td ng-repeat="row in relatie.data" class="input-group input-group-sm">
-                                                                            <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="option.datarelation[row.key]">
-                                                                            <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="option.datarelation[row.key]">
-                                                                            <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="option.datarelation[row.key]"></textarea>
-                                                                            <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="option.datarelation[row.key]">
-                                                                            <select ng-if="row.type == 'enum'"  ng-model="option.datarelation[row.key]" class="form-control" >
-                                                                                <option ng-repeat="o in row.options" ng-value="o">{{o}}</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><i class="text-danger text-md fa fa-plus pointer pull-right"   ng-click="addRelatieAndData(relatie,option);"></i></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="box-header">
-                                                            <strong ng-click="showNew = !showNew" class="pointer"><i class="fa fa-plus" ng-hide="showNew"></i><i class="fa fa-minus" ng-show="showNew"></i> Nieuwe {{relatie.type}} toevoegen</strong>
-                                                        </div>
-                                                        <div class='box-body' ng-show="showNew" ng-init="newItem={'title': '', 'datarelation': {}}">
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" ng-model="newItem.title">
-                                                            </div>
-                                                            <div ng-repeat="row in relatie.data" class="form-group">
-                                                                <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="newItem.datarelation[row.key]"> {{row.label}}
-                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                </label>
-                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="newItem.datarelation[row.key]">
-                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="newItem.datarelation[row.key]"></textarea>
-                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="newItem.datarelation[row.key]">
-                                                                <select ng-if="row.type == 'enum'"  ng-model="newItem.datarelation[row.key]" class="form-control" >
-                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                                </select>
-                                                            </div>
-                                                            <button ng-click="addNewItemRelatieAndData(relatie,newItem); newItem={'title': '', 'datarelation': {}}" class="btn primary m-b">Toevoegen</button>
-                                                            <p class="m-t">
-                                                                <small class="text-muted">Liever uitgebreid invoeren? Klik <a ui-sref="module.node.new({'nodeId': null, 'type': relatie.type})">hier om uitgebreid nieuwe {{relatie.type}} toe te voegen.</a></small>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="box" ng-repeat="dependency in entity.dependencies">
-                                        <div class="box-header">
-                                            <h2>{{dependency.label}}</h2>
-                                            <small>{{dependency.description}}</small>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <form role="form" n-g-submit="addDependency(dependency, this);">
-                                                <div class="form-group relatie">
-                                                    <ul class="relatie" ng-if="!dependency.editShort">
-                                                        <li ng-repeat="dependent in node.dependencies[dependency.key]">
-                                                            <div class="title p-a-sm licht">{{dependent.title}} <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteDependency(dependent)"></i></div>
-                                                            <div ng-if="dependency.data.length > 0" class="p-a">
-                                                                <div ng-repeat="row in dependency.data" class="form-group">
-                                                                    <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}
-                                                                        <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                    </label><br/>
-                                                                    <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="dependent.datarelation[row.key]">
-                                                                    <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="dependent.datarelation[row.key]"></textarea>
-                                                                    <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="dependent.datarelation[row.key]">
-                                                                    <select ng-if="row.type == 'enum'"  ng-model="dependent.datarelation[row.key]" class="form-control" >
-                                                                        <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                    <div ng-if="!dependency.editShort" ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}">
-                                                        <input type="text" class="form-control" ng-model="searchText[dependency.key]" placeholder="Voeg {{dependency.label|lowercase}} toe">
-                                                        <div class="autosuggest" ng-show="searchText[dependency.key] && results.length > 0">
-                                                            <strong>Selecteer een bestaande {{dependency.type}}:</strong>
-                                                            <ul>
-                                                                <li ng-repeat="option in relations[dependency.type] | filter: searchText[dependency.key] | nodeIdNotIn: node.dependencies[dependency.key] | limitTo: 10 as results track by option.nodeId" ng-click="addDependency(dependency,option.nodeId);" class="pointer">{{option.title}}</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class='m-t' ng-show="searchText[dependency.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[dependency.key].toLowerCase())">
-                                                            <strong>Geen {{dependency.type}} gevonden</strong><br/>
-                                                            Je kan hierboven alleen een bestaande {{dependency.type}} toevoegen. <a ui-sref="module.node.new({'nodeId': null, 'type': dependency.type})">Nieuw {{dependency.type}} toevoegen.</a>
-                                                        </div>
-                                                    </div>
-
-                                                    <table ng-if="dependency.editShort">
-                                                        <thead>
-                                                        <tr>
-                                                            <th></th>
-                                                            <th ng-repeat="row in dependency.data">
-                                                                <label>{{row.label}}
-                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                </label>
-                                                            </th>
-                                                            <th></th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tr ng-repeat="dependent in node.dependencies[dependency.key] | orderBy: ['title']">
-                                                            <td>{{dependent.title}}  <small><a ui-sref="module.node.tab({nodeId: dependent.nodeId, tab: 'edit'})" target="_blank" class="text-muted"><i class="fa fa-external-link"></i></a></small></td>
-                                                            <td ng-repeat="row in dependency.data" class="input-group-sm">
-                                                                <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]" style="width: auto">
-                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="dependent.datarelation[row.key]" style="width: auto">
-                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="dependent.datarelation[row.key]"></textarea>
-                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="dependent.datarelation[row.key]" style="width: auto">
-                                                                <select ng-if="row.type == 'enum'"  ng-model="dependent.datarelation[row.key]" class="form-control"  style="width: auto">
-                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                                </select>
-                                                            </td>
-                                                            <td ng-if="user.isContributorOrUp"><i class="text-danger text-md fa fa-times pointer pull-right"  ng-click="deleteDependency(dependent)"></i></td>
-                                                        </tr>
-                                                    </table>
-
-                                                    <div ng-if="dependency.editShort" ng-hide="node.relations[dependency.key].length >= dependency.max" ng-init="results = {}; showExisting = false; showNew" class="box">
-                                                        <div class="box-header">
-                                                            <div class="input-group input-group-sm pull-right" ng-show="showExisting">
-                                                                <input type="text" class="form-control" ng-model="searchText[dependency.key]" placeholder="Zoek {{dependency.label|lowercase}}">
-                                                            </div>
-                                                            <strong ng-click="showExisting = !showExisting" class="pointer"><i class="fa fa-plus" ng-hide="showExisting"></i><i class="fa fa-minus" ng-show="showExisting"></i> Bestaande {{dependency.type}} toevoegen</strong>
-                                                        </div>
-                                                        <div ng-show="showExisting" class="box-body">
-                                                            <div class="autosuggest">
-                                                                <table>
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th ng-repeat="row in dependency.data">
-                                                                            <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}
-                                                                                <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                            </label>
-                                                                        </th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr ng-repeat="option in relations[dependency.type] | orderBy: ['title'] | filter: searchText[dependency.key] | nodeIdNotIn: node.dependencies[dependency.key]  as results track by option.nodeId">
-                                                                        <td><span style="white-space: nowrap;">{{option.title}}</span></td>
-                                                                        <td ng-repeat="row in dependency.data" class="input-group input-group-sm">
-                                                                            <input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="option.datarelation[row.key]">
-                                                                            <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="option.datarelation[row.key]">
-                                                                            <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="option.datarelation[row.key]"></textarea>
-                                                                            <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="option.datarelation[row.key]">
-                                                                            <select ng-if="row.type == 'enum'"  ng-model="option.datarelation[row.key]" class="form-control" >
-                                                                                <option ng-repeat="o in row.options" ng-value="o">{{o}}</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><i class="text-danger text-md fa fa-plus pointer pull-right"   ng-click="addDependencyAndData(dependency,option);"></i></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="box-header">
-                                                            <strong ng-click="showNew = !showNew" class="pointer"><i class="fa fa-plus" ng-hide="showNew"></i><i class="fa fa-minus" ng-show="showNew"></i> Nieuwe {{dependency.type}} toevoegen</strong>
-                                                        </div>
-                                                        <div class='box-body' ng-show="showNew" ng-init="newItem={'title': '', 'datarelation': {}}">
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" ng-model="newItem.title">
-                                                            </div>
-                                                            <div ng-repeat="row in dependency.data" class="form-group">
-                                                                <label><input ng-if="row.type == 'bool'" type="checkbox" ng-value="1" ng-model="dependent.datarelation[row.key]"> {{row.label}}
-                                                                    <span ng-if="row.descriptionInput"><br/><small class="text-muted"><i>{{row.descriptionInput}}</i></small></span>
-                                                                </label>
-                                                                <input ng-if="row.type == 'text'" type="text" class="form-control" ng-model="newItem.datarelation[row.key]">
-                                                                <textarea ng-if="row.type == 'textarea'" class="form-control" ng-model="newItem.datarelation[row.key]"></textarea>
-                                                                <input ng-if="row.type == 'url'" type="url" class="form-control" placeholder="https://" ng-model="newItem.datarelation[row.key]">
-                                                                <select ng-if="row.type == 'enum'"  ng-model="newItem.datarelation[row.key]" class="form-control" >
-                                                                    <option ng-repeat="option in row.options" ng-value="option">{{option}}</option>
-                                                                </select>
-                                                            </div>
-                                                            <button ng-click="addNewItemDependencyAndData(dependency,newItem); newItem={'title': '', 'datarelation': {}}" class="btn primary m-b">Toevoegen</button>
-                                                            <p class="m-t">
-                                                                <small class="text-muted">Liever uitgebreid invoeren? Klik <a ui-sref="module.node.new({'nodeId': null, 'type': dependency.type})">hier om uitgebreid nieuwe {{dependency.type}} toe te voegen.</a></small>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-md-6" ng-if="node.nodeId" ng-hide="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))">
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h2>Verwijderen</h2>
-                                        </div>
-                                        <div class="box-divider m-a-0"></div>
-                                        <div class="box-body">
-                                            <input type="checkbox" ng-model="confirmDelete"> {{entity.single}} '{{node.title}}' verwijderen
-                                            <div ng-show="confirmDelete">
-                                                <br/>
-                                                Weet u zeker dat u '{{node.title}}' wilt verwijderen?
-                                                <p>
-                                                    <br/>
-                                                    <button class="btn btn-danger" ng-click="deleteNode()">Ja</button>
-                                                    <button class="btn" ng-click="confirmDelete = false">Nee</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-md-6" ng-if="!node.nodeId">
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <small>Om relaties toe te kunnen voegen, moet je eerst op 'Opslaan' klikken</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <div ui-include="'app/components/nodes/node.edit.part.html'"/>
                         </div>
-
                         <!--- VERSIEBEHEER -------------------------------------------------->
 
                         <div class="tab-pane animated fadeIn text-muted" id="tab3"  ng-class="{'active': view.tab == 'version'}">
-                            <div class="row b-b">
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h3>Versies</h3>
-                                        </div>
-                                        <div class="box-body">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <td>Titel</td>
-                                                    <td>Datum</td>
-                                                    <td>Door</td>
-                                                    <td>Status</td>
-                                                    <td></td>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr ng-repeat="node in history.nodes" class="p-a pointer" ng-class="{'st-selected strong': node == history.selectedNode}">
-                                                    <td ng-click="historySelect(node)">{{node.title}}</td>
-                                                    <td ng-click="historySelect(node)">
-                                                        <span ng-hide="node.updated">{{node.created}}</span>
-                                                        <span>{{node.updated}}</span>
-                                                    </td>
-                                                    <td ng-click="historySelect(node)">
-                                                        <span ng-show="$index == 0">{{node.creatorName}}</span>
-                                                        <span ng-hide="$index == 0">{{node.updaterName}}</span>
-                                                    </td>
-                                                    <td ng-click="historySelect(node)">{{node.status}}</td>
-                                                    <td>
-                                                        <span ng-if="history.selectedNode" ng-show="history.comparedNode == node"><strong><i class="fa fa-arrow-left" title="Wordt met deze versie vergeleken"></i></strong></span>
-                                                        <span ng-if="history.selectedNode" ng-hide="history.comparedNode == node" class="text-muted" ng-click="historyCompare(node)"><i class="fa fa-arrow-circle-o-left" title="Vergelijk met deze versie"></i></span>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="box" ng-if="history.selectedNode">
-                                        <div class="box-header">
-                                            <div class="pull-right mralabel">{{history.selectedNode.status}}</div>
-                                            <h3>{{history.selectedNode.title}}</h3>
-                                            <span ng-hide="history.selectedNode.updated">{{history.selectedNode.created}}</span>{{history.selectedNode.updated}},
-                                            <span ng-show="!history.selectedNode.updated">{{history.selectedNode.creatorName}}</span>
-                                            <span ng-show="history.selectedNode.updaterName">{{history.selectedNode.updaterName}}</span>
-                                            <span ng-show="history.selectedNode.updaterId == 0">Bezoeker</span>
-                                            <small class='text-muted' ng-show="history.selectedNode.userData">{{history.selectedNode.userData.ip}} / {{history.selectedNode.userData.useragent}}</small>
-                                        </div>
-                                        <div class="box-body">
-                                            <span class="text-success" ng-show="history.selectedNode.diff.unchanged">Er zijn geen wijzigingen in de tekst en data t.o.v. de gekozen versie</span>
-                                            <div ng-hide="history.selectedNode.diff.unchanged">Wijzigen t.o.v. de gekozen versie in:
-                                                <ul>
-                                                    <li ng-repeat="change in history.selectedNode.diff.changes">{{change}}</li>
-                                                </ul>
-                                            </div>
-                                            <div class="b-a p-a m-a" ng-show="showVersionDetails">
-                                                <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
-                                                <span ng-if="history.selectedNode != history.comparedNode" ng-bind-html="history.selectedNode.diff.complete"></span>
-                                            </div>
-                                            <h5 class="m-t" ng-show="showVersionDetails">Data</h5>
-                                            <table class="table table-striped" ng-show="showVersionDetails">
-                                                <tr ng-repeat="(key, value) in history.selectedNode.data">
-                                                    <td><strong>{{key}}</strong></td>
-                                                    <td ng-class="{'diff1': history.selectedNode.diff.changes && history.selectedNode.diff.changes.indexOf(key) > -1}">{{value}}</td>
-                                                </tr>
-                                            </table>
-                                            <div class="m-y">
-                                                <span ng-click="showVersionDetails = !showVersionDetails" ng-hide="showVersionDetails" class="pointer">Toon details</span>
-                                                <span ng-click="showVersionDetails = !showVersionDetails" ng-show="showVersionDetails" class="pointer">Verberg details</span>
-                                            </div>
-                                        </div>
-                                        <div class="box-footer m-y">
-                                            <div class="btn btn-fwd danger pull-right" ng-if="history.selectedNode.status != 'current'" ng-click="historyDelete(history.selectedNode)">Verwijderen</div>
-                                            <div class="btn btn-fwd success pull-right m-r" ng-if="history.selectedNode.status == 'previous' || history.selectedNode.status == 'deleted'" ng-click="historyRevert(history.selectedNode)">Terugzetten</div>
-                                            <div class="btn btn-fwd success" ng-if="history.selectedNode.status == 'suggested'" ng-click="historyApprove(history.selectedNode)">Accepteren</div>
-                                        </div>
-                                        <!--<div class="box-body" ng-if="user.isAdmin">
-                                            <h5>Volledige node</h5>
-                                            <div class="text-muted">{{history.selectedNode}}</div>
-                                        </div>-->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row b-b">
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h3>Historie Relaties</h3>
-                                        </div>
-                                        <div class="box-body">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>Titel</td>
-                                                        <td>Status</td>
-                                                        <td>Aantal wijzigingen</td>
-                                                        <td>Laatste wijziging</td>
-                                                        <td></td>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr ng-repeat-start="type in history.relations">
-                                                        <td colspan="6"><strong>{{type.key}}</strong><br/></td>
-                                                    </tr>
-                                                    <tr ng-repeat="relation in type.nodes" ng-repeat-end class="p-a pointer" ng-click="historySelectRelation(relation)">
-                                                        <td></td>
-                                                        <td>{{relation.title}}<strong ng-if="relation.suggestions > 0" class="text-danger"><br/>Suggestie<span ng-show="relation.suggestions > 1">s</span></strong></td>
-                                                        <td>{{relation.laststatus}}</td>
-                                                        <td>{{relation.versions.length}}</td>
-                                                        <td>
-                                                            <span>{{relation.versions[relation.versions.length - 1].datetime}}</span>
-                                                        </td>
-                                                        <td>
-                                                            <i class="fa fa-info-circle"></i>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="box" ng-if="history.selectedRelation">
-                                        <div class="box-header">
-                                            <h3>{{history.selectedRelation[0].title}}</h3>
-                                        </div>
-                                        <div class="box-body">
-                                            <table class="table table-striped">
-                                                    <thead>
-                                                    <tr>
-                                                        <td>Datum</td>
-                                                        <td>Door</td>
-                                                        <td>Status</td>
-                                                        <td>Inhoud</td>
-                                                    </tr>
-                                                    </thead>
-                                                    <tr><td colspan="4"></td></tr> <!-- to change color -->
-                                                    <tr ng-repeat-start="change in history.selectedRelation.versions">
-                                                        <td>{{change.datetime}}</td>
-                                                        <td>{{change.creatorName}}</td>
-                                                        <td>{{change.status}}</td>
-                                                        <td><dl>
-                                                            <dt ng-repeat-start="(name, value) in change.data">{{name}}</dt>
-                                                            <dd ng-repeat-end>{{value}}</dd>
-                                                        </dl></td>
-                                                    </tr>
-                                                    <tr ng-repeat-end>
-                                                        <td colspan="4">
-                                                            <small class="text-muted pull-right pointer">
-                                                                <span class="p-r" ng-if="change.status != 'current'" ng-click="historyRelationDelete(change)">Verwijderen</span>
-                                                                <span class="p-r" ng-if="change.status == 'previous' || change.status == 'deleted'" ng-click="historyRelationRevert(change)">Terugzetten</span>
-                                                                <span class="p-r" ng-if="change.status == 'suggested'" ng-click="historyRelationApprove(change)">Accepteren</span>
-                                                            </small>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div ui-include="'app/components/nodes/node.versioning.part.html'"/>
                         </div>
-
                         <!--- DELEN -------------------------------------------------->
-
                         <div class="tab-pane animated fadeIn text-muted" id="tab4"  ng-class="{'active': view.tab == 'share'}">
                             <div class="col-xs-12 col-md-6">
                                 <div class="box">
@@ -786,8 +153,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="tab-pane animated fadeIn text-muted" ng-repeat="tab in entity.tabs" id="tab-{{tab.key}}"  ng-class="{'active': view.tab == tab.key}">
                             <div compile="tab.templateHTML"></div>
                         </div>
@@ -795,5 +160,7 @@
                 </div>
             </div>
         </div>
+        <div class='col-xs-12 col-md-8 col-lg-9 col-xl-10' ng-if="isParentObject" ui-view>
+        </div>
     </div>
-    <div class='dummyuiview' ui-view></div>
+</div>

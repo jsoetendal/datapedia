@@ -1,0 +1,166 @@
+<div class="row b-b">
+  <div class="col-xs-12 col-md-6">
+    <div class="box">
+      <div class="box-header">
+        <h3>Versies</h3>
+      </div>
+      <div class="box-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <td>Titel</td>
+            <td>Datum</td>
+            <td>Door</td>
+            <td>Status</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="node in history.nodes" class="p-a pointer" ng-class="{'st-selected strong': node == history.selectedNode}">
+            <td ng-click="historySelect(node)">{{node.title}}</td>
+            <td ng-click="historySelect(node)">
+              <span ng-hide="node.updated">{{node.created}}</span>
+              <span>{{node.updated}}</span>
+            </td>
+            <td ng-click="historySelect(node)">
+              <span ng-show="$index == 0">{{node.creatorName}}</span>
+              <span ng-hide="$index == 0">{{node.updaterName}}</span>
+            </td>
+            <td ng-click="historySelect(node)">{{node.status}}</td>
+            <td>
+              <span ng-if="history.selectedNode" ng-show="history.comparedNode == node"><strong><i class="fa fa-arrow-left" title="Wordt met deze versie vergeleken"></i></strong></span>
+              <span ng-if="history.selectedNode" ng-hide="history.comparedNode == node" class="text-muted" ng-click="historyCompare(node)"><i class="fa fa-arrow-circle-o-left" title="Vergelijk met deze versie"></i></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-6">
+    <div class="box" ng-if="history.selectedNode">
+      <div class="box-header">
+        <div class="pull-right mralabel">{{history.selectedNode.status}}</div>
+        <h3>{{history.selectedNode.title}}</h3>
+        <span ng-hide="history.selectedNode.updated">{{history.selectedNode.created}}</span>{{history.selectedNode.updated}},
+        <span ng-show="!history.selectedNode.updated">{{history.selectedNode.creatorName}}</span>
+        <span ng-show="history.selectedNode.updaterName">{{history.selectedNode.updaterName}}</span>
+        <span ng-show="history.selectedNode.updaterId == 0">Bezoeker</span>
+        <small class='text-muted' ng-show="history.selectedNode.userData">{{history.selectedNode.userData.ip}} / {{history.selectedNode.userData.useragent}}</small>
+      </div>
+      <div class="box-body">
+        <span class="text-success" ng-show="history.selectedNode.diff.unchanged">Er zijn geen wijzigingen in de tekst en data t.o.v. de gekozen versie</span>
+        <div ng-hide="history.selectedNode.diff.unchanged">Wijzigen t.o.v. de gekozen versie in:
+          <ul>
+            <li ng-repeat="change in history.selectedNode.diff.changes">{{change}}</li>
+          </ul>
+        </div>
+        <div class="b-a p-a m-a" ng-show="showVersionDetails">
+          <span ng-if="history.selectedNode == history.comparedNode" ng-bind-html="history.selectedNode.text"></span>
+          <span ng-if="history.selectedNode != history.comparedNode" ng-bind-html="history.selectedNode.diff.complete"></span>
+        </div>
+        <h5 class="m-t" ng-show="showVersionDetails">Data</h5>
+        <table class="table table-striped" ng-show="showVersionDetails">
+          <tr ng-repeat="(key, value) in history.selectedNode.data">
+            <td><strong>{{key}}</strong></td>
+            <td ng-class="{'diff1': history.selectedNode.diff.changes && history.selectedNode.diff.changes.indexOf(key) > -1}">{{value}}</td>
+          </tr>
+        </table>
+        <div class="m-y">
+          <span ng-click="showVersionDetails = !showVersionDetails" ng-hide="showVersionDetails" class="pointer">Toon details</span>
+          <span ng-click="showVersionDetails = !showVersionDetails" ng-show="showVersionDetails" class="pointer">Verberg details</span>
+        </div>
+      </div>
+      <div class="box-footer m-y">
+        <div class="btn btn-fwd danger pull-right" ng-if="history.selectedNode.status != 'current'" ng-click="historyDelete(history.selectedNode)">Verwijderen</div>
+        <div class="btn btn-fwd success pull-right m-r" ng-if="history.selectedNode.status == 'previous' || history.selectedNode.status == 'deleted'" ng-click="historyRevert(history.selectedNode)">Terugzetten</div>
+        <div class="btn btn-fwd success" ng-if="history.selectedNode.status == 'suggested'" ng-click="historyApprove(history.selectedNode)">Accepteren</div>
+      </div>
+      <!--<div class="box-body" ng-if="user.isAdmin">
+          <h5>Volledige node</h5>
+          <div class="text-muted">{{history.selectedNode}}</div>
+      </div>-->
+    </div>
+  </div>
+</div>
+
+<div class="row b-b">
+  <div class="col-xs-12 col-md-6">
+    <div class="box">
+      <div class="box-header">
+        <h3>Historie Relaties</h3>
+      </div>
+      <div class="box-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <td></td>
+            <td>Titel</td>
+            <td>Status</td>
+            <td>Aantal wijzigingen</td>
+            <td>Laatste wijziging</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat-start="type in history.relations">
+            <td colspan="6"><strong>{{type.key}}</strong><br/></td>
+          </tr>
+          <tr ng-repeat="relation in type.nodes" ng-repeat-end class="p-a pointer" ng-click="historySelectRelation(relation)">
+            <td></td>
+            <td>{{relation.title}}<strong ng-if="relation.suggestions > 0" class="text-danger"><br/>Suggestie<span ng-show="relation.suggestions > 1">s</span></strong></td>
+            <td>{{relation.laststatus}}</td>
+            <td>{{relation.versions.length}}</td>
+            <td>
+              <span>{{relation.versions[relation.versions.length - 1].datetime}}</span>
+            </td>
+            <td>
+              <i class="fa fa-info-circle"></i>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-6">
+    <div class="box" ng-if="history.selectedRelation">
+      <div class="box-header">
+        <h3>{{history.selectedRelation[0].title}}</h3>
+      </div>
+      <div class="box-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <td>Datum</td>
+            <td>Door</td>
+            <td>Status</td>
+            <td>Inhoud</td>
+          </tr>
+          </thead>
+          <tr><td colspan="4"></td></tr> <!-- to change color -->
+          <tr ng-repeat-start="change in history.selectedRelation.versions">
+            <td>{{change.datetime}}</td>
+            <td>{{change.creatorName}}</td>
+            <td>{{change.status}}</td>
+            <td><dl>
+              <dt ng-repeat-start="(name, value) in change.data">{{name}}</dt>
+              <dd ng-repeat-end>{{value}}</dd>
+            </dl></td>
+          </tr>
+          <tr ng-repeat-end>
+            <td colspan="4">
+              <small class="text-muted pull-right pointer">
+                <span class="p-r" ng-if="change.status != 'current'" ng-click="historyRelationDelete(change)">Verwijderen</span>
+                <span class="p-r" ng-if="change.status == 'previous' || change.status == 'deleted'" ng-click="historyRelationRevert(change)">Terugzetten</span>
+                <span class="p-r" ng-if="change.status == 'suggested'" ng-click="historyRelationApprove(change)">Accepteren</span>
+              </small>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

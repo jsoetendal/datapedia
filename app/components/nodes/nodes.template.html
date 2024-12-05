@@ -30,9 +30,10 @@
         <div ng-if="stateparams.customviewurl" ui-include="'{{stateparams.customviewurl}}'"></div>
     </div>
 
+    <div ui-view></div>
 
-    <div class="licht lt" ng-if="type != 'zoeken' && !stateparams.customview">
-        <div class="row">
+    <div class="licht lt" ng-if="type != 'zoeken' && !stateparams.customview && !stateparams.parentkey">
+        <div class="row m-b">
             <div class="col-sm-6">
                 <h4 class="p-a m-b-0 datapedia">{{entity.plural}}</h4>
             </div>
@@ -84,8 +85,23 @@
             </div>
         </div>
     </div>
-    <div class="row p-t" ng-if="entity.introduction && !stateparams.customview">
+    <div class="row" ng-if="entity.introduction && !stateparams.customview">
         <div class="col-xs-12"><p class="p-x m-b-0" ng-bind-html="entity.introduction"></p></div>
     </div>
     <div ui-include="'app/components/nodes/nodes.views.template.html'" ng-if="!stateparams.customview"></div>
+    <div class="licht lt" ng-if="stateparams.parentkey && canCreate">
+        <div class="row m-b">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+                <ul class="nav navbar-nav pull-right m-r">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" ng-click="addNode()">
+                            <span><i class="fa fa-plus m-r"></i> {{entity.single}} toevoegen</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

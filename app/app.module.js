@@ -5,7 +5,7 @@ angular.
 
     $locationProvider.html5Mode(true); //prevent using #
 
-    let whitelist = ['self','https://indd.adobe.com/**','https://www.youtube.com/**'];
+    let whitelist = ['self','https://indd.adobe.com/**','https://www.youtube.com/**','https://player.vimeo.com/**'];
     if(window.__env.whitelistDomain){
         whitelist.push(window.__env.whitelistDomain);
     }
@@ -72,6 +72,7 @@ angular.
               url: "/intro",
               template: "<main class='controllermodule'></main>",
               controller: ['$scope', function($scope) {
+                  $scope.$emit("ResetModuleBackground");
               }]
           })
           .state('login', {
@@ -109,6 +110,7 @@ angular.
               template: "<nodes class='controllermodule'></nodes>",
               controller: ['$scope', function($scope) {
                   $scope.$emit("SetNodeEntity", {'node': null, 'entity': null}); //Emit reset to module.controller
+                  $scope.$emit("ResetModuleBackground");
               }]
           })
           .state('module.nodescustomview', {
@@ -129,14 +131,17 @@ angular.
           })
           .state('module.node', {
               url: '/node/{title}/{nodeId}',
-              template: "<node class='controllermodule'></node>"
+              template: "<node class='controllermodule'></node>",
+              controller: ['$scope','$stateParams', function($scope, $stateParams) {
+                  $scope.$emit("ResetModuleBackground");
+              }]
           })
           .state('module.node.tab', {
-            url:"/tab/{tab}",
-            controller: ['$scope','$stateParams', function($scope, $stateParams){
-                $scope.setTab($stateParams.tab)
-            }]
-        })
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setTab($stateParams.tab)
+              }]
+          })
           .state('module.node.new', {
               url:"/new/{type}",
               controller: ['$scope','$stateParams', function($scope, $stateParams){
@@ -181,6 +186,76 @@ angular.
               controller: ['$scope', function($scope) {
               }]
           })
+
+          .state('module.parent', {
+              url: "/{parententity}/{parentkey}",
+              template: "<node></node>",
+              controller: ['$scope', '$state', function($scope, $state) {
+                  $state.current.run = "parent";
+              }]
+          })
+          .state('module.parent.tab', {
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setTab($stateParams.tab)
+              }]
+          })
+          .state('module.parents', {
+              url: "/{type}",
+              template: "<nodes></nodes>",
+              controller: ['$scope', function($scope) {
+              }]
+          })
+
+          .state('module.parent.node',{
+              url: '/node/{title}/{nodeId}',
+              template: "<node class='child'></node>",
+              controller: ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams){
+                  $scope.$emit("SetCurrentChildId", {'nodeId': $stateParams.nodeId}); //Emit reset to node.controller
+                  $state.current.run = "child";
+              }]
+          })
+
+          .state('module.parent.nodes', {
+              url: "/{type}",
+              template: "<nodes class='controllermodule'></nodes>",
+              controller: ['$scope', '$stateParams', function($scope, $stateParams) {
+                  $scope.$emit("SetNodeEntity", {'node': null, 'entity': null}); //Emit reset to module.controller
+                  $scope.$emit("SetCurrentParentModule", {'type': $stateParams.type}); //Emit reset to node.controller
+                  $scope.$emit("SetCurrentChildId", {'nodeId': null}); //Emit reset to node.controller
+              }]
+          })
+
+          .state('module.parent.nodes.node',{
+              url: '/{title}/{nodeId}',
+              template: "<node class='child'></node>",
+              controller: ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams){
+                  $scope.$emit("SetCurrentChildId", {'nodeId': $stateParams.nodeId}); //Emit reset to node.controller
+                  $state.current.run = "child";
+              }]
+          })
+
+
+          .state('module.parent.nodes.node.new', {
+              url:"/new/{type}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+              }]
+          })
+
+          .state('module.parent.nodes.node.tab', {
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setTab($stateParams.tab)
+              }]
+          })
+
+          .state('module.parent.node.tab', {
+              url:"/tab/{tab}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setTab($stateParams.tab)
+              }]
+          })
+
           .state('module', { //Let op! Achteraan, omdat 'ie anders de andere afvangt...
               url: "/{modulename}",
               template: "<module></module>",

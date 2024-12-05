@@ -38,16 +38,18 @@ class NodesMapper extends Mapper
         return $this->hasAccess($this->db->returnQuery("SELECT type as result FROM nodes WHERE nodeId = ". $nodeId), $role);
     }
 
-    function getNodes($type, $path = null){
-        return $this->getNodesExtendedWithLabels($type, $path);
-
-        $rows = $this->db->getArray("SELECT * FROM nodes WHERE type = '". $type ."'");
-        return $rows;
+    function getNodes($type, $path = null, $parentkey = null){
+        return $this->getNodesExtendedWithLabels($type, $path, $parentkey);
     }
 
-    function getNodesExtendedWithLabels($type, $path = null){
-        $SQL = "SELECT nodeId, type, path, title, text, imgUrl, data, created, creatorId, updated, updaterId FROM nodes WHERE type = '". $type ."'"; //All columns except userData
+    function getNodesExtendedWithLabels($type, $path = null, $parentkey = null){
+        $SQL = "SELECT nodeId, type, `key`, parentkey, path, title, text, imgUrl, data, created, creatorId, updated, updaterId FROM nodes WHERE type = '". $type ."'"; //All columns except userData
         if($path) $SQL .= " AND path LIKE '%". $path ."%'";
+        if($parentkey){
+            $SQL .= " AND parentkey = '". $parentkey ."'";
+        } else {
+            $SQL .= " AND (parentkey IS NULL OR parentkey = '')";
+        }
         $rows = $this->db->getArray($SQL); //" ORDER BY `path`,`title`");
 
         //Relaties toevoegen
@@ -182,6 +184,11 @@ class NodesMapper extends Mapper
         return $node;
     }
 
+    function getNodeByKey($key){
+        $nodeId = $this->db->returnQuery("SELECT nodeId as result FROM nodes WHERE `key` = '". $key ."'");
+        return $this->getNode($nodeId);
+    }
+
     /**
      * This function will return a node without its relations
      * @param $nodeId
@@ -217,7 +224,7 @@ class NodesMapper extends Mapper
         $imgAvailable = false;
         $addRelation = false;
         foreach($data as $key => $val){
-            if(in_array($key, ['type','path','title','text','created','updated'])) {
+            if(in_array($key, ['type','path','title','text','created','updated','parentkey','key'])) {
                 // in node zelf toevoegen
                 //$record[$key] = escape_string($val);
                 //$record[$key] = $this->db->escape($val);
@@ -243,7 +250,11 @@ class NodesMapper extends Mapper
                 //Ignore
             } else {
                 //in JSON van data zetten
-                $jsonData->$key = escape_string($val);
+                if(is_array($val) || is_object($val)){
+                    $jsonData->$key = escape_string(json_encode($val));
+                } else {
+                    $jsonData->$key = escape_string($val);
+                }
             }
         }
         $record["created"] = date("Y-m-d H:i:s");
@@ -317,9 +328,14 @@ class NodesMapper extends Mapper
             }
         }
 
-
+        if($data["modules"]){
+            if(!$data["data"]) $data["data"] = new stdClass();
+            $data["data"]["modules"] = $data["modules"];
+            unset($data["modules"]);
+        }
         $data["data"] = json_encode($data["data"]);
         $arr = (array) $data;
+        //print_r($arr); exit();
 
         //find elements with files that need to be uploaded
         foreach($arr as $key => $value){
@@ -489,7 +505,6 @@ class NodesMapper extends Mapper
             $www = $this->media['www'];
 
             $filename = $nodeId . "-" . hash('sha256', $nodeId . $data["name"] . $data["size"] . "x!m!6N8g7~KO^X3");
-
             imagepng($img, $directory . $filename);
             imagedestroy($img);
             return $www . $filename;
@@ -509,7 +524,6 @@ class NodesMapper extends Mapper
         $www = $this->media['www'];
 
         $filename = $nodeId . "-" . hash('sha256', $nodeId . $data["name"] . $data["size"] . "x!m!6N8g7~KO^X3");
-
         // open the output file for writing
         $ifp = fopen($directory . $filename, 'wb');
 
@@ -728,6 +742,10 @@ class NodesMapper extends Mapper
 
     function getEntityCount(){
         return $this->db->getArray("SELECT type , count(*) AS count FROM nodes WHERE type IS NOT NULL GROUP BY type");
+    }
+
+    function checkKey($id, $key){
+        return ["code" => 200, "data" => $this->db->getNumRows("SELECT nodeId FROM nodes WHERE `key` LIKE '". $key ."' AND nodeId <> '". $id ."'")];
     }
 
     function dataTop15Status(){

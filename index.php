@@ -2,11 +2,7 @@
   <html ng-app="app" ng-controller="AppCtrl" lang="en">
   <?php require_once(getenv('localfolder')."index.head.phtml"); ?>
   <body>
-  <!--
-  <div id="warningMsg" class="extradonker" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; z-index: 9999"><i class="fa fa-exclamation-triangle"></i> Help jij mee de Datapedia compleet te maken? Voeg (zonder inloggen) een suggestie toe, of <a ui-sref="signup">maak een account aan</a>!</div>
-  <div id="warningMsg" class="extradonker" style="position: fixed; bottom: 0px; left: 0px; right: 0px; padding: 10px; z-index: 9999"><i class="fa fa-exclamation-triangle"></i> Wegbeheerder in Noord-Holland en Flevoland en op zoek naar hulp bij de digitaliseringsopgave? Neem contact op met het <a ui-sref="node({'nodeId': 1220})">Regionaal Datateam</a>!</div>
-  -->
-  <div class="app" id="app">
+    <div class="app" id="app">
 
 
       <?php require_once(getenv('localfolder')."header.part.template.html"); ?>

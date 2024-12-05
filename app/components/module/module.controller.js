@@ -9,7 +9,6 @@ component('module', {
 
             $scope.user = $rootScope.setup.user;
             $scope.settings = $rootScope.settings;
-            $scope.backgroundImgUrl = "local/background.jpg";
             $scope.state = $rootScope.state;
 
             $scope.$on('$stateChangeSuccess', function(event, state, params){
@@ -46,6 +45,15 @@ component('module', {
                 $scope.entity = data.entity;
                 $scope.node = data.node;
             })
+
+            $scope.$on("SetModuleBackground", function(evt,data) {
+                $scope.module.background = "local/background"+ $scope.node.key+".jpg";
+            });
+            $scope.$on("ResetModuleBackground", function(evt,data) {
+                $scope.module.background = "local/background.jpg";
+            });
+
+            //
 
             let modulename = $stateParams.modulename;
             if($rootScope.settings && $rootScope.settings.modules) {
