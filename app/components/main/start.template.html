@@ -1,4 +1,4 @@
-<div class="background" style="background-image: url('app/images/pexels-karol-d-409701.jpg');"></div>
+<div class="background"></div>
 
 <!-- content -->
 <div id="content" role="main">
@@ -9,10 +9,10 @@
                     <div class="box" ui-sref="{{module.start.state}}({{module.start.details}})" style="cursor: pointer">
                         <img src="{{module.image}}" style="width: 100%">
                         <div class="box-body licht" style="min-height: 12em">
-                            <h5>Datapedia <span class="text-primary">{{module.title}}</span></h5>
+                            <h5><span class="text-primary">{{module.title}}</span></h5>
                             <p ng-bind-html="module.introduction"></p>
                             <div class="text-center m-y">
-                                <div class="center btn btn-fw primary" style="margin: auto">Datapedia {{module.title}}</div>
+                                <div class="center btn btn-fw primary" style="margin: auto">{{module.title}}</div>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 <div class="row">
-  <div ng-if="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))" class="m-b p-a info lt">
+  <div ng-if="!user.auth || (!user.auth.authenticated && (!user.auth.accesstoken || user.auth.nodeId != node.nodeId))" ng-hide="createOnly" class="m-b p-a info lt">
     <strong>Je bent niet ingelogd</strong><br/>Dat betekent dat je wel <span ng-hide="node.nodeId > 0">nieuwe items kan invoeren</span><span ng-show="node.nodeId > 0">wijzigingen kunt opgeven</span>, maar dat deze niet automatisch verwerkt zullen worden, maar als suggestie worden aangeboden.<br/>Wil je wel direct kunnen invoeren en wijzigen? <a ui-sref="login">Log dan in</a> of <a ui-sref="signup">maak een account aan</a>.
     <!--TODO: Link opnemen naar inloggen en nieuw account -->
   </div>
@@ -25,15 +25,21 @@
         <div file-upload attachments="node.data.attachments" msg="Klik hier om een bestand toe te voegen, of sleep een bestand hier naar toe"></div>
       </div>
     </div>
+    <div class="box" ng-if="entity.editIntroduction">
+      <div class="box-body">
+        <p ng-bind-html="entity.editIntroduction"></p>
+      </div>
+    </div>
     <div class="box">
-      <div class="box-header">
+      <div class="box-header" ng-hide="createOnly">
         <h2>Details</h2>
       </div>
-      <div class="box-divider m-a-0"></div>
+      <div class="box-divider m-a-0" ng-hide="createOnly"></div>
       <div class="box-body">
         <form role="form" ng-submit="save(this);">
           <div class="form-group">
-            <label>{{entity.single}}</label>
+            <label ng-hide="entity.titleLabel">{{entity.single}}</label>
+            <label ng-show="entity.titleLabel">{{entity.titleLabel}}</label>
             <input type="text" class="form-control" ng-model="node.title" autocomplete="off">
           </div>
           <input type="hidden" ng-model="node.parentkey" value="{{stateParams.parentkey}}" ng-if="stateParams.parentkey">
@@ -103,7 +109,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-12 col-md-6" ng-if="node.nodeId">
+  <div class="col-xs-12 col-md-6" ng-if="node.nodeId" ng-hide="createOnly">
     <div class="box" ng-show="entity.attachments &&  !entity.attachmentsPrimary" ng-if="user.auth.authenticated">
       <div class="box-header">
         <h2 ng-show="entity.attachmentLabel">{{entity.attachmentLabel}}</h2>
@@ -424,6 +430,14 @@
             <option ng-repeat="entity in entities" value="{{entity.type}}">{{entity.plural}} / {{entity.type}}</option>
           </select>
         </div>
+        <div class="form-group" ng-if="selected.nodeModule.nodeId">
+          <label>NodeId</label>
+          <input type="number" ng-model="selected.nodeModule.nodeId" class="form-control"/>
+        </div>
+        <div class="form-group" ng-if="!selected.nodeModule.nodeId">
+          <label>Toelichting</label>
+          <textarea class="form-control" ng-model="selected.nodeModule.intro"></textarea>
+        </div>
         <div class="form-group">
           <label>Label</label>
           <input type="text" ng-model="selected.nodeModule.label" class="form-control"/>
@@ -497,7 +511,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-12 col-md-6" ng-if="!node.nodeId">
+  <div class="col-xs-12 col-md-6" ng-if="!node.nodeId" ng-hide="createOnly"">
     <div class="box">
       <div class="box-header">
         <small>Om relaties toe te kunnen voegen, moet je eerst op 'Opslaan' klikken</small>

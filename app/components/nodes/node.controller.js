@@ -101,10 +101,18 @@ angular.module('app').component('node', {
                         $scope.entity = $rootScope.settings.content.entities[i];
                     }
                 }
+                $scope.createOnly = false;
+                $scope.canCreate = false;
+                if(!$scope.entity.creation || $scope.entity.creation.indexOf($scope.user.auth.role) > -1) $scope.canCreate = true;
+                $scope.canView = false;
+                if(!$scope.entity.restricted || $scope.entity.restricted.indexOf($scope.user.auth.role) > -1) $scope.canView = true;
+                if($scope.canCreate && !$scope.canView) $scope.createOnly = true;
+
                 let objNode = {"type": type, "path": "", "title": "Nieuw " + $scope.entity.single};
                 if ($stateParams.parentkey) {
                     objNode.parentkey = $stateParams.parentkey;
                 }
+                if($scope.createOnly) objNode.title = "";
 
                 $scope.node = new Node(objNode);
                 if (relation) {
@@ -563,6 +571,8 @@ angular.module('app').component('node', {
                     if ($stateParams.parentkey && $stateParams.parentkey != $scope.node.key) {
                         tabState = "module.parent.nodes.node.tab";
                     }
+                    if($scope.createOnly) tabState = tabState.replace(".node.tab",".success");
+                    console.log(tabState, $scope.createOnly);
                     if ($scope.node.addRelation) {
                         //AddNode & Terug naar de 'parent' waar deze node aan is toegevoegd
                         Nodes.addNode($scope.node, function (newId) {
@@ -572,10 +582,9 @@ angular.module('app').component('node', {
                             }, {"reload": true});
                         })
                     } else {
-                        //AddNode & Nieuwe node laten zien
                         Nodes.addNode($scope.node, function (newId) {
                             $state.go(tabState, {"nodeId": newId, "tab": "edit"});
-                        })
+                        });
                     }
                 } else {
                     //Node laten zien

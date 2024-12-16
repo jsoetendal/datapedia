@@ -17,7 +17,7 @@ component('nodes', {
                     $scope.redirectTo = "parent";
                     $scope.nodeStateName = "module.parent";
                 } else {
-                    //Het gaat om een node die binnen de context van een parentObject getoond moet worden
+                    //Het gaat om een module die binnen de context van een parentObject getoond wordt. De nodes moeten dus ook binnen de context van een parentObject getoond moet worden
                     $scope.redirectTo = "node";
                     $scope.nodeStateName = "module.parent.node";
                 }
@@ -38,6 +38,8 @@ component('nodes', {
                         }
                         $scope.canCreate = false;
                         if(!$scope.entity.creation || $scope.entity.creation.indexOf($scope.user.auth.role) > -1) $scope.canCreate = true;
+                        $scope.canView = false;
+                        if(!$scope.entity.restricted || $scope.entity.restricted.indexOf($scope.user.auth.role) > -1) $scope.canView = true;
                     }
                 }
                 if($scope.entity && ($scope.entity.views[0] == "set" || $scope.entity.getNodesExtended)){
@@ -155,6 +157,16 @@ component('nodes', {
                             'parententity': $scope.nodes[i].type,
                             'parentkey': $scope.nodes[i].key,
                             'title': $scope.nodes[i].title.replace(/[\W_-]+/g,"")
+                        }
+                    }
+                }
+                if($stateParams.parentkey && $stateParams.parententity) {
+                    $scope.parentNode = $scope.$parent?.$parent?.$parent?.node;
+                    if($scope.parentNode && $scope.parentNode.modules){
+                        for(let i in $scope.parentNode.modules){
+                            if($scope.parentNode.modules[i].type === $stateParams.type && !$scope.parentNode.modules[i].nodeId){
+                                $scope.parentModule = $scope.parentNode.modules[i];
+                            }
                         }
                     }
                 }
@@ -733,6 +745,12 @@ component('nodes', {
                         $anchorScroll();
                     });
                 }
+            }
+
+            $scope.setSuccess = function(){
+                $scope.success = true;
+                $scope.successTitle = "Correct ontvangen";
+                $scope.successText = "<strong>Bedankt!</strong><br/>We hebben je inzending successvol ontvangen."
             }
 
             $scope.saveCurrent = function(){

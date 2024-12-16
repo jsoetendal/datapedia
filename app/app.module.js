@@ -147,6 +147,11 @@ angular.
               controller: ['$scope','$stateParams', function($scope, $stateParams){
               }]
           })
+          .state('module.success', {
+              url:"/success/{type}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+              }]
+          })
           .state('module.node.newrelated', {
               url:"/newrelated/{relation}/{type}",
               controller: ['$scope','$stateParams', function($scope, $stateParams){
@@ -239,6 +244,13 @@ angular.
           .state('module.parent.nodes.node.new', {
               url:"/new/{type}",
               controller: ['$scope','$stateParams', function($scope, $stateParams){
+              }]
+          })
+
+          .state('module.parent.nodes.success', {
+              url:"/success/{type}",
+              controller: ['$scope','$stateParams', function($scope, $stateParams){
+                  $scope.setSuccess();
               }]
           })
 

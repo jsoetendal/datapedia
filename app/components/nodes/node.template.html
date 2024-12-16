@@ -66,7 +66,7 @@
             <div class="box" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-hide="entity.itemview && (user.auth.role != 'admin')">
                 <div class="box-header" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-if="!isParentObject">
                     <div class="b-b nav-active-bg row">
-                        <div class="col-md-7 col-lg-8">
+                        <div class="col-md-7 col-lg-8" ng-hide="createOnly">
                             <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
                             <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl.src}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
                             <div class="text-muted" ng-if="node.path">{{node.path | path}}</div>
@@ -80,7 +80,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="col-md-5 col-lg-4 v-b" ng-hide="hideWiki">
+                        <div class="col-md-5 col-lg-4 v-b" ng-hide="hideWiki || createOnly">
                             <ul class="nav nav-tabs pull-right" style="margin-top: 2.5rem">
                                 <li class="nav-item">
                                     <a class="nav-link" ui-sref="^.node.tab({'modulename': module.name, 'nodeId': node.nodeId, 'tab': 'details'})" data-toggle="tab" data-target="#tab1" ng-class="{'active': view.tab == 'details'}">Details</a>

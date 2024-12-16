@@ -30,6 +30,23 @@
         <div ng-if="stateparams.customviewurl" ui-include="'{{stateparams.customviewurl}}'"></div>
     </div>
 
+    <div ng-if="success">
+        <div class="m-b">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box">
+                        <div class="box-header success">
+                            <h3>{{successTitle}}</h3>
+                        </div>
+                        <div class="box-body">
+                            <p ng-bind-html="successText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div ui-view></div>
 
     <div class="licht lt" ng-if="type != 'zoeken' && !stateparams.customview && !stateparams.parentkey">
@@ -85,8 +102,11 @@
             </div>
         </div>
     </div>
-    <div class="row" ng-if="entity.introduction && !stateparams.customview">
-        <div class="col-xs-12"><p class="p-x m-b-0" ng-bind-html="entity.introduction"></p></div>
+    <div class="row" ng-if="(entity.introduction || parentModule.intro)  && !stateparams.customview">
+        <div class="col-xs-12">
+            <p class="p-x m-b-0" ng-bind-html="entity.introduction" ng-if="!parentModule.intro"></p>
+            <p class="p-x m-b-0" ng-bind-html="parentModule.intro" ng-if="parentModule.intro"></p>
+        </div>
     </div>
     <div ui-include="'app/components/nodes/nodes.views.template.html'" ng-if="!stateparams.customview"></div>
     <div class="licht lt" ng-if="stateparams.parentkey && canCreate">

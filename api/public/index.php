@@ -70,7 +70,10 @@ $app->get('/nodes/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
 
     $nodesMapper = new NodesMapper($this->db);
     $type = escape_string($request->getAttribute('type'));
-    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    if(!$nodesMapper->hasAccess($type, $token->getRole())){
+        if($nodesMapper->canCreate($type, $token->getRole())) return $response->withStatus(200)->withJson([]); //If can Create but not view, return empty Nodes
+        return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    }
 
     $result = $nodesMapper->getNodes($type);
     return $response->withStatus(200)->withJSON($result);
@@ -96,7 +99,10 @@ $app->get('/nodes/{type}/parentkey/{parentkey}', function (Slim\Http\Request $re
     $nodesMapper = new NodesMapper($this->db);
     $type = escape_string($request->getAttribute('type'));
     $parentkey = escape_string($request->getAttribute('parentkey'));
-    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    if(!$nodesMapper->hasAccess($type, $token->getRole())){
+        if($nodesMapper->canCreate($type, $token->getRole())) return $response->withStatus(200)->withJson([]); //If can Create but not view, return empty Nodes
+        return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    }
 
     $result = $nodesMapper->getNodes($type, null, $parentkey);
     return $response->withStatus(200)->withJSON($result);
@@ -201,7 +207,7 @@ $app->post("/node/add/", function (Slim\Http\Request $request, Slim\Http\Respons
 
     $nodesMapper = new NodesMapper($this->db, $this->media);
     if(!$nodesMapper->canCreate($data["type"], $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
-    if(!$nodesMapper->hasAccess($data["type"], $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    //if(!$nodesMapper->hasAccess($data["type"], $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
     $result = $nodesMapper->addNode($data, $token);
     return $response->withStatus(200)->withJSON($result);
 });
@@ -302,7 +308,10 @@ $app->get('/paths/{type}/', function (Slim\Http\Request $request, Slim\Http\Resp
     $type = escape_string($request->getAttribute('type'));
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
-    if(!$nodesMapper->hasAccess($type, $token->getRole())) return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    if(!$nodesMapper->hasAccess($type, $token->getRole())){
+        if($nodesMapper->canCreate($type, $token->getRole())) return $response->withStatus(200)->withJson([]); //If can Create but not view, return empty Nodes
+        return $response->withStatus(403); // Indien geen toegang tot dit type, geef 401 terug!
+    }
 
     $result = $nodesMapper->getPaths($type);
     return $response->withStatus(200)->withJSON($result);
