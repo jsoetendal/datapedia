@@ -229,6 +229,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
+                                                            <label class="col-sm-2 form-control-label">Custom Edit</label>
+                                                            <div class="col-sm-10" ng-if="!selected.entity.itemedit">
+                                                                <strong>Standaard</strong>
+                                                                <br/><a ng-click="addItemedit(selected.entity)"><span class="text-muted">Custom edit activeren</span></a>
+                                                            </div>
+                                                            <div class="col-sm-10" ng-if="selected.entity.itemedit">
+                                                                <input type="text" class="form-control" ng-model="selected.entity.itemedit">
+                                                                URL voor custom edit
+                                                                <br/><a ng-click="deleteItemedit(selected.entity)"><span class="text-muted">Custom edit deactiveren</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
                                                             <label class="col-sm-2 form-control-label">Template rechtsboven</label>
                                                             <div class="col-sm-10" ng-if="!selected.entity.toprightview">
                                                                 <strong>Geen speciale weergave rechtsboven</strong>

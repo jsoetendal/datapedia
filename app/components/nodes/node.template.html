@@ -63,6 +63,7 @@
         <!-- ParentObject: {{isParentObject}} / Current run: {{state.current.run}} / Current ChildId: {{currentChildId}} / Current Parent Id: {{currentParentId}} / Node.NodeId: {{node.nodeId}} / view.tab: {{view.tab}} -->
         <div class='col-xs-12' ng-class="{'col-xs-12 col-md-8 col-lg-9 col-xl-10': isParentObject}" ng-if="!isParentObject || view.tab != 'details'"> <!-- Let op: view.tab wordt hier niet upgedate, blijft van de node -->
             <div ng-if="entity.itemview && view.tab == 'details'" ui-include="'{{entity.itemview}}'"></div>
+            <div ng-if="entity.itemedit && view.tab == 'edit'" ui-include="'{{entity.itemedit}}'"></div>
             <div class="box" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-hide="entity.itemview && (user.auth.role != 'admin')">
                 <div class="box-header" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-if="!isParentObject">
                     <div class="b-b nav-active-bg row">
@@ -108,7 +109,7 @@
                             <div ui-include="'app/components/nodes/node.details.part.html'"/>
                         </div>
                         <!--- EDIT -------------------------------------------------->
-                        <div class="tab-pane animated fadeIn text-muted" id="tab2"  ng-class="{'active': view.tab == 'edit'}">
+                        <div class="tab-pane animated fadeIn text-muted" id="tab2"  ng-class="{'active': view.tab == 'edit'}" ng-if="!entity.itemedit">
                             <div ui-include="'app/components/nodes/node.edit.part.html'"/>
                         </div>
                         <!--- VERSIEBEHEER -------------------------------------------------->

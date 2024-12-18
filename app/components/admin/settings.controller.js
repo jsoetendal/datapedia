@@ -255,8 +255,16 @@ component('settings', {
                 if(!entity.itemview) entity.itemview = "...";
             }
 
-            $scope.deleteDataview = function(entity){
+            $scope.deleteItemview = function(entity){
                 delete entity.itemview;
+            }
+
+            $scope.addItemedit = function(entity){
+                if(!entity.itemedit) entity.itemedit = "...";
+            }
+
+            $scope.deleteItemedit = function(entity){
+                delete entity.itemedit;
             }
 
             $scope.addSidebar = function(entity){
