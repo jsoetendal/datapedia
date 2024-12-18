@@ -9,12 +9,12 @@ angular.module('app').component('node', {
             $scope.state = $state;
             $scope.stateParams = $stateParams;
             $scope.history = null;
-            $scope.entities = $rootScope.settings.content.entities;
 
             this.loadNode = function (nodeId, key) {
                 $scope.node = null;
                 $scope.loaded = false;
                 $scope.hideWiki = true;
+                if($rootScope.settings.content) $scope.entities = $rootScope.settings.content.entities;
 
                 //Uit te voeren functie zodra Node is opgehaald:
                 const functionTodo = function () {
