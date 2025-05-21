@@ -444,7 +444,8 @@ $app->post('/user/create/', function (Slim\Http\Request $request, Slim\Http\Resp
 
     $token = new Token($request);
     if($token->isExpired()) return $response->withStatus(401);
-    if(!$token || ($token->isValid() && !$token->isAdmin())){
+    if($token && $token->isAdmin()){
+    } else {
         $role = "contributor";
         //Iedereen kan een user aanmaken, alleen admin kan een user met andere rol dan contributor aanmaken
     }
@@ -471,7 +472,7 @@ $app->post('/user/edit/', function (Slim\Http\Request $request, Slim\Http\Respon
     if($token->isAdmin() || ($token->getUserId() == $id)){
         $auth = new Auth($this->db);
 
-        if($token->isAdmin()){
+        if($token && $token->isAdmin()){
             $result = $auth->edit_user($id, $email, $password, $name, $role);
         } elseif($token->getUserId() == $id){
             $result = $auth->edit_user($id, $email, $password, $name);
