@@ -161,7 +161,7 @@ class NodesMapper extends Mapper
         }
         if($node) {
             $node->relations = new stdClass();
-            $relatedNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '" . $nodeId . "'");
+            $relatedNodes = $this->db->getArray("SELECT *, relations.key as `key`, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.targetId = nodes.nodeId) WHERE sourceId = '" . $nodeId . "'");
             foreach ($relatedNodes as $relatedNode) {
                 $key = $relatedNode->key;
                 if (!$node->relations->$key) $node->relations->$key = [];
@@ -171,7 +171,7 @@ class NodesMapper extends Mapper
                 array_push($node->relations->$key, $relatedNode);
             }
             $node->dependencies = new stdClass();
-            $dependentNodes = $this->db->getArray("SELECT *, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.sourceId = nodes.nodeId) WHERE targetId = '" . $nodeId . "'");
+            $dependentNodes = $this->db->getArray("SELECT *, relations.key as `key`, nodes.data as data, relations.data as datarelation FROM relations JOIN nodes ON (relations.sourceId = nodes.nodeId) WHERE targetId = '" . $nodeId . "'");
             foreach ($dependentNodes as $dependentNode) {
                 $key = $dependentNode->key;
                 if (!$node->dependencies->$key) $node->dependencies->$key = [];
