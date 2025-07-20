@@ -5,7 +5,7 @@ angular.
 
     $locationProvider.html5Mode(true); //prevent using #
 
-    let whitelist = ['self','https://indd.adobe.com/**','https://www.youtube.com/**','https://player.vimeo.com/**'];
+    let whitelist = ['self','https://indd.adobe.com/**','https://www.youtube.com/**','https://player.vimeo.com/**','data:**'];
     if(window.__env.whitelistDomain){
         whitelist.push(window.__env.whitelistDomain);
     }
@@ -73,6 +73,12 @@ angular.
               template: "<main class='controllermodule'></main>",
               controller: ['$scope', function($scope) {
                   $scope.$emit("ResetModuleBackground");
+              }]
+          })
+          .state('module.main.node', {
+              url: "/{nodeId}",
+              controller: ['$scope', '$stateParams', function($scope, $stateParams) {
+                  $scope.selectNodeId($stateParams.nodeId);
               }]
           })
           .state('login', {

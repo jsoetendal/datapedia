@@ -21,11 +21,12 @@
         $rootScope.environment = window.__env.environment;
         $rootScope.wwwBase = window.__env.wwwBase;
         $rootScope.APIBase = window.__env.APIBase;
+        $rootScope.localfolder = window.__env.localfolder;
         $rootScope.GoogleMapsKey = window.__env.GoogleMapsKey;
         $rootScope.topHeader = "Smart Mobility";
 
         $rootScope.currentModule = parseInt(localStorage.getItem("currentModule"));
-        $rootScope.backgroundImgUrl = "local/background.jpg";
+        $rootScope.backgroundImgUrl = $rootScope.localfolder + "background.jpg";
         $rootScope.setup = Setup;
         $rootScope.setup.initialize();
 

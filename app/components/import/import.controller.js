@@ -94,12 +94,18 @@ angular.
                                 } else {
                                     node[$scope.entity.data[j].key] = true;
                                 }
-                            break;
+                                break;
                             case "enum":
                                 for(var k in $scope.entity.data[j].options){
                                     if($scope.import.data[i][$scope.import.mapping[$scope.entity.data[j].key]].toLowerCase() == $scope.entity.data[j].options[k].toLowerCase()){
                                         node[$scope.entity.data[j].key] = $scope.entity.data[j].options[k];
                                     }
+                                }
+                                break;
+                            case "float":
+                            case "int":
+                                if($scope.import.data[i][$scope.import.mapping[$scope.entity.data[j].key]] || $scope.import.data[i][$scope.import.mapping[$scope.entity.data[j].key]] <= 0){
+                                    node[$scope.entity.data[j].key] = $scope.import.data[i][$scope.import.mapping[$scope.entity.data[j].key]];
                                 }
                                 break;
                             default:
