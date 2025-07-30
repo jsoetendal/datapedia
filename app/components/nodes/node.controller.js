@@ -74,6 +74,7 @@ angular.module('app').component('node', {
 
                 }
 
+                $scope.nextNodeId = parseInt(nodeId) + 1;
                 //Node ophalen en bovenstaande functie uitvoeren
                 if (nodeId > 0) {
                     $scope.isParentObject = false;

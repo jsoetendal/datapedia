@@ -67,6 +67,11 @@
             <div class="box" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-hide="entity.itemview && (user.auth.role != 'admin')">
                 <div class="box-header" ng-class="{'ypadding': !state.current.run || state.current.run !='child'}" ng-if="!isParentObject">
                     <div class="b-b nav-active-bg row">
+                        <div ng-if="!showNextPrev && user.auth.role=='admin'" class="pull-right">
+                            <small style="white-space: nowrap">
+                                <span ui-sref="module.node.tab({nodeId: nextNodeId, tab: 'edit'})" class="text-muted pointer"><i class="fa fa-angle-double-right"></i></span>
+                            </small>
+                        </div>
                         <div class="col-md-7 col-lg-8" ng-hide="createOnly">
                             <img ng-if="node.imgUrl && !node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
                             <img ng-if="node.imgUrl && node.imgUrl.src && entity.image == 'logo'" src="{{node.imgUrl.src}}" style="height: 2.5rem; float: left; margin: 0px 1.5rem 1rem 0px">
