@@ -258,7 +258,7 @@ service('User', ['$rootScope', '$http', '$timeout', '$window', '$location','$sta
 
                     self.clearDirty();
 
-                    if(func){ func(); }
+                    if(func && typeof func === 'function'){ func(); }
                 } else {
                     log(response);
                 }
