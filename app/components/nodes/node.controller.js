@@ -281,7 +281,7 @@ angular.module('app').component('node', {
                         }
                         //B. From title
                         for (let i in $scope.relations[type]) {
-                            if (similarWord($scope.node.title, $scope.relations[type][i].title)) {
+                            if (similarWord($scope.node.title, $scope.relations[type][i].title) || similarWord($scope.node.text, $scope.relations[type][i].title) ) {
                                 $scope.relationSuggestions[type].push($scope.relations[type][i]);
                             }
                         }
