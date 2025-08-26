@@ -169,6 +169,12 @@
                 {{searchText[relatie.key]}}
                 <br/><button type="submit" class="btn primary">Toevoegen</button>
               </div>
+              <p ng-if="relationSuggestions[relatie.type].length > 0">
+                <strong>Suggesties:</strong>
+                <ul>
+                  <li ng-repeat="option in relationSuggestions[relatie.type] | nodeIdNotIn: node.relations[relatie.key]" ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</li>
+                </ul>
+              </p>
             </div>
 
             <table ng-if="relatie.editShort">

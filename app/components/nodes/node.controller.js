@@ -12,6 +12,7 @@ angular.module('app').component('node', {
 
             this.loadNode = function (nodeId, key) {
                 $scope.node = null;
+                $scope.nodeId = nodeId;
                 $scope.loaded = false;
                 $scope.hideWiki = true;
                 if($rootScope.settings.content) $scope.entities = $rootScope.settings.content.entities;
@@ -238,6 +239,7 @@ angular.module('app').component('node', {
                         if (!$scope.relations[$scope.entity.relations[i].type]) {
                             Nodes.loadNodes($scope.entity.relations[i].type, false, null, function (type) {
                                 $scope.relations[type] = Nodes.getNodes();
+                                $scope.suggestRelations(type, $scope.entity.relations[i].key);
                             });
                         }
                     }
@@ -247,6 +249,7 @@ angular.module('app').component('node', {
                         if (!$scope.relations[$scope.entity.dependencies[i].type]) {
                             Nodes.loadNodes($scope.entity.dependencies[i].type, false, null, function (type) {
                                 $scope.relations[type] = Nodes.getNodes();
+                                $scope.suggestRelations(type, $scope.entity.relations[i].key);
                             });
                         }
                     }
@@ -256,6 +259,36 @@ angular.module('app').component('node', {
                 Nodes.loadPaths($scope.node.type, function (paths) {
                     $scope.paths = paths;
                 });
+
+            }
+
+            //Create suggestions for relations [Criseskansenkaart 2025-08-26]
+            $scope.suggestRelations = function (type, relationKey) {
+                //To create suggestions from previous Node for relations [Criseskansenkaart 2025-08-26]
+                if(!$scope.prevNode) {
+                    Nodes.loadNode($scope.nodeId - 1, function () {
+                        $scope.prevNode = Nodes.getNode() || {'dummy': true};
+                        $scope.suggestRelations(type, relationKey);
+                    });
+                } else {
+                    if (type && relationKey) {
+                        console.log($scope.prevNode, type, relationKey);
+                        if (!$scope.relationSuggestions) $scope.relationSuggestions = [];
+                        //A. From previous Node
+                        if ($scope.prevNode.relations[relationKey] && $scope.prevNode.relations[relationKey].length > 0) {
+                            $scope.relationSuggestions[type] = $scope.prevNode.relations[relationKey];
+                        } else {
+                            $scope.relationSuggestions[type] = [];
+                        }
+                        //B. From title
+                        for (let i in $scope.relations[type]) {
+                            if (similarWord($scope.node.title, $scope.relations[type][i].title)) {
+                                $scope.relationSuggestions[type].push($scope.relations[type][i]);
+                            }
+                        }
+                        console.log($scope.relationSuggestions[type]);
+                    }
+                }
             }
 
             $scope.startVersion = function () {

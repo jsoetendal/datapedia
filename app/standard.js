@@ -219,3 +219,10 @@ function htmlDecode(input){
 function UCFirst(input) {
     if(input) return input.charAt(0).toUpperCase() + input.slice(1);
 }
+
+function similarWord(str1, str2, minLength = 4){
+    const words1 = new Set(str1.split(/\s+/));
+    const words2 = new Set(str2.split(/\s+/));
+    console.log(words1, words2);
+    return common = [...words1].some(word => (words2.has(word) && word.length > minLength));
+}
