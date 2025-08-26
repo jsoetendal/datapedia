@@ -221,8 +221,7 @@ function UCFirst(input) {
 }
 
 function similarWord(str1, str2, minLength = 4){
-    const words1 = new Set(str1.split(/\s+/));
-    const words2 = new Set(str2.split(/\s+/));
-    console.log(words1, words2);
-    return common = [...words1].some(word => (words2.has(word) && word.length > minLength));
+    const words1 = new Set(str1.toLowerCase().split(/\s+/));
+    const words2 = new Set(str2.toLowerCase().split(/\s+/));
+    return [...words1].some(word => (words2.has(word) && word.length > minLength));
 }

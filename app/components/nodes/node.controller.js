@@ -272,7 +272,6 @@ angular.module('app').component('node', {
                     });
                 } else {
                     if (type && relationKey) {
-                        console.log($scope.prevNode, type, relationKey);
                         if (!$scope.relationSuggestions) $scope.relationSuggestions = [];
                         //A. From previous Node
                         if ($scope.prevNode.relations[relationKey] && $scope.prevNode.relations[relationKey].length > 0) {
@@ -286,7 +285,6 @@ angular.module('app').component('node', {
                                 $scope.relationSuggestions[type].push($scope.relations[type][i]);
                             }
                         }
-                        console.log($scope.relationSuggestions[type]);
                     }
                 }
             }
