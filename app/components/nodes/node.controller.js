@@ -266,10 +266,12 @@ angular.module('app').component('node', {
             $scope.suggestRelations = function (type, relationKey) {
                 //To create suggestions from previous Node for relations [Criseskansenkaart 2025-08-26]
                 if(!$scope.prevNode) {
-                    Nodes.loadNode($scope.nodeId - 1, function () {
-                        $scope.prevNode = Nodes.getNode() || {'dummy': true};
-                        $scope.suggestRelations(type, relationKey);
-                    });
+                    if($scope.nodeId > 0) {
+                        Nodes.loadNode($scope.nodeId - 1, function () {
+                            $scope.prevNode = Nodes.getNode() || {'dummy': true};
+                            $scope.suggestRelations(type, relationKey);
+                        });
+                    } //No need to suggest relations for new node
                 } else {
                     if (type && relationKey) {
                         if (!$scope.relationSuggestions) $scope.relationSuggestions = [];
