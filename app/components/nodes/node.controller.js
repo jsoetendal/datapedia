@@ -239,7 +239,7 @@ angular.module('app').component('node', {
                         if (!$scope.relations[$scope.entity.relations[i].type]) {
                             Nodes.loadNodes($scope.entity.relations[i].type, false, null, function (type) {
                                 $scope.relations[type] = Nodes.getNodes();
-                                $scope.suggestRelations(type, $scope.entity.relations[i].key);
+                                if($scope.entity.suggestRelations) $scope.suggestRelations(type, $scope.entity.relations[i].key);
                             });
                         }
                     }
@@ -249,7 +249,7 @@ angular.module('app').component('node', {
                         if (!$scope.relations[$scope.entity.dependencies[i].type]) {
                             Nodes.loadNodes($scope.entity.dependencies[i].type, false, null, function (type) {
                                 $scope.relations[type] = Nodes.getNodes();
-                                $scope.suggestRelations(type, $scope.entity.relations[i].key);
+                                if($scope.entity.suggestRelations) $scope.suggestRelations(type, $scope.entity.relations[i].key);
                             });
                         }
                     }
@@ -264,30 +264,34 @@ angular.module('app').component('node', {
 
             //Create suggestions for relations [Criseskansenkaart 2025-08-26]
             $scope.suggestRelations = function (type, relationKey) {
-                //To create suggestions from previous Node for relations [Criseskansenkaart 2025-08-26]
-                if(!$scope.prevNode) {
-                    if($scope.nodeId > 0) {
-                        Nodes.loadNode($scope.nodeId - 1, function () {
-                            $scope.prevNode = Nodes.getNode() || {'dummy': true};
-                            $scope.suggestRelations(type, relationKey);
-                        });
-                    } //No need to suggest relations for new node
-                } else {
-                    if (type && relationKey) {
-                        if (!$scope.relationSuggestions) $scope.relationSuggestions = [];
-                        //A. From previous Node
-                        if ($scope.prevNode.relations[relationKey] && $scope.prevNode.relations[relationKey].length > 0) {
-                            $scope.relationSuggestions[type] = $scope.prevNode.relations[relationKey];
-                        } else {
-                            $scope.relationSuggestions[type] = [];
-                        }
-                        //B. From title
-                        for (let i in $scope.relations[type]) {
-                            if (similarWord($scope.node.title, $scope.relations[type][i].title) || similarWord($scope.node.text, $scope.relations[type][i].title) ) {
-                                $scope.relationSuggestions[type].push($scope.relations[type][i]);
+                try {
+                    //To create suggestions from previous Node for relations [Criseskansenkaart 2025-08-26]
+                    if (!$scope.prevNode) {
+                        if ($scope.nodeId > 0) {
+                                Nodes.loadNode($scope.nodeId - 1, function () {
+                                    $scope.prevNode = Nodes.getNode() || {'dummy': true};
+                                    $scope.suggestRelations(type, relationKey);
+                                });
+                        } //No need to suggest relations for new node
+                    } else {
+                        if (type && relationKey) {
+                            if (!$scope.relationSuggestions) $scope.relationSuggestions = [];
+                            //A. From previous Node
+                            if ($scope.prevNode.relations[relationKey] && $scope.prevNode.relations[relationKey].length > 0) {
+                                $scope.relationSuggestions[type] = $scope.prevNode.relations[relationKey];
+                            } else {
+                                $scope.relationSuggestions[type] = [];
+                            }
+                            //B. From title
+                            for (let i in $scope.relations[type]) {
+                                if (similarWord($scope.node.title, $scope.relations[type][i].title) || similarWord($scope.node.text, $scope.relations[type][i].title)) {
+                                    $scope.relationSuggestions[type].push($scope.relations[type][i]);
+                                }
                             }
                         }
                     }
+                } catch (e) {
+                    console.log(e);
                 }
             }
 

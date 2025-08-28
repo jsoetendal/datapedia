@@ -7,3 +7,4 @@ env.js
 app/settings/settings.json
 app/settings/settings-backup.json
 /local/
+/.idea
