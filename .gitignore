@@ -8,3 +8,6 @@ app/settings/settings.json
 app/settings/settings-backup.json
 /local/
 /.idea
+.idea/php.xml
+.idea/smartmobilitydata.iml
+.idea/workspace.xml
