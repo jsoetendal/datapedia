@@ -139,6 +139,7 @@
                 <div class="title p-a-sm licht">{{related.title}}
                   <i class="text-danger text-md fa fa-times pointer pull-right" ng-if="user.isContributorOrUp" ng-click="deleteRelatie(related)"></i>
                   <a class="pointer pull-right m-r" ui-sref="module.node.tab({nodeId: related.nodeId, tab: 'edit'})" target="_blank" class="text-muted"><i class="fa fa-external-link"></i></a>
+                  <div ng-if="relatie.extendedPreview"><small class="text-muted"><i>{{related.path | path}}</i></small></div>
                 </div>
                 <div ng-if="relatie.data.length > 0" class="p-a">
                   <div ng-repeat="row in relatie.data" class="form-group">
@@ -160,8 +161,12 @@
               <input type="text" class="form-control" ng-model="searchText[relatie.key]" placeholder="Voeg {{relatie.label|lowercase}} toe">
               <div class="autosuggest" ng-show="searchText[relatie.key] && results.length > 0">
                 <strong>Selecteer een bestaande {{relatie.type}}:</strong>
-                <ul>
+                <ul ng-hide="relatie.extendedPreview">
                   <li ng-repeat="option in relations[relatie.type] | filter: searchText[relatie.key] | nodeIdNotIn: node.relations[relatie.key] | limitTo: 10 as results track by option.nodeId" ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</li>
+                </ul>
+                <ul ng-if="relatie.extendedPreview">
+                  <li ng-repeat="option in relations[relatie.type] | filter: searchText[relatie.key] | nodeIdNotIn: node.relations[relatie.key] | limitTo: 50 as results track by option.nodeId">
+                    <strong ng-click="addRelatie(relatie,option.nodeId);" class="pointer">{{option.title}}</strong><br/><i>{{option.path | path}}</i><br/><small class="text-muted" ng-bind-html="option.text"></small></li>
                 </ul>
               </div>
               <div ng-show="searchText[relatie.key]  && (!results || results.length < 1 || results[0].title.toLowerCase() != searchText[relatie.key].toLowerCase())">

@@ -299,10 +299,6 @@
                                                             <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.entity.facet.default">Standaard aan</label><br/><label><input type="checkbox" ng-model="selected.entity.facet.optional">Optioneel</label></div>
                                                         </div>
                                                         <div class="row">
-                                                            <label class="col-sm-2">Suggesties voor relaties<br/></label>
-                                                            <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.entity.suggestRelations">Maak suggesties voor relaties</label></div>
-                                                        </div>
-                                                        <div class="row">
                                                             <label class="col-sm-2">Vorige/volgende<br/></label>
                                                             <div class="checkbox col-sm-10"><label><input type="checkbox" ng-model="selected.entity.showNextPrev">Laat vorige en volgende zien</label></div>
                                                         </div>
@@ -552,6 +548,15 @@
                                                                     <div class="row">
                                                                         <div class="checkbox col-sm-8 col-sm-offset-4"><label><input type="checkbox" ng-model="relation.facet">Opnemen als waarde in facet-selectie</label></div>
                                                                     </div>
+                                                                    <div class="row">
+                                                                        <label class=" col-sm-offset-2 col-sm-2">Zoekresultaten bij toevoegen<br/></label>
+                                                                        <div class="checkbox col-sm-8"><label><input type="checkbox" ng-model="relation.extendedPreview">Uitgebreide weergave zoekresultaten bij toevoegen</label></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <label class=" col-sm-offset-2 col-sm-2">Suggesties voor relaties<br/></label>
+                                                                        <div class="checkbox col-sm-8"><label><input type="checkbox" ng-model="relation.suggestRelations">Maak suggesties voor relaties</label></div>
+                                                                    </div>
+
                                                                     <!--
                                                                     <div class="form-group row" ng-if="selected.entity.views[0]=='set'">
                                                                         <label class="col-sm-2 col-sm-offset-2 form-control-label">Kolommen</label>

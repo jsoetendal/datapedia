@@ -145,6 +145,17 @@ filter('array', function() {
         }
     };
 }).
+filter('arrayobjects', function() {
+    return function(input) {
+        if(input){
+            if(typeof input === 'string'){
+                return input;
+            }else if(typeof input === 'object' || typeof input === 'array' ){
+                return input.map(obj => obj.title).join(', ')
+            }
+        }
+    };
+}).
 filter('first', function(){
     return function(input){
         if(!Array.isArray(input)){

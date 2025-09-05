@@ -239,7 +239,7 @@ angular.module('app').component('node', {
                         if (!$scope.relations[$scope.entity.relations[i].type]) {
                             Nodes.loadNodes($scope.entity.relations[i].type, false, null, function (type) {
                                 $scope.relations[type] = Nodes.getNodes();
-                                if($scope.entity.suggestRelations) $scope.suggestRelations(type, $scope.entity.relations[i].key);
+                                if($scope.entity.relations[i].suggestRelations) $scope.suggestRelations(type, $scope.entity.relations[i].key);
                             });
                         }
                     }
@@ -249,7 +249,7 @@ angular.module('app').component('node', {
                         if (!$scope.relations[$scope.entity.dependencies[i].type]) {
                             Nodes.loadNodes($scope.entity.dependencies[i].type, false, null, function (type) {
                                 $scope.relations[type] = Nodes.getNodes();
-                                if($scope.entity.suggestRelations) $scope.suggestRelations(type, $scope.entity.relations[i].key);
+                                if($scope.entity.relations[i].suggestRelations) $scope.suggestRelations(type, $scope.entity.relations[i].key);
                             });
                         }
                     }
@@ -427,7 +427,7 @@ angular.module('app').component('node', {
                         relatedNode.targetId = relatedNode.nodeId;
                         relatedNode.key = relatie.key;
                         $scope.node.addRelatedNode(relatedNode, relatie.key);
-                        $scope.searchText[relatie.key] = null; //Reset text input field
+                        if(!relatie.extendedPreview) $scope.searchText[relatie.key] = null; //Reset text input field
                     });
                 } else {
                     //Adding a new node
